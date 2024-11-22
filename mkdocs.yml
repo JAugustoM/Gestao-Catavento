@@ -3,7 +3,7 @@ site_name: Documentação
 nav:
   - Instruções mkdocs: "index.md"
   - Documento de Visão: 
-    - Versão Atual: "documento-de-visao.pdf"
+    - Versão Atual: "documento.md"
     - Changelog: "documento-visao/documento-visao.md"
   - Documento de Requisitos: "documento-requisitos/documento-requisitos.md"
   - Documento de Arquitetura: "documento-arquitetura/documento-arquitetura.md"
@@ -13,3 +13,8 @@ nav:
 
 theme:
   name: material
+
+markdown_extensions:
+  - attr_list
+plugins:
+  - mkdocs-pdf
