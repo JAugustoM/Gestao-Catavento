@@ -1,0 +1,3 @@
+const supabaseUrl = 'https://hjmpwwzcjirekcrkamkv.supabase.com';
+const supabaseAnonKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhqbXB3d3pjamlyZWtjcmthbWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIyOTg1NzksImV4cCI6MjA0Nzg3NDU3OX0.aPgRCegGp_Av2WOMrzipLRqQq8XQlqMivLZ3QwrG4_I';
