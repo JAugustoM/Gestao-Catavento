@@ -7,3 +7,4 @@
 | 0.3 | 22/11/2024 | Escrita inicial do capítulo 3, descrevendo o processo de desenvolvimento de software | José Augusto, Gabriela Dourado e Maria Samara Alves |
 | 0.4 | 22/11/2024 | Escrita dos perfis e composição da tabela de backlog do produto | Henrique Bernardes, José Augusto e Maria Eduarda Quaresma |
 | 0.5 | 25/11/2024 | Continuação da composição da tabela de backlog e escrita dos cenários | Henrique Bernardes | 
+| 0.6 | 25/11/2024 | Escrita da matriz de comunicação  | Maria Eduarda Quaresma e Danielle Soares  | 
