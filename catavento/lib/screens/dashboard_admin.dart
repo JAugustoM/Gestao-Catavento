@@ -159,6 +159,7 @@ class DashBoardAdmin extends StatelessWidget {
                     onPressed: (){
 
                   // Lógica do botão
+                  _showCustomDialog(context);
 
                     },
                     style: ElevatedButton.styleFrom(
@@ -321,7 +322,7 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
                   )
                 ),
                 child: Text(
-                  'Média',
+                  'Baixa',
                   style: TextStyle(
                     color: Colors.black,
                   ),
