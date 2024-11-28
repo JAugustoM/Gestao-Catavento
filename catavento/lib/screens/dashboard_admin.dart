@@ -88,8 +88,10 @@ void _showCustomDialog(BuildContext context){
                           ),
                           SizedBox(width: 30),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               RichText(
+
                                   text: TextSpan(
                                       text: "Código: ",
                                       style: TextStyle(
@@ -104,7 +106,7 @@ void _showCustomDialog(BuildContext context){
                               SizedBox(height: 10),
                               RichText(
                                   text: TextSpan(
-                                      text: "Código: ",
+                                      text: "Data do pedido: ",
                                       style: TextStyle(
                                           fontWeight:
                                           FontWeight.bold,
@@ -112,13 +114,13 @@ void _showCustomDialog(BuildContext context){
 
                                       children: [
                                         TextSpan(
-                                            text: "{Codigo do bolos}")
+                                            text: "{dataPedido}")
                                       ])),
                               SizedBox(height: 10),
 
                               RichText(
                                   text: TextSpan(
-                                      text: "Código: ",
+                                      text: "Prazo: ",
                                       style: TextStyle(
                                           fontWeight:
                                           FontWeight.bold,
@@ -126,13 +128,13 @@ void _showCustomDialog(BuildContext context){
 
                                       children: [
                                         TextSpan(
-                                            text: "{Codigo do bolos}")
+                                            text: "{prazoPedido}")
                                       ])),
                               SizedBox(height: 10),
 
                               RichText(
                                   text: TextSpan(
-                                      text: "Código: ",
+                                      text: "Descrição: ",
                                       style: TextStyle(
                                           fontWeight:
                                           FontWeight.bold,
@@ -140,13 +142,19 @@ void _showCustomDialog(BuildContext context){
 
                                       children: [
                                         TextSpan(
-                                            text: "{Codigo do bolos}")
+                                            text: "{descriçãoDemanda}")
                                       ])),
                             ],
                           )
                         ],
-                      )
+                      ),
+                      Text("Acompanhamento da produção"),
+                      Text("Status: Em andamento"),
+
+                      _stage_demand(context),
                     ],
+
+
                   ),
                 ),
               )),
@@ -156,5 +164,10 @@ void _showCustomDialog(BuildContext context){
         ),
       );
     },
+  );
+}
+Widget _stage_demand(BuildContext context){
+  return Container(
+    child: Text("data"),
   );
 }
