@@ -455,7 +455,11 @@ void _showCustomDialog(BuildContext context){
                           )
                         ],
                       ),
-                      Text("Acompanhamento da produção"),
+                      SizedBox(height: 40,),
+                      Text("Acompanhamento da produção" , style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                      ),),
                       Text("Status: Em andamento"),
 
                       _stage_demand(context),
