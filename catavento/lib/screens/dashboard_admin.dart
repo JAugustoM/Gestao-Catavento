@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
 
+//Plano de fundo
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-
-    //Data de hoje
-    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
     return Scaffold(
 
@@ -33,169 +30,416 @@ class DashBoardAdmin extends StatelessWidget {
             ),
 
             child: Center(
-              child:Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  //Titulo
-                  Text(
-                    'Demandas atuais $formattedDate',
-                    style: TextStyle(
-                      fontSize: 29.5,
-                      color: Color(0xFF015C98)
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  
-                  //Barra de pesquisa
-                  SizedBox(
-                    width: 499,
-                    height: 32,
-                    child: TextField(
-                      decoration: InputDecoration(
-
-                        prefixIcon: Icon(Icons.search, color: Color(0xFF015C98),), //Icon de pesquisa
-
-                        hintText: "Insira o nome de uma demanda para iniciar uma busca",
-                        hintStyle: TextStyle(
-                          fontSize: 11,
-                          color: Colors.black.withOpacity(0.5) //Opacidade do texto
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(color: Colors.white, width: 2),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2),
-                          borderRadius: BorderRadius.circular(16),
-                        )
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 30,),
-
-                  Row(
-
-                    mainAxisAlignment: MainAxisAlignment.center,
-
-                    children: [
-
-                      //Quadro de prioridades
-                      QuadroPrioridade(),
-
-                      SizedBox(width: 16,),
-                      
-                      //Quadrado onde vai ficar a lista de demandas.
-                      Container(
-                        width: 499,
-                        height: 438,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(17)
-                        ),
-                      ),
-                      
-                      SizedBox(width: 16,),
-                      
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-
-                        children: [
-                          //Grafico 1
-                          Container(
-                            width: 340,
-                            height: 132,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-
-                          SizedBox(height: 20,),
-
-                          //Grafico 2
-                          Container(
-                            width: 340,
-                            height: 132,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-
-                          SizedBox(height: 20,),
-
-                          //Grafico 3
-                          Container(
-                            width: 340,
-                            height: 132,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-
-                        ],
-                      )
-                    ],
-                  ),
-
-                  SizedBox(height: 37,),
-
-                  //Botão de adicionar demanda
-                  SizedBox(
-                    width: 189,
-                    height: 47,
-                    child: ElevatedButton(
-                    onPressed: (){
-
-                  // Lógica do botão
-                  _showCustomDialog(context);
-
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:  Color(0xFF015C98),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22)
-                      )
-                    ),
-                    child: Text(
-                      "Adicionar Demanda",
-                      style: TextStyle(
-                      color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  )
-                ],
-              )
+              child: AddDemandPageAdmin()
+              
             ),
           ),
 
           //Icon menu
-          Positioned(
-            top: 20,
-            left: 20,
-            child: IconButton(
-              iconSize: 50,
-              onPressed: () {
-                //Logica do menu
-              }, 
-              icon: Icon(Icons.menu),
-              color: Color(0xFF015C98),
-              ),
-          ),
+          IconMenu()
         ],
       )
+    );
+  }
+}
+
+
+
+
+//Estrutura da pagina
+class AddDemandPageAdmin extends StatefulWidget {
+  const AddDemandPageAdmin({super.key});
+
+  @override
+  State<AddDemandPageAdmin> createState() {
+    return AddDemandPageAdminState();
+  }
+}
+
+//Estrutura da pagina
+class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
+
+  @override
+  Widget build(BuildContext context) {
+    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+
+    return Stack(
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+    
+                //Titulo
+                Text(
+                  'Demandas atuais $formattedDate',
+                  style: TextStyle(
+                    fontSize: 29.5,
+                    color: Color(0xFF015C98)
+                  ),
+                ),
+    
+                SizedBox(height: 40),
+
+                //Barra de pesquisa
+                Search(),
+
+                SizedBox(height: 30,),
+    
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+    
+                  children: [
+                    QuadroPrioridade(),
+    
+                    SizedBox(width: 16,),
+    
+                    ListDemanda(),
+    
+                    SizedBox(width: 16,),
+    
+                    QuadroGrafico()
+                  ],
+                ),
+    
+                SizedBox(height: 37,),
+    
+                ButtonAddDemanda()
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
+
+
+//Icon Menu
+class IconMenu extends StatefulWidget {
+  const IconMenu({super.key});
+
+  @override
+  State<IconMenu> createState() {
+    return IconMenuState();
+  }
+}
+
+
+
+
+//Icon Menu
+class IconMenuState extends State<IconMenu> {
+@override
+  Widget build(BuildContext context) {
+    //Icon Menu
+    return Positioned(
+        top: 20,
+        left: 20,
+        child: IconButton(
+          iconSize: 50,
+          onPressed: () {
+            //Logica do menu
+          }, 
+          icon: Icon(Icons.menu),
+          color: Color(0xFF015C98),
+          ),
+      );
+  }
+}
+
+
+
+
+//Graficos
+class QuadroGrafico extends StatefulWidget {
+  const QuadroGrafico({super.key});
+
+  @override
+  State<QuadroGrafico> createState() {
+    return QuadroGraficoState();
+  }
+}
+
+//Graficos
+class QuadroGraficoState extends State<QuadroGrafico> {
+  int completas = 8; //quantidade de bolos prontos (trocar)
+  int restantes = 2; //quantidade de bolos restantes (trocar)
+  int total = 10; //quantidade total de bolos (trocar)
+  String fabricacao = '1';
+  String espera = '1';
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+
+      children: [
+        //Grafico 1
+        Container(
+          width: 340,
+          height: 132,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Completas: $completas\n"
+                  "Restantes: $restantes\n",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+
+                SizedBox(height: 2,),
+
+                Text(
+                  "Total: $total",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black
+                  ),
+                )
+              ],
+            )      
+          )
+        ),
+
+        SizedBox(height: 20,),
+
+        Container(
+          width: 340,
+          height: 132,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
+                
+                child: Icon(
+                  Icons.cake,
+                  size: 80.0,
+                  color: Colors.pink,
+                ),
+              ),
+
+              SizedBox(width: 30,),
+
+              Padding(
+                padding: EdgeInsets.only(top: 25.0, right: 40.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      fabricacao,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+
+                    SizedBox(height: 2,),
+
+                    Text(
+                      "Em fabricação",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black
+                      ),
+                    )
+                  ],
+                )      
+              ),
+            ],
+          )
+        ),
+
+        SizedBox(height: 30,),
+
+        Container(
+          width: 340,
+          height: 132,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
+                
+                child: Icon(
+                  Icons.layers,
+                  size: 80.0,
+                  color: Color(0xFF015C98),
+                ),
+              ),
+
+              SizedBox(width: 40,),
+
+              Padding(
+                padding: EdgeInsets.only(top: 25.0, right: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      espera,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+
+                    SizedBox(height: 2,),
+
+                    Text(
+                      "Em espera",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black
+                      ),
+                    )
+                  ],
+                )      
+              ),
+            ],
+          )
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+class ListDemanda extends StatefulWidget {
+  const ListDemanda({super.key});
+
+  @override
+  State<ListDemanda> createState() {
+    return ListDemandaState();
+  }
+}
+
+class ListDemandaState extends State<ListDemanda> {
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      width: 499,
+      height: 438,
+      decoration: BoxDecoration(
+        color: Color(0xFFFFFFFF),
+        borderRadius: BorderRadius.circular(17)
+      ),
+    );
+  }
+}
+
+
+
+class ButtonAddDemanda extends StatelessWidget {
+  const ButtonAddDemanda({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return SizedBox(
+      width: 189,
+      height: 47,
+      child: ElevatedButton(
+        onPressed: (){
+          // Lógica do botão
+          _showCustomDialog(context);
+
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor:  Color(0xFF015C98),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22)
+          )
+        ),
+        child: Text(
+          "Adicionar Demanda",
+          style: TextStyle(
+          color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class Search extends StatefulWidget {
+  const Search({super.key});
+
+  @override
+  State<Search> createState() {
+    return SearchState();
+  }
+}
+
+class SearchState extends State<Search> {
+
+  @override
+  Widget build(BuildContext context) {
+
+    return SizedBox(
+      width: 499,
+      height: 32,
+      child: TextField(
+        decoration: InputDecoration(
+
+          prefixIcon: Icon(Icons.search, color: Color(0xFF015C98),), //Icon de pesquisa
+
+          hintText: "Insira o nome de uma demanda para iniciar uma busca",
+          hintStyle: TextStyle(
+            fontSize: 11,
+            color: Colors.black.withOpacity(0.5) //Opacidade do texto
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: Colors.white, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(16),
+          )
+        ),
+      ),
     );
   }
 }
