@@ -459,16 +459,6 @@ Widget _stage_demand(BuildContext context) {
   return Container(
     color: Color(0xFF50b432),
     height: 40,
-    child: Row(
-      children: [
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("data"), Text("data")],
-            ))
-      ],
-    ),
+   
   );
 }
