@@ -37,7 +37,7 @@ Future<void> importExcelToSupabase(String filePath) async {
                 // await supabase.from('demandas').insert(parsedData);
 
                 var cell = sheet.cell(CellIndex.indexByString('C$rowId'));
-                cell.value = TextCellValue('X');
+                cell.value = TextCellValue('X$rowId');
                 rowId++;
               }
             } catch (e) {
@@ -51,17 +51,9 @@ Future<void> importExcelToSupabase(String filePath) async {
     final splitPath = filePath.split('/');
     final fileName = splitPath.last;
 
-    final newTable = excel.save();
     final directory = await getApplicationDocumentsDirectory();
-    if (newTable != null) {
-      File('${directory.path}/$fileName')
-        ..createSync(recursive: true)
-        ..writeAsBytesSync(newTable);
-
-      print('${directory.path}/$fileName');
-    } else {
-      print('null');
-    }
+    final file = File('${directory.path}/$fileName');
+    await file.writeAsBytes(excel.encode()!);
   } catch (e) {
     print('erro ao importar o arquivo: $e');
   }
