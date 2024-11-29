@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
-
+import 'package:intl/intl.dart';
 //Plano de fundo
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
@@ -330,7 +330,6 @@ class ButtonAddDemanda extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Lógica do botão
-
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF015C98),
@@ -367,7 +366,8 @@ class SearchState extends State<Search> {
             prefixIcon: Icon(
               Icons.search,
               color: Color(0xFF015C98),
-            ), //Icon de pesquisa
+            ),
+            //Icon de pesquisa
 
             hintText: "Insira o nome de uma demanda para iniciar uma busca",
             hintStyle: TextStyle(
@@ -522,7 +522,11 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
 }
 
 // Dialog
-void _showCustomDialog(BuildContext context) {
+void _showCustomDialog(BuildContext context , String name , String code, DateTime createdAt , DateTime updatedAt , String description  ) {
+
+  String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt) ;
+  String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt) ;
+
   showGeneralDialog(
     context: context,
     pageBuilder: (context, animation1, animation2) {
@@ -534,7 +538,6 @@ void _showCustomDialog(BuildContext context) {
         child: AlertDialog(
           backgroundColor: Color(0xFFD1EEFF),
           content: SizedBox(
-              height: 639,
               width: 560,
               child: Padding(
                 padding: const EdgeInsets.only(top: 41),
@@ -548,7 +551,7 @@ void _showCustomDialog(BuildContext context) {
                               child: Align(
                             //Aqui ficará o nome da demanda ou qual demanda será
                             alignment: Alignment.center,
-                            child: Text("Nome da demanda",
+                            child: Text("Nome da demanda ${name}",
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -587,7 +590,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{Codigo do bolos}")
+                                    TextSpan(text: "${code}")
                                   ])),
                               SizedBox(height: 10),
                               RichText(
@@ -597,7 +600,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{dataPedido}")
+                                    TextSpan(text: "${createdAtFormat}")
                                   ])),
                               SizedBox(height: 10),
                               RichText(
@@ -607,7 +610,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{prazoPedido}")
+                                    TextSpan(text: "${updatedAtFormat}")
                                   ])),
                               SizedBox(height: 10),
                               RichText(
@@ -617,7 +620,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{descriçãoDemanda}")
+                                    TextSpan(text: "${description}")
                                   ])),
                             ],
                           )
@@ -639,11 +642,14 @@ void _showCustomDialog(BuildContext context) {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                      _stage_demand(context),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      _stage_demand(context),
+                      SizedBox(height: 20,),
+
+
+                      _stage_demand(context , "finished"),
+                      SizedBox(height: 20,),
+                      _stage_demand(context , "InProgress"),
+                      SizedBox(height: 20,),
+                      _stage_demand(context , "Erro"),
                     ],
                   ),
                 ),
@@ -657,20 +663,29 @@ void _showCustomDialog(BuildContext context) {
   );
 }
 
-Widget _stage_demand(BuildContext context) {
+Widget _stage_demand(BuildContext context , String status  ) {
   return Container(
-    color: Color(0xFF50b432),
     height: 40,
+    width: 432,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10.0),
+      color: status == "finished" ? Color(0xFF50b432) : status == "InProgress" ?  Color(0xFFFFCC00) :  Color(0xFFED561B),
 
-    child: Row(
-      children: [
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("data"), Text("data")],
-            ))
-      ],
+    ),
+    child: Padding(padding: EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Etapa 1 {nome Etapa}"  , style: TextStyle(
+            color:Colors.white,
+          ),),
+          Icon(
+            status == "finished" ? Icons.check : status == "InProgress" ? Icons.access_time : Icons.close,
+            color:Colors.white,
+            size: 20,
+          ),
+        ],
+      ),
     ),
   );
 }
@@ -746,20 +761,18 @@ class DemandCard extends StatelessWidget {
                   _buildActionButton(
                     icon: Icons.delete,
                     label: 'Deletar',
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                   ),
                   _buildActionButton(
                     icon: Icons.edit,
                     label: 'Editar',
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                   ),
                   _buildActionButton(
                     icon: Icons.info,
                     label: 'Informações',
                     onPressed: () {
-                      _showCustomDialog(context);
+                      _showCustomDialog(context , "Demanda 1" , "029125" , new DateTime.now() , new DateTime.now().add(Duration(days: 2)) , "Detalhes Sobre");
                     },
                   ),
                 ],
