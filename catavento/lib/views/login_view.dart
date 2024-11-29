@@ -15,6 +15,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
     final supabase = Supabase.instance.client;
+    // ignore: unused_local_variable
     final authSubsctiption = supabase.auth.onAuthStateChange.listen((data) {
       final AuthChangeEvent event = data.event;
       if (event == AuthChangeEvent.signedIn) {

@@ -1,7 +1,6 @@
 import 'package:catavento/constants.dart';
-import 'package:catavento/services/table_import/csv_import_service.dart';
+import 'package:catavento/services/table_import/table_import.dart';
 import 'package:catavento/services/table_import/table_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -36,8 +35,7 @@ class _HomeViewState extends State<HomeView> {
               },
               child: const Text("Sair"),
             ),
-            
-            
+
             TextButton(
               onPressed: () async {
                 final path = await tablePicker();
@@ -47,7 +45,6 @@ class _HomeViewState extends State<HomeView> {
                     caminhoArquivoSelecionado = path;
                   });
 
-                  
                   print("Importando arquivo...");
                   await importExcelToSupabase(path);
                   print("Importação concluída!");
@@ -57,8 +54,7 @@ class _HomeViewState extends State<HomeView> {
               },
               child: const Text("Procurar e Importar Arquivo"),
             ),
-            
-            
+
             if (caminhoArquivoSelecionado != null)
               Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -73,5 +69,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
-
