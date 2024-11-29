@@ -10,18 +10,13 @@ class DashBoardAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-
-      body: Stack(
-
-        children: [
-
-          //Tela de fundo
-          Container(
-        
-            width: double.infinity,
-            height: double.infinity,
-
-            decoration: BoxDecoration(
+        body: Stack(
+      children: [
+        //Tela de fundo
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
               gradient: LinearGradient(
               colors: [Color(0xFF75CDF3), Color(0xFFB2E8FF)],
               begin: Alignment.topCenter,
@@ -444,7 +439,6 @@ class SearchState extends State<Search> {
   }
 }
 
-
 class QuadroPrioridade extends StatefulWidget {
   const QuadroPrioridade({super.key});
 
@@ -455,7 +449,6 @@ class QuadroPrioridade extends StatefulWidget {
 }
 
 class QuadroPrioridadeState extends State<QuadroPrioridade> {
-  
   Color colorQ = Color(0xFFC3206F);
 
   //Troca a cor do quadro
@@ -473,51 +466,44 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
   }
 
   //Troca a cor do quadro
-  void prioridadeBaixa(){
+  void prioridadeBaixa() {
     setState(() {
       colorQ = Color(0xFFFFC6E1);
     });
   }
 
   @override
-  
   Widget build(BuildContext context) {
     return Column(
-
       mainAxisAlignment: MainAxisAlignment.center,
-
       children: [
-
         //Quadro de prioridade
         Container(
           width: 340,
           height: 398,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: colorQ
-          ),
+              borderRadius: BorderRadius.circular(16), color: colorQ),
         ),
 
-        SizedBox(height: 15,),
+        SizedBox(
+          height: 15,
+        ),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
-
             //Botão alta prioridade
             SizedBox(
               width: 97,
               height: 24,
               child: ElevatedButton(
-                onPressed: prioridadeAlta, 
+                onPressed: prioridadeAlta,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFC3206F),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  )
-                ),
+                    backgroundColor: Color(0xFFC3206F),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    )),
                 child: Text(
                   'Alta',
                   style: TextStyle(
@@ -526,21 +512,22 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
                 ),
               ),
             ),
-            
-            SizedBox(width: 17,),
+
+            SizedBox(
+              width: 17,
+            ),
 
             //Botão média prioridade
             SizedBox(
               width: 97,
               height: 24,
               child: ElevatedButton(
-                onPressed: prioridadeMedia, 
+                onPressed: prioridadeMedia,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFFF66B0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  )
-                ),
+                    backgroundColor: Color(0xFFFF66B0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    )),
                 child: Text(
                   'Média',
                   style: TextStyle(
@@ -549,29 +536,29 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
                 ),
               ),
             ),
-            
 
-            SizedBox(width: 17,),
+            SizedBox(
+              width: 17,
+            ),
 
             //Botão baixa prioridade
             SizedBox(
               width: 97,
               height: 24,
-              child:ElevatedButton(
-                onPressed: prioridadeBaixa, 
+              child: ElevatedButton(
+                onPressed: prioridadeBaixa,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFFFC6E1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  )
-                ),
+                    backgroundColor: Color(0xFFFFC6E1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    )),
                 child: Text(
                   'Baixa',
                   style: TextStyle(
                     color: Colors.black,
                   ),
                 ),
-              ), 
+              ),
             ),
           ],
         )
@@ -579,8 +566,9 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
     );
   }
 }
+
 // Dialog
-void _showCustomDialog(BuildContext context){
+void _showCustomDialog(BuildContext context) {
   showGeneralDialog(
     context: context,
     pageBuilder: (context, animation1, animation2) {
@@ -589,7 +577,6 @@ void _showCustomDialog(BuildContext context){
     transitionBuilder: (context, a1, a2, widget) {
       return ScaleTransition(
         scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-
         child: AlertDialog(
           backgroundColor: Color(0xFFD1EEFF),
           content: SizedBox(
@@ -604,16 +591,15 @@ void _showCustomDialog(BuildContext context){
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Expanded(
-
                               child: Align(
-                                //Aqui ficará o nome da demanda ou qual demanda será
-                                alignment: Alignment.center,
-                                child: Text("Nome da demanda",
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              )),
+                            //Aqui ficará o nome da demanda ou qual demanda será
+                            alignment: Alignment.center,
+                            child: Text("Nome da demanda",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          )),
                           IconButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -633,70 +619,77 @@ void _showCustomDialog(BuildContext context){
                             height: 202,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius:
-                              BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           SizedBox(width: 30),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               RichText(
                                   text: TextSpan(
                                       text: "Código: ",
                                       style: TextStyle(
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontSize:15),
-
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
                                       children: [
-                                        TextSpan(
-                                            text: "{Codigo do bolos}")
-                                      ])),
+                                    TextSpan(text: "{Codigo do bolos}")
+                                  ])),
                               SizedBox(height: 10),
                               RichText(
                                   text: TextSpan(
-                                      text: "Código: ",
+                                      text: "Data do pedido: ",
                                       style: TextStyle(
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontSize:15),
-
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
                                       children: [
-                                        TextSpan(
-                                            text: "{Codigo do bolos}")
-                                      ])),
+                                    TextSpan(text: "{dataPedido}")
+                                  ])),
                               SizedBox(height: 10),
-
                               RichText(
                                   text: TextSpan(
-                                      text: "Código: ",
+                                      text: "Prazo: ",
                                       style: TextStyle(
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontSize:15),
-
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
                                       children: [
-                                        TextSpan(
-                                            text: "{Codigo do bolos}")
-                                      ])),
+                                    TextSpan(text: "{prazoPedido}")
+                                  ])),
                               SizedBox(height: 10),
-
                               RichText(
                                   text: TextSpan(
-                                      text: "Código: ",
+                                      text: "Descrição: ",
                                       style: TextStyle(
-                                          fontWeight:
-                                          FontWeight.bold,
-                                          fontSize:15),
-
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
                                       children: [
-                                        TextSpan(
-                                            text: "{Codigo do bolos}")
-                                      ])),
+                                    TextSpan(text: "{descriçãoDemanda}")
+                                  ])),
                             ],
                           )
                         ],
-                      )
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Text(
+                        "Acompanhamento da produção",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Status: Em andamento",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      _stage_demand(context),
+                      SizedBox(
+                        height: 11,
+                      ),
+                      _stage_demand(context),
                     ],
                   ),
                 ),
@@ -707,5 +700,23 @@ void _showCustomDialog(BuildContext context){
         ),
       );
     },
+  );
+}
+
+Widget _stage_demand(BuildContext context) {
+  return Container(
+    color: Color(0xFF50b432),
+    height: 40,
+    child: Row(
+      children: [
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Text("data"), Text("data")],
+            ))
+      ],
+    ),
   );
 }
