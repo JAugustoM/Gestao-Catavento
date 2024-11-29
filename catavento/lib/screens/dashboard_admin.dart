@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
-import 'package:intl/intl.dart';
+import 'package:catavento/screens/components/stage_demand.dart';
+import 'package:catavento/screens/components/showCustomDialog.dart';
 //Plano de fundo
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
@@ -25,7 +26,8 @@ class DashBoardAdmin extends StatelessWidget {
         ),
 
         //Icon menu
-        IconMenu()
+
+            IconMenu()
       ],
     ));
   }
@@ -522,7 +524,7 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
 }
 
 // Dialog
-void _showCustomDialog(BuildContext context , String name , String code, DateTime createdAt , DateTime updatedAt , String description  ) {
+void _showCustomDialog(BuildContext context , String name , String code, DateTime createdAt , DateTime updatedAt , String description , String imageCake  ) {
 
   String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt) ;
   String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt) ;
@@ -577,6 +579,8 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(image:AssetImage(imageCake) )
+
                             ),
                           ),
                           SizedBox(width: 30),
@@ -645,11 +649,12 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
                       SizedBox(height: 20,),
 
 
-                      _stage_demand(context , "finished"),
+                      StageDemand(status: "finished"),
                       SizedBox(height: 20,),
-                      _stage_demand(context , "InProgress"),
+                      StageDemand(status: "InProgress"),
                       SizedBox(height: 20,),
-                      _stage_demand(context , "Erro"),
+                      StageDemand(status: "Erro"),
+
                     ],
                   ),
                 ),
@@ -663,36 +668,9 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
   );
 }
 
-Widget _stage_demand(BuildContext context , String status  ) {
-  return Container(
-    height: 40,
-    width: 432,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10.0),
-      color: status == "finished" ? Color(0xFF50b432) : status == "InProgress" ?  Color(0xFFFFCC00) :  Color(0xFFED561B),
-
-    ),
-    child: Padding(padding: EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Etapa 1 {nome Etapa}"  , style: TextStyle(
-            color:Colors.white,
-          ),),
-          Icon(
-            status == "finished" ? Icons.check : status == "InProgress" ? Icons.access_time : Icons.close,
-            color:Colors.white,
-            size: 20,
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 class DemandCard extends StatelessWidget {
   final int index;
-
+  String imageCake = 'assets/images/photo.jpg' ;
   DemandCard({required this.index});
 
   @override
@@ -715,7 +693,7 @@ class DemandCard extends StatelessWidget {
                 height: 100,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/photo.jpg'),
+                    image: AssetImage(imageCake),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -772,7 +750,7 @@ class DemandCard extends StatelessWidget {
                     icon: Icons.info,
                     label: 'Informações',
                     onPressed: () {
-                      _showCustomDialog(context , "Demanda 1" , "029125" , new DateTime.now() , new DateTime.now().add(Duration(days: 2)) , "Detalhes Sobre");
+                      _showCustomDialog(context , "Demanda 1" , "029125" , new DateTime.now() , new DateTime.now().add(Duration(days: 2)) , "Detalhes Sobre" , imageCake);
                     },
                   ),
                 ],
