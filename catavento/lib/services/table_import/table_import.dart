@@ -13,43 +13,43 @@ Future<void> importExcelToSupabase(String filePath) async {
 
       if (sheet != null) {
         excel.link(sheetName, sheet);
-        var rowId = 1;
+        if (sheet.maxColumns == 3) {
+          sheet.insertColumn(3);
+        }
+        var rowId = 0;
         print('processando planilha: $sheetName');
         for (var row in sheet.rows) {
           // mapear os valores das celular para uma lista de dados puros
           final rowData =
-              row.map((cell) => cell?.value?.toString() ?? '').toList();
+              row.map((cell) => cell?.value.toString() ?? '').toList();
 
           // print('dados da linha: $rowData');
+          try {
+            if ((rowData[0] != "" && rowData[0] != "null") &&
+                rowData[3] != "X") {
+              final Map<String, dynamic> parsedData = {
+                'nomeDemanda': rowData[0],
+                'funcionario': rowData[1] != "null" ? rowData[1] : "0",
+                'status': rowData[3].isNotEmpty == true ? rowData[3] : 'R',
+              };
 
-          // verifica a validade da coluna (se é nula ou vazia)
-          if (rowData.isNotEmpty && rowData.first.isNotEmpty) {
-            try {
-              if (rowData[0] != "" && rowData[2] != "X") {
-                final Map<String, dynamic> parsedData = {
-                  'nomeDemanda': rowData[0],
-                  'funcionario': rowData[1].isNotEmpty == true ? rowData[1] : 0,
-                  'status': rowData[2].isNotEmpty == true ? rowData[2] : 'R',
-                };
+              var demanda = parsedData['nomeDemanda'];
+              var funcionario = parsedData['funcionario'];
+              var status = parsedData['status'];
 
-                var demanda = parsedData['nomeDemanda'];
-                var funcionario = parsedData['funcionario'];
-                var status = parsedData['status'];
+              print('Linha ${rowId + 1}: $demanda - $funcionario - $status');
+              // await supabase.from('demandas').insert(parsedData);
 
-                print('Linha $rowId: $demanda - $funcionario - $status');
-                // await supabase.from('demandas').insert(parsedData);
-
-                var cell = sheet.cell(CellIndex.indexByColumnRow(
-                  columnIndex: 2,
-                  rowIndex: rowId,
-                ));
-                cell.value = TextCellValue('X');
-                rowId++;
-              }
-            } catch (e) {
-              print('erro: $e');
+              var cell = sheet.cell(CellIndex.indexByColumnRow(
+                columnIndex: 3,
+                rowIndex: rowId,
+              ));
+              cell.value = TextCellValue('X');
             }
+          } catch (e) {
+            print('erro: $e');
           }
+          rowId++;
         }
         print(rowId);
       }
