@@ -1333,11 +1333,13 @@ void editarDemanda(BuildContext context) {
                       ),
                     ],
                   ),
-                  SizedBox(height: 47),
 
-                  // Campos de código e nome
+
+                  SizedBox(height: 30),
+
+                  // Campos de código 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
