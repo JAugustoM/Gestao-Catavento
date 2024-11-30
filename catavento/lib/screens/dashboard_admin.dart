@@ -3,7 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
-
+import 'package:catavento/screens/components/stage_demand.dart';
+import 'package:catavento/screens/components/showCustomDialog.dart';
 //Plano de fundo
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
@@ -27,7 +28,8 @@ class DashBoardAdmin extends StatelessWidget {
         ),
 
         //Icon menu
-        IconMenu()
+
+            IconMenu()
       ],
     ));
   }
@@ -859,7 +861,8 @@ class SearchState extends State<Search> {
             prefixIcon: Icon(
               Icons.search,
               color: Color(0xFF015C98),
-            ), //Icon de pesquisa
+            ),
+            //Icon de pesquisa
 
             hintText: "Insira o nome de uma demanda para iniciar uma busca",
             hintStyle: TextStyle(
@@ -1014,7 +1017,11 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
 }
 
 // Dialog
-void _showCustomDialog(BuildContext context) {
+void _showCustomDialog(BuildContext context , String name , String code, DateTime createdAt , DateTime updatedAt , String description , String imageCake  ) {
+
+  String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt) ;
+  String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt) ;
+
   showGeneralDialog(
     context: context,
     pageBuilder: (context, animation1, animation2) {
@@ -1026,7 +1033,6 @@ void _showCustomDialog(BuildContext context) {
         child: AlertDialog(
           backgroundColor: Color(0xFFD1EEFF),
           content: SizedBox(
-              height: 639,
               width: 560,
               child: Padding(
                 padding: const EdgeInsets.only(top: 41),
@@ -1040,7 +1046,7 @@ void _showCustomDialog(BuildContext context) {
                               child: Align(
                             //Aqui ficará o nome da demanda ou qual demanda será
                             alignment: Alignment.center,
-                            child: Text("Nome da demanda",
+                            child: Text("Nome da demanda ${name}",
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -1066,6 +1072,8 @@ void _showCustomDialog(BuildContext context) {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(image:AssetImage(imageCake) )
+
                             ),
                           ),
                           SizedBox(width: 30),
@@ -1079,7 +1087,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{Codigo do bolos}")
+                                    TextSpan(text: "${code}")
                                   ])),
                               SizedBox(height: 10),
                               RichText(
@@ -1089,7 +1097,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{dataPedido}")
+                                    TextSpan(text: "${createdAtFormat}")
                                   ])),
                               SizedBox(height: 10),
                               RichText(
@@ -1099,7 +1107,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{prazoPedido}")
+                                    TextSpan(text: "${updatedAtFormat}")
                                   ])),
                               SizedBox(height: 10),
                               RichText(
@@ -1109,7 +1117,7 @@ void _showCustomDialog(BuildContext context) {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
                                       children: [
-                                    TextSpan(text: "{descriçãoDemanda}")
+                                    TextSpan(text: "${description}")
                                   ])),
                             ],
                           )
@@ -1131,11 +1139,15 @@ void _showCustomDialog(BuildContext context) {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                      _stage_demand(context),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      _stage_demand(context),
+                      SizedBox(height: 20,),
+
+
+                      StageDemand(status: "finished"),
+                      SizedBox(height: 20,),
+                      StageDemand(status: "InProgress"),
+                      SizedBox(height: 20,),
+                      StageDemand(status: "Erro"),
+
                     ],
                   ),
                 ),
@@ -1149,26 +1161,9 @@ void _showCustomDialog(BuildContext context) {
   );
 }
 
-Widget _stage_demand(BuildContext context) {
-  return Container(
-    color: Color(0xFF50b432),
-    height: 40,
-    child: Row(
-      children: [
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("data"), Text("data")],
-            ))
-      ],
-    ),
-  );
-}
-
 class DemandCard extends StatelessWidget {
   final int index;
-
+  String imageCake = 'assets/images/photo.jpg' ;
   DemandCard({required this.index});
 
   @override
@@ -1191,7 +1186,7 @@ class DemandCard extends StatelessWidget {
                 height: 100,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/photo.jpg'),
+                    image: AssetImage(imageCake),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -1237,23 +1232,18 @@ class DemandCard extends StatelessWidget {
                   _buildActionButton(
                     icon: Icons.delete,
                     label: 'Deletar',
-                    onPressed: () {
-                      // Ação de deletar
-                    },
+                    onPressed: () {},
                   ),
                   _buildActionButton(
                     icon: Icons.edit,
                     label: 'Editar',
-                    onPressed: () {
-                      // Ação de editar
-                    },
+                    onPressed: () {},
                   ),
                   _buildActionButton(
                     icon: Icons.info,
                     label: 'Informações',
                     onPressed: () {
-                      // Ação de informações
-                      _showCustomDialog(context);
+                      _showCustomDialog(context , "Demanda 1" , "029125" , new DateTime.now() , new DateTime.now().add(Duration(days: 2)) , "Detalhes Sobre" , imageCake);
                     },
                   ),
                 ],
