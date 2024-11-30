@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'dart:ui';
 import 'package:catavento/screens/components/stage_demand.dart';
 import 'package:catavento/screens/components/showCustomDialog.dart';
+
 //Plano de fundo
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
@@ -334,7 +335,7 @@ class ButtonAddDemanda extends StatefulWidget {
 }
 
 
-
+///// NOVA DEMANDA 
 class ButtonAddDemandaState extends State<ButtonAddDemanda> {
 
   @override
@@ -361,6 +362,8 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
     );
   }
 
+
+///// NOVA DEMANDA 
   Future AddInfoDemand() => showGeneralDialog(
     
     context: context,
@@ -1237,7 +1240,9 @@ class DemandCard extends StatelessWidget {
                   _buildActionButton(
                     icon: Icons.edit,
                     label: 'Editar',
-                    onPressed: () {},
+                    onPressed: () {
+                      editarDemanda(context); /// EDITAR DEMANDA 
+                    },
                   ),
                   _buildActionButton(
                     icon: Icons.info,
@@ -1277,4 +1282,222 @@ class DemandCard extends StatelessWidget {
       ],
     );
   }
+}
+
+
+
+// EDITAR DEMANDA
+// O parâmetro 'context' informa onde o widget será inserido na árvore de widgets.
+void editarDemanda(BuildContext context) {
+  showGeneralDialog(
+    context: context, // Indica onde o diálogo será exibido na árvore de widgets.
+    pageBuilder: (context, animation1, animation2) {
+      return Container(); 
+    },
+    transitionBuilder: (context, a1, a2, widget) {
+      return ScaleTransition(
+        scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+        child: AlertDialog(
+          backgroundColor: Color(0xFFD1EEFF),
+          content: SizedBox(
+            height: 446,
+            width: 534,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 41),
+              child: Column(
+                children: [
+                  // Título do diálogo
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Editar demanda",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          size: 25,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 47),
+
+                  // Campos de código e nome
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Código",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+
+                      inputNameID(),
+
+                      SizedBox(width: 50),
+
+                    ],
+                  ),
+
+                  SizedBox(height: 14),
+
+                  // Campos de data do pedido e prazo
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Data do pedido",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+
+                      SizedBox(width: 10),
+
+
+                      inputDate(),
+
+
+                      SizedBox(width: 54),
+
+
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Prazo",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+
+                      SizedBox(width: 10),
+
+                      inputDate(),
+                    ],
+                  ),
+
+                  SizedBox(height: 24),
+
+                  // Descrição
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 70),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Descrição",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+
+                      SizedBox(width: 10),
+
+
+                      SizedBox(
+                        width: 339,
+                        height: 92,
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+
+                          maxLines: null,
+                          minLines: 6,
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(fontSize: 15),
+
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:BorderSide(color: Colors.grey, width: 2),
+                            ),
+
+
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 2),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 23),
+
+                  // Prioridade
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Prioridade",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      ButtonChoosePriority(),
+                    ],
+                  ),
+
+
+                  SizedBox(height: 47),
+
+                  // Botão de Concluir
+                  ButtonConcluir(),
+
+                ],
+              ),
+            ),
+          ),
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16.0),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      );
+    },
+  );
 }
