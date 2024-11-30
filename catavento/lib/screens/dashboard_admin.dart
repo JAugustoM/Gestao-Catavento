@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
@@ -319,8 +321,19 @@ class ListDemandaState extends State<ListDemanda> {
   }
 }
 
-class ButtonAddDemanda extends StatelessWidget {
+//Botão de adicionar demanda
+class ButtonAddDemanda extends StatefulWidget {
   const ButtonAddDemanda({super.key});
+
+  @override
+  State<ButtonAddDemanda> createState() {
+    return ButtonAddDemandaState();
+  }
+}
+
+
+
+class ButtonAddDemandaState extends State<ButtonAddDemanda> {
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +343,7 @@ class ButtonAddDemanda extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Lógica do botão
-          _showCustomDialog(context);
+          AddInfoDemand();
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF015C98),
@@ -345,6 +358,485 @@ class ButtonAddDemanda extends StatelessWidget {
       ),
     );
   }
+
+  Future AddInfoDemand() => showGeneralDialog(
+    
+    context: context,
+    pageBuilder: (context, animation1, animation2) {
+      return Container();
+    },
+    transitionBuilder: (context, a1, a2, widget) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+          child: AlertDialog(
+            backgroundColor: Color(0xFFD1EEFF),
+            content: SizedBox(
+              height: 446,
+              width: 534,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 41),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Nova demanda",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            size: 25,
+                          ),
+                        )
+                      ],
+                    ),
+                    
+                    SizedBox(height: 47,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Código",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                        ),
+
+                        SizedBox(width: 10,),
+
+                        //input codigo
+                        inputNameID(),
+
+                        SizedBox(width: 50,),
+
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Nome",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                        ),
+
+                        SizedBox(width: 10,),
+
+                        //input nome
+                        inputNameID(),
+                      ],
+                    ),
+
+                    SizedBox(height: 14,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Data do pedido",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                        ),
+
+                        SizedBox(width: 10,),
+
+                        //input data do pedido
+                        inputDate(),
+
+                        SizedBox(width: 54,),
+
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Prazo",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                        ),
+
+                        SizedBox(width: 10,),
+
+                        //input data do prazo
+                        inputDate()
+                      ],
+                    ),
+
+                    SizedBox(height: 24,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 70),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Descrição",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                ),
+                              ),
+                          ),
+                        ),
+                        
+
+                        SizedBox(width: 10,),
+
+                        //input descrição
+                        SizedBox(
+                          width: 339,
+                          height: 92 ,
+                          //input da descrição
+                          child: TextField(
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                            maxLines: null,
+                            minLines: 6,
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                fontSize: 15
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.grey, width: 2),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.grey, width: 2),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.grey, width: 2)
+                              )
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 23,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Prioridade",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                        ),
+
+                        SizedBox(width: 10,),
+
+                        ButtonChoosePriority()
+                      ],
+                    ),
+
+                    SizedBox(height: 47,),
+
+                    ButtonConcluir(),
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+  );
+}
+
+
+
+class ButtonConcluir extends StatelessWidget {
+  const ButtonConcluir({super.key});
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SizedBox(
+        width: 169,
+        height: 33,
+        child: ElevatedButton(
+          onPressed: () {
+            //Lógica do botão
+            showDialogConfirm(context);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFF50B432),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(27)
+            )
+          ),
+          child: Text(
+            "Concluir",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
+          )
+        ),
+    ),
+  );
+  }
+}
+
+
+
+void showDialogConfirm (BuildContext context){
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          "Deseja confirmar a operação?",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold, 
+          ),
+        ),
+        content: Text(
+          "Essa operação não poderá ser revertida",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
+        actions: <Widget>[
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+                SizedBox(
+                  width: 137,
+                  height: 57,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      //Lógica do botão
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF50B432),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22)
+                      )
+                    ),
+                    child: Text(
+                      "Sim",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    )
+                  ),
+                ),
+
+                SizedBox(width: 40,),
+
+                SizedBox(
+                  width: 137,
+                  height: 57,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0xFFD54A3D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22)
+                      )
+                    ),
+                    child: Text(
+                      "Não",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    )
+                  ),
+                )
+              ],
+            )
+          ),
+        ],
+      );
+    }
+  );
+}
+
+
+
+
+//Botão de escolha prioridade
+class ButtonChoosePriority extends StatefulWidget {
+  const ButtonChoosePriority({super.key});
+
+  @override
+  State<ButtonChoosePriority> createState() {
+    return ButtonChoosePriorityState();
+  }
+}
+
+class ButtonChoosePriorityState extends State<ButtonChoosePriority> {
+  String? selectedOption;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 146,
+      height: 25,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 2),
+        borderRadius: BorderRadius.circular(9),
+        color: Colors.white,
+      ),
+
+      child: DropdownButton<String>(
+        isExpanded: true,
+        hint: Text(
+          "Escolha uma opção",
+          style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+        ),
+        underline: SizedBox(),
+        value: selectedOption,
+        onChanged: (String? newValue) {
+          setState(() {
+            selectedOption = newValue;
+          });
+        },
+        items: ["Alta", "Média", "Baixa"].map((String option) {
+          return DropdownMenuItem<String>(
+            value: option,
+            child: Text(option),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+
+
+
+//input do nome e do id
+Widget inputNameID() {
+  return SizedBox(
+    width: 143,
+    height: 24,
+    //input do código
+    child: TextField(
+      style: TextStyle(
+        fontSize: 15,
+        color: Colors.black,
+      ),
+      textAlignVertical: TextAlignVertical.center,
+      maxLines: 1,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.grey, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.grey, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.grey, width: 2)
+        )
+      ),
+    ),
+  );
+}
+
+//input das datas
+Widget inputDate() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+
+    children: [
+      SizedBox(
+        width: 95,
+        height: 25,
+        //input da data
+        child: TextField(
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+          textAlignVertical: TextAlignVertical.center,
+          maxLines: 1,
+          decoration: InputDecoration(
+
+            hintText: 'dd/mm/yy',
+            hintStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black.withOpacity(0.5)
+            ),
+            contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.grey, width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.grey, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.grey, width: 2)
+            )
+          ),
+        ),
+      ),
+
+      SizedBox(width: 10,),
+
+      Icon(Icons.calendar_month, color: Colors.black26,)
+    ],
+  );
 }
 
 class Search extends StatefulWidget {
@@ -761,6 +1253,7 @@ class DemandCard extends StatelessWidget {
                     label: 'Informações',
                     onPressed: () {
                       // Ação de informações
+                      _showCustomDialog(context);
                     },
                   ),
                 ],
