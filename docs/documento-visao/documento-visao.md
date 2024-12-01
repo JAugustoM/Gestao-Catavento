@@ -1,6 +1,6 @@
 # [VISÃO DO PRODUTO E PROJETO](https://unbbr.sharepoint.com/:w:/r/sites/MDS20242/_layouts/15/Doc2.aspx?action=edit&sourcedoc=%7B4ffe2197-4db2-4cbc-88df-397200886215%7D&wdOrigin=TEAMS-WEB.teamsSdk_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1733011856568&web=1)
 
-## 1 Visão Geral do Produto
+## 1 VISÃO GERAL DO PRODUTO
 
 ### 1.1 Produto
 
@@ -86,3 +86,113 @@ Primeiramente, depois de uma análise em conjunto do time, decidiu-se que o mais
 | Sprint 3 | Funcionalidades focadas no funcionário e na navegação no aplicativo. | 15/12/2024 | 25/12/2024 | Página de desempenho de funcionários; Página de demandas para funcionários; Menu de navegação lateral | Frontend, Backend, Banco de dados, Testes | 60% |
 | Sprint 4 | Metas de funcionários e prioridades | 25/12/2024 | 05/01/2024 | Página de metas de funcionários; Quadro de prioridades | Frontend, Backend, Banco de dados, Testes | 80% |
 | Sprint 5 | Relatórios e refinamentos | 05/01/2024 | 15/01/2024 | Geração de relatórios; Ajustes e refinamentos com base no feedback | Frontend, Backend, Banco de dados | Testes | 100% | 
+
+### 2.4 Matriz de Comunicação
+
+A matriz de Comunicação no nosso documento de visão apresentada a seguir, descreve de forma estruturada os principais processos de interação entre os envolvidos no projeto. Cada atividade está detalhada quanto à sua descrição, os responsáveis por executá-la, a periodicidade com que ocorre e os produtos gerados como resultado. Esse planejamento visa garantir a eficiência na troca de informações, o alinhamento entre as partes interessadas e a entrega consistente dos objetivos do projeto, fortalecendo a colaboração e a organização das tarefas ao longo do desenvolvimento.
+
+| Descrição | Área/Envolvidos | Periodicidade | Produtos Gerados |
+| :-------: | :-------------: | :-----------: | :--------------: |
+| Comunicação rápida entre as duplas de desenvolvimento para relatar atividades feitas no dia, tirar dúvidas e discutir tarefas. | Duplas de desenvolvimento | Diariamente | Relato de atividades |
+| Planejar o trabalho da sprint, definir metas e organizar tarefas no backlog. | Equipe do Projeto | Início de Sprint | Ata de reunião, Backlog atualizado, plano da sprint. |
+| Acompanhar as atividades em andamento, identificar riscos, compromissos e ações pendentes. | Equipe do projeto | Meio de Sprint | Ata de reunião, Relatório de situação do projeto |
+| Comunicar situação do projeto para cliente e obter feedbacks, validar releases e atualizar o backlog | Equipe, Cliente | A cada 20 dias | Ata de reunião, Relatório de situação do projeto, backlog atualizado |
+
+### 2.5 Gerenciamento de Riscos
+
+A Tabela de Gerenciamento de Riscos apresentada a seguir, detalha os principais desafios e incertezas que podem impactar o andamento do projeto. Cada risco identificado é avaliado quanto ao grau de exposição, e estratégias de mitigação são propostas para reduzir suas consequências. Além disso, um plano de contingência é apresentado para lidar com possíveis ocorrências, garantindo a continuidade e o sucesso do projeto mesmo diante de adversidades. Esse processo de análise e planejamento permite antecipar problemas e manter a equipe preparada para enfrentá-los de maneira eficaz.
+
+| Risco | Grau de exposição | Mitigação | Plano de contingência |
+| :---: | :---------------: | :-------: | :-------------------: |
+| Atraso nas entregas de funcionalidades devido a mudanças de requisitos. | Alto | Revisar os requisitos com a cliente e documentar alterações. | Priorizar funcionalidades mais importantes e realocar recursos para requisitos mais críticos. |
+| Falta de capacidade técnica da equipe de desenvolvimento e pouca familiaridade com as tecnologias. | Médio | Realizar sessões de estudos e pair programming para nivelar o nível de conhecimento. | Buscar fontes de conhecimentos externos e solicitar apoio dos monitores. |
+| Falta de comunicação entre os membros do projeto. | Alta | Realizar Daily Scrum (reuniões diárias) e usar meios de comunicação, como o Teams. | Acompanhar e revisar o progresso e realocar tarefas se necessário. |
+| Falha de comunicação com a cliente e desalinhamento de expectativa. | Médio | Realizar reuniões regulares com a cliente para apresentar o progresso e receber feedbacks. | Documentar as possíveis alterações e revisar o backlog. |
+| Conflitos de integração | Alto | Realizar testes de integração contínua. | Intensificar os testes de integração. |
+| Perda de dados durante a importação de planilhas | Alto | | |
+
+### 2.6 Critérios de Replanejamento
+
+A tabela de Critérios de Replanejamento apresentada a seguir, estabelece as condições sob as quais ajustes no planejamento do projeto se tornam necessários. Com base nos riscos identificados, a tabela define critérios objetivos para a tomada de decisão e especifica as ações a serem adotadas em cada cenário. Esse processo assegura que o projeto permaneça alinhado aos seus objetivos, mesmo diante de atrasos, desafios técnicos ou problemas de comunicação, permitindo ajustes ágeis e eficientes para minimizar impactos negativos. 
+
+| Risco | Critério de Replanejamento | Ação em Caso de Replanejamento |
+| :---: | :------------------------: | :----------------------------: |
+| Atraso nas entregas de funcionalidades devido a mudanças de requisitos. | Atraso acumulado superior a 1 sprint em relação ao cronograma planejado. | Repriorizar funcionalidades e ajustar o backlog |
+| Falta de capacidade técnica da equipe de desenvolvimento e pouca familiaridade com as tecnologias. | Não conclusão, dentro do prazo, de 2 sprints consecutivas devido à falta de conhecimento técnico necessário. | Redistribuir tarefas, alocar tempo para aprendizado e buscar apoio externo. |
+| Falta de comunicação entre os membros do projeto. | Mais de 3 atrasos ou retrabalhos em uma sprint devido a problemas de comunicação. | Revisar estratégias e ferramentas de comunicação, redistribuir e reforçar as responsabilidades durante a Sprint Planning. |
+| Falha de comunicação com a cliente e desalinhamento de expectativa. | Divergências não resolvidas em mais de 2 ciclos consecutivos de feedback. | Realizar reuniões regulares com a cliente para apresentar o progresso e receber feedbacks. |
+| Conflitos de integração | Conflitos de integração que afetem funcionalidades principais ou requisitos de prioridade alta, comprometendo entregas críticas. | Alocar mais tempo para testes de integração e refatorar módulos críticos para garantir a funcionalidade essencial do aplicativo. |
+| Perda de dados durante a importação de planilhas | Identificação de quaisquer perdas de dados durante a importação de planilhas | Replanejar e refatorar o fluxo de importação e, em um caso crítico, modificar a estratégia de importação. | 
+
+## 3 PROCESSO DE DESENVOLVIMENTO DE SOFTWARE 
+
+Algumas ferramentas serão utilizadas no decorrer do processo de desenvolvimento de software, assim será preciso o uso de algumas ferramentas como foram apresentadas na seção 2.1. A metodologia utilizada será o Scrum, com o intuito de feedbacks frequentes e ciclos curtos e práticas do Extreme Programming (XP), assim o ScrumXP.  
+
+Assim, com a utilização do ScrumXP e as ferramentas escolhidas temos uma certa divisão em cada parte do processo de desenvolvimento, explicada em detalhes abaixo e ilustrada na Figura 2 a seguir. 
+
+- Reunião de sprints e dailies: O Teams será o meio de comunicação para reuniões para tomada de decisões, alinhamentos de ideias e alterações. Além da ferramenta WhatsApp para comunicações mais rápidas. 
+- Reunião de sprints e dailies: O Teams será o meio de comunicação para reuniões para tomada de decisões, alinhamentos de ideias e alterações. Além da ferramenta WhatsApp para comunicações mais rápidas. 
+    - Backend – Linguagem Dart e o banco de dados pelo Supabase; 
+    - Backend – Linguagem Dart e o banco de dados pelo Supabase; 
+- Realizar testes: Inicialmente, serão realizados testes de unidade no backend para validar funcionalidades específicas, assegurando que cada parte do sistema funcione de forma independente. Em seguida, os testes de integração verificarão a comunicação entre o backend (incluindo o Supabase) e o frontend, garantindo que os dados sejam transmitidos e manipulados corretamente. O frontend será testado manualmente para avaliar o comportamento das funcionalidades, navegação e experiência do usuário. Ferramentas como o Figma serão usadas para confirmar que o design está de acordo com o aprovado, garantindo uma interface coesa e usável. Ao final de cada sprint, testes de aceitação serão realizados junto à cliente para validar os requisitos implementados e alinhar possíveis ajustes antes de avançar para a próxima etapa.
+- Realizar testes: Inicialmente, serão realizados testes de unidade no backend para validar funcionalidades específicas, assegurando que cada parte do sistema funcione de forma independente. Em seguida, os testes de integração verificarão a comunicação entre o backend (incluindo o Supabase) e o frontend, garantindo que os dados sejam transmitidos e manipulados corretamente. O frontend será testado manualmente para avaliar o comportamento das funcionalidades, navegação e experiência do usuário. Ferramentas como o Figma serão usadas para confirmar que o design está de acordo com o aprovado, garantindo uma interface coesa e usável. Ao final de cada sprint, testes de aceitação serão realizados junto à cliente para validar os requisitos implementados e alinhar possíveis ajustes antes de avançar para a próxima etapa.
+
+![Processo de Desenvolvimento de Software](./assets/processo-desenvolvimento-software.png)
+
+## 4 DECLARAÇÃO DE ESCOPO DO PROJETO
+
+### 4.1 Backlog do Produto
+
+Entre os requisitos que compõem o backlog do produto estão as várias telas do aplicativo, a lógica por trás delas e a integração com serviços externos como o Microsoft 365. Os requisitos, assim como o tipo, a prioridade, e outros detalhes de cada requisito, estão descritos na Tabela 3 no final deste capítulo. 
+
+### 4.2 Perfis 
+
+A princípio, o aplicativo precisaria apenas de dois tipos de perfis: administrador e funcionário (usuário comum). Contudo, tendo em vista o cenário onde a adição ou remoção de um administrador pode ser necessário, faz-se necessário um terceiro perfil que possui todos os atributos de um administrador comum, além da capacidade de adicionar, editar e remover perfis de outros administradores. A elicitação desses requisitos foi feita por meio de reuniões com a cliente e em discussões entre a equipe. A tabela abaixo descreve os tipos de perfis, suas características e permissões. 
+
+| #   | Nome do perfil | Características do perfil | Permissões de acesso |
+| :-: | :------------: | :-----------------------: | :------------------: |
+| <1> | Administrador  | Responsável pelo gerenciamento das demandas e dos perfis dos funcionários e gerentes. | Adição, edição ou remoção de demandas, perfis de funcionários e gerentes |
+| <2> | Gerente de departamento | Responsável pelo gerenciamento das demandas e dos perfis dos funcionários. | Adição, edição ou remoção de demandas e perfis de funcionários. |
+| <3> | Funcionário | Usuário comum do aplicativo. Pertencem a um departamento, aceitam demandas e completam as etapas referentes a ele. | Aceitação de demandas e finalização de etapas referentes a demandas especificas. |
+
+### 4.3 Cenários 
+
+Como forma de tornar mais tangíveis os objetivos do aplicativo, baseados nos requisitos discutidos com a cliente, foram elaborados cenários funcionais que conectam os atores principais às funcionalidades do aplicativo. Esses cenários descrevem interações específicas entre os usuários e o aplicativo, formando uma visualização mais linear e organizada dos requisitos. O objetivo é auxiliar no desenvolvimento das funcionalidades de forma iterativa ao fornecer um ponto de vista mais próximo de como elas devem ser/funcionar. Cada cenário detalha o ator envolvido, o contexto da interação, os passos necessários e o resultado esperado, como mostra a tabela 6: 
+
+| Numeração do cenário | Ator | Contexto | Passos a serem seguidos | Resultado esperado | Sprints |
+| :------------------: | :--: | :------: | :---------------------: | :----------------: | :-----: |
+| 1 | Gerente de departamento | O gerente de departamento deseja cadastrar um conjunto de demandas do dia por meio de uma planilha no microsoft 365 | No menu de gerente, clicar em importar lista de demandas, fornecer o link para a planilha e clicar em importar. | Cadastro das demandas no menu de gerente de departamento/e no menu de demandas dos funcionários | 1 |
+| 2 | Gerente de departamento | O gerente de departamento deseja cadastrar um funcionário. | Navegar pelo menu de navegação até a aba de funcionários, clicar no botão “cadastrar funcionários,” preencher as informações necessárias e clicar em “cadastrar” | Cadastro de funcionário pelo gerente de departamento e possibilidade de realizar login com usuário e senha cadastrados. | 2 |
+| 3 | Todos os usuários | Um usuário deseja entrar no aplicativo | Abrir o aplicativo, preencher usuário e senha e clicar em “Entrar”. | Realização de login na aplicação por meio de uma página inicial | 2 |
+| 4 | Gerente de departamento | O gerente deseja ver o desempenho de um funcionário específico. | Pelo menu de navegação, abrir a aba de funcionários e clicar no ícone de informações. | Ver o desempenho individual de um funcionário em uma página. | 3 |
+| 5 | Funcionário | O funcionário deseja começar a trabalhar e, para isso, gostaria de aceitar uma demanda | No menu de demandas, clicar em “Iniciar demanda”. | Iniciar uma demanda e ver as subatividades referentes. | 3 |
+| 6 | Funcionário / Gerente de Departamento | Um funcionário / gerente de departamento deseja ver a sua meta/ meta específica de um funcionário | Como funcionário, basta, pelo menu de navegação, entrar na página de metas; Como funcionário, basta, pelo menu de navegação, entrar na página de metas. | Ver a meta do funcionário. | 4 |
+| 7 | Gerente de Departamento | Um gerente de departamento deseja atribuir uma prioridade a uma demanda e ver as prioridades das demandas cadastradas | No menu de demandas, basta editar uma demanda específica com um peso e salvar. Para listar as demandas por prioridade, basta procurar a seção “Quadro de prioridades”. | Ver um quadro de prioridades e poder atribuir prioridades a demandas específicas de acordo com pesos. | 4 |
+| 8 | Gerente de Departamento | Um gerente de departamento deseja gerar um relatório relativo a um espaço de tempo específico. | No menu de demandas de gerente de departamento, basta clicar em “Gerar Relatório”, escolher o intervalo de tempo, e clicar em “Exportar Relatório” | Um arquivo contendo o relatório. | 5 |
+
+### 4.4 Tabela de Backlog do produto
+
+O backlog do produto foi elaborado como uma forma de organizar e priorizar os requisitos identificados inicialmente. Ele funciona como uma forma de guia para o desenvolvimento, garantindo que os requisitos mais importantes sejam implementados nas primeiras sprints, como discutido no planejamento de sprints. A tabela apresenta cada requisito com sua respectiva classificação (funcional ou não funcional), nível de prioridade e associação a cenários ou histórias de usuário previamente definidos. 
+
+O backlog do produto foi elaborado como uma forma de organizar e priorizar os requisitos identificados inicialmente. Ele funciona como uma forma de guia para o desenvolvimento, garantindo que os requisitos mais importantes sejam implementados nas primeiras sprints, como discutido no planejamento de sprints. A tabela apresenta cada requisito com sua respectiva classificação (funcional ou não funcional), nível de prioridade e associação a cenários ou histórias de usuário previamente definidos. 
+
+| Numeração (Cenário / requisito) | Sprint | Nome do requisito | Tipo de requisito (Funcional / não funcional) | Priorização do requisito Must, Should, Could | Descrição suscinta do requisito | User Histories (U.S.) associadas |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| 1 | 1 | Integração Planilha | Funcional | Must | Um sistema que integra uma planilha csv do Microsoft 365 com o aplicativo, podendo incluir novas demandas por meio da planilha. | Como gerente de departamento, quero poder escrever as demandas em uma planilha do Microsoft 365 e, automaticamente, vê-las inclusas no aplicativo. |
+| 2 | 1 | CRUD de demanda | Funcional | Must | Um CRUD que permita os gerentes de departamento criarem, editarem e deletarem uma demanda dentro do aplicativo. | Como gerente de departamento, quero poder adicionar, editar, remover ou visualizar uma demanda específica dentro do aplicativo. |
+| 3 | 1 | Página do gerente de departamento/admin | Funcional | Must | Uma tela visível aos gerentes de departamento e admin que implemente o CRUD do pedido. | Como gerente de departamento, quero ter acesso a uma página de gerenciamento de demandas e conseguir visualizar a situação das atividades de cada demanda. |
+| 4 | 2 | CRUD Funcionário | Funcional | Must | Funções de criar, editar, deletar e visualizar funcionários | Como gerente de departamento, quero poder adicionar, editar, remover ou visualizar uma conta do tipo funcionário. |
+| 5 | 2 | Página de gerenciamento de funcionários | Funcional | Must | Uma página que permite os gerentes de departamento gerenciarem os funcionários, como editar, remover ou detalhar informações sobre cada um. | Como gerente de departamento, quero poder gerenciar os funcionários por meio de uma página. |
+| 6 | 2 | Sistema de autenticação | Funcional | Must | Um sistema que verifique as credenciais entradas e permita ou não o acesso respectivo ao gerente de departamento ou funcionário. | Como gerente de departamento, quero que somente os usuários cadastrados possam ter acesso ao sistema. |
+| 7 | 2 | Página de login | Funcional | Must | Uma tela com os inputs de usuário e senha que verifique a validade dos dados de acordo com o sistema de autenticação. | Como usuário, quero conseguir entrar no sistema por meio de uma simples tela de login. |
+| 8 | 3 | Página de desempenho de funcionário | Funcional | Should | Uma página que mostra o desempenho de um funcionário para o administrador | Como gerente de departamento, quero poder ver o desempenho de um funcionário específico. |
+| 9 | 3 | Página de demandas para funcionário | Funcional | Must | Uma página que mostre a demanda atual disponível para trabalhar. | Como funcionário, quero poder iniciar uma demanda por meio de uma página que mostre os detalhes do bolo como o código, uma foto, a descrição e o nome. |
+| 10 | 3 | Menu de navegação | Funcional | Must | Um menu lateral de navegação que permite visitar outras páginas do sistema. | Como funcionário/ gerente de departamento, quero poder navegar pelo aplicativo por meio de um menu lateral de navegação. |
+| 11 | 4 | Página de meta do funcionário | Funcional | Must | Uma página que mostre ao gerente de departamento e ao funcionário em si a meta atual imposta a ele e seu progresso para atingi-la | Como funcionário/ gerente de departamento, quero poder ver o progresso da minha meta/meta de um funcionário específico. |
+| 12 | 4 | Quadro de prioridades | Funcional | Should | Um quadro que liste as demandas com base na prioridade. | Como gerente de departamento, quero poder listar as demandas com base na prioridade (alta, média ou baixa). |
+| 13 | 5 | Geração de relatório | Funcional | Could | Um botão que gera um relatório relativo a um espaço de tempo especificado (dia, semana, mês) | Como gerente de departamento, quero poder gerar um relatório de acordo com uma faixa de tempo especificada. |
+
+## 5 REFERÊNCIAS BIBLIOGRÁFICAS
+
+1. WONOHARDJO, Eduard Pangestu; SUNARYO, Rizky Febriyanto; SUDIYONO, Yusuf. A systematic review of SCRUM in software development. JOIV: International Journal on Informatics Visualization, v. 3, n. 2, p. 108-112, 2019. Acesso em: 15 nov. 2024. Disponível em: https://joiv.org/index.php/joiv/article/view/167.
+2. DADA, Oluwaseun Alexander; SANUSI, Ismaila Temitayo. The adoption of Software Engineering practices in a Scrum environment. African Journal of Science, Technology, Innovation and Development, v. 14, n. 6, p. 1429-1446, 2022. Acesso em: 15 nov. 2024. Disponível em: https://journals.co.za/doi/full/10.1080/20421338.2021.1955431. 
