@@ -1,9 +1,10 @@
-import 'dart:io';
-// import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:excel/excel.dart';
+  import 'dart:io';
+  import 'package:supabase_flutter/supabase_flutter.dart';
+  import 'package:excel/excel.dart';
 
 Future<void> importExcelToSupabase(String filePath) async {
-  // final supabase = Supabase.instance.client;
+  final supabase = Supabase.instance.client;
+
   try {
     final file = File(filePath);
     final excel = Excel.decodeBytes(file.readAsBytesSync());
@@ -13,50 +14,51 @@ Future<void> importExcelToSupabase(String filePath) async {
 
       if (sheet != null) {
         excel.link(sheetName, sheet);
+
         if (sheet.maxColumns == 3) {
           sheet.insertColumn(3);
         }
+
         var rowId = 0;
-        print('processando planilha: $sheetName');
         for (var row in sheet.rows) {
-          // mapear os valores das celular para uma lista de dados puros
           final rowData =
               row.map((cell) => cell?.value.toString() ?? '').toList();
 
-          // print('dados da linha: $rowData');
           try {
+            // Evita linhas inválidas
             if ((rowData[0] != "" && rowData[0] != "null") &&
-                rowData[3] != "X") {
+                rowData[3] != "1") {
               final Map<String, dynamic> parsedData = {
                 'nomeDemanda': rowData[0],
                 'funcionario': rowData[1] != "null" ? rowData[1] : "0",
-                'status': rowData[3].isNotEmpty == true ? rowData[3] : 'R',
+                'status': rowData[3].isNotEmpty == true ? rowData[3] : '0',
               };
 
-              var demanda = parsedData['nomeDemanda'];
-              var funcionario = parsedData['funcionario'];
-              var status = parsedData['status'];
+              // Envia os dados ao Supabase
+              final response =
+                  await supabase.from('demandas').insert(parsedData);
 
-              print('Linha ${rowId + 1}: $demanda - $funcionario - $status');
-              // await supabase.from('demandas').insert(parsedData);
+              if (response.error != null) {
+                print('Erro ao inserir no Supabase: ${response.error!.message}');
+              } else {
+                print(
+                    'Linha ${rowId + 1} enviada com sucesso: $parsedData');
+              }
 
-              var cell = sheet.cell(CellIndex.indexByColumnRow(
-                columnIndex: 3,
-                rowIndex: rowId,
-              ));
-              cell.value = TextCellValue('X');
+
             }
           } catch (e) {
-            print('erro: $e');
+            print('Erro ao processar a linha ${rowId + 1}: $e');
           }
           rowId++;
         }
-        print(rowId);
       }
     }
 
+    // Salva o arquivo Excel atualizado
     await file.writeAsBytes(excel.encode()!);
+    print('Planilha importada e atualizada com sucesso!');
   } catch (e) {
-    print('erro ao importar o arquivo: $e');
+    print('Erro ao importar a planilha: $e');
   }
 }
