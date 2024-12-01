@@ -56,7 +56,11 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Header(),
+              Header(
+                title: 'Demandas atuais ($formattedDate)',
+                showHistoricoButton: true, // O botão será exibido
+              ),
+
               SizedBox(height: 15),
 
               //Barra de pesquisa
