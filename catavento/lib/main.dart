@@ -1,5 +1,5 @@
 import 'package:catavento/constants.dart';
-import 'package:catavento/views/home_view.dart';
+import 'package:catavento/screens/dashboard_admin.dart';
 import 'package:catavento/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,7 +14,7 @@ void main() {
     home: const LoadView(),
     routes: {
       loginRoute: (context) => const LoginView(),
-      homeRoute: (context) => const HomeView(),
+      homeRoute: (context) => const DashBoardAdmin(),
     },
   ));
 }
@@ -34,7 +34,7 @@ class LoadView extends StatelessWidget {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            return const HomeView();
+            return const DashBoardAdmin();
           default:
             return const CircularProgressIndicator();
         }
