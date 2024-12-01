@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
 import 'package:catavento/screens/components/stage_demand.dart';
+import 'package:catavento/screens/components/header.dart';
 import 'package:catavento/screens/components/showCustomDialog.dart';
 
 //Plano de fundo
@@ -27,10 +28,6 @@ class DashBoardAdmin extends StatelessWidget {
           )),
           child: Center(child: AddDemandPageAdmin()),
         ),
-
-        //Icon menu
-
-            IconMenu()
       ],
     ));
   }
@@ -59,13 +56,8 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //Titulo
-              Text(
-                'Demandas atuais $formattedDate',
-                style: TextStyle(fontSize: 29.5, color: Color(0xFF015C98)),
-              ),
-
-              SizedBox(height: 40),
+              Header(),
+              SizedBox(height: 15),
 
               //Barra de pesquisa
               Search(),
@@ -98,36 +90,6 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
           ),
         )
       ],
-    );
-  }
-}
-
-//Icon Menu
-class IconMenu extends StatefulWidget {
-  const IconMenu({super.key});
-
-  @override
-  State<IconMenu> createState() {
-    return IconMenuState();
-  }
-}
-
-//Icon Menu
-class IconMenuState extends State<IconMenu> {
-  @override
-  Widget build(BuildContext context) {
-    //Icon Menu
-    return Positioned(
-      top: 20,
-      left: 20,
-      child: IconButton(
-        iconSize: 50,
-        onPressed: () {
-          //Logica do menu
-        },
-        icon: Icon(Icons.menu),
-        color: Color(0xFF015C98),
-      ),
     );
   }
 }
@@ -334,10 +296,8 @@ class ButtonAddDemanda extends StatefulWidget {
   }
 }
 
-
-///// NOVA DEMANDA 
+///// NOVA DEMANDA
 class ButtonAddDemandaState extends State<ButtonAddDemanda> {
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -362,58 +322,56 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
     );
   }
 
-
-///// NOVA DEMANDA 
+///// NOVA DEMANDA
   Future AddInfoDemand() => showGeneralDialog(
-    
-    context: context,
-    pageBuilder: (context, animation1, animation2) {
-      return Container();
-    },
-    transitionBuilder: (context, a1, a2, widget) {
-        return ScaleTransition(
-          scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-          child: AlertDialog(
-            backgroundColor: Color(0xFFD1EEFF),
-            content: SizedBox(
-              height: 446,
-              width: 534,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 41),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Nova demanda",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        },
+        transitionBuilder: (context, a1, a2, widget) {
+          return ScaleTransition(
+            scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+            child: AlertDialog(
+              backgroundColor: Color(0xFFD1EEFF),
+              content: SizedBox(
+                height: 446,
+                width: 534,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 41),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Nova demanda",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            size: 25,
-                          ),
-                        )
-                      ],
-                    ),
-                    
-                    SizedBox(height: 47,),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.close,
+                              size: 25,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 47,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -423,16 +381,20 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                                 color: Colors.black,
                               ),
                             ),
-                        ),
+                          ),
 
-                        SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
 
-                        //input codigo
-                        inputNameID(),
+                          //input codigo
+                          inputNameID(),
 
-                        SizedBox(width: 50,),
+                          SizedBox(
+                            width: 50,
+                          ),
 
-                        Align(
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Nome",
@@ -441,21 +403,23 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                                 color: Colors.black,
                               ),
                             ),
-                        ),
+                          ),
 
-                        SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
 
-                        //input nome
-                        inputNameID(),
-                      ],
-                    ),
-
-                    SizedBox(height: 14,),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
+                          //input nome
+                          inputNameID(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 14,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Data do pedido",
@@ -464,16 +428,20 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                                 color: Colors.black,
                               ),
                             ),
-                        ),
+                          ),
 
-                        SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
 
-                        //input data do pedido
-                        inputDate(),
+                          //input data do pedido
+                          inputDate(),
 
-                        SizedBox(width: 54,),
+                          SizedBox(
+                            width: 54,
+                          ),
 
-                        Align(
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Prazo",
@@ -482,22 +450,24 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                                 color: Colors.black,
                               ),
                             ),
-                        ),
+                          ),
 
-                        SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
 
-                        //input data do prazo
-                        inputDate()
-                      ],
-                    ),
-
-                    SizedBox(height: 24,),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 70),
+                          //input data do prazo
+                          inputDate()
+                        ],
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 70),
                             child: Align(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -507,54 +477,54 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                                   color: Colors.black,
                                 ),
                               ),
-                          ),
-                        ),
-                        
-
-                        SizedBox(width: 10,),
-
-                        //input descrição
-                        SizedBox(
-                          width: 339,
-                          height: 92 ,
-                          //input da descrição
-                          child: TextField(
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
-                            ),
-                            maxLines: null,
-                            minLines: 6,
-                            decoration: InputDecoration(
-                              hintStyle: TextStyle(
-                                fontSize: 15
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.grey, width: 2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.grey, width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: Colors.grey, width: 2)
-                              )
                             ),
                           ),
-                        ),
-                      ],
-                    ),
 
-                    SizedBox(height: 23,),
+                          SizedBox(
+                            width: 10,
+                          ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
+                          //input descrição
+                          SizedBox(
+                            width: 339,
+                            height: 92,
+                            //input da descrição
+                            child: TextField(
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                              maxLines: null,
+                              minLines: 6,
+                              decoration: InputDecoration(
+                                  hintStyle: TextStyle(fontSize: 15),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 2),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 2),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 2))),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 23,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Prioridade",
@@ -563,34 +533,30 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                                 color: Colors.black,
                               ),
                             ),
-                        ),
-
-                        SizedBox(width: 10,),
-
-                        ButtonChoosePriority()
-                      ],
-                    ),
-
-                    SizedBox(height: 47,),
-
-                    ButtonConcluir(),
-
-                  ],
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          ButtonChoosePriority()
+                        ],
+                      ),
+                      SizedBox(
+                        height: 47,
+                      ),
+                      ButtonConcluir(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-  );
+          );
+        },
+      );
 }
-
-
 
 class ButtonConcluir extends StatelessWidget {
   const ButtonConcluir({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -598,115 +564,98 @@ class ButtonConcluir extends StatelessWidget {
         width: 169,
         height: 33,
         child: ElevatedButton(
-          onPressed: () {
-            //Lógica do botão
-            showDialogConfirm(context);
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF50B432),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(27)
-            )
-          ),
-          child: Text(
-            "Concluir",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-            ),
-          )
-        ),
-    ),
-  );
+            onPressed: () {
+              //Lógica do botão
+              showDialogConfirm(context);
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF50B432),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(27))),
+            child: Text(
+              "Concluir",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+              ),
+            )),
+      ),
+    );
   }
 }
 
-
-
-void showDialogConfirm (BuildContext context){
+void showDialogConfirm(BuildContext context) {
   showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(
-          "Deseja confirmar a operação?",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold, 
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Deseja confirmar a operação?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        content: Text(
-          "Essa operação não poderá ser revertida",
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.black,
+          content: Text(
+            "Essa operação não poderá ser revertida",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
           ),
-        ),
-        actions: <Widget>[
-          Expanded(
-            child: Row(
+          actions: <Widget>[
+            Expanded(
+                child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-
               children: [
                 SizedBox(
                   width: 137,
                   height: 57,
                   child: ElevatedButton(
-                    onPressed: () {
-                      //Lógica do botão
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF50B432),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22)
-                      )
-                    ),
-                    child: Text(
-                      "Sim",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    )
-                  ),
+                      onPressed: () {
+                        //Lógica do botão
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF50B432),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(22))),
+                      child: Text(
+                        "Sim",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      )),
                 ),
-
-                SizedBox(width: 40,),
-
+                SizedBox(
+                  width: 40,
+                ),
                 SizedBox(
                   width: 137,
                   height: 57,
                   child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color(0xFFD54A3D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22)
-                      )
-                    ),
-                    child: Text(
-                      "Não",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    )
-                  ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: TextButton.styleFrom(
+                          backgroundColor: Color(0xFFD54A3D),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(22))),
+                      child: Text(
+                        "Não",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      )),
                 )
               ],
-            )
-          ),
-        ],
-      );
-    }
-  );
+            )),
+          ],
+        );
+      });
 }
-
-
-
 
 //Botão de escolha prioridade
 class ButtonChoosePriority extends StatefulWidget {
@@ -732,7 +681,6 @@ class ButtonChoosePriorityState extends State<ButtonChoosePriority> {
         borderRadius: BorderRadius.circular(9),
         color: Colors.white,
       ),
-
       child: DropdownButton<String>(
         isExpanded: true,
         hint: Text(
@@ -757,9 +705,6 @@ class ButtonChoosePriorityState extends State<ButtonChoosePriority> {
   }
 }
 
-
-
-
 //input do nome e do id
 Widget inputNameID() {
   return SizedBox(
@@ -774,22 +719,20 @@ Widget inputNameID() {
       textAlignVertical: TextAlignVertical.center,
       maxLines: 1,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.grey, width: 2),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.grey, width: 2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.grey, width: 2)
-        )
-      ),
+          contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.grey, width: 2))),
     ),
   );
 }
@@ -798,7 +741,6 @@ Widget inputNameID() {
 Widget inputDate() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
-
     children: [
       SizedBox(
         width: 95,
@@ -812,34 +754,33 @@ Widget inputDate() {
           textAlignVertical: TextAlignVertical.center,
           maxLines: 1,
           decoration: InputDecoration(
-
-            hintText: 'dd/mm/yy',
-            hintStyle: TextStyle(
-              fontSize: 15,
-              color: Colors.black.withOpacity(0.5)
-            ),
-            contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
-            filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey, width: 2)
-            )
-          ),
+              hintText: 'dd/mm/yy',
+              hintStyle:
+                  TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey, width: 2),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey, width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey, width: 2))),
         ),
       ),
-
-      SizedBox(width: 10,),
-
-      Icon(Icons.calendar_month, color: Colors.black26,)
+      SizedBox(
+        width: 10,
+      ),
+      Icon(
+        Icons.calendar_month,
+        color: Colors.black26,
+      )
     ],
   );
 }
@@ -1020,10 +961,16 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
 }
 
 // Dialog
-void _showCustomDialog(BuildContext context , String name , String code, DateTime createdAt , DateTime updatedAt , String description , String imageCake  ) {
-
-  String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt) ;
-  String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt) ;
+void _showCustomDialog(
+    BuildContext context,
+    String name,
+    String code,
+    DateTime createdAt,
+    DateTime updatedAt,
+    String description,
+    String imageCake) {
+  String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt);
+  String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt);
 
   showGeneralDialog(
     context: context,
@@ -1073,11 +1020,10 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
                             width: 186,
                             height: 202,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(image:AssetImage(imageCake) )
-
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                    image: AssetImage(imageCake))),
                           ),
                           SizedBox(width: 30),
                           Column(
@@ -1089,9 +1035,7 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${code}")
-                                  ])),
+                                      children: [TextSpan(text: "${code}")])),
                               SizedBox(height: 10),
                               RichText(
                                   text: TextSpan(
@@ -1142,15 +1086,18 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                      SizedBox(height: 20,),
-
-
+                      SizedBox(
+                        height: 20,
+                      ),
                       StageDemand(status: "finished"),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       StageDemand(status: "InProgress"),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       StageDemand(status: "Erro"),
-
                     ],
                   ),
                 ),
@@ -1166,7 +1113,7 @@ void _showCustomDialog(BuildContext context , String name , String code, DateTim
 
 class DemandCard extends StatelessWidget {
   final int index;
-  String imageCake = 'assets/images/photo.jpg' ;
+  String imageCake = 'assets/images/photo.jpg';
   DemandCard({required this.index});
 
   @override
@@ -1241,14 +1188,23 @@ class DemandCard extends StatelessWidget {
                     icon: Icons.edit,
                     label: 'Editar',
                     onPressed: () {
-                      editarDemanda(context); /// EDITAR DEMANDA 
+                      editarDemanda(context);
+
+                      /// EDITAR DEMANDA
                     },
                   ),
                   _buildActionButton(
                     icon: Icons.info,
                     label: 'Informações',
                     onPressed: () {
-                      _showCustomDialog(context , "Demanda 1" , "029125" , new DateTime.now() , new DateTime.now().add(Duration(days: 2)) , "Detalhes Sobre" , imageCake);
+                      _showCustomDialog(
+                          context,
+                          "Demanda 1",
+                          "029125",
+                          new DateTime.now(),
+                          new DateTime.now().add(Duration(days: 2)),
+                          "Detalhes Sobre",
+                          imageCake);
                     },
                   ),
                 ],
@@ -1284,15 +1240,14 @@ class DemandCard extends StatelessWidget {
   }
 }
 
-
-
 // EDITAR DEMANDA
 // O parâmetro 'context' informa onde o widget será inserido na árvore de widgets.
 void editarDemanda(BuildContext context) {
   showGeneralDialog(
-    context: context, // Indica onde o diálogo será exibido na árvore de widgets.
+    context:
+        context, // Indica onde o diálogo será exibido na árvore de widgets.
     pageBuilder: (context, animation1, animation2) {
-      return Container(); 
+      return Container();
     },
     transitionBuilder: (context, a1, a2, widget) {
       return ScaleTransition(
@@ -1334,10 +1289,9 @@ void editarDemanda(BuildContext context) {
                     ],
                   ),
 
-
                   SizedBox(height: 30),
 
-                  // Campos de código 
+                  // Campos de código
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -1352,11 +1306,8 @@ void editarDemanda(BuildContext context) {
                         ),
                       ),
                       SizedBox(width: 10),
-
                       inputNameID(),
-
                       SizedBox(width: 50),
-
                     ],
                   ),
 
@@ -1376,17 +1327,9 @@ void editarDemanda(BuildContext context) {
                           ),
                         ),
                       ),
-
-
                       SizedBox(width: 10),
-
-
                       inputDate(),
-
-
                       SizedBox(width: 54),
-
-
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -1397,10 +1340,7 @@ void editarDemanda(BuildContext context) {
                           ),
                         ),
                       ),
-
-
                       SizedBox(width: 10),
-
                       inputDate(),
                     ],
                   ),
@@ -1424,12 +1364,7 @@ void editarDemanda(BuildContext context) {
                           ),
                         ),
                       ),
-
-
-
                       SizedBox(width: 10),
-
-
                       SizedBox(
                         width: 339,
                         height: 92,
@@ -1438,20 +1373,17 @@ void editarDemanda(BuildContext context) {
                             fontSize: 15,
                             color: Colors.black,
                           ),
-
                           maxLines: null,
                           minLines: 6,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(fontSize: 15),
-
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide:BorderSide(color: Colors.grey, width: 2),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 2),
                             ),
-
-
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
@@ -1484,12 +1416,10 @@ void editarDemanda(BuildContext context) {
                     ],
                   ),
 
-
                   SizedBox(height: 47),
 
                   // Botão de Concluir
                   ButtonConcluir(),
-
                 ],
               ),
             ),
