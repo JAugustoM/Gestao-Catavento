@@ -103,7 +103,7 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
                 height: 37,
               ),
 
-              ButtonAddDemanda()
+          
             ],
           ),
         )
@@ -303,7 +303,6 @@ class QuadroGraficoState extends State<QuadroGrafico> {
     );
   }
 }
-
 class ListDemanda extends StatefulWidget {
   const ListDemanda({super.key});
 
@@ -314,8 +313,6 @@ class ListDemanda extends StatefulWidget {
 }
 
 class ListDemandaState extends State<ListDemanda> {
-  // lista apenas ilustrativa, já q ainda n temos a real lista de demandas
-  final List<String> demandas = List.generate(10, (index) => "Demanda #$index");
   late final SupabaseClient supabaseClient;
   List<Map<String, dynamic>> _demandas = [];
 
@@ -327,7 +324,7 @@ class ListDemandaState extends State<ListDemanda> {
   }
 
   Future<void> _removeDemanda(int id, int order) async {
-    final response = await Supabase.instance.client
+    final response = await supabaseClient
         .from('demandas')
         .delete()
         .eq('id', id)
@@ -346,13 +343,34 @@ class ListDemandaState extends State<ListDemanda> {
     try {
       final response = await supabaseClient.from('demandas').select();
 
-      // print('Dados retornados: ${response as List}');
       setState(() {
         _demandas = List<Map<String, dynamic>>.from(response as List);
       });
     } catch (error) {
-      // Tratar erros inesperados
       print('Erro ao buscar dados: $error');
+    }
+  }
+
+  Future<void> _addDemanda(Map<String, String> demanda) async {
+    try {
+      final response = await supabaseClient.from('demandas').insert(demanda).select();
+      if (response.isNotEmpty) {
+        setState(() {
+          _demandas.add(response[0]); 
+        });
+        Navigator.pop(context); 
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Demanda adicionada com sucesso!")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erro ao adicionar demanda")),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao adicionar demanda: $error")),
+      );
     }
   }
 
@@ -366,40 +384,50 @@ class ListDemandaState extends State<ListDemanda> {
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(17),
       ),
-      child: _demandas.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _demandas.length,
-              itemBuilder: (context, index) {
-                final demanda = _demandas[index];
-                return DemandCard(
-                  nomeDemanda: demanda['nomeDemanda'] ??
-                      'Nome não disponível', // Valor padrão
-                  status: demanda['status'] ??
-                      'Status não disponível', // Valor padrão
-                  codigo: demanda['codigo'] ?? 'Sem código',
-                  id: demanda['id'],
-                  order: index,
-                  callback: _removeDemanda,
-                );
-              },
-            ),
+      child: Column(
+        children: [
+          Expanded(
+            child: _demandas.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: _demandas.length,
+                    itemBuilder: (context, index) {
+                      final demanda = _demandas[index];
+                      return DemandCard(
+                        nomeDemanda: demanda['nomeDemanda'] ?? 'Nome não disponível',
+                        status: demanda['status'] ?? 'Status não disponível',
+                        codigo: demanda['codigo'] ?? 'Sem código',
+                        descricao: demanda['descricao'] ?? 'Sem descricao',
+                        id: demanda['id'],
+                        order: index,
+                        callback: _removeDemanda,
+                        onDemandUpdated: _fetchDemandas,
+                      );
+                    },
+                  ),
+          ),
+          SizedBox(height: 16), // Espaço entre a lista e o botão
+          ButtonAddDemanda(
+            onAddDemanda: (demanda) {
+              _addDemanda(demanda);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
 
-//Botão de adicionar demanda
-class ButtonAddDemanda extends StatefulWidget {
-  const ButtonAddDemanda({super.key});
+class ButtonAddDemanda extends StatelessWidget {
+  final Function(Map<String, String>) onAddDemanda;
 
-  @override
-  State<ButtonAddDemanda> createState() {
-    return ButtonAddDemandaState();
-  }
-}
+  ButtonAddDemanda({super.key, required this.onAddDemanda});
 
-///// NOVA DEMANDA
-class ButtonAddDemandaState extends State<ButtonAddDemanda> {
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _codigoController = TextEditingController();
+  final TextEditingController _descricaoController = TextEditingController();
+  TextEditingController _funcionarioController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -407,8 +435,7 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
       height: 47,
       child: ElevatedButton(
         onPressed: () {
-          // Lógica do botão
-          AddInfoDemand();
+          AddInfoDemand(context);
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF015C98),
@@ -424,8 +451,7 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
     );
   }
 
-  ///// NOVA DEMANDA
-  Future AddInfoDemand() => showGeneralDialog(
+  Future<void> AddInfoDemand(BuildContext context) => showGeneralDialog(
         context: context,
         pageBuilder: (context, animation1, animation2) {
           return Container();
@@ -471,181 +497,114 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
                       SizedBox(
                         height: 47,
                       ),
+                      // Inputs de nome e código
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Código",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 10,
-                          ),
-
-                          //input codigo
-                          inputNameID(),
-
-                          SizedBox(
-                            width: 50,
-                          ),
-
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Nome",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 10,
-                          ),
-
-                          //input nome
-                          inputNameID(),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 14,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Data do pedido",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 10,
-                          ),
-
-                          //input data do pedido
-                          inputDate(),
-
-                          SizedBox(
-                            width: 54,
-                          ),
-
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Prazo",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 10,
-                          ),
-
-                          //input data do prazo
-                          inputDate()
-                        ],
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 70),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Descrição",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            width: 10,
-                          ),
-
-                          //input descrição
-                          SizedBox(
-                            width: 339,
-                            height: 92,
-                            //input da descrição
-                            child: TextField(
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                              maxLines: null,
-                              minLines: 6,
-                              decoration: InputDecoration(
-                                  hintStyle: TextStyle(fontSize: 15),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 2),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Código",
+                                    style: TextStyle(fontSize: 15, color: Colors.black),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 2),
+                                  TextField(
+                                    controller: _codigoController,
+                                    decoration: InputDecoration(
+                                      hintText: "Código da demanda",
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(color: Colors.grey),
+                                      ),
+                                    ),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Colors.grey, width: 2))),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 23,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Prioridade",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
+                                ],
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Nome",
+                                    style: TextStyle(fontSize: 15, color: Colors.black),
+                                  ),
+                                  TextField(
+                                    controller: _nomeController,
+                                    decoration: InputDecoration(
+                                      hintText: "Nome da demanda",
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(color: Colors.grey),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          ButtonChoosePriority()
                         ],
                       ),
-                      SizedBox(
-                        height: 47,
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Descrição",
+                                    style: TextStyle(fontSize: 15, color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    height: 92,
+                                    child: TextField(
+                                      controller: _descricaoController,
+                                      decoration: InputDecoration(
+                                        hintText: "Descrição da demanda",
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          borderSide: BorderSide(color: Colors.grey),
+                                        ),
+                                      ),
+                                      maxLines: null,
+                                      minLines: 6,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      ButtonConcluir(),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          final newDemanda = {
+                            'codigo': _codigoController.text,
+                            'nomeDemanda': _nomeController.text,
+                            'descricao': _descricaoController.text,
+                            'funcionario': _funcionarioController.text,
+                            'status': ' ', // Status inicial
+                          };
+                          onAddDemanda(newDemanda);
+                        },
+                        child: Text("Salvar"),
+                      ),
                     ],
                   ),
                 ),
@@ -655,6 +614,8 @@ class ButtonAddDemandaState extends State<ButtonAddDemanda> {
         },
       );
 }
+
+
 
 class ButtonConcluir extends StatelessWidget {
   const ButtonConcluir({super.key});
@@ -1212,27 +1173,34 @@ void _showCustomDialog(
     },
   );
 }
-
 class DemandCard extends StatelessWidget {
   final String nomeDemanda;
   final String status;
   final String codigo;
+  final String descricao;
   final int id;
   final int order;
   final CardCallback callback;
+  final Function() onDemandUpdated;  // Função para notificar a lista que a demanda foi atualizada
 
   const DemandCard({
     Key? key,
     required this.nomeDemanda,
     required this.codigo,
     required this.status,
+    required this.descricao,
     required this.id,
     required this.order,
     required this.callback,
+    required this.onDemandUpdated,  // Função de atualização
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _nomeController = TextEditingController(text: nomeDemanda);
+    final TextEditingController _codigoController = TextEditingController(text: codigo);
+    final TextEditingController _descricaoController = TextEditingController(text: descricao);
+
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
@@ -1242,23 +1210,24 @@ class DemandCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Botão de Informações
+       
             IconButton(
               icon: Icon(Icons.info),
               onPressed: () {
-                // Lógica para mostrar informações
+                  _showInfoDialog(context, nomeDemanda, codigo, descricao, status);
+               
                 print('Informações da demanda $nomeDemanda');
               },
             ),
-            // Botão de Editar
+            // botão de Editar
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                // Lógica para editar a demanda
-                print('Editando demanda $nomeDemanda');
+                //  editar a demanda
+                _showEditDialog(context, _nomeController, _codigoController, _descricaoController);
               },
             ),
-            // Botão de Apagar
+            // apagar
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () async {
@@ -1270,7 +1239,120 @@ class DemandCard extends StatelessWidget {
       ),
     );
   }
+
+
+  // Função para mostrar as informações da demanda em um diálogo
+  void _showInfoDialog(BuildContext context, String nome, String codigo, String descricao, String status) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Informações da Demanda"),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Nome: $nome", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                Text("Código: $codigo", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                Text("Status: $status", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                Text("Descrição: $descricao", style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); // Fechar o diálogo
+              },
+              child: Text("Fechar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Função que exibe o diálogo de edição
+  void _showEditDialog(
+      BuildContext context,
+      TextEditingController nomeController,
+      TextEditingController codigoController,
+      TextEditingController descricaoController) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Editar Demanda"),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: nomeController,
+                  decoration: InputDecoration(labelText: "Nome da Demanda"),
+                ),
+                TextField(
+                  controller: codigoController,
+                  decoration: InputDecoration(labelText: "Código da Demanda"),
+                ),
+                TextField(
+                  controller: descricaoController,
+                  decoration: InputDecoration(labelText: "Descrição da Demanda"),
+                  maxLines: null, // Permite múltiplas linhas
+                  minLines: 4,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                // Atualizar a demanda no Supabase
+                _updateDemanda(nomeController.text, codigoController.text, descricaoController.text);
+                Navigator.pop(context); // Fechar o diálogo
+              },
+              child: Text("Salvar"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); // Fechar o diálogo sem salvar
+              },
+              child: Text("Cancelar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Método para atualizar os dados da demanda no Supabase
+  Future<void> _updateDemanda(String nome, String codigo, String descricao) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('demandas')
+          .update({
+            'nomeDemanda': nome,
+            'codigo': codigo,
+            'descricao': descricao,
+          })
+          .eq('id', id)
+          .select();
+
+      if (response.isNotEmpty) {
+        print("Demanda atualizada com sucesso");
+        // Notificar a lista para recarregar os dados
+        onDemandUpdated(); // Chama a função para atualizar a lista
+      } else {
+        print("Erro ao atualizar demanda");
+      }
+    } catch (error) {
+      print("Erro ao atualizar demanda: $error");
+    }
+  }
 }
+
 
 Widget _buildActionButton({
   required IconData icon,

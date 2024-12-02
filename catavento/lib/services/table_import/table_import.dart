@@ -45,7 +45,12 @@ Future<void> importExcelToSupabase(String filePath) async {
                     'Linha ${rowId + 1} enviada com sucesso: $parsedData');
               }
 
-
+              // Marca a linha como processada
+              var cell = sheet.cell(CellIndex.indexByColumnRow(
+                columnIndex: 3,
+                rowIndex: rowId,
+              ));
+              cell.value = TextCellValue('X');
             }
           } catch (e) {
             print('Erro ao processar a linha ${rowId + 1}: $e');
