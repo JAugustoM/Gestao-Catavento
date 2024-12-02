@@ -72,7 +72,7 @@ Para desenvolver o código cada membro da equipe desempenhará um papel baseado 
 | Dono do Produto | Atualizar o escopo do produto, organizar o escopo das sprints, validar as entregas | Henrique | Henrique |
 | Analista de Qualidade | Garantir a qualidade do produto, garantir o cumprimento do conceito de pronto, realizar inspeções de código, executar testes, identificação de erros e defeitos, planejamento de testes | Maria Eduarda, Mariana | Maria Eduarda, Mariana | 
 | Analista de Requisitos | Fazer o levantamento dos requisitos, analisar e documentar os requisitos, priorizar os requisitos de acordo com o objetivo do produto, gerenciar as mudanças de requisitos  | Henrique, Maria Eduarda, Pedro | Henrique, Maria Eduarda, Pedro |
-| Designer de Protótipos | Criar modelos iniciais do produto, fazer a validação das do design, interações e funcionalidades  | Danielle, Leticia, Mariana, Maria | Danielle, Leticia, Mariana, Maria Samara |
+| Designer de Protótipos | Criar modelos iniciais do produto, fazer a validação das do design, interações e funcionalidades  | Danielle, Leticia, Mariana, Maria | Danielle, Leticia, Mariana, Maria Samara, Daniel |
 | Cliente | Validar os requisitos e protótipos, fornecer feedbacks | Poliana | Poliana |
 
 ### 2.3 Planejamento das Fases e/ou Iterações do Projeto 
