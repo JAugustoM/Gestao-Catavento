@@ -352,7 +352,6 @@ class ListDemandaState extends State<ListDemanda> {
         setState(() {
           _demandas.removeAt(order);
         });
-        print('Demanda apagada com sucesso');
       } else {
         print('Algum erro ocorreu');
       }
@@ -630,7 +629,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             'nomeDemanda': _nomeController.text,
                             'descricao': _descricaoController.text,
                             'funcionario': _funcionarioController.text,
-                            'status': ' ', // Status inicial
+                            'status': '0', // Status inicial
                           };
                           onAddDemanda(newDemanda);
                         },
