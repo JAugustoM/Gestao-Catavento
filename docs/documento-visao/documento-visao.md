@@ -85,7 +85,7 @@ Primeiramente, depois de uma análise em conjunto do time, decidiu-se que o mais
 | Sprint 2 | Sistema de gerência de usuários tipo funcionário e sistema de login. | 05/12/2024 | 15/12/2024 | CRUD de funcionários; Página de gerenciamento de funcionários; Sistema de autenticação; Página de login | Frontend, Backend, Banco de dados, Testes | 40% |
 | Sprint 3 | Funcionalidades focadas no funcionário e na navegação no aplicativo. | 15/12/2024 | 25/12/2024 | Página de desempenho de funcionários; Página de demandas para funcionários; Menu de navegação lateral | Frontend, Backend, Banco de dados, Testes | 60% |
 | Sprint 4 | Metas de funcionários e prioridades | 25/12/2024 | 05/01/2024 | Página de metas de funcionários; Quadro de prioridades | Frontend, Backend, Banco de dados, Testes | 80% |
-| Sprint 5 | Relatórios e refinamentos | 05/01/2024 | 15/01/2024 | Geração de relatórios; Ajustes e refinamentos com base no feedback | Frontend, Backend, Banco de dados | Testes | 100% | 
+| Sprint 5 | Relatórios e refinamentos | 05/01/2024 | 15/01/2024 | Geração de relatórios; Ajustes e refinamentos com base no feedback | Frontend, Backend, Banco de dados, Testes | 100% | 
 
 ### 2.4 Matriz de Comunicação
 
