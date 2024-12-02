@@ -102,8 +102,6 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
               SizedBox(
                 height: 37,
               ),
-
-          
             ],
           ),
         )
@@ -154,155 +152,178 @@ class QuadroGrafico extends StatefulWidget {
 
 //Graficos
 class QuadroGraficoState extends State<QuadroGrafico> {
-  int completas = 8; //quantidade de bolos prontos (trocar)
-  int restantes = 2; //quantidade de bolos restantes (trocar)
-  int total = 10; //quantidade total de bolos (trocar)
-  String fabricacao = '1';
-  String espera = '1';
-
+  final _stream =
+      Supabase.instance.client.from('demandas').stream(primaryKey: ['id']);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        //Grafico 1
-        Container(
-            width: 340,
-            height: 132,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Completas: $completas\n"
-                      "Restantes: $restantes\n",
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black,
+    return StreamBuilder<Object>(
+        stream: _stream,
+        builder: (context, snapshot) {
+          var completo = 0;
+          var fabricacao = 0;
+          var espera = 0;
+          var total = 0;
+          if (snapshot.data != null) {
+            for (var demanda in snapshot.data as List<Map<String, dynamic>>) {
+              switch (demanda['status']) {
+                case '0':
+                  espera++;
+                case '1':
+                  fabricacao++;
+                case '2':
+                  completo++;
+              }
+            }
+            total = espera + fabricacao + completo;
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //Grafico 1
+              Container(
+                  width: 340,
+                  height: 132,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 30.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Completas: $completo\n"
+                            "Restantes: ${total - completo}\n",
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                            "Total: $total",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )
+                        ],
+                      ))),
+
+              SizedBox(
+                height: 20,
+              ),
+
+              Container(
+                  width: 340,
+                  height: 132,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 60.0),
+                        child: Icon(
+                          Icons.cake,
+                          size: 80.0,
+                          color: Colors.pink,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Text(
-                      "Total: $total",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    )
-                  ],
-                ))),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 25.0, right: 40.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "$fabricacao",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                "Em fabricação",
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                              )
+                            ],
+                          )),
+                    ],
+                  )),
 
-        SizedBox(
-          height: 20,
-        ),
+              SizedBox(
+                height: 30,
+              ),
 
-        Container(
-            width: 340,
-            height: 132,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                  child: Icon(
-                    Icons.cake,
-                    size: 80.0,
-                    color: Colors.pink,
+              Container(
+                  width: 340,
+                  height: 132,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 25.0, right: 40.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          fabricacao,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 60.0),
+                        child: Icon(
+                          Icons.layers,
+                          size: 80.0,
+                          color: Color(0xFF015C98),
                         ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          "Em fabricação",
-                          style: TextStyle(fontSize: 18, color: Colors.black),
-                        )
-                      ],
-                    )),
-              ],
-            )),
-
-        SizedBox(
-          height: 30,
-        ),
-
-        Container(
-            width: 340,
-            height: 132,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                  child: Icon(
-                    Icons.layers,
-                    size: 80.0,
-                    color: Color(0xFF015C98),
-                  ),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 25.0, right: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          espera,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          "Em espera",
-                          style: TextStyle(fontSize: 18, color: Colors.black),
-                        )
-                      ],
-                    )),
-              ],
-            )),
-      ],
-    );
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 25.0, right: 20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "$espera",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                "Em espera",
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                              )
+                            ],
+                          )),
+                    ],
+                  )),
+            ],
+          );
+        });
   }
 }
+
 class ListDemanda extends StatefulWidget {
   const ListDemanda({super.key});
 
@@ -324,18 +345,19 @@ class ListDemandaState extends State<ListDemanda> {
   }
 
   Future<void> _removeDemanda(int id, int order) async {
-    final response = await supabaseClient
-        .from('demandas')
-        .delete()
-        .eq('id', id)
-        .select();
-    if (response.isNotEmpty) {
-      setState(() {
-        _demandas.removeAt(order);
-      });
-      print('Demanda apagada com sucesso');
-    } else {
-      print('Algum erro ocorreu');
+    try {
+      final response =
+          await supabaseClient.from('demandas').delete().eq('id', id).select();
+      if (response.isNotEmpty) {
+        setState(() {
+          _demandas.removeAt(order);
+        });
+        print('Demanda apagada com sucesso');
+      } else {
+        print('Algum erro ocorreu');
+      }
+    } catch (e) {
+      print('Erro ao buscar dados: $e');
     }
   }
 
@@ -353,12 +375,13 @@ class ListDemandaState extends State<ListDemanda> {
 
   Future<void> _addDemanda(Map<String, String> demanda) async {
     try {
-      final response = await supabaseClient.from('demandas').insert(demanda).select();
+      final response =
+          await supabaseClient.from('demandas').insert(demanda).select();
       if (response.isNotEmpty) {
         setState(() {
-          _demandas.add(response[0]); 
+          _demandas.add(response[0]);
         });
-        Navigator.pop(context); 
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Demanda adicionada com sucesso!")),
         );
@@ -394,7 +417,8 @@ class ListDemandaState extends State<ListDemanda> {
                     itemBuilder: (context, index) {
                       final demanda = _demandas[index];
                       return DemandCard(
-                        nomeDemanda: demanda['nomeDemanda'] ?? 'Nome não disponível',
+                        nomeDemanda:
+                            demanda['nomeDemanda'] ?? 'Nome não disponível',
                         status: demanda['status'] ?? 'Status não disponível',
                         codigo: demanda['codigo'] ?? 'Sem código',
                         descricao: demanda['descricao'] ?? 'Sem descricao',
@@ -426,7 +450,7 @@ class ButtonAddDemanda extends StatelessWidget {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
-  TextEditingController _funcionarioController = TextEditingController();
+  final TextEditingController _funcionarioController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -509,7 +533,8 @@ class ButtonAddDemanda extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Código",
-                                    style: TextStyle(fontSize: 15, color: Colors.black),
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
                                   ),
                                   TextField(
                                     controller: _codigoController,
@@ -519,7 +544,8 @@ class ButtonAddDemanda extends StatelessWidget {
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(color: Colors.grey),
+                                        borderSide:
+                                            BorderSide(color: Colors.grey),
                                       ),
                                     ),
                                   ),
@@ -535,7 +561,8 @@ class ButtonAddDemanda extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Nome",
-                                    style: TextStyle(fontSize: 15, color: Colors.black),
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
                                   ),
                                   TextField(
                                     controller: _nomeController,
@@ -545,7 +572,8 @@ class ButtonAddDemanda extends StatelessWidget {
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(color: Colors.grey),
+                                        borderSide:
+                                            BorderSide(color: Colors.grey),
                                       ),
                                     ),
                                   ),
@@ -566,7 +594,8 @@ class ButtonAddDemanda extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Descrição",
-                                    style: TextStyle(fontSize: 15, color: Colors.black),
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black),
                                   ),
                                   SizedBox(
                                     height: 92,
@@ -577,8 +606,10 @@ class ButtonAddDemanda extends StatelessWidget {
                                         filled: true,
                                         fillColor: Colors.white,
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
                                         ),
                                       ),
                                       maxLines: null,
@@ -614,8 +645,6 @@ class ButtonAddDemanda extends StatelessWidget {
         },
       );
 }
-
-
 
 class ButtonConcluir extends StatelessWidget {
   const ButtonConcluir({super.key});
@@ -1173,6 +1202,7 @@ void _showCustomDialog(
     },
   );
 }
+
 class DemandCard extends StatelessWidget {
   final String nomeDemanda;
   final String status;
@@ -1181,7 +1211,8 @@ class DemandCard extends StatelessWidget {
   final int id;
   final int order;
   final CardCallback callback;
-  final Function() onDemandUpdated;  // Função para notificar a lista que a demanda foi atualizada
+  final Function()
+      onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
 
   const DemandCard({
     Key? key,
@@ -1192,14 +1223,17 @@ class DemandCard extends StatelessWidget {
     required this.id,
     required this.order,
     required this.callback,
-    required this.onDemandUpdated,  // Função de atualização
+    required this.onDemandUpdated, // Função de atualização
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nomeController = TextEditingController(text: nomeDemanda);
-    final TextEditingController _codigoController = TextEditingController(text: codigo);
-    final TextEditingController _descricaoController = TextEditingController(text: descricao);
+    final TextEditingController _nomeController =
+        TextEditingController(text: nomeDemanda);
+    final TextEditingController _codigoController =
+        TextEditingController(text: codigo);
+    final TextEditingController _descricaoController =
+        TextEditingController(text: descricao);
 
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -1210,12 +1244,12 @@ class DemandCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-       
             IconButton(
               icon: Icon(Icons.info),
               onPressed: () {
-                  _showInfoDialog(context, nomeDemanda, codigo, descricao, status);
-               
+                _showInfoDialog(
+                    context, nomeDemanda, codigo, descricao, status);
+
                 print('Informações da demanda $nomeDemanda');
               },
             ),
@@ -1224,7 +1258,8 @@ class DemandCard extends StatelessWidget {
               icon: Icon(Icons.edit),
               onPressed: () {
                 //  editar a demanda
-                _showEditDialog(context, _nomeController, _codigoController, _descricaoController);
+                _showEditDialog(context, _nomeController, _codigoController,
+                    _descricaoController);
               },
             ),
             // apagar
@@ -1240,9 +1275,9 @@ class DemandCard extends StatelessWidget {
     );
   }
 
-
   // Função para mostrar as informações da demanda em um diálogo
-  void _showInfoDialog(BuildContext context, String nome, String codigo, String descricao, String status) {
+  void _showInfoDialog(BuildContext context, String nome, String codigo,
+      String descricao, String status) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1252,13 +1287,17 @@ class DemandCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Nome: $nome", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Nome: $nome",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),
-                Text("Código: $codigo", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Código: $codigo",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),
-                Text("Status: $status", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Status: $status",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),
-                Text("Descrição: $descricao", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Descrição: $descricao",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -1299,7 +1338,8 @@ class DemandCard extends StatelessWidget {
                 ),
                 TextField(
                   controller: descricaoController,
-                  decoration: InputDecoration(labelText: "Descrição da Demanda"),
+                  decoration:
+                      InputDecoration(labelText: "Descrição da Demanda"),
                   maxLines: null, // Permite múltiplas linhas
                   minLines: 4,
                 ),
@@ -1310,7 +1350,8 @@ class DemandCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Atualizar a demanda no Supabase
-                _updateDemanda(nomeController.text, codigoController.text, descricaoController.text);
+                _updateDemanda(nomeController.text, codigoController.text,
+                    descricaoController.text);
                 Navigator.pop(context); // Fechar o diálogo
               },
               child: Text("Salvar"),
@@ -1328,7 +1369,8 @@ class DemandCard extends StatelessWidget {
   }
 
   // Método para atualizar os dados da demanda no Supabase
-  Future<void> _updateDemanda(String nome, String codigo, String descricao) async {
+  Future<void> _updateDemanda(
+      String nome, String codigo, String descricao) async {
     try {
       final response = await Supabase.instance.client
           .from('demandas')
@@ -1352,7 +1394,6 @@ class DemandCard extends StatelessWidget {
     }
   }
 }
-
 
 Widget _buildActionButton({
   required IconData icon,

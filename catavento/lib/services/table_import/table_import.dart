@@ -1,6 +1,6 @@
-  import 'dart:io';
-  import 'package:supabase_flutter/supabase_flutter.dart';
-  import 'package:excel/excel.dart';
+import 'dart:io';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:excel/excel.dart';
 
 Future<void> importExcelToSupabase(String filePath) async {
   final supabase = Supabase.instance.client;
@@ -39,10 +39,10 @@ Future<void> importExcelToSupabase(String filePath) async {
                   await supabase.from('demandas').insert(parsedData);
 
               if (response.error != null) {
-                print('Erro ao inserir no Supabase: ${response.error!.message}');
-              } else {
                 print(
-                    'Linha ${rowId + 1} enviada com sucesso: $parsedData');
+                    'Erro ao inserir no Supabase: ${response.error!.message}');
+              } else {
+                print('Linha ${rowId + 1} enviada com sucesso: $parsedData');
               }
 
               // Marca a linha como processada
