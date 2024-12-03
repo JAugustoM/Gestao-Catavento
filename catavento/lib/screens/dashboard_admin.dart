@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:catavento/screens/components/confirmDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
@@ -590,75 +591,18 @@ class ButtonConcluir extends StatelessWidget {
 
 void showDialogConfirm(BuildContext context) {
   showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Deseja confirmar a operação?",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            "Essa operação não poderá ser revertida",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          ),
-          actions: <Widget>[
-            Expanded(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 137,
-                  height: 57,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        //Lógica do botão
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF50B432),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22))),
-                      child: Text(
-                        "Sim",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                SizedBox(
-                  width: 137,
-                  height: 57,
-                  child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: TextButton.styleFrom(
-                          backgroundColor: Color(0xFFD54A3D),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22))),
-                      child: Text(
-                        "Não",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      )),
-                )
-              ],
-            )),
-          ],
-        );
-      });
+    context: context,
+    builder: (BuildContext context) {
+      return ConfirmDialog(
+        title: "Deseja confirmar a operação?",
+        contente: "Essa operação não podera ser revertida",
+        onConfirm: () {
+          //Lógica ao confirmar
+          Navigator.of(context).pop();
+        },
+      );
+    },
+  );
 }
 
 //Botão de escolha prioridade
@@ -1186,7 +1130,9 @@ class DemandCard extends StatelessWidget {
                   _buildActionButton(
                     icon: Icons.delete,
                     label: 'Deletar',
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialogConfirm(context);
+                    },
                   ),
                   _buildActionButton(
                     icon: Icons.edit,
