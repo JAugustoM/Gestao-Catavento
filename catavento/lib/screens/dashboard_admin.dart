@@ -5,7 +5,7 @@ import 'package:catavento/screens/components/stage_demand.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'components/confirmDialog.dart';
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
 
@@ -360,6 +360,22 @@ class ListDemandaState extends State<ListDemanda> {
     }
   }
 
+  Future<void> _showConfirmDialog(int id, int order) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmDialog(
+          title: 'Confirmar Exclusão',
+          contente: 'Tem certeza de que deseja apagar esta demanda?',
+          onConfirm: () {
+            Navigator.of(context).pop(); // Fecha o diálogo
+            _removeDemanda(id, order); // Executa a exclusão
+          },
+        );
+      },
+    );
+  }
+
   Future<void> _fetchDemandas() async {
     try {
       final response = await supabaseClient.from('demandas').select();
@@ -423,7 +439,7 @@ class ListDemandaState extends State<ListDemanda> {
                         descricao: demanda['descricao'] ?? 'Sem descricao',
                         id: demanda['id'],
                         order: index,
-                        callback: _removeDemanda,
+                        callback: (id, order) => _showConfirmDialog(id, order),
                         onDemandUpdated: _fetchDemandas,
                       );
                     },
@@ -440,7 +456,6 @@ class ListDemandaState extends State<ListDemanda> {
     );
   }
 }
-
 class ButtonAddDemanda extends StatelessWidget {
   final Function(Map<String, String>) onAddDemanda;
 
