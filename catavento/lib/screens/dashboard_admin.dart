@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:catavento/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +8,8 @@ import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'components/confirmDialog.dart';
+// import 'package:image_picker/image_picker.dart';
+
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
 
@@ -336,6 +340,7 @@ class ListDemanda extends StatefulWidget {
 class ListDemandaState extends State<ListDemanda> {
   late final SupabaseClient supabaseClient;
   List<Map<String, dynamic>> _demandas = [];
+  File? foto;
 
   @override
   void initState() {
@@ -388,8 +393,14 @@ class ListDemandaState extends State<ListDemanda> {
     }
   }
 
-  Future<void> _addDemanda(Map<String, String> demanda) async {
+  Future<void> _addDemanda(Map<String, String> demanda, File? foto) async {
     try {
+      String fotoUrl = '';
+      if (foto != null) {
+        fotoUrl = await _uploadFoto(foto);
+      }
+      demanda['foto'] = fotoUrl;
+
       final response =
           await supabaseClient.from('demandas').insert(demanda).select();
       if (response.isNotEmpty) {
@@ -409,6 +420,20 @@ class ListDemandaState extends State<ListDemanda> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Erro ao adicionar demanda: $error")),
       );
+    }
+  }
+
+  Future<String> _uploadFoto(File foto) async {
+    try {
+      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await supabaseClient.storage.from('imagens').upload(fileName, foto);
+
+      // Retorna a URL da foto armazenada
+      final fotoUrl =
+          supabaseClient.storage.from('imagens').getPublicUrl(fileName);
+      return fotoUrl;
+    } catch (error) {
+      throw Exception('Erro ao fazer upload da foto: $error');
     }
   }
 
@@ -448,7 +473,7 @@ class ListDemandaState extends State<ListDemanda> {
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
             onAddDemanda: (demanda) {
-              _addDemanda(demanda);
+              _addDemanda(demanda, foto);
             },
           ),
         ],
@@ -456,6 +481,7 @@ class ListDemandaState extends State<ListDemanda> {
     );
   }
 }
+
 class ButtonAddDemanda extends StatelessWidget {
   final Function(Map<String, String>) onAddDemanda;
 
@@ -465,6 +491,7 @@ class ButtonAddDemanda extends StatelessWidget {
   final TextEditingController _codigoController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
   final TextEditingController _funcionarioController = TextEditingController();
+  // File? fotoSelecionada;
 
   @override
   Widget build(BuildContext context) {
@@ -506,6 +533,7 @@ class ButtonAddDemanda extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 41),
                   child: Column(
                     children: [
+                      // campo dos formulários
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -535,6 +563,7 @@ class ButtonAddDemanda extends StatelessWidget {
                       SizedBox(
                         height: 47,
                       ),
+
                       // Inputs de nome e código
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -562,6 +591,8 @@ class ButtonAddDemanda extends StatelessWidget {
                                             BorderSide(color: Colors.grey),
                                       ),
                                     ),
+                                    maxLines: null,
+                                    minLines: 6,
                                   ),
                                 ],
                               ),
