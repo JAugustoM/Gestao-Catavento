@@ -50,51 +50,102 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
-    return Stack(
-      children: [
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Header(
-                title: 'Demandas atuais ($formattedDate)',
-                showHistoricoButton: true, // O botão será exibido
-              ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isSmallScreen = constraints.maxWidth < 600;
 
-              SizedBox(height: 15),
-
-              //Barra de pesquisa
-              Search(),
-
-              SizedBox(
-                height: 30,
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        return Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height,
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  QuadroPrioridade(),
-                  SizedBox(
-                    width: 16,
+                  Container(
+                    height: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Header(
+                          title: 'Demandas atuais ($formattedDate)',
+                          showHistoricoButton: true,
+                        ),
+                        SizedBox(height: 15),
+                        Search(),
+                      ],
+                    ),
                   ),
-                  ListDemanda(),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  QuadroGrafico()
+                  SizedBox(height: 20),
+
+                  // Conteúdo principal
+                  if (isSmallScreen)
+                    Column(
+                      children: [
+                        QuadroPrioridade(),
+                        SizedBox(height: 16),
+                        ListDemanda(),
+                        SizedBox(height: 16),
+                        QuadroGrafico(),
+                      ],
+                    )
+                  else
+                    Column(
+                      children: [
+                        Container(
+                          height: constraints.maxHeight * 0.8,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: constraints.maxHeight * 0.6,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: double.infinity,
+                                        child: QuadroPrioridade(),
+                                      ),
+                                    ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        height: double.infinity,
+                                        child: ListDemanda(),
+                                      ),
+                                    ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Container(
+                                        height: double.infinity,
+                                        child: QuadroGrafico(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                              Container(
+                                height: constraints.maxHeight * 0.1,
+                                child: Center(child: ButtonAddDemanda()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
                 ],
               ),
-
-              SizedBox(
-                height: 37,
-              ),
-
-              ButtonAddDemanda()
-            ],
+            ),
           ),
-        )
-      ],
+        );
+      },
     );
   }
 }
@@ -120,27 +171,80 @@ class QuadroGraficoState extends State<QuadroGrafico> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //Grafico 1
+        // Gráfico 1 - Bolos Completos e Restantes
         Container(
-            width: 340,
-            height: 132,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+          width: double.infinity,
+          height: 132,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Completas: $completas\nRestantes: $restantes\n",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  "Total: $total",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ],
             ),
-            child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+          ),
+        ),
+
+        SizedBox(
+          height: 30,
+        ),
+
+        // Gráfico 2 - Bolos em Fabricação
+        Container(
+          width: double.infinity,
+          height: 132,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
+                child: Icon(
+                  Icons.cake,
+                  size: 60.0,
+                  color: Colors.pink,
+                ),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 25.0, right: 10.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "Completas: $completas\n"
-                      "Restantes: $restantes\n",
+                      fabricacao,
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
@@ -148,114 +252,68 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                       height: 2,
                     ),
                     Text(
-                      "Total: $total",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                      "Em fabricação",
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                     )
                   ],
-                ))),
-
-        SizedBox(
-          height: 20,
+                ),
+              ),
+            ],
+          ),
         ),
-
-        Container(
-            width: 340,
-            height: 132,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                  child: Icon(
-                    Icons.cake,
-                    size: 80.0,
-                    color: Colors.pink,
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 25.0, right: 40.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          fabricacao,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          "Em fabricação",
-                          style: TextStyle(fontSize: 18, color: Colors.black),
-                        )
-                      ],
-                    )),
-              ],
-            )),
 
         SizedBox(
           height: 30,
         ),
 
+        // Gráfico 3 - Bolos em Espera
         Container(
-            width: 340,
-            height: 132,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                  child: Icon(
-                    Icons.layers,
-                    size: 80.0,
-                    color: Color(0xFF015C98),
-                  ),
+          width: double.infinity,
+          height: 132,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
+                child: Icon(
+                  Icons.layers,
+                  size: 80.0,
+                  color: Color(0xFF015C98),
                 ),
-                SizedBox(
-                  width: 40,
+              ),
+              SizedBox(
+                width: 40,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 25.0, right: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      espera,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Text(
+                      "Em espera",
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    )
+                  ],
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 25.0, right: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          espera,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          "Em espera",
-                          style: TextStyle(fontSize: 18, color: Colors.black),
-                        )
-                      ],
-                    )),
-              ],
-            )),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -279,7 +337,6 @@ class ListDemandaState extends State<ListDemanda> {
     return Container(
         padding: EdgeInsets.all(7.0),
         width: 499,
-        height: 438,
         decoration: BoxDecoration(
             color: Color(0xFFFFFFFF), borderRadius: BorderRadius.circular(17)),
         child: ListView.builder(
@@ -745,22 +802,24 @@ class Search extends StatefulWidget {
 class SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 499,
-      height: 32,
-      child: TextField(
-        decoration: InputDecoration(
+    double screenWidth = MediaQuery.of(context).size.width; // Largura da tela
+
+    return Center(
+      // Centraliza a barra na tela
+      child: SizedBox(
+        width: screenWidth * 0.4,
+        height: 32,
+        child: TextField(
+          decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search,
               color: Color(0xFF015C98),
             ),
-            //Icon de pesquisa
-
             hintText: "Insira o nome de uma demanda para iniciar uma busca",
             hintStyle: TextStyle(
-                fontSize: 11,
-                color: Colors.black.withOpacity(0.5) //Opacidade do texto
-                ),
+              fontSize: 11,
+              color: Colors.black.withOpacity(0.5),
+            ),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
@@ -774,7 +833,9 @@ class SearchState extends State<Search> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 2),
               borderRadius: BorderRadius.circular(16),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -792,21 +853,19 @@ class QuadroPrioridade extends StatefulWidget {
 class QuadroPrioridadeState extends State<QuadroPrioridade> {
   Color colorQ = Color(0xFFC3206F);
 
-  //Troca a cor do quadro
+  // Troca a cor do quadro
   void prioridadeAlta() {
     setState(() {
       colorQ = Color(0xFFC3206F);
     });
   }
 
-  //Troca a cor do quadro
   void prioridadeMedia() {
     setState(() {
       colorQ = Color(0xFFFF66B0);
     });
   }
 
-  //Troca a cor do quadro
   void prioridadeBaixa() {
     setState(() {
       colorQ = Color(0xFFFFC6E1);
@@ -815,94 +874,101 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width; // Largura da tela
+    double screenHeight = MediaQuery.of(context).size.height; // Altura da tela
+    double fontSize = screenWidth *
+        0.05; // Ajusta o tamanho da fonte com base na largura da tela
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //Quadro de prioridade
-        Container(
-          width: 340,
-          height: 398,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16), color: colorQ),
+        // Quadro de prioridade flexível
+        Flexible(
+          child: Container(
+            height: screenHeight * 0.6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: colorQ,
+            ),
+          ),
         ),
 
-        SizedBox(
-          height: 15,
-        ),
+        SizedBox(height: 15),
 
+        // Botões de prioridade
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            //Botão alta prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeAlta,
-                style: ElevatedButton.styleFrom(
+            Flexible(
+              child: SizedBox(
+                width: screenWidth * 0.25,
+                height: 32,
+                child: ElevatedButton(
+                  onPressed: prioridadeAlta,
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFC3206F),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Alta',
-                  style: TextStyle(
-                    color: Colors.black,
+                    ),
+                  ),
+                  child: Text(
+                    'Alta',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
             ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão média prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeMedia,
-                style: ElevatedButton.styleFrom(
+            SizedBox(width: 10),
+            Flexible(
+              child: SizedBox(
+                width: screenWidth * 0.25,
+                height: 32,
+                child: ElevatedButton(
+                  onPressed: prioridadeMedia,
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFF66B0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Média',
-                  style: TextStyle(
-                    color: Colors.black,
+                    ),
+                  ),
+                  child: Text(
+                    'Média',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
             ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão baixa prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeBaixa,
-                style: ElevatedButton.styleFrom(
+            SizedBox(width: 10),
+            Flexible(
+              child: SizedBox(
+                width: screenWidth * 0.25,
+                height: 32,
+                child: ElevatedButton(
+                  onPressed: prioridadeBaixa,
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFFC6E1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Baixa',
-                  style: TextStyle(
-                    color: Colors.black,
+                    ),
+                  ),
+                  child: Text(
+                    'Baixa',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
