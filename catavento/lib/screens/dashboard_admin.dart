@@ -7,6 +7,7 @@ import 'dart:ui';
 import 'package:catavento/screens/components/stage_demand.dart';
 import 'package:catavento/screens/components/header.dart';
 import 'package:catavento/screens/components/showCustomDialog.dart';
+import 'package:catavento/screens/components/graph.dart';
 
 //Plano de fundo
 class DashBoardAdmin extends StatelessWidget {
@@ -180,7 +181,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -189,14 +190,14 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                     Text(
                       "Completas: $completas\nRestantes: $restantes\n",
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 15,
                         color: Colors.black,
                       ),
                     ),
                     Text(
                       "Total: $total",
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
@@ -205,7 +206,17 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [],
+                  children: [
+                    Container(
+                      width: 80, // Defina um tamanho fixo para o gráfico
+                      height: 80,
+                      child: PizzaChart(
+                        completas: 8,
+                        restantes: 2,
+                        colors: [Color(0xFF015C98), Color(0xFFE97AB1)],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -221,11 +232,11 @@ class QuadroGraficoState extends State<QuadroGrafico> {
             ),
             child: Row(
               children: [
-                Icon(Icons.cake, size: 60.0, color: Colors.pink),
+                Icon(Icons.cake, size: 60.0, color: Color(0xFFE97AB1)),
                 SizedBox(width: 16),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       fabricacao,
@@ -238,7 +249,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                     SizedBox(height: 4),
                     Text(
                       "Em fabricação",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(fontSize: 15, color: Colors.black),
                     ),
                   ],
                 ),
@@ -260,7 +271,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                 SizedBox(width: 16),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       espera,
@@ -273,7 +284,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                     SizedBox(height: 4),
                     Text(
                       "Em espera",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(fontSize: 15, color: Colors.black),
                     ),
                   ],
                 ),
