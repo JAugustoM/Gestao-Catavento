@@ -171,74 +171,61 @@ class QuadroGraficoState extends State<QuadroGrafico> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Gráfico 1 - Bolos Completos e Restantes
-        Container(
-          width: double.infinity,
-          height: 132,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Completas: $completas\nRestantes: $restantes\n",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.black,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Completas: $completas\nRestantes: $restantes\n",
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      "Total: $total",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  "Total: $total",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [],
                 ),
               ],
             ),
           ),
         ),
-
-        SizedBox(
-          height: 30,
-        ),
-
-        // Gráfico 2 - Bolos em Fabricação
-        Container(
-          width: double.infinity,
-          height: 132,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
-                child: Icon(
-                  Icons.cake,
-                  size: 60.0,
-                  color: Colors.pink,
-                ),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 25.0, right: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+        SizedBox(height: 16),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.cake, size: 60.0, color: Colors.pink),
+                SizedBox(width: 16),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       fabricacao,
@@ -248,50 +235,32 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(
-                      height: 2,
-                    ),
+                    SizedBox(height: 4),
                     Text(
                       "Em fabricação",
                       style: TextStyle(fontSize: 18, color: Colors.black),
-                    )
+                    ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-
-        SizedBox(
-          height: 30,
-        ),
-
-        // Gráfico 3 - Bolos em Espera
-        Container(
-          width: double.infinity,
-          height: 132,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                child: Icon(
-                  Icons.layers,
-                  size: 80.0,
-                  color: Color(0xFF015C98),
-                ),
-              ),
-              SizedBox(
-                width: 40,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 25.0, right: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+        SizedBox(height: 16),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.layers, size: 60.0, color: Color(0xFF015C98)),
+                SizedBox(width: 16),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       espera,
@@ -301,17 +270,15 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(
-                      height: 2,
-                    ),
+                    SizedBox(height: 4),
                     Text(
                       "Em espera",
                       style: TextStyle(fontSize: 18, color: Colors.black),
-                    )
+                    ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
