@@ -8,7 +8,8 @@ import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'components/confirmDialog.dart';
-// import 'package:image_picker/image_picker.dart';
+
+ import 'package:image_picker/image_picker.dart';
 
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
@@ -337,6 +338,7 @@ class ListDemanda extends StatefulWidget {
   }
 }
 
+
 class ListDemandaState extends State<ListDemanda> {
   late final SupabaseClient supabaseClient;
   List<Map<String, dynamic>> _demandas = [];
@@ -348,6 +350,30 @@ class ListDemandaState extends State<ListDemanda> {
     supabaseClient = Supabase.instance.client;
     _fetchDemandas();
   }
+
+
+  // Method for selecting a photo using image_picker
+  Future<void> _selecionarFoto(BuildContext context) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? imagemSelecionada = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 800,
+      maxWidth: 800,
+      imageQuality: 85,
+    );
+
+ if (imagemSelecionada != null) {
+    setState(() {
+      foto = File(imagemSelecionada.path);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Foto selecionada com sucesso!')),
+    );
+  } else {
+    print('Nenhuma foto foi selecionada.');
+  }
+}
+  
 
   Future<void> _removeDemanda(int id, int order) async {
     try {
@@ -393,14 +419,15 @@ class ListDemandaState extends State<ListDemanda> {
     }
   }
 
-  Future<void> _addDemanda(Map<String, String> demanda, File? foto) async {
-    try {
-      String fotoUrl = '';
-      if (foto != null) {
-        fotoUrl = await _uploadFoto(foto);
-      }
-      demanda['foto'] = fotoUrl;
+  
 
+
+
+  Future<void> _addDemanda(Map<String, String> demanda) async {
+    try {
+//cuidado ao mexer aqui 
+//me causou algumas dores de cabeça.. xD 
+//att. henrique
       final response =
           await supabaseClient.from('demandas').insert(demanda).select();
       if (response.isNotEmpty) {
@@ -422,15 +449,16 @@ class ListDemandaState extends State<ListDemanda> {
       );
     }
   }
-
-  Future<String> _uploadFoto(File foto) async {
+//funciona
+    Future<String> _uploadFoto(File foto) async {
     try {
       final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
       await supabaseClient.storage.from('imagens').upload(fileName, foto);
 
-      // Retorna a URL da foto armazenada
+
       final fotoUrl =
           supabaseClient.storage.from('imagens').getPublicUrl(fileName);
+          print(fotoUrl);
       return fotoUrl;
     } catch (error) {
       throw Exception('Erro ao fazer upload da foto: $error');
@@ -463,9 +491,11 @@ class ListDemandaState extends State<ListDemanda> {
                         codigo: demanda['codigo'] ?? 'Sem código',
                         descricao: demanda['descricao'] ?? 'Sem descricao',
                         id: demanda['id'],
+                        imagemUrl: demanda['imagemUrl'] ?? '', 
                         order: index,
                         callback: (id, order) => _showConfirmDialog(id, order),
                         onDemandUpdated: _fetchDemandas,
+                        
                       );
                     },
                   ),
@@ -473,8 +503,10 @@ class ListDemandaState extends State<ListDemanda> {
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
             onAddDemanda: (demanda) {
-              _addDemanda(demanda, foto);
+              _addDemanda(demanda);
             },
+            onSelecionarFoto: (context) => _selecionarFoto(context), 
+            supabaseClient: supabaseClient,
           ),
         ],
       ),
@@ -484,14 +516,48 @@ class ListDemandaState extends State<ListDemanda> {
 
 class ButtonAddDemanda extends StatelessWidget {
   final Function(Map<String, String>) onAddDemanda;
+  final Function(BuildContext) onSelecionarFoto; // Espera a função de seleção de foto
+  final SupabaseClient supabaseClient;
 
-  ButtonAddDemanda({super.key, required this.onAddDemanda});
+  ButtonAddDemanda({super.key, required this.onAddDemanda, required this.onSelecionarFoto, required this.supabaseClient});
 
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
   final TextEditingController _funcionarioController = TextEditingController();
-  // File? fotoSelecionada;
+  File? fotoSelecionada;
+
+  Future<void> _selecionarFoto(BuildContext context) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? imagemSelecionada = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 800,
+      maxWidth: 800,
+      imageQuality: 85,
+    );
+
+    if (imagemSelecionada != null) {
+      fotoSelecionada = File(imagemSelecionada.path);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Foto selecionada com sucesso!')),
+      );
+    }
+  }
+  
+    Future<String> _uploadFoto(File foto) async {
+    try {
+      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+      await supabaseClient.storage.from('imagens').upload(fileName, foto);
+
+
+      final fotoUrl =
+          supabaseClient.storage.from('imagens').getPublicUrl(fileName);
+          print(fotoUrl);
+      return fotoUrl;
+    } catch (error) {
+      throw Exception('Erro ao fazer upload da foto: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -587,13 +653,9 @@ class ButtonAddDemanda extends StatelessWidget {
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
                                       ),
                                     ),
-                                    maxLines: null,
-                                    minLines: 6,
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
@@ -617,69 +679,105 @@ class ButtonAddDemanda extends StatelessWidget {
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide:
-                                            BorderSide(color: Colors.grey),
                                       ),
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(
+                        height: 47,
+                      ),
+                      // campo de descricao
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              "Descrição",
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TextField(
+                        controller: _descricaoController,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                                            SizedBox(height: 5),
+                      // Botão para selecionar foto
                       Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Descrição",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    height: 92,
-                                    child: TextField(
-                                      controller: _descricaoController,
-                                      decoration: InputDecoration(
-                                        hintText: "Descrição da demanda",
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey),
-                                        ),
-                                      ),
-                                      maxLines: null,
-                                      minLines: 6,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _selecionarFoto(context); // Chama a função de seleção de foto
+                              },
+                              child: Text("Selecionar Foto"),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 40,
+                      ),
                       ElevatedButton(
-                        onPressed: () {
-                          final newDemanda = {
-                            'codigo': _codigoController.text,
-                            'nomeDemanda': _nomeController.text,
-                            'descricao': _descricaoController.text,
-                            'funcionario': _funcionarioController.text,
-                            'status': '0', // Status inicial
-                          };
-                          onAddDemanda(newDemanda);
-                        },
-                        child: Text("Salvar"),
+                        onPressed: () async{
+                          if (_nomeController.text.isNotEmpty &&
+                              _codigoController.text.isNotEmpty) {
+                            final demanda = {
+                              'nomeDemanda': _nomeController.text,
+                              'codigo': _codigoController.text,
+                              'descricao': _descricaoController.text,
+                              'status': "Pendente",
+                            };
+
+     
+                if (fotoSelecionada != null) {
+                  try {
+                    
+                    final fotoUrl = await _uploadFoto(fotoSelecionada!);
+                    demanda['imagemUrl'] = fotoUrl; 
+
+                    print(fotoUrl);
+
+                  } catch (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Erro ao fazer upload da foto: $error")),
+                    );
+                    
+                  }
+                }
+
+                
+                onAddDemanda(demanda);
+
+
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Por favor, preencha todos os campos")),
+                );
+              }
+            },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF015C98),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(22))),
+                        child: Text(
+                          "Cadastrar demanda",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -1254,6 +1352,7 @@ class DemandCard extends StatelessWidget {
   final String codigo;
   final String descricao;
   final int id;
+  final String imagemUrl;
   final int order;
   final CardCallback callback;
   final Function()
@@ -1267,6 +1366,7 @@ class DemandCard extends StatelessWidget {
     required this.descricao,
     required this.id,
     required this.order,
+    required this.imagemUrl, 
     required this.callback,
     required this.onDemandUpdated, // Função de atualização
   }) : super(key: key);
@@ -1289,13 +1389,15 @@ class DemandCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+
+            imagemUrl.isNotEmpty
+                ? Image.network(imagemUrl, width: 50, height: 50)
+                : Icon(Icons.image, size: 50),
             IconButton(
               icon: Icon(Icons.info),
               onPressed: () {
                 _showInfoDialog(
                     context, nomeDemanda, codigo, descricao, status);
-
-                print('Informações da demanda $nomeDemanda');
               },
             ),
             // botão de Editar
