@@ -1,7 +1,9 @@
+import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/screens/dashboard_admin.dart';
 import 'package:catavento/views/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
@@ -24,21 +26,26 @@ class LoadView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Supabase.initialize(
-          url: supabaseUrl,
-          anonKey: supabaseKey,
-          authOptions: const FlutterAuthClientOptions(
-            authFlowType: AuthFlowType.implicit,
-          )),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            return const DashBoardAdmin();
-          default:
-            return const CircularProgressIndicator();
-        }
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => DemandaBloc()..add(DemandaLoading())),
+      ],
+      child: FutureBuilder(
+        future: Supabase.initialize(
+            url: supabaseUrl,
+            anonKey: supabaseKey,
+            authOptions: const FlutterAuthClientOptions(
+              authFlowType: AuthFlowType.implicit,
+            )),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return const DashBoardAdmin();
+            default:
+              return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 }

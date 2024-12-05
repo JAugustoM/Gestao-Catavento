@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda_controller.dart';
 import 'package:catavento/typedefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:catavento/screens/components/stage_demand.dart';
 import '../services/table_import/table_import.dart';
@@ -63,6 +66,15 @@ class AddDemandPageAdmin extends StatefulWidget {
 
 //Estrutura da pagina
 class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
+  late final DemandaController demandaController;
+
+  @override
+  void initState() {
+    demandaController = DemandaController(context.read<DemandaBloc>());
+    demandaController.initialize();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -113,6 +125,12 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    demandaController.finalize();
+  }
 }
 
 //Icon Menu
@@ -157,175 +175,173 @@ class QuadroGrafico extends StatefulWidget {
 
 //Graficos
 class QuadroGraficoState extends State<QuadroGrafico> {
-  final _stream =
-      Supabase.instance.client.from('demandas').stream(primaryKey: ['id']);
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-        stream: _stream,
-        builder: (context, snapshot) {
-          var completo = 0;
-          var fabricacao = 0;
-          var espera = 0;
-          var total = 0;
-          if (snapshot.data != null) {
-            for (var demanda in snapshot.data as List<Map<String, dynamic>>) {
-              switch (demanda['status']) {
-                case '0' || 'Pendente':
-                  espera++;
-                case '1':
-                  fabricacao++;
-                case '2':
-                  completo++;
-              }
-            }
-            total = espera + fabricacao + completo;
+    return BlocBuilder<DemandaBloc, DatabaseResponse>(
+      builder: (context, response) {
+        int completo = 0;
+        int fabricacao = 0;
+        int espera = 0;
+
+        for (var data in response) {
+          switch (data['status']) {
+            case '0' || 'Pendente':
+              espera++;
+            case '1':
+              fabricacao++;
+            case '2':
+              completo++;
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //Grafico 1
-              Container(
-                  width: 340,
-                  height: 132,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 30.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Completas: $completo\n"
-                            "Restantes: ${total - completo}\n",
-                            style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.black,
-                            ),
+        }
+        int total = espera + fabricacao + completo;
+        int restantes = espera + fabricacao;
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            //Grafico 1
+            Container(
+                width: 340,
+                height: 132,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Completas: $completo\n"
+                          "Restantes: $restantes\n",
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
                           ),
-                          SizedBox(
-                            height: 2,
-                          ),
-                          Text(
-                            "Total: $total",
-                            style: TextStyle(
-                                fontSize: 18,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          "Total: $total",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        )
+                      ],
+                    ))),
+
+            SizedBox(
+              height: 20,
+            ),
+
+            Container(
+                width: 340,
+                height: 132,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
+                      child: Icon(
+                        Icons.cake,
+                        size: 80.0,
+                        color: Colors.pink,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 25.0, right: 40.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "$fabricacao",
+                              style: TextStyle(
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          )
-                        ],
-                      ))),
-
-              SizedBox(
-                height: 20,
-              ),
-
-              Container(
-                  width: 340,
-                  height: 132,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 10.0, bottom: 10.0, left: 60.0),
-                        child: Icon(
-                          Icons.cake,
-                          size: 80.0,
-                          color: Colors.pink,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 25.0, right: 40.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "$fabricacao",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+                                color: Colors.black,
                               ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                "Em fabricação",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              )
-                            ],
-                          )),
-                    ],
-                  )),
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              "Em fabricação",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                            )
+                          ],
+                        )),
+                  ],
+                )),
 
-              SizedBox(
-                height: 30,
-              ),
+            SizedBox(
+              height: 30,
+            ),
 
-              Container(
-                  width: 340,
-                  height: 132,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 10.0, bottom: 10.0, left: 60.0),
-                        child: Icon(
-                          Icons.layers,
-                          size: 80.0,
-                          color: Color(0xFF015C98),
-                        ),
+            Container(
+                width: 340,
+                height: 132,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
+                      child: Icon(
+                        Icons.layers,
+                        size: 80.0,
+                        color: Color(0xFF015C98),
                       ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 25.0, right: 20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "$espera",
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+                    ),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 25.0, right: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "$espera",
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                "Em espera",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              )
-                            ],
-                          )),
-                    ],
-                  )),
-            ],
-          );
-        });
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              "Em espera",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
+                            )
+                          ],
+                        )),
+                  ],
+                )),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -347,7 +363,6 @@ class ListDemandaState extends State<ListDemanda> {
   void initState() {
     super.initState();
     supabaseClient = Supabase.instance.client;
-    _fetchDemandas();
   }
 
   // Method for selecting a photo using image_picker
@@ -370,38 +385,6 @@ class ListDemandaState extends State<ListDemanda> {
     } else {
       print('Nenhuma foto foi selecionada.');
     }
-  }
-
-  Future<void> _removeDemanda(int id, int order) async {
-    try {
-      final response =
-          await supabaseClient.from('demandas').delete().eq('id', id).select();
-      if (response.isNotEmpty) {
-        setState(() {
-          _demandas.removeAt(order);
-        });
-      } else {
-        print('Algum erro ocorreu');
-      }
-    } catch (e) {
-      print('Erro ao buscar dados: $e');
-    }
-  }
-
-  Future<void> _showConfirmDialog(int id, int order) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ConfirmDialog(
-          title: 'Confirmar Exclusão',
-          contente: 'Tem certeza de que deseja apagar esta demanda?',
-          onConfirm: () {
-            Navigator.of(context).pop(); // Fecha o diálogo
-            _removeDemanda(id, order); // Executa a exclusão
-          },
-        );
-      },
-    );
   }
 
   Future<void> _fetchDemandas() async {
@@ -470,28 +453,28 @@ class ListDemandaState extends State<ListDemanda> {
       ),
       child: Column(
         children: [
-          Expanded(
-            child: _demandas.isEmpty
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: _demandas.length,
-                    itemBuilder: (context, index) {
-                      final demanda = _demandas[index];
-                      return DemandCard(
-                        nomeDemanda:
-                            demanda['nomeDemanda'] ?? 'Nome não disponível',
-                        status: demanda['status'] ?? 'Status não disponível',
-                        codigo: demanda['codigo'] ?? 'Sem código',
-                        descricao: demanda['descricao'] ?? 'Sem descricao',
-                        id: demanda['id'],
-                        imagemUrl: demanda['imagemUrl'] ?? '',
-                        order: index,
-                        callback: (id, order) => _showConfirmDialog(id, order),
-                        onDemandUpdated: _fetchDemandas,
-                      );
-                    },
-                  ),
-          ),
+          Expanded(child: BlocBuilder<DemandaBloc, DatabaseResponse>(
+            builder: (context, state) {
+              return ListView.builder(
+                itemCount: state.length,
+                itemBuilder: (context, index) {
+                  final demanda = state[index];
+                  return DemandCard(
+                    nomeDemanda:
+                        demanda['nomeDemanda'] ?? 'Nome não disponível',
+                    status: demanda['status'] ?? 'Status não disponível',
+                    codigo: demanda['codigo'] ?? 'Sem código',
+                    descricao: demanda['descricao'] ?? 'Sem descricao',
+                    id: demanda['id'],
+                    imagemUrl: demanda['imagemUrl'] ?? '',
+                    order: index,
+                    onDemandUpdated: _fetchDemandas,
+                    bloc: context.read<DemandaBloc>(),
+                  );
+                },
+              );
+            },
+          )),
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
             onAddDemanda: (demanda) {
@@ -521,7 +504,6 @@ class ButtonAddDemanda extends StatelessWidget {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
-  final TextEditingController _funcionarioController = TextEditingController();
   File? fotoSelecionada;
 
   Future<void> _selecionarFoto(BuildContext context) async {
@@ -1349,7 +1331,7 @@ class DemandCard extends StatelessWidget {
   final int id;
   final String imagemUrl;
   final int order;
-  final CardCallback callback;
+  final DemandaBloc bloc;
   final Function()
       onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
 
@@ -1362,8 +1344,8 @@ class DemandCard extends StatelessWidget {
     required this.id,
     required this.order,
     required this.imagemUrl,
-    required this.callback,
-    required this.onDemandUpdated, // Função de atualização
+    required this.onDemandUpdated,
+    required this.bloc, // Função de atualização
   }) : super(key: key);
 
   @override
@@ -1405,11 +1387,24 @@ class DemandCard extends StatelessWidget {
             ),
             // apagar
             IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () async {
-                await callback(id, order);
-              },
-            ),
+                icon: Icon(Icons.delete),
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ConfirmDialog(
+                        title: 'Confirmar Exclusão',
+                        contente:
+                            'Tem certeza de que deseja apagar esta demanda?',
+                        onConfirm: () {
+                          Navigator.of(context).pop(); // Fecha o diálogo
+                          bloc.add(
+                              DemandaDelete(id, order)); // Executa a exclusão
+                        },
+                      );
+                    },
+                  );
+                }),
           ],
         ),
       ),
