@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/bloc/demanda_controller.dart';
-import 'package:catavento/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -70,8 +69,8 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
 
   @override
   void initState() {
-    demandaController = DemandaController(context.read<DemandaBloc>());
-    demandaController.initialize();
+    // demandaController = DemandaController(context.read<DemandaBloc>());
+    // demandaController.initialize();
     super.initState();
   }
 
@@ -129,7 +128,7 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   @override
   void dispose() {
     super.dispose();
-    demandaController.finalize();
+    // demandaController.finalize();
   }
 }
 
@@ -177,13 +176,14 @@ class QuadroGrafico extends StatefulWidget {
 class QuadroGraficoState extends State<QuadroGrafico> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DemandaBloc, DatabaseResponse>(
+    return BlocBuilder<DemandaBloc, DemandaState>(
+      buildWhen: (previous, current) => current is! FilterState,
       builder: (context, response) {
         int completo = 0;
         int fabricacao = 0;
         int espera = 0;
 
-        for (var data in response) {
+        for (var data in response.databaseResponse) {
           switch (data['status']) {
             case '0' || 'Pendente':
               espera++;
@@ -453,12 +453,12 @@ class ListDemandaState extends State<ListDemanda> {
       ),
       child: Column(
         children: [
-          Expanded(child: BlocBuilder<DemandaBloc, DatabaseResponse>(
+          Expanded(child: BlocBuilder<DemandaBloc, DemandaState>(
             builder: (context, state) {
               return ListView.builder(
-                itemCount: state.length,
+                itemCount: state.databaseResponse.length,
                 itemBuilder: (context, index) {
-                  final demanda = state[index];
+                  final demanda = state.databaseResponse[index];
                   return DemandCard(
                     nomeDemanda:
                         demanda['nomeDemanda'] ?? 'Nome não disponível',
@@ -1007,12 +1007,14 @@ class Search extends StatefulWidget {
 }
 
 class SearchState extends State<Search> {
+  final TextEditingController _nomeDemanda = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 499,
       height: 32,
       child: TextField(
+        controller: _nomeDemanda,
         decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search,
@@ -1039,6 +1041,12 @@ class SearchState extends State<Search> {
               borderSide: BorderSide(color: Colors.white, width: 2),
               borderRadius: BorderRadius.circular(16),
             )),
+        onEditingComplete: () {
+          context.read<DemandaBloc>().add(DemandaFilter(
+                'nomeDemanda',
+                _nomeDemanda.text,
+              ));
+        },
       ),
     );
   }
