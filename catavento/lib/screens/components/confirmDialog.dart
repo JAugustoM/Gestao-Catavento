@@ -4,13 +4,13 @@ class ConfirmDialog extends StatelessWidget {
   final String title;
   final String contente;
   final VoidCallback onConfirm;
-
+  
   const ConfirmDialog ({
     required this.title,
     required this.contente,
     required this.onConfirm,
   });
-
+  
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
