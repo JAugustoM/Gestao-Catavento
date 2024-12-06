@@ -1384,7 +1384,7 @@ class DemandCard extends StatelessWidget {
                     context, nomeDemanda, codigo, descricao, status);
               },
             ),
-            // botão de Editar
+            // botão de Editar.
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
