@@ -14,6 +14,10 @@ class DeleteState extends DemandaState {
   DeleteState(super.databaseResponse);
 }
 
+class UpdateState extends DemandaState {
+  UpdateState(super.databaseResponse);
+}
+
 class LoadingState extends DemandaState {
   LoadingState(super.databaseResponse);
 }

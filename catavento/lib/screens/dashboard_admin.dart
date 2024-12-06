@@ -387,18 +387,6 @@ class ListDemandaState extends State<ListDemanda> {
     }
   }
 
-  Future<void> _fetchDemandas() async {
-    try {
-      final response = await supabaseClient.from('demandas').select();
-
-      setState(() {
-        _demandas = List<Map<String, dynamic>>.from(response as List);
-      });
-    } catch (error) {
-      print('Erro ao buscar dados: $error');
-    }
-  }
-
   Future<void> _addDemanda(Map<String, String> demanda) async {
     try {
 //cuidado ao mexer aqui
@@ -468,7 +456,6 @@ class ListDemandaState extends State<ListDemanda> {
                     id: demanda['id'],
                     imagemUrl: demanda['imagemUrl'] ?? '',
                     order: index,
-                    onDemandUpdated: _fetchDemandas,
                     bloc: context.read<DemandaBloc>(),
                   );
                 },
@@ -1340,11 +1327,9 @@ class DemandCard extends StatelessWidget {
   final String imagemUrl;
   final int order;
   final DemandaBloc bloc;
-  final Function()
-      onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
 
   const DemandCard({
-    Key? key,
+    super.key,
     required this.nomeDemanda,
     required this.codigo,
     required this.status,
@@ -1352,9 +1337,8 @@ class DemandCard extends StatelessWidget {
     required this.id,
     required this.order,
     required this.imagemUrl,
-    required this.onDemandUpdated,
     required this.bloc, // Função de atualização
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1390,7 +1374,7 @@ class DemandCard extends StatelessWidget {
               onPressed: () {
                 //  editar a demanda
                 _showEditDialog(context, _nomeController, _codigoController,
-                    _descricaoController);
+                    _descricaoController, bloc);
               },
             ),
             // apagar
@@ -1463,7 +1447,8 @@ class DemandCard extends StatelessWidget {
       BuildContext context,
       TextEditingController nomeController,
       TextEditingController codigoController,
-      TextEditingController descricaoController) {
+      TextEditingController descricaoController,
+      DemandaBloc bloc) {
     showDialog(
       context: context,
       builder: (context) {
@@ -1494,8 +1479,14 @@ class DemandCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Atualizar a demanda no Supabase
-                _updateDemanda(nomeController.text, codigoController.text,
-                    descricaoController.text);
+                bloc.add(DemandaUpdate(
+                  id,
+                  order,
+                  nomeController.text,
+                  codigoController.text,
+                  descricaoController.text,
+                ));
+                //_updateDemanda(nomeController.text, codigoController.text,descricaoController.text);
                 Navigator.pop(context); // Fechar o diálogo
               },
               child: Text("Salvar"),
@@ -1510,32 +1501,6 @@ class DemandCard extends StatelessWidget {
         );
       },
     );
-  }
-
-  // Método para atualizar os dados da demanda no Supabase
-  Future<void> _updateDemanda(
-      String nome, String codigo, String descricao) async {
-    try {
-      final response = await Supabase.instance.client
-          .from('demandas')
-          .update({
-            'nomeDemanda': nome,
-            'codigo': codigo,
-            'descricao': descricao,
-          })
-          .eq('id', id)
-          .select();
-
-      if (response.isNotEmpty) {
-        print("Demanda atualizada com sucesso");
-        // Notificar a lista para recarregar os dados
-        onDemandUpdated(); // Chama a função para atualizar a lista
-      } else {
-        print("Erro ao atualizar demanda");
-      }
-    } catch (error) {
-      print("Erro ao atualizar demanda: $error");
-    }
   }
 }
 

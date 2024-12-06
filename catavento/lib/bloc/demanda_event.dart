@@ -34,4 +34,20 @@ class DemandaDelete extends DemandaEvent {
   DemandaDelete(this.id, this.order);
 }
 
+class DemandaUpdate extends DemandaEvent {
+  final int id;
+  final int order;
+  final String nomeDemanda;
+  final String codigo;
+  final String descricao;
+
+  DemandaUpdate(
+    this.id,
+    this.order,
+    this.nomeDemanda,
+    this.codigo,
+    this.descricao,
+  );
+}
+
 class DemandaLoading extends DemandaEvent {}

@@ -21,6 +21,8 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     on<DemandaCreate>(_onCreate);
 
     on<DemandaDelete>(_onDelete);
+
+    on<DemandaUpdate>(_onUpdate);
   }
 
   void _onFilter(DemandaFilter event, Emitter<DemandaState> emit) {
@@ -101,5 +103,28 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       print('Erro ao buscar dados: $e');
     }
     emit(DeleteState(currentData));
+  }
+
+  void _onUpdate(DemandaUpdate event, Emitter<DemandaState> emit) async {
+    try {
+      final nomeDemanda = event.nomeDemanda;
+      final codigo = event.codigo;
+      final descricao = event.descricao;
+      final order = event.order;
+
+      await supabase.from('demandas').update({
+        'nomeDemanda': nomeDemanda,
+        'codigo': codigo,
+        'descricao': descricao,
+      }).eq('id', event.id);
+
+      currentData[order]['nomeDemanda'] = nomeDemanda;
+      currentData[order]['codigo'] = codigo;
+      currentData[order]['descricao'] = descricao;
+
+      emit(UpdateState(currentData));
+    } catch (e) {
+      print("Erro ao atualizar demanda: $e");
+    }
   }
 }
