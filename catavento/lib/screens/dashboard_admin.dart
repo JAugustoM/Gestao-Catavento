@@ -179,22 +179,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
     return BlocBuilder<DemandaBloc, DemandaState>(
       buildWhen: (previous, current) => current is! FilterState,
       builder: (context, response) {
-        int completo = 0;
-        int fabricacao = 0;
-        int espera = 0;
-
-        for (var data in response.databaseResponse) {
-          switch (data['status']) {
-            case '0' || 'Pendente':
-              espera++;
-            case '1':
-              fabricacao++;
-            case '2':
-              completo++;
-          }
-        }
-        int total = espera + fabricacao + completo;
-        int restantes = espera + fabricacao;
+        final metaData = response.metaData;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -215,8 +200,8 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Completas: $completo\n"
-                          "Restantes: $restantes\n",
+                          "Completas: ${metaData['completo']}\n"
+                          "Restantes: ${metaData['restantes']}\n",
                           style: TextStyle(
                             fontSize: 17,
                             color: Colors.black,
@@ -226,7 +211,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           height: 2,
                         ),
                         Text(
-                          "Total: $total",
+                          "Total: ${metaData['total']}",
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -267,7 +252,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "$fabricacao",
+                              "${metaData['fabricacao']}",
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
@@ -319,7 +304,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "$espera",
+                              "${metaData['espera']}",
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,

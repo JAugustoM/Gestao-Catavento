@@ -5,8 +5,8 @@ class Header extends StatelessWidget {
   final String title;
   final bool showHistoricoButton;
 
-  const Header({Key? key, required this.title, this.showHistoricoButton = true})
-      : super(key: key);
+  const Header(
+      {super.key, required this.title, this.showHistoricoButton = true});
 
   @override
   Widget build(BuildContext context) {

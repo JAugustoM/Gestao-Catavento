@@ -7,6 +7,7 @@ class PizzaChart extends StatelessWidget {
   final List<Color> colors;
 
   const PizzaChart({
+    super.key,
     required this.completas,
     required this.restantes,
     required this.colors,

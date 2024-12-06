@@ -13,7 +13,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
   DemandaEvent get initialState => DemandaLoading();
 
-  DemandaBloc() : super(LoadingState([])) {
+  DemandaBloc() : super(LoadingState([], {})) {
     on<DemandaFilter>(_onFilter);
 
     on<DemandaLoading>(_onLoading);
@@ -42,17 +42,23 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         }
       }
     }
+
+    final metaData = _countDemandas();
+
     if (newData.isEmpty) {
-      emit(FilterState(currentData));
+      emit(FilterState(currentData, metaData));
     } else {
-      emit(FilterState(newData));
+      emit(FilterState(newData, metaData));
     }
   }
 
   void _onLoading(DemandaLoading event, Emitter<DemandaState> emit) async {
     final response = await supabase.from('demandas').select();
     currentData = response;
-    emit(LoadingState(currentData));
+
+    final metaData = _countDemandas();
+
+    emit(LoadingState(currentData, metaData));
   }
 
   void _onCreate(DemandaCreate event, Emitter<DemandaState> emit) async {
@@ -89,7 +95,10 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     } catch (_) {
       throw Exception('Erro ao adicionar demanda');
     }
-    emit(CreateState(currentData));
+
+    final metaData = _countDemandas();
+
+    emit(CreateState(currentData, metaData));
   }
 
   void _onDelete(DemandaDelete event, Emitter<DemandaState> emit) async {
@@ -102,7 +111,10 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     } catch (e) {
       print('Erro ao buscar dados: $e');
     }
-    emit(DeleteState(currentData));
+
+    final metaData = _countDemandas();
+
+    emit(DeleteState(currentData, metaData));
   }
 
   void _onUpdate(DemandaUpdate event, Emitter<DemandaState> emit) async {
@@ -122,9 +134,41 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       currentData[order]['codigo'] = codigo;
       currentData[order]['descricao'] = descricao;
 
-      emit(UpdateState(currentData));
+      final metaData = _countDemandas();
+
+      emit(UpdateState(currentData, metaData));
     } catch (e) {
       print("Erro ao atualizar demanda: $e");
     }
+  }
+
+  Map<String, int> _countDemandas() {
+    int completo = 0;
+    int espera = 0;
+    int fabricacao = 0;
+
+    for (var data in currentData) {
+      switch (data['status']) {
+        case '0' || 'Pendente':
+          espera++;
+        case '1':
+          fabricacao++;
+        case '2':
+          completo++;
+      }
+    }
+
+    int total = espera + fabricacao + completo;
+    int restantes = espera + fabricacao;
+
+    final metaData = {
+      'completo': completo,
+      'espera': espera,
+      'fabricacao': fabricacao,
+      'total': total,
+      'restantes': restantes,
+    };
+
+    return metaData;
   }
 }
