@@ -17,15 +17,18 @@ class DemandaCreate extends DemandaEvent {
   final String descricao;
   final String status;
   final File? foto;
+  final String fotoUrl;
 
   const DemandaCreate({
     required this.nomeDemanda,
     required this.codigo,
     required this.descricao,
-    this.status = "Pendente",
+    this.status = "0",
     required this.foto,
+    required this.fotoUrl,
   });
 }
+
 
 class DemandaDelete extends DemandaEvent {
   final int id;
@@ -35,3 +38,11 @@ class DemandaDelete extends DemandaEvent {
 }
 
 class DemandaLoading extends DemandaEvent {}
+
+
+
+class DemandaUploadPhoto extends DemandaEvent {
+  final File foto;
+
+  DemandaUploadPhoto(this.foto);
+}
