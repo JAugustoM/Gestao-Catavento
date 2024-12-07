@@ -10,7 +10,8 @@ class ShowCustomDialog extends StatelessWidget {
   final String description;
 
   // Construtor para receber os parâmetros
-  ShowCustomDialog({
+  const ShowCustomDialog({
+    super.key,
     required this.name,
     required this.code,
     required this.createdAt,
@@ -40,7 +41,7 @@ class ShowCustomDialog extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Nome da demanda ${name}",
+                          "Nome da demanda $name",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -80,9 +81,7 @@ class ShowCustomDialog extends StatelessWidget {
                             text: "Código: ",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
-                            children: [
-                              TextSpan(text: "${code}")
-                            ],
+                            children: [TextSpan(text: code)],
                           ),
                         ),
                         SizedBox(height: 10),
@@ -91,9 +90,7 @@ class ShowCustomDialog extends StatelessWidget {
                             text: "Data do pedido: ",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
-                            children: [
-                              TextSpan(text: "${createdAtFormat}")
-                            ],
+                            children: [TextSpan(text: createdAtFormat)],
                           ),
                         ),
                         SizedBox(height: 10),
@@ -102,9 +99,7 @@ class ShowCustomDialog extends StatelessWidget {
                             text: "Prazo: ",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
-                            children: [
-                              TextSpan(text: "${updatedAtFormat}")
-                            ],
+                            children: [TextSpan(text: updatedAtFormat)],
                           ),
                         ),
                         SizedBox(height: 10),
@@ -113,9 +108,7 @@ class ShowCustomDialog extends StatelessWidget {
                             text: "Descrição: ",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
-                            children: [
-                              TextSpan(text: "${description}")
-                            ],
+                            children: [TextSpan(text: description)],
                           ),
                         ),
                       ],

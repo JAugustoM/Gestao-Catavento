@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:catavento/screens/components/stage_demand.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'components/confirmDialog.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -179,22 +178,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
     return BlocBuilder<DemandaBloc, DemandaState>(
       buildWhen: (previous, current) => current is! FilterState,
       builder: (context, response) {
-        int completo = 0;
-        int fabricacao = 0;
-        int espera = 0;
-
-        for (var data in response.databaseResponse) {
-          switch (data['status']) {
-            case '0' || 'Pendente':
-              espera++;
-            case '1':
-              fabricacao++;
-            case '2':
-              completo++;
-          }
-        }
-        int total = espera + fabricacao + completo;
-        int restantes = espera + fabricacao;
+        final metaData = response.metaData;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -215,8 +199,8 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Completas: $completo\n"
-                          "Restantes: $restantes\n",
+                          "Completas: ${metaData['completo']}\n"
+                          "Restantes: ${metaData['restantes']}\n",
                           style: TextStyle(
                             fontSize: 17,
                             color: Colors.black,
@@ -226,7 +210,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           height: 2,
                         ),
                         Text(
-                          "Total: $total",
+                          "Total: ${metaData['total']}",
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -267,7 +251,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "$fabricacao",
+                              "${metaData['fabricacao']}",
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
@@ -319,7 +303,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "$espera",
+                              "${metaData['espera']}",
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
@@ -355,90 +339,11 @@ class ListDemanda extends StatefulWidget {
 }
 
 class ListDemandaState extends State<ListDemanda> {
-  late final SupabaseClient supabaseClient;
-  List<Map<String, dynamic>> _demandas = [];
   File? foto;
 
   @override
   void initState() {
     super.initState();
-    supabaseClient = Supabase.instance.client;
-  }
-
-  // Method for selecting a photo using image_picker
-  Future<void> _selecionarFoto(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? imagemSelecionada = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 800,
-      maxWidth: 800,
-      imageQuality: 85,
-    );
-
-    if (imagemSelecionada != null) {
-      setState(() {
-        foto = File(imagemSelecionada.path);
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Foto selecionada com sucesso!')),
-      );
-    } else {
-      print('Nenhuma foto foi selecionada.');
-    }
-  }
-
-  Future<void> _fetchDemandas() async {
-    try {
-      final response = await supabaseClient.from('demandas').select();
-
-      setState(() {
-        _demandas = List<Map<String, dynamic>>.from(response as List);
-      });
-    } catch (error) {
-      print('Erro ao buscar dados: $error');
-    }
-  }
-
-  Future<void> _addDemanda(Map<String, String> demanda) async {
-    try {
-//cuidado ao mexer aqui
-//me causou algumas dores de cabeça.. xD
-//att. henrique
-      final response =
-          await supabaseClient.from('demandas').insert(demanda).select();
-      if (response.isNotEmpty) {
-        setState(() {
-          _demandas.add(response[0]);
-        });
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Demanda adicionada com sucesso!")),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Erro ao adicionar demanda")),
-        );
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao adicionar demanda: $error")),
-      );
-    }
-  }
-
-//funciona
-  Future<String> _uploadFoto(File foto) async {
-    try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-      await supabaseClient.storage.from('imagens').upload(fileName, foto);
-
-      final fotoUrl =
-          supabaseClient.storage.from('imagens').getPublicUrl(fileName);
-      print(fotoUrl);
-      return fotoUrl;
-    } catch (error) {
-      throw Exception('Erro ao fazer upload da foto: $error');
-    }
   }
 
   @override
@@ -468,7 +373,6 @@ class ListDemandaState extends State<ListDemanda> {
                     id: demanda['id'],
                     imagemUrl: demanda['imagemUrl'] ?? '',
                     order: index,
-                    onDemandUpdated: _fetchDemandas,
                     bloc: context.read<DemandaBloc>(),
                   );
                 },
@@ -477,11 +381,7 @@ class ListDemandaState extends State<ListDemanda> {
           )),
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
-            onAddDemanda: (demanda) {
-              _addDemanda(demanda);
-            },
-            onSelecionarFoto: (context) => _selecionarFoto(context),
-            supabaseClient: supabaseClient, onDemandUpdated: () {  },
+            bloc: context.read<DemandaBloc>(),
           ),
         ],
       ),
@@ -490,19 +390,11 @@ class ListDemandaState extends State<ListDemanda> {
 }
 
 class ButtonAddDemanda extends StatelessWidget {
-  final Function(Map<String, String>) onAddDemanda;
-  final Function(BuildContext)
-      onSelecionarFoto; // Espera a função de seleção de foto
-  final SupabaseClient supabaseClient;
-  final Function()
-      onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
-  ButtonAddDemanda(
-      {super.key,
-      required this.onAddDemanda,
-      required this.onSelecionarFoto,
-      required this.supabaseClient,
-      required this.onDemandUpdated,
-      });
+  final DemandaBloc bloc;
+  ButtonAddDemanda({
+    super.key,
+    required this.bloc,
+  });
 
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
@@ -523,20 +415,6 @@ class ButtonAddDemanda extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Foto selecionada com sucesso!')),
       );
-    }
-  }
-
-  Future<String> _uploadFoto(File foto) async {
-    try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-      await supabaseClient.storage.from('imagens').upload(fileName, foto);
-
-      final fotoUrl =
-          supabaseClient.storage.from('imagens').getPublicUrl(fileName);
-      print(fotoUrl);
-      return fotoUrl;
-    } catch (error) {
-      throw Exception('Erro ao fazer upload da foto: $error');
     }
   }
 
@@ -611,7 +489,6 @@ class ButtonAddDemanda extends StatelessWidget {
                         height: 47,
                       ),
 
-                      // Inputs de nome e código
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -703,8 +580,7 @@ class ButtonAddDemanda extends StatelessWidget {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                _selecionarFoto(
-                                    context); // Chama a função de seleção de foto
+                                _selecionarFoto(context);
                               },
                               child: Text("Selecionar Foto"),
                             ),
@@ -718,31 +594,14 @@ class ButtonAddDemanda extends StatelessWidget {
                         onPressed: () async {
                           if (_nomeController.text.isNotEmpty &&
                               _codigoController.text.isNotEmpty) {
-                            final demanda = {
-                              'nomeDemanda': _nomeController.text,
-                              'codigo': _codigoController.text,
-                              'descricao': _descricaoController.text,
-                              'status': "0",
-                            };
+                            bloc.add(DemandaCreate(
+                              nomeDemanda: _nomeController.text,
+                              codigo: _codigoController.text,
+                              descricao: _descricaoController.text,
+                              foto: fotoSelecionada,
+                            ));
 
-                            if (fotoSelecionada != null) {
-                              try {
-                                final fotoUrl =
-                                    await _uploadFoto(fotoSelecionada!);
-                                demanda['imagemUrl'] = fotoUrl;
-
-                                print(fotoUrl);
-                              } catch (error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          "Erro ao fazer upload da foto: $error")),
-                                );
-                              }
-                            }
-
-                            onAddDemanda(demanda);
-                            onDemandUpdated();
+                            Navigator.pop(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -1344,11 +1203,9 @@ class DemandCard extends StatelessWidget {
   final String imagemUrl;
   final int order;
   final DemandaBloc bloc;
-  final Function()
-      onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
 
   const DemandCard({
-    Key? key,
+    super.key,
     required this.nomeDemanda,
     required this.codigo,
     required this.status,
@@ -1356,9 +1213,8 @@ class DemandCard extends StatelessWidget {
     required this.id,
     required this.order,
     required this.imagemUrl,
-    required this.onDemandUpdated,
     required this.bloc, // Função de atualização
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1394,7 +1250,7 @@ class DemandCard extends StatelessWidget {
               onPressed: () {
                 //  editar a demanda
                 _showEditDialog(context, _nomeController, _codigoController,
-                    _descricaoController);
+                    _descricaoController, bloc);
               },
             ),
             // apagar
@@ -1410,7 +1266,6 @@ class DemandCard extends StatelessWidget {
                             'Tem certeza de que deseja apagar esta demanda?',
                         onConfirm: () {
                           Navigator.of(context).pop(); // Fecha o diálogo
-                          onDemandUpdated();
                           bloc.add(
                               DemandaDelete(id, order)); // Executa a exclusão
                         },
@@ -1468,7 +1323,8 @@ class DemandCard extends StatelessWidget {
       BuildContext context,
       TextEditingController nomeController,
       TextEditingController codigoController,
-      TextEditingController descricaoController) {
+      TextEditingController descricaoController,
+      DemandaBloc bloc) {
     showDialog(
       context: context,
       builder: (context) {
@@ -1499,8 +1355,14 @@ class DemandCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Atualizar a demanda no Supabase
-                _updateDemanda(nomeController.text, codigoController.text,
-                    descricaoController.text);
+                bloc.add(DemandaUpdate(
+                  id,
+                  order,
+                  nomeController.text,
+                  codigoController.text,
+                  descricaoController.text,
+                ));
+                //_updateDemanda(nomeController.text, codigoController.text,descricaoController.text);
                 Navigator.pop(context); // Fechar o diálogo
               },
               child: Text("Salvar"),
@@ -1515,32 +1377,6 @@ class DemandCard extends StatelessWidget {
         );
       },
     );
-  }
-
-  // Método para atualizar os dados da demanda no Supabase
-  Future<void> _updateDemanda(
-      String nome, String codigo, String descricao) async {
-    try {
-      final response = await Supabase.instance.client
-          .from('demandas')
-          .update({
-            'nomeDemanda': nome,
-            'codigo': codigo,
-            'descricao': descricao,
-          })
-          .eq('id', id)
-          .select();
-
-      if (response.isNotEmpty) {
-        print("Demanda atualizada com sucesso");
-        // Notificar a lista para recarregar os dados
-        onDemandUpdated(); // Chama a função para atualizar a lista
-      } else {
-        print("Erro ao atualizar demanda");
-      }
-    } catch (error) {
-      print("Erro ao atualizar demanda: $error");
-    }
   }
 }
 
@@ -1596,7 +1432,7 @@ void editarDemanda(BuildContext context) {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                           "Editar demanda",
+                            "Editar demanda",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

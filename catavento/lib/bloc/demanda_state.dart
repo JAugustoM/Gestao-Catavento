@@ -2,63 +2,77 @@ part of "demanda_bloc.dart";
 
 sealed class DemandaState {
   final DatabaseResponse databaseResponse;
-  final DatabaseResponse data;
+  final Map<String, int> metaData;
 
-  // Change to named parameters
-  const DemandaState({required this.databaseResponse, this.data = const []});
+  const DemandaState(this.databaseResponse, this.metaData);
 }
 
-
 class CreateState extends DemandaState {
-  CreateState(DatabaseResponse databaseResponse) : super(databaseResponse: databaseResponse);
+  CreateState(super.databaseResponse, super.metaData);
 }
 
 class DeleteState extends DemandaState {
-  DeleteState(DatabaseResponse databaseResponse) : super(databaseResponse: databaseResponse);
+  DeleteState(super.databaseResponse, super.metaData);
+}
+
+class UpdateState extends DemandaState {
+  UpdateState(super.databaseResponse, super.metaData);
 }
 
 class LoadingState extends DemandaState {
-  LoadingState(DatabaseResponse databaseResponse) : super(databaseResponse: databaseResponse);
+  LoadingState(super.databaseResponse, super.metaData);
 }
 
 class FilterState extends DemandaState {
-  FilterState(DatabaseResponse databaseResponse) : super(databaseResponse: databaseResponse);
+  FilterState(super.databaseResponse, super.metaData);
 }
-
-
 
 class PhotoSelectedState extends DemandaState {
   final File? fotoSelecionada;
 
-  // Provide a default empty response for databaseResponse if not provided
-  PhotoSelectedState(this.fotoSelecionada, {DatabaseResponse databaseResponse = const []})
-      : super(databaseResponse: databaseResponse);
+  PhotoSelectedState(
+    super.databaseResponse,
+    super.metaData,
+    this.fotoSelecionada,
+  );
 }
 
 class PhotoUploadedState extends DemandaState {
   final String fotoUrl;
-  
-  PhotoUploadedState(this.fotoUrl, {DatabaseResponse databaseResponse = const []}) 
-      : super(databaseResponse:databaseResponse); // Pass databaseResponse to super constructor
+
+  PhotoUploadedState(
+    super.databaseResponse,
+    super.metaData,
+    this.fotoUrl,
+  );
 }
 
 class PhotoSelectionErrorState extends DemandaState {
   final String message;
-  
-  PhotoSelectionErrorState(this.message, {DatabaseResponse databaseResponse = const []})
-      : super(databaseResponse: databaseResponse); // Pass databaseResponse to super constructor
+
+  PhotoSelectionErrorState(
+    super.databaseResponse,
+    super.metaData,
+    this.message,
+  );
 }
 
 class PhotoUploadErrorState extends DemandaState {
   final String error;
-  
-  PhotoUploadErrorState(this.error, {DatabaseResponse databaseResponse = const []})
-      : super(databaseResponse: databaseResponse);
+
+  PhotoUploadErrorState(
+    super.databaseResponse,
+    super.metaData,
+    this.error,
+  );
 }
 
 class PhotoUploadSuccessState extends DemandaState {
-  final String publicUrl; // This will hold the URL of the uploaded image
+  final String publicUrl;
 
-  PhotoUploadSuccessState(this.publicUrl, {DatabaseResponse
-  databaseResponse = const[]}):super(databaseResponse: databaseResponse);
+  PhotoUploadSuccessState(
+    super.databaseResponse,
+    super.metaData,
+    this.publicUrl,
+  );
 }
