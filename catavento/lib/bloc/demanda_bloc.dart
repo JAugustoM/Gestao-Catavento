@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:catavento/typedefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'demanda_event.dart';
@@ -26,45 +26,31 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     on<DemandaUpdate>(_onUpdate);
 
-    on<DemandaSelectPhoto>(_onSelectPhoto);
-
-    on<DemandaUploadPhoto>(_onUploadPhoto);
+    // on<DemandaUploadPhoto>(_onUploadPhoto);
   }
 
-  void _onSelectPhoto(
-      DemandaSelectPhoto event, Emitter<DemandaState> emit) async {
-    final picker = ImagePicker();
-    final XFile? imagemSelecionada = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 800,
-      maxWidth: 800,
-      imageQuality: 85,
-    );
+  // void _onUploadPhoto(
+  //     DemandaUploadPhoto event, Emitter<DemandaState> emit) async {
+  //   try {
+  //     final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
 
-    if (imagemSelecionada != null) {
-      final File fotoSelecionada = File(imagemSelecionada.path);
-      emit(PhotoSelectedState(
-          fotoSelecionada)); // No need to pass databaseResponse anymore
-    } else {
-      emit(PhotoSelectionErrorState("Nenhuma foto selecionada"));
-    }
-  }
+  //     await supabase.storage.from('imagens').upload(fileName, event.foto);
 
-  void _onUploadPhoto(
-      DemandaUploadPhoto event, Emitter<DemandaState> emit) async {
-    try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+  //     final fotoUrl = supabase.storage.from('imagens').getPublicUrl(fileName);
 
-      final uploadResponse =
-          await supabase.storage.from('imagens').upload(fileName, event.foto);
-
-      final fotoUrl = supabase.storage.from('imagens').getPublicUrl(fileName);
-
-      emit(PhotoUploadedState(fotoUrl)); // Emit uploaded photo URL state
-    } catch (error) {
-      emit(PhotoUploadErrorState("Erro ao fazer upload da foto: $error"));
-    }
-  }
+  //     emit(PhotoUploadedState(
+  //       currentData,
+  //       {},
+  //       fotoUrl,
+  //     ));
+  //   } catch (error) {
+  //     emit(PhotoUploadErrorState(
+  //       currentData,
+  //       {},
+  //       "Erro ao fazer upload da foto: $error",
+  //     ));
+  //   }
+  // }
 
   void _onFilter(DemandaFilter event, Emitter<DemandaState> emit) {
     final column = event.column;
@@ -104,6 +90,15 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
   void _onCreate(DemandaCreate event, Emitter<DemandaState> emit) async {
     String? fotoUrl;
+    if (event.foto != null) {
+      try {
+        final filename = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+        await supabase.storage.from('imagens').upload(filename, event.foto!);
+        fotoUrl = supabase.storage.from('imagens').getPublicUrl(filename);
+      } catch (error) {
+        throw Exception('Erro ao fazer upload da foto: $error');
+      }
+    }
 
     final demanda = {
       'nomeDemanda': event.nomeDemanda,

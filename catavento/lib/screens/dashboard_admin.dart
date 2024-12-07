@@ -350,69 +350,32 @@ class ListDemandaState extends State<ListDemanda> {
     supabaseClient = Supabase.instance.client;
   }
 
-  // Method for selecting a photo using image_picker
-  Future<void> _selecionarFoto(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? imagemSelecionada = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 800,
-      maxWidth: 800,
-      imageQuality: 85,
-    );
-
-    if (imagemSelecionada != null) {
-      setState(() {
-        foto = File(imagemSelecionada.path);
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Foto selecionada com sucesso!')),
-      );
-    } else {
-      print('Nenhuma foto foi selecionada.');
-    }
-  }
-
-  Future<void> _addDemanda(Map<String, String> demanda) async {
-    try {
-//cuidado ao mexer aqui
-//me causou algumas dores de cabeça.. xD
-//att. henrique
-      final response =
-          await supabaseClient.from('demandas').insert(demanda).select();
-      if (response.isNotEmpty) {
-        setState(() {
-          _demandas.add(response[0]);
-        });
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Demanda adicionada com sucesso!")),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Erro ao adicionar demanda")),
-        );
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao adicionar demanda: $error")),
-      );
-    }
-  }
-
-//funciona
-  Future<String> _uploadFoto(File foto) async {
-    try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-      await supabaseClient.storage.from('imagens').upload(fileName, foto);
-
-      final fotoUrl =
-          supabaseClient.storage.from('imagens').getPublicUrl(fileName);
-      print(fotoUrl);
-      return fotoUrl;
-    } catch (error) {
-      throw Exception('Erro ao fazer upload da foto: $error');
-    }
-  }
+//   Future<void> _addDemanda(Map<String, String> demanda) async {
+//     try {
+// //cuidado ao mexer aqui
+// //me causou algumas dores de cabeça.. xD
+// //att. henrique
+//       final response =
+//           await supabaseClient.from('demandas').insert(demanda).select();
+//       if (response.isNotEmpty) {
+//         setState(() {
+//           _demandas.add(response[0]);
+//         });
+//         Navigator.pop(context);
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text("Demanda adicionada com sucesso!")),
+//         );
+//       } else {
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text("Erro ao adicionar demanda")),
+//         );
+//       }
+//     } catch (error) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text("Erro ao adicionar demanda: $error")),
+//       );
+//     }
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -449,11 +412,8 @@ class ListDemandaState extends State<ListDemanda> {
           )),
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
-            onAddDemanda: (demanda) {
-              _addDemanda(demanda);
-            },
-            onSelecionarFoto: (context) => _selecionarFoto(context),
-            supabaseClient: supabaseClient, onDemandUpdated: () {  },
+            supabaseClient: supabaseClient,
+            bloc: context.read<DemandaBloc>(),
           ),
         ],
       ),
@@ -462,19 +422,13 @@ class ListDemandaState extends State<ListDemanda> {
 }
 
 class ButtonAddDemanda extends StatelessWidget {
-  final Function(Map<String, String>) onAddDemanda;
-  final Function(BuildContext)
-      onSelecionarFoto; // Espera a função de seleção de foto
   final SupabaseClient supabaseClient;
-  final Function()
-      onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
-  ButtonAddDemanda(
-      {super.key,
-      required this.onAddDemanda,
-      required this.onSelecionarFoto,
-      required this.supabaseClient,
-      required this.onDemandUpdated,
-      });
+  final DemandaBloc bloc;
+  ButtonAddDemanda({
+    super.key,
+    required this.supabaseClient,
+    required this.bloc,
+  });
 
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
@@ -498,19 +452,19 @@ class ButtonAddDemanda extends StatelessWidget {
     }
   }
 
-  Future<String> _uploadFoto(File foto) async {
-    try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-      await supabaseClient.storage.from('imagens').upload(fileName, foto);
+  // Future<String> _uploadFoto(File foto) async {
+  //   try {
+  //     final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+  //     await supabaseClient.storage.from('imagens').upload(fileName, foto);
 
-      final fotoUrl =
-          supabaseClient.storage.from('imagens').getPublicUrl(fileName);
-      print(fotoUrl);
-      return fotoUrl;
-    } catch (error) {
-      throw Exception('Erro ao fazer upload da foto: $error');
-    }
-  }
+  //     final fotoUrl =
+  //         supabaseClient.storage.from('imagens').getPublicUrl(fileName);
+  //     print(fotoUrl);
+  //     return fotoUrl;
+  //   } catch (error) {
+  //     throw Exception('Erro ao fazer upload da foto: $error');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -583,7 +537,6 @@ class ButtonAddDemanda extends StatelessWidget {
                         height: 47,
                       ),
 
-                      // Inputs de nome e código
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -675,8 +628,7 @@ class ButtonAddDemanda extends StatelessWidget {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                _selecionarFoto(
-                                    context); // Chama a função de seleção de foto
+                                _selecionarFoto(context);
                               },
                               child: Text("Selecionar Foto"),
                             ),
@@ -697,24 +649,14 @@ class ButtonAddDemanda extends StatelessWidget {
                               'status': "0",
                             };
 
-                            if (fotoSelecionada != null) {
-                              try {
-                                final fotoUrl =
-                                    await _uploadFoto(fotoSelecionada!);
-                                demanda['imagemUrl'] = fotoUrl;
+                            bloc.add(DemandaCreate(
+                              nomeDemanda: _nomeController.text,
+                              codigo: _codigoController.text,
+                              descricao: _descricaoController.text,
+                              foto: fotoSelecionada,
+                            ));
 
-                                print(fotoUrl);
-                              } catch (error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          "Erro ao fazer upload da foto: $error")),
-                                );
-                              }
-                            }
-
-                            onAddDemanda(demanda);
-                            onDemandUpdated();
+                            Navigator.pop(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -1379,7 +1321,6 @@ class DemandCard extends StatelessWidget {
                             'Tem certeza de que deseja apagar esta demanda?',
                         onConfirm: () {
                           Navigator.of(context).pop(); // Fecha o diálogo
-                          onDemandUpdated();
                           bloc.add(
                               DemandaDelete(id, order)); // Executa a exclusão
                         },
@@ -1546,7 +1487,7 @@ void editarDemanda(BuildContext context) {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                           "Editar demanda",
+                            "Editar demanda",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
