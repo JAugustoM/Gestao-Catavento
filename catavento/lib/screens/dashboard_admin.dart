@@ -453,7 +453,7 @@ class ListDemandaState extends State<ListDemanda> {
               _addDemanda(demanda);
             },
             onSelecionarFoto: (context) => _selecionarFoto(context),
-            supabaseClient: supabaseClient,
+            supabaseClient: supabaseClient, onDemandUpdated: () {  },
           ),
         ],
       ),
@@ -466,12 +466,15 @@ class ButtonAddDemanda extends StatelessWidget {
   final Function(BuildContext)
       onSelecionarFoto; // Espera a função de seleção de foto
   final SupabaseClient supabaseClient;
-
+  final Function()
+      onDemandUpdated; // Função para notificar a lista que a demanda foi atualizada
   ButtonAddDemanda(
       {super.key,
       required this.onAddDemanda,
       required this.onSelecionarFoto,
-      required this.supabaseClient});
+      required this.supabaseClient,
+      required this.onDemandUpdated,
+      });
 
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
@@ -691,7 +694,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               'nomeDemanda': _nomeController.text,
                               'codigo': _codigoController.text,
                               'descricao': _descricaoController.text,
-                              'status': "Pendente",
+                              'status': "0",
                             };
 
                             if (fotoSelecionada != null) {
@@ -711,6 +714,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             }
 
                             onAddDemanda(demanda);
+                            onDemandUpdated();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -1353,7 +1357,7 @@ class DemandCard extends StatelessWidget {
                     context, nomeDemanda, codigo, descricao, status);
               },
             ),
-            // botão de Editar
+            // botão de Editar.
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
@@ -1375,6 +1379,7 @@ class DemandCard extends StatelessWidget {
                             'Tem certeza de que deseja apagar esta demanda?',
                         onConfirm: () {
                           Navigator.of(context).pop(); // Fecha o diálogo
+                          onDemandUpdated();
                           bloc.add(
                               DemandaDelete(id, order)); // Executa a exclusão
                         },
@@ -1541,7 +1546,7 @@ void editarDemanda(BuildContext context) {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "Editar demanda",
+                           "Editar demanda",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

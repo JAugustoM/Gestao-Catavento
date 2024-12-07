@@ -26,3 +26,53 @@ class LoadingState extends DemandaState {
 class FilterState extends DemandaState {
   FilterState(super.databaseResponse, super.metaData);
 }
+
+class PhotoSelectedState extends DemandaState {
+  final File? fotoSelecionada;
+
+  PhotoSelectedState(
+    super.databaseResponse,
+    super.metaData,
+    this.fotoSelecionada,
+  );
+}
+
+class PhotoUploadedState extends DemandaState {
+  final String fotoUrl;
+
+  PhotoUploadedState(
+    super.databaseResponse,
+    super.metaData,
+    this.fotoUrl,
+  );
+}
+
+class PhotoSelectionErrorState extends DemandaState {
+  final String message;
+
+  PhotoSelectionErrorState(
+    super.databaseResponse,
+    super.metaData,
+    this.message,
+  );
+}
+
+class PhotoUploadErrorState extends DemandaState {
+  final String error;
+
+  PhotoUploadErrorState(
+    super.databaseResponse,
+    super.metaData,
+    this.error,
+  );
+}
+
+class PhotoUploadSuccessState extends DemandaState {
+  final String publicUrl;
+
+  PhotoUploadSuccessState(
+    super.databaseResponse,
+    super.metaData,
+    this.publicUrl,
+  );
+}
