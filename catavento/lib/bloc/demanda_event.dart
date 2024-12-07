@@ -51,9 +51,3 @@ class DemandaUpdate extends DemandaEvent {
 }
 
 class DemandaLoading extends DemandaEvent {}
-
-// class DemandaUploadPhoto extends DemandaEvent {
-//   final File foto;
-
-//   DemandaUploadPhoto(this.foto);
-// }

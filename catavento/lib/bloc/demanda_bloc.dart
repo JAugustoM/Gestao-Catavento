@@ -25,32 +25,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     on<DemandaDelete>(_onDelete);
 
     on<DemandaUpdate>(_onUpdate);
-
-    // on<DemandaUploadPhoto>(_onUploadPhoto);
   }
-
-  // void _onUploadPhoto(
-  //     DemandaUploadPhoto event, Emitter<DemandaState> emit) async {
-  //   try {
-  //     final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-
-  //     await supabase.storage.from('imagens').upload(fileName, event.foto);
-
-  //     final fotoUrl = supabase.storage.from('imagens').getPublicUrl(fileName);
-
-  //     emit(PhotoUploadedState(
-  //       currentData,
-  //       {},
-  //       fotoUrl,
-  //     ));
-  //   } catch (error) {
-  //     emit(PhotoUploadErrorState(
-  //       currentData,
-  //       {},
-  //       "Erro ao fazer upload da foto: $error",
-  //     ));
-  //   }
-  // }
 
   void _onFilter(DemandaFilter event, Emitter<DemandaState> emit) {
     final column = event.column;

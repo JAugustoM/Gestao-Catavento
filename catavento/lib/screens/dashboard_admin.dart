@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:catavento/screens/components/stage_demand.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'components/confirmDialog.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -340,42 +339,12 @@ class ListDemanda extends StatefulWidget {
 }
 
 class ListDemandaState extends State<ListDemanda> {
-  late final SupabaseClient supabaseClient;
-  List<Map<String, dynamic>> _demandas = [];
   File? foto;
 
   @override
   void initState() {
     super.initState();
-    supabaseClient = Supabase.instance.client;
   }
-
-//   Future<void> _addDemanda(Map<String, String> demanda) async {
-//     try {
-// //cuidado ao mexer aqui
-// //me causou algumas dores de cabeça.. xD
-// //att. henrique
-//       final response =
-//           await supabaseClient.from('demandas').insert(demanda).select();
-//       if (response.isNotEmpty) {
-//         setState(() {
-//           _demandas.add(response[0]);
-//         });
-//         Navigator.pop(context);
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(content: Text("Demanda adicionada com sucesso!")),
-//         );
-//       } else {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(content: Text("Erro ao adicionar demanda")),
-//         );
-//       }
-//     } catch (error) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text("Erro ao adicionar demanda: $error")),
-//       );
-//     }
-//   }
 
   @override
   Widget build(BuildContext context) {
@@ -412,7 +381,6 @@ class ListDemandaState extends State<ListDemanda> {
           )),
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
-            supabaseClient: supabaseClient,
             bloc: context.read<DemandaBloc>(),
           ),
         ],
@@ -422,11 +390,9 @@ class ListDemandaState extends State<ListDemanda> {
 }
 
 class ButtonAddDemanda extends StatelessWidget {
-  final SupabaseClient supabaseClient;
   final DemandaBloc bloc;
   ButtonAddDemanda({
     super.key,
-    required this.supabaseClient,
     required this.bloc,
   });
 
@@ -451,20 +417,6 @@ class ButtonAddDemanda extends StatelessWidget {
       );
     }
   }
-
-  // Future<String> _uploadFoto(File foto) async {
-  //   try {
-  //     final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-  //     await supabaseClient.storage.from('imagens').upload(fileName, foto);
-
-  //     final fotoUrl =
-  //         supabaseClient.storage.from('imagens').getPublicUrl(fileName);
-  //     print(fotoUrl);
-  //     return fotoUrl;
-  //   } catch (error) {
-  //     throw Exception('Erro ao fazer upload da foto: $error');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -642,13 +594,6 @@ class ButtonAddDemanda extends StatelessWidget {
                         onPressed: () async {
                           if (_nomeController.text.isNotEmpty &&
                               _codigoController.text.isNotEmpty) {
-                            final demanda = {
-                              'nomeDemanda': _nomeController.text,
-                              'codigo': _codigoController.text,
-                              'descricao': _descricaoController.text,
-                              'status': "0",
-                            };
-
                             bloc.add(DemandaCreate(
                               nomeDemanda: _nomeController.text,
                               codigo: _codigoController.text,
