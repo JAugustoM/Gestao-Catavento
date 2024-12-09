@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'components/input_purple.dart';
 class Login extends StatelessWidget {
   const Login({super.key});
 
@@ -39,7 +38,9 @@ class Login extends StatelessWidget {
               child: Column(
                 children: [
                   // Outros widgets aqui
-
+                  SizedBox(height: 100,),
+                  PurpleTextField(label: "Digite o nome do seu usuário", icon: Icon( Icons.person_outline , color: Color(0xCCACACAC),),),
+                  PurpleTextField(label: "Digite o nome do seu usuário", icon: Icon( Icons.person_outline , color: Color(0xCCACACAC),),),
                 ],
               ),
             ),
