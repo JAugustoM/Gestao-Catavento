@@ -9,6 +9,10 @@
 | 0.5 | 25/11/2024 | Continuação da composição da tabela de backlog e escrita dos cenários | Henrique Bernardes | 
 | 0.6 | 25/11/2024 | Escrita da matriz de comunicação  | Maria Eduarda Quaresma e Danielle Soares  | 
 | 0.7 | 27/11/2024 | Escrita do gerenciamento de riscos | Mariana Pereira |
+| 0.8 | 29/11/2024 | Detalhamento nos tópicos de “planejamento de fases e/ou iterações do projeto,” “cenários” e “tabela do backlog”. | Henrique Bernardes |
+| 0.9 | 02/12/2024 | Escrita final dos tópicos “matriz de comunicação”, “gerenciamento de riscos” e “critérios de replanejamento”. | Maria Eduarda e  Mariana Pereira |
+| 1.0 | 02/12/2024 | Revisão final para entrega | Henrique Bernardes |
+| 1.1 | 06/12/2024 | Adaptação do backlog das sprints 2, 3 e 4 de acordo com as demandas relacionadas a refatoração do código de acordo com a arquitetura | Henrique Bernardes |
 
 ## 1 VISÃO GERAL DO PRODUTO
 
@@ -194,7 +198,7 @@ O backlog do produto foi elaborado como uma forma de organizar e priorizar os re
 | 4 | 2 | CRUD Funcionário | Funcional | Must | Funções de criar, editar, deletar e visualizar funcionários | Como gerente de departamento, quero poder adicionar, editar, remover ou visualizar uma conta do tipo funcionário. |
 | 5 | 2 | Página de gerenciamento de funcionários | Funcional | Must | Uma página que permite os gerentes de departamento gerenciarem os funcionários, como editar, remover ou detalhar informações sobre cada um. | Como gerente de departamento, quero poder gerenciar os funcionários por meio de uma página. |
 | 6 | 2 | Sistema de autenticação | Funcional | Must | Um sistema que verifique as credenciais entradas e permita ou não o acesso respectivo ao gerente de departamento ou funcionário. | Como gerente de departamento, quero que somente os usuários cadastrados possam ter acesso ao sistema. |
-| 7 | 2 | Página de login | Funcional | Must | Uma tela com os inputs de usuário e senha que verifique a validade dos dados de acordo com o sistema de autenticação. | Como usuário, quero conseguir entrar no sistema por meio de uma simples tela de login. |
+| 7 | 3 | Página de login | Funcional | Must | Uma tela com os inputs de usuário e senha que verifique a validade dos dados de acordo com o sistema de autenticação. | Como usuário, quero conseguir entrar no sistema por meio de uma simples tela de login. |
 | 8 | 3 | Página de desempenho de funcionário | Funcional | Should | Uma página que mostra o desempenho de um funcionário para o administrador | Como gerente de departamento, quero poder ver o desempenho de um funcionário específico. |
 | 9 | 3 | Página de demandas para funcionário | Funcional | Must | Uma página que mostre a demanda atual disponível para trabalhar. | Como funcionário, quero poder iniciar uma demanda por meio de uma página que mostre os detalhes do bolo como o código, uma foto, a descrição e o nome. |
 | 10 | 3 | Menu de navegação | Funcional | Must | Um menu lateral de navegação que permite visitar outras páginas do sistema. | Como funcionário/ gerente de departamento, quero poder navegar pelo aplicativo por meio de um menu lateral de navegação. |
