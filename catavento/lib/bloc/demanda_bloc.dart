@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:catavento/typedefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'demanda_event.dart';
@@ -75,15 +75,17 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       }
     }
 
+    final dataAdicao = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
     final demanda = {
-      'nomeDemanda': event.nomeDemanda,
-      'codigo': event.codigo,
+      'nome_demanda': event.nomeDemanda,
       'descricao': event.descricao,
       'status': event.status,
+      'data_adicao': dataAdicao,
     };
 
     if (fotoUrl != null) {
-      demanda['imagemUrl'] = fotoUrl;
+      demanda['image_url'] = fotoUrl;
     }
 
     try {
@@ -121,18 +123,15 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   void _onUpdate(DemandaUpdate event, Emitter<DemandaState> emit) async {
     try {
       final nomeDemanda = event.nomeDemanda;
-      final codigo = event.codigo;
       final descricao = event.descricao;
       final order = event.order;
 
       await supabase.from('demandas').update({
-        'nomeDemanda': nomeDemanda,
-        'codigo': codigo,
+        'nome_demanda': nomeDemanda,
         'descricao': descricao,
       }).eq('id', event.id);
 
-      currentData[order]['nomeDemanda'] = nomeDemanda;
-      currentData[order]['codigo'] = codigo;
+      currentData[order]['nome_demanda'] = nomeDemanda;
       currentData[order]['descricao'] = descricao;
 
       final metaData = _countDemandas();
@@ -152,9 +151,9 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       switch (data['status']) {
         case '0' || 'Pendente':
           espera++;
-        case '1':
+        case '1' || 'Em fabricação':
           fabricacao++;
-        case '2':
+        case '2' || 'Finalizado':
           completo++;
       }
     }
