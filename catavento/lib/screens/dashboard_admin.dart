@@ -588,7 +588,7 @@ class ButtonAddDemanda extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 10,
                       ),
                       ElevatedButton(
                         onPressed: () async {
