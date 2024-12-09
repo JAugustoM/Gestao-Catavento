@@ -82,16 +82,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       'status': event.status,
     };
 
-    if (event.foto != null) {
-      try {
-        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        await supabase.storage.from('imagens').upload(fileName, event.foto!);
-        fotoUrl = supabase.storage.from('imagens').getPublicUrl(fileName);
-      } catch (_) {
-        throw Exception('Erro ao fazer upload da foto');
-      }
-    }
-
     if (fotoUrl != null) {
       demanda['imagemUrl'] = fotoUrl;
     }
