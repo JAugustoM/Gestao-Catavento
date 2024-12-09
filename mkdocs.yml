@@ -1,7 +1,7 @@
 site_name: Documentação
 
 nav:
-  - Instruções mkdocs: "index.md"
+  - Apresentação do Projeto: "index.md"
   - Documento de Visão: "documento-visao/documento-visao.md"
   - Documento de Requisitos: "documento-requisitos/documento-requisitos.md"
   - Documento de Arquitetura: "documento-arquitetura/documento-arquitetura.md"
