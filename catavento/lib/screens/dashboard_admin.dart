@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:catavento/bloc/demanda_bloc.dart';
-import 'package:catavento/bloc/demanda_controller.dart';
+import 'package:catavento/bloc/demanda_bloc.dart'; // BACKEND
+import 'package:catavento/bloc/demanda_controller.dart'; // BACKEND
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; // BACKEND
 import 'package:intl/intl.dart';
 import 'package:catavento/screens/components/stage_demand.dart';
 import 'package:catavento/screens/components/menu.dart';
@@ -222,6 +222,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DemandaBloc, DemandaState>(
+      // BACKEND (Fazer mudanças dentro do return Column() OK)
       buildWhen: (previous, current) => current is! FilterState,
       builder: (context, response) {
         final metaData = response.metaData;
@@ -405,6 +406,7 @@ class ListDemandaState extends State<ListDemanda> {
       child: Column(
         children: [
           Expanded(child: BlocBuilder<DemandaBloc, DemandaState>(
+            // BACKEND (fazer mudanças dentro do listview.builder OK)
             builder: (context, state) {
               return ListView.builder(
                 itemCount: state.databaseResponse.length,
@@ -419,7 +421,7 @@ class ListDemandaState extends State<ListDemanda> {
                     id: demanda['id'],
                     imagemUrl: demanda['imagemUrl'] ?? '',
                     order: index,
-                    bloc: context.read<DemandaBloc>(),
+                    bloc: context.read<DemandaBloc>(), // BACKEND
                   );
                 },
               );
@@ -427,7 +429,7 @@ class ListDemandaState extends State<ListDemanda> {
           )),
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
-            bloc: context.read<DemandaBloc>(),
+            bloc: context.read<DemandaBloc>(), // BACKEND
           ),
         ],
       ),
@@ -436,10 +438,10 @@ class ListDemandaState extends State<ListDemanda> {
 }
 
 class ButtonAddDemanda extends StatelessWidget {
-  final DemandaBloc bloc;
+  final DemandaBloc bloc; // BACKEND
   ButtonAddDemanda({
     super.key,
-    required this.bloc,
+    required this.bloc, // BACKEND
   });
 
   final TextEditingController _nomeController = TextEditingController();
@@ -645,7 +647,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               codigo: _codigoController.text,
                               descricao: _descricaoController.text,
                               foto: fotoSelecionada,
-                            ));
+                            )); // BACKEND
 
                             Navigator.pop(context);
                           } else {
@@ -952,9 +954,10 @@ class SearchState extends State<Search> {
             )),
         onEditingComplete: () {
           context.read<DemandaBloc>().add(DemandaFilter(
+                // BACKEND
                 'nomeDemanda',
                 _nomeDemanda.text,
-              ));
+              )); // BACKEND
         },
       ),
     );
@@ -1248,7 +1251,7 @@ class DemandCard extends StatelessWidget {
   final int id;
   final String imagemUrl;
   final int order;
-  final DemandaBloc bloc;
+  final DemandaBloc bloc; // BACKEND
 
   const DemandCard({
     super.key,
@@ -1259,7 +1262,7 @@ class DemandCard extends StatelessWidget {
     required this.id,
     required this.order,
     required this.imagemUrl,
-    required this.bloc, // Função de atualização
+    required this.bloc, // BACKEND
   });
 
   @override
@@ -1295,8 +1298,12 @@ class DemandCard extends StatelessWidget {
               icon: Icon(Icons.edit),
               onPressed: () {
                 //  editar a demanda
-                _showEditDialog(context, _nomeController, _codigoController,
-                    _descricaoController, bloc);
+                _showEditDialog(
+                    context,
+                    _nomeController,
+                    _codigoController,
+                    _descricaoController,
+                    bloc); // BACKEND (não retirar o bloc, o resto OK)
               },
             ),
             // apagar
@@ -1312,8 +1319,7 @@ class DemandCard extends StatelessWidget {
                             'Tem certeza de que deseja apagar esta demanda?',
                         onConfirm: () {
                           Navigator.of(context).pop(); // Fecha o diálogo
-                          bloc.add(
-                              DemandaDelete(id, order)); // Executa a exclusão
+                          bloc.add(DemandaDelete(id, order)); // BACKEND
                         },
                       );
                     },
@@ -1370,7 +1376,8 @@ class DemandCard extends StatelessWidget {
       TextEditingController nomeController,
       TextEditingController codigoController,
       TextEditingController descricaoController,
-      DemandaBloc bloc) {
+      DemandaBloc bloc) // BACKEND
+  {
     showDialog(
       context: context,
       builder: (context) {
@@ -1407,7 +1414,7 @@ class DemandCard extends StatelessWidget {
                   nomeController.text,
                   codigoController.text,
                   descricaoController.text,
-                ));
+                )); // BACKEND
                 //_updateDemanda(nomeController.text, codigoController.text,descricaoController.text);
                 Navigator.pop(context); // Fechar o diálogo
               },
