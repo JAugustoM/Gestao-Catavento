@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// esse componente nao esta sendo utilizado
 class ReducedDemandCard extends StatelessWidget {
   final String demanda;
 

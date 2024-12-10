@@ -5,7 +5,7 @@ import 'package:catavento/bloc/demanda_controller.dart'; // BACKEND
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // BACKEND
 import 'package:intl/intl.dart';
-import 'package:catavento/screens/components/stage_demand.dart';
+
 import 'package:catavento/screens/components/menu.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
@@ -636,7 +636,7 @@ class ButtonAddDemanda extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 10,
                       ),
                       ElevatedButton(
                         onPressed: () async {
@@ -1092,157 +1092,7 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
   }
 }
 
-// Dialog
-void _showCustomDialog(
-    BuildContext context,
-    String name,
-    String code,
-    DateTime createdAt,
-    DateTime updatedAt,
-    String description,
-    String imageCake) {
-  String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt);
-  String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt);
-
-  showGeneralDialog(
-    context: context,
-    pageBuilder: (context, animation1, animation2) {
-      return Container();
-    },
-    transitionBuilder: (context, a1, a2, widget) {
-      return ScaleTransition(
-        scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-        child: AlertDialog(
-          backgroundColor: Color(0xFFD1EEFF),
-          content: SizedBox(
-              width: 560,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 41),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                              child: Align(
-                            //Aqui ficará o nome da demanda ou qual demanda será
-                            alignment: Alignment.center,
-                            child: Text("Nome da demanda ${name}",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          )),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                size: 25,
-                              ))
-                        ],
-                      ),
-                      SizedBox(height: 31),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 186,
-                            height: 202,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                    image: AssetImage(imageCake))),
-                          ),
-                          SizedBox(width: 30),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Código: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [TextSpan(text: "${code}")])),
-                              SizedBox(height: 10),
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Data do pedido: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${createdAtFormat}")
-                                  ])),
-                              SizedBox(height: 10),
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Prazo: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${updatedAtFormat}")
-                                  ])),
-                              SizedBox(height: 10),
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Descrição: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${description}")
-                                  ])),
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        "Acompanhamento da produção",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Status: Em andamento",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      StageDemand(status: "finished"),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      StageDemand(status: "InProgress"),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      StageDemand(status: "Erro"),
-                    ],
-                  ),
-                ),
-              )),
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16.0),
-              borderSide: BorderSide.none),
-        ),
-      );
-    },
-  );
-}
-
+//isso ja esta em um arquivo
 class DemandCard extends StatelessWidget {
   final String nomeDemanda;
   final String status;
