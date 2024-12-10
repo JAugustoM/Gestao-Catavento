@@ -1,12 +1,15 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+
 
 import 'package:catavento/bloc/demanda_bloc.dart'; // BACKEND
 import 'package:catavento/bloc/demanda_controller.dart'; // BACKEND
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart'; // BACKEND
 import 'package:intl/intl.dart';
 
 import 'package:catavento/screens/components/menu.dart';
+import 'package:catavento/screens/components/quadroPrioridade.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
 
@@ -962,134 +965,6 @@ class SearchState extends State<Search> {
               )); // BACKEND
         },
       ),
-    );
-  }
-}
-
-class QuadroPrioridade extends StatefulWidget {
-  const QuadroPrioridade({super.key});
-
-  @override
-  State<QuadroPrioridade> createState() {
-    return QuadroPrioridadeState();
-  }
-}
-
-class QuadroPrioridadeState extends State<QuadroPrioridade> {
-  Color colorQ = Color(0xFFC3206F);
-
-  //Troca a cor do quadro
-  void prioridadeAlta() {
-    setState(() {
-      colorQ = Color(0xFFC3206F);
-    });
-  }
-
-  //Troca a cor do quadro
-  void prioridadeMedia() {
-    setState(() {
-      colorQ = Color(0xFFFF66B0);
-    });
-  }
-
-  //Troca a cor do quadro
-  void prioridadeBaixa() {
-    setState(() {
-      colorQ = Color(0xFFFFC6E1);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        //Quadro de prioridade
-        Container(
-          width: 340,
-          height: 398,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16), color: colorQ),
-        ),
-
-        SizedBox(
-          height: 15,
-        ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            //Botão alta prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeAlta,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFC3206F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Alta',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão média prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeMedia,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFF66B0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Média',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão baixa prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeBaixa,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFC6E1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Baixa',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
-      ],
     );
   }
 }
