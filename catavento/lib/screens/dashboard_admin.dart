@@ -1095,28 +1095,6 @@ class QuadroPrioridadeState extends State<QuadroPrioridade> {
 }
 
 
-Widget _buildActionButton({
-  required IconData icon,
-  required String label,
-  required VoidCallback onPressed,
-}) {
-  return Row(
-    children: [
-      IconButton(
-        icon: Icon(icon),
-        iconSize: 18,
-        onPressed: onPressed,
-      ),
-      SizedBox(width: 5),
-      Text(
-        label,
-        style: TextStyle(
-          fontSize: 12,
-        ),
-      ),
-    ],
-  );
-}
 
 // EDITAR DEMANDA
 // O parâmetro 'context' informa onde o widget será inserido na árvore de widgets.
