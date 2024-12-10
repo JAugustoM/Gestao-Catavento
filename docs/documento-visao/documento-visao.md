@@ -13,6 +13,7 @@
 | 0.9 | 02/12/2024 | Escrita final dos tópicos “matriz de comunicação”, “gerenciamento de riscos” e “critérios de replanejamento”. | Maria Eduarda e  Mariana Pereira |
 | 1.0 | 02/12/2024 | Revisão final para entrega | Henrique Bernardes |
 | 1.1 | 06/12/2024 | Adaptação do backlog das sprints 2, 3 e 4 de acordo com as demandas relacionadas a refatoração do código de acordo com a arquitetura | Henrique Bernardes |
+| 1.2 | 10/12/2024 | Revisão da tabela de organização da equipe e retificação feita sobre a matriz de comunicação | José Augusto |
 
 ## 1 VISÃO GERAL DO PRODUTO
 
@@ -82,10 +83,10 @@ Para desenvolver o código cada membro da equipe desempenhará um papel baseado 
 
 | Papel         | Atribuições    | Responsável   | Participantes |
 | :-----------: | :------------: | :-----------: | :-----------: |
-| Desenvolvedor | Codificar o produto, codificar testes unitários, realizar refatoração | Henrique | Daniel, Danielle, Gabriela, Henrique, José, Leticia, Maria Eduarda, Maria Samara, Mariana, Pedro |
-| Dono do Produto | Atualizar o escopo do produto, organizar o escopo das sprints, validar as entregas | Henrique | Henrique |
+| Desenvolvedor | Codificar o produto, codificar testes unitários, realizar refatoração | José | Daniel, Danielle, Gabriela, José, Leticia, Maria Eduarda, Maria Samara, Mariana, Pedro |
+| Dono do Produto | Atualizar o escopo do produto, organizar o escopo das sprints, validar as entregas | José | José |
 | Analista de Qualidade | Garantir a qualidade do produto, garantir o cumprimento do conceito de pronto, realizar inspeções de código, executar testes, identificação de erros e defeitos, planejamento de testes | Maria Eduarda, Mariana | Maria Eduarda, Mariana | 
-| Analista de Requisitos | Fazer o levantamento dos requisitos, analisar e documentar os requisitos, priorizar os requisitos de acordo com o objetivo do produto, gerenciar as mudanças de requisitos  | Henrique, Maria Eduarda, Pedro | Henrique, Maria Eduarda, Pedro |
+| Analista de Requisitos | Fazer o levantamento dos requisitos, analisar e documentar os requisitos, priorizar os requisitos de acordo com o objetivo do produto, gerenciar as mudanças de requisitos  | Maria Eduarda, Pedro | Maria Eduarda, Pedro |
 | Designer de Protótipos | Criar modelos iniciais do produto, fazer a validação das do design, interações e funcionalidades  | Danielle, Leticia, Mariana, Maria | Danielle, Leticia, Mariana, Maria Samara, Daniel |
 | Cliente | Validar os requisitos e protótipos, fornecer feedbacks | Poliana | Poliana |
 
@@ -111,6 +112,8 @@ A matriz de Comunicação no nosso documento de visão apresentada a seguir, des
 | Planejar o trabalho da sprint, definir metas e organizar tarefas no backlog. | Equipe do Projeto | Início de Sprint | Ata de reunião, Backlog atualizado, plano da sprint. |
 | Acompanhar as atividades em andamento, identificar riscos, compromissos e ações pendentes. | Equipe do projeto | Meio de Sprint | Ata de reunião, Relatório de situação do projeto |
 | Comunicar situação do projeto para cliente e obter feedbacks, validar releases e atualizar o backlog | Equipe, Cliente | A cada 20 dias | Ata de reunião, Relatório de situação do projeto, backlog atualizado |
+
+Após orientações recebidas da monitora do grupo, foi determinado que a comunicação com a cliente ocorrerá sempre no final de uma sprint, permitindo assim que a cliente avalie o desenvolvimento realizado e, por consequência, que a equipe ajuste o planejamento baseado no feedback recebido. 
 
 ### 2.5 Gerenciamento de Riscos
 
