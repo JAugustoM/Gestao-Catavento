@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -75,7 +76,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       }
     }
 
-    final dataAdicao = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
 
     final demanda = {
       'nome_demanda': event.nomeDemanda,
