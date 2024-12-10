@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:catavento/screens/components/menu.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
-import 'components/confirmDialog.dart';
 
 import 'package:catavento/screens/components/demandCard.dart';
 
@@ -439,6 +438,7 @@ class ListDemandaState extends State<ListDemanda> {
   }
 }
 
+//ignore: must_be_immutable
 class ButtonAddDemanda extends StatelessWidget {
   final DemandaBloc bloc; // BACKEND
   ButtonAddDemanda({
