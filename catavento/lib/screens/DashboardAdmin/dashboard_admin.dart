@@ -7,13 +7,13 @@ import 'package:catavento/bloc/demanda_controller.dart'; // BACKEND
 import 'package:flutter_bloc/flutter_bloc.dart'; // BACKEND
 import 'package:intl/intl.dart';
 
-import 'package:catavento/screens/components/menu.dart';
-import 'package:catavento/screens/components/header.dart';
-import 'package:catavento/screens/components/quadroPrioridade.dart';
-import '../services/table_import/table_import.dart';
-import '../services/table_import/table_picker.dart';
+import 'package:catavento/screens/DashboardAdmin/components/menu.dart';
+import 'package:catavento/screens/DashboardAdmin/components/header.dart';
+import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
+import '../../services/table_import/table_import.dart';
+import '../../services/table_import/table_picker.dart';
 
-import 'package:catavento/screens/components/demandCard.dart';
+import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -91,7 +91,10 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
               //Titulo
               Text(
                 'Demandas atuais $formattedDate',
-                style: TextStyle(fontSize: 29.5, color: Color(0xFF015C98)),
+                style: TextStyle(
+                    fontSize: 29.5,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF015C98)),
               ),
 
               SizedBox(height: 40),
@@ -132,36 +135,6 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   void dispose() {
     super.dispose();
     // demandaController.finalize();
-  }
-}
-
-//Icon Menu
-class IconMenu extends StatefulWidget {
-  const IconMenu({super.key});
-
-  @override
-  State<IconMenu> createState() {
-    return IconMenuState();
-  }
-}
-
-//Icon Menu
-class IconMenuState extends State<IconMenu> {
-  @override
-  Widget build(BuildContext context) {
-    //Icon Menu
-    return Positioned(
-      top: 20,
-      left: 20,
-      child: IconButton(
-        iconSize: 50,
-        onPressed: () {
-          //Logica do menu
-        },
-        icon: Icon(Icons.menu),
-        color: Color(0xFF015C98),
-      ),
-    );
   }
 }
 
