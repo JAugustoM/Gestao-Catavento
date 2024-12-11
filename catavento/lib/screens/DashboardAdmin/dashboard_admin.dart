@@ -1,21 +1,20 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
-import 'package:catavento/bloc/demanda_bloc.dart'; // BACKEND
-import 'package:catavento/bloc/demanda_controller.dart'; // BACKEND
-
-import 'package:flutter_bloc/flutter_bloc.dart'; // BACKEND
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
-import 'package:catavento/screens/DashboardAdmin/components/menu.dart';
-import 'package:catavento/screens/DashboardAdmin/components/header.dart';
-import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
+// BACKEND
+import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../services/table_import/table_import.dart';
 import '../../services/table_import/table_picker.dart';
 
+// components
+import 'package:catavento/shared/widgets/header.dart';
+import 'package:catavento/shared/widgets/menu.dart';
+import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
-
-import 'package:image_picker/image_picker.dart';
 
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});

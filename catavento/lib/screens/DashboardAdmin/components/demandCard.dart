@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda_bloc.dart';
 
-import 'package:catavento/screens/DashboardAdmin/components/confirmDialog.dart';
+import 'package:catavento/screens/dashboardAdmin/components/confirmDialog.dart';
 
 class DemandCard extends StatelessWidget {
   final String nomeDemanda;
