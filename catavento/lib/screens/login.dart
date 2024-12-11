@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'components/input_purple.dart';
+
+
+
 class Login extends StatelessWidget {
   const Login({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +30,44 @@ class Login extends StatelessWidget {
 
           Center(
             child: Container(
-              width: 532.0,
-              height: 588.0,
+              width: 400.0,
+              height: 400.0,
 
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Outros widgets aqui
                   SizedBox(height: 100,),
                   PurpleTextField(label: "Digite o nome do seu usuário", icon: Icon( Icons.person_outline , color: Color(0xCCACACAC),),),
-                  PurpleTextField(label: "Digite o nome do seu usuário", icon: Icon( Icons.person_outline , color: Color(0xCCACACAC),),),
+                  PurpleTextField(label: "Digite a sua senha", icon: Icon( Icons.person_outline , color: Color(0xCCACACAC),),),
+
+                  //SizedBox(height: 35),
+
+                  ElevatedButton( // colocar o botão para a direita 
+                    onPressed: () {}, 
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      backgroundColor: Color.fromARGB(255, 28, 126, 238),
+                    ),
+
+                      child: Text(
+                        "Entrar", 
+                        style: TextStyle ( 
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                    ),
+                  ),
+          
                 ],
               ),
             ),
@@ -48,15 +75,15 @@ class Login extends StatelessWidget {
 
           Center(
             child: Transform.translate(
-              offset: Offset(0, -310), // Mover a imagem 50 pixels para cima (ajuste conforme necessário)
+              offset: Offset(0, -230), // Mover a imagem 50 pixels para cima (ajuste conforme necessário)
               child: Image.asset(
                 "assets/images/cake.png",
                 width: 128,
                 height: 128,
               ),
             ),
-          )
-
+          ),
+         
         ],
       ),
     );
