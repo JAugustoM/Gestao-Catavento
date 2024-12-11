@@ -1,69 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class Header extends StatelessWidget {
-  final String title;
-  final bool showHistoricoButton;
-
-  const Header(
-      {super.key, required this.title, this.showHistoricoButton = true});
+class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
+  const CustomHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconMenu(),
-              if (showHistoricoButton) // o header mostra o botão somente se showHistoricoButton for true
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF015C98),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  ),
-                  child: Text('Ver histórico',
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      iconTheme: const IconThemeData(
+        color: Color(0xFF015C98),
+      ),
+      leading: Builder(
+        builder: (BuildContext context) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 20), // Padding aqui
+            child: Material(
+              color: Colors.transparent, // Mantém o fundo transparente
+              child: InkWell(
+                onTap: () {
+                  Scaffold.of(context).openDrawer(); // Abre o Drawer
+                },
+                child: const Icon(
+                  Icons.menu,
+                  size: 40.0,
+                  color: Color(0xFF015C98),
                 ),
-            ],
-          ),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF015C98),
+              ),
+            ),
+          );
+        },
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(
+              right: 20), // Ajuste o valor conforme necessário
+          child: TextButton.icon(
+            icon: const Icon(Icons.history, size: 18.0),
+            label: const Text("Ver Histórico"),
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: const Color(0xFF015C98),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
-}
-
-// Icon Menu
-class IconMenu extends StatefulWidget {
-  const IconMenu({super.key});
 
   @override
-  State<IconMenu> createState() {
-    return IconMenuState();
-  }
-}
-
-class IconMenuState extends State<IconMenu> {
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      iconSize: 35,
-      onPressed: () {
-        // Lógica do menu
-      },
-      icon: Icon(Icons.menu),
-      color: Color(0xFF015C98),
-    );
-  }
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
