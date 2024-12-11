@@ -1,16 +1,19 @@
 import 'dart:io';
-
-import 'package:catavento/bloc/demanda_bloc.dart';
-import 'package:catavento/bloc/demanda_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:catavento/bloc/demanda_bloc.dart'; // BACKEND
+import 'package:catavento/bloc/demanda_controller.dart'; // BACKEND
+
+import 'package:flutter_bloc/flutter_bloc.dart'; // BACKEND
 import 'package:intl/intl.dart';
-import 'package:catavento/screens/components/stage_demand.dart';
+
 import 'package:catavento/screens/components/menu.dart';
 import 'package:catavento/screens/components/header.dart';
+import 'package:catavento/screens/components/quadroPrioridade.dart';
 import '../services/table_import/table_import.dart';
 import '../services/table_import/table_picker.dart';
-import 'components/confirmDialog.dart';
+
+import 'package:catavento/screens/components/demandCard.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -177,6 +180,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DemandaBloc, DemandaState>(
+      // BACKEND (Fazer mudanças dentro do return Column() OK)
       buildWhen: (previous, current) => current is! FilterState,
       builder: (context, response) {
         final metaData = response.metaData;
@@ -360,6 +364,7 @@ class ListDemandaState extends State<ListDemanda> {
       child: Column(
         children: [
           Expanded(child: BlocBuilder<DemandaBloc, DemandaState>(
+            // BACKEND (fazer mudanças dentro do listview.builder OK)
             builder: (context, state) {
               return ListView.builder(
                 itemCount: state.databaseResponse.length,
@@ -374,7 +379,7 @@ class ListDemandaState extends State<ListDemanda> {
                     id: demanda['id'],
                     imagemUrl: demanda['imagemUrl'] ?? '',
                     order: index,
-                    bloc: context.read<DemandaBloc>(),
+                    bloc: context.read<DemandaBloc>(), // BACKEND
                   );
                 },
               );
@@ -382,7 +387,7 @@ class ListDemandaState extends State<ListDemanda> {
           )),
           SizedBox(height: 16), // Espaço entre a lista e o botão
           ButtonAddDemanda(
-            bloc: context.read<DemandaBloc>(),
+            bloc: context.read<DemandaBloc>(), // BACKEND
           ),
         ],
       ),
@@ -390,11 +395,12 @@ class ListDemandaState extends State<ListDemanda> {
   }
 }
 
+//ignore: must_be_immutable
 class ButtonAddDemanda extends StatelessWidget {
-  final DemandaBloc bloc;
+  final DemandaBloc bloc; // BACKEND
   ButtonAddDemanda({
     super.key,
-    required this.bloc,
+    required this.bloc, // BACKEND
   });
 
   final TextEditingController _nomeController = TextEditingController();
@@ -589,7 +595,7 @@ class ButtonAddDemanda extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 40,
+                        height: 10,
                       ),
                       ElevatedButton(
                         onPressed: () async {
@@ -600,7 +606,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               codigo: _codigoController.text,
                               descricao: _descricaoController.text,
                               foto: fotoSelecionada,
-                            ));
+                            )); // BACKEND
 
                             Navigator.pop(context);
                           } else {
@@ -907,501 +913,14 @@ class SearchState extends State<Search> {
             )),
         onEditingComplete: () {
           context.read<DemandaBloc>().add(DemandaFilter(
+                // BACKEND
                 'nomeDemanda',
                 _nomeDemanda.text,
-              ));
+              )); // BACKEND
         },
       ),
     );
   }
-}
-
-class QuadroPrioridade extends StatefulWidget {
-  const QuadroPrioridade({super.key});
-
-  @override
-  State<QuadroPrioridade> createState() {
-    return QuadroPrioridadeState();
-  }
-}
-
-class QuadroPrioridadeState extends State<QuadroPrioridade> {
-  Color colorQ = Color(0xFFC3206F);
-
-  //Troca a cor do quadro
-  void prioridadeAlta() {
-    setState(() {
-      colorQ = Color(0xFFC3206F);
-    });
-  }
-
-  //Troca a cor do quadro
-  void prioridadeMedia() {
-    setState(() {
-      colorQ = Color(0xFFFF66B0);
-    });
-  }
-
-  //Troca a cor do quadro
-  void prioridadeBaixa() {
-    setState(() {
-      colorQ = Color(0xFFFFC6E1);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        //Quadro de prioridade
-        Container(
-          width: 340,
-          height: 398,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16), color: colorQ),
-        ),
-
-        SizedBox(
-          height: 15,
-        ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            //Botão alta prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeAlta,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFC3206F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Alta',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão média prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeMedia,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFF66B0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Média',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão baixa prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeBaixa,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFC6E1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Baixa',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
-
-// Dialog
-void _showCustomDialog(
-    BuildContext context,
-    String name,
-    String code,
-    DateTime createdAt,
-    DateTime updatedAt,
-    String description,
-    String imageCake) {
-  String createdAtFormat = DateFormat('dd/MM/yyyy').format(createdAt);
-  String updatedAtFormat = DateFormat('dd/MM/yyyy').format(updatedAt);
-
-  showGeneralDialog(
-    context: context,
-    pageBuilder: (context, animation1, animation2) {
-      return Container();
-    },
-    transitionBuilder: (context, a1, a2, widget) {
-      return ScaleTransition(
-        scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-        child: AlertDialog(
-          backgroundColor: Color(0xFFD1EEFF),
-          content: SizedBox(
-              width: 560,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 41),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                              child: Align(
-                            //Aqui ficará o nome da demanda ou qual demanda será
-                            alignment: Alignment.center,
-                            child: Text("Nome da demanda ${name}",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          )),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(
-                                Icons.close,
-                                size: 25,
-                              ))
-                        ],
-                      ),
-                      SizedBox(height: 31),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 186,
-                            height: 202,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                    image: AssetImage(imageCake))),
-                          ),
-                          SizedBox(width: 30),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Código: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [TextSpan(text: "${code}")])),
-                              SizedBox(height: 10),
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Data do pedido: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${createdAtFormat}")
-                                  ])),
-                              SizedBox(height: 10),
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Prazo: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${updatedAtFormat}")
-                                  ])),
-                              SizedBox(height: 10),
-                              RichText(
-                                  text: TextSpan(
-                                      text: "Descrição: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      children: [
-                                    TextSpan(text: "${description}")
-                                  ])),
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        "Acompanhamento da produção",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Status: Em andamento",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      StageDemand(status: "finished"),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      StageDemand(status: "InProgress"),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      StageDemand(status: "Erro"),
-                    ],
-                  ),
-                ),
-              )),
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16.0),
-              borderSide: BorderSide.none),
-        ),
-      );
-    },
-  );
-}
-
-class DemandCard extends StatelessWidget {
-  final String nomeDemanda;
-  final String status;
-  final String codigo;
-  final String descricao;
-  final int id;
-  final String imagemUrl;
-  final int order;
-  final DemandaBloc bloc;
-
-  const DemandCard({
-    super.key,
-    required this.nomeDemanda,
-    required this.codigo,
-    required this.status,
-    required this.descricao,
-    required this.id,
-    required this.order,
-    required this.imagemUrl,
-    required this.bloc, // Função de atualização
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final TextEditingController _nomeController =
-        TextEditingController(text: nomeDemanda);
-    final TextEditingController _codigoController =
-        TextEditingController(text: codigo);
-    final TextEditingController _descricaoController =
-        TextEditingController(text: descricao);
-
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        title: Text(nomeDemanda),
-        subtitle: Text(
-            'Código: ${codigo.isNotEmpty ? codigo : 'Sem código'}\nStatus: $status'),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            imagemUrl.isNotEmpty
-                ? Image.network(imagemUrl, width: 50, height: 50)
-                : Icon(Icons.image, size: 50),
-            IconButton(
-              icon: Icon(Icons.info),
-              onPressed: () {
-                _showInfoDialog(
-                    context, nomeDemanda, codigo, descricao, status);
-              },
-            ),
-            // botão de Editar.
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                //  editar a demanda
-                _showEditDialog(context, _nomeController, _codigoController,
-                    _descricaoController, bloc);
-              },
-            ),
-            // apagar
-            IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ConfirmDialog(
-                        title: 'Confirmar Exclusão',
-                        contente:
-                            'Tem certeza de que deseja apagar esta demanda?',
-                        onConfirm: () {
-                          Navigator.of(context).pop(); // Fecha o diálogo
-                          bloc.add(
-                              DemandaDelete(id, order)); // Executa a exclusão
-                        },
-                      );
-                    },
-                  );
-                }),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Função para mostrar as informações da demanda em um diálogo
-  void _showInfoDialog(BuildContext context, String nome, String codigo,
-      String descricao, String status) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Informações da Demanda"),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Nome: $nome",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text("Código: $codigo",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text("Status: $status",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text("Descrição: $descricao",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Fechar o diálogo
-              },
-              child: Text("Fechar"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // Função que exibe o diálogo de edição
-  void _showEditDialog(
-      BuildContext context,
-      TextEditingController nomeController,
-      TextEditingController codigoController,
-      TextEditingController descricaoController,
-      DemandaBloc bloc) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Editar Demanda"),
-          content: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextField(
-                  controller: nomeController,
-                  decoration: InputDecoration(labelText: "Nome da Demanda"),
-                ),
-                TextField(
-                  controller: codigoController,
-                  decoration: InputDecoration(labelText: "Código da Demanda"),
-                ),
-                TextField(
-                  controller: descricaoController,
-                  decoration:
-                      InputDecoration(labelText: "Descrição da Demanda"),
-                  maxLines: null, // Permite múltiplas linhas
-                  minLines: 4,
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                // Atualizar a demanda no Supabase
-                bloc.add(DemandaUpdate(
-                  id,
-                  order,
-                  nomeController.text,
-                  codigoController.text,
-                  descricaoController.text,
-                ));
-                //_updateDemanda(nomeController.text, codigoController.text,descricaoController.text);
-                Navigator.pop(context); // Fechar o diálogo
-              },
-              child: Text("Salvar"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Fechar o diálogo sem salvar
-              },
-              child: Text("Cancelar"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-Widget _buildActionButton({
-  required IconData icon,
-  required String label,
-  required VoidCallback onPressed,
-}) {
-  return Row(
-    children: [
-      IconButton(
-        icon: Icon(icon),
-        iconSize: 18,
-        onPressed: onPressed,
-      ),
-      SizedBox(width: 5),
-      Text(
-        label,
-        style: TextStyle(
-          fontSize: 12,
-        ),
-      ),
-    ],
-  );
 }
 
 // EDITAR DEMANDA
