@@ -16,7 +16,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
   DemandaEvent get initialState => DemandaLoading();
 
-  DemandaBloc() : super(LoadingState([], {})) {
+  DemandaBloc() : super(DemandaLoadingState([], {})) {
     on<DemandaFilter>(_onFilter);
 
     on<DemandaLoading>(_onLoading);
@@ -49,9 +49,9 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     final metaData = _countDemandas();
 
     if (newData.isEmpty) {
-      emit(FilterState(currentData, metaData));
+      emit(DemandaFilterState(currentData, metaData));
     } else {
-      emit(FilterState(newData, metaData));
+      emit(DemandaFilterState(newData, metaData));
     }
   }
 
@@ -61,7 +61,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     final metaData = _countDemandas();
 
-    emit(LoadingState(currentData, metaData));
+    emit(DemandaLoadingState(currentData, metaData));
   }
 
   void _onCreate(DemandaCreate event, Emitter<DemandaState> emit) async {
@@ -102,7 +102,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     final metaData = _countDemandas();
 
-    emit(CreateState(currentData, metaData));
+    emit(DemandaCreateState(currentData, metaData));
   }
 
   void _onDelete(DemandaDelete event, Emitter<DemandaState> emit) async {
@@ -118,7 +118,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     final metaData = _countDemandas();
 
-    emit(DeleteState(currentData, metaData));
+    emit(DemandaDeleteState(currentData, metaData));
   }
 
   void _onUpdate(DemandaUpdate event, Emitter<DemandaState> emit) async {
@@ -137,7 +137,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
       final metaData = _countDemandas();
 
-      emit(UpdateState(currentData, metaData));
+      emit(DemandaUpdateState(currentData, metaData));
     } catch (e) {
       print("Erro ao atualizar demanda: $e");
     }
