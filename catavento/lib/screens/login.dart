@@ -3,12 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'components/input_purple.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+
+class Login extends StatefulWidget{
+  const Login ({super.key});
 
   @override
+  _LoginState createState()=> _LoginState();
+}
+class _LoginState extends State<Login> {
+  bool isLoading = false;
+  @override
   Widget build(BuildContext context) {
-    bool isLoading = false;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
@@ -67,7 +72,10 @@ class Login extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      isLoading= !isLoading;
+
+                      setState(() {
+                        isLoading = !isLoading;
+                      });
                       log("IsLoading  $isLoading");
                     },
                   ),
@@ -114,6 +122,9 @@ class Login extends StatelessWidget {
       ),
     );
   }
+
+
+
 }
 
 class ButtonSingIn extends StatefulWidget {
@@ -142,8 +153,7 @@ class _ButtonSingInState extends State<ButtonSingIn> {
     return InkWell(
       onTap:(){
         widget.onPressed();
-        setState(() {
-        });
+
       },
 
 
