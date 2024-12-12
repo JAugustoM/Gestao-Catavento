@@ -25,6 +25,7 @@ Future<void> importExcelToSupabase(String filePath) async {
       if (sheet != null) {
         var rowId = 0;
         var loja = "";
+        final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
         for (var row in sheet.rows) {
           final rowData =
               row.map((cell) => cell?.value.toString() ?? '').toList();
@@ -33,7 +34,6 @@ Future<void> importExcelToSupabase(String filePath) async {
             // Evita linhas inválidas
             if ((rowData[0] != "" && rowData[0] != "null") &&
                 (rowData[1] != "" && rowData[1] != "null")) {
-              final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
               final Map<String, dynamic> demanda = {
                 'nome_demanda': rowData[0],
                 'data_adicao': dataAdicao,
@@ -41,10 +41,10 @@ Future<void> importExcelToSupabase(String filePath) async {
                 'status': 'Pendente',
               };
 
-              final codigo = rowData[1];
+              final codigo = int.tryParse(rowData[1]);
 
-              if (int.tryParse(codigo) != null) {
-                demanda['produto_id'] = int.parse(codigo);
+              if (codigo != null) {
+                demanda['produto_id'] = codigo;
               }
 
               if (lojasPrioridade.containsKey(loja)) {
@@ -53,7 +53,6 @@ Future<void> importExcelToSupabase(String filePath) async {
                 demanda['prioridade'] = 'media';
               }
 
-              // Envia os dados ao Supabase
               await supabase.from('demandas').insert(demanda);
             } else if (rowData[0] != "" && rowData[0] != "null") {
               loja = rowData[0].toUpperCase();
