@@ -2,6 +2,7 @@ import 'dart:js_interop';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'components/input_purple.dart';
+import 'components/button_singIn.dart';
 
 
 class Login extends StatefulWidget{
@@ -48,28 +49,34 @@ class _LoginState extends State<Login> {
                 children: [
                   // Outros widgets aqui
                   SizedBox(
-                    height: 100,
+                    height: 60,
                   ),
-                  PurpleTextField(
-                    label: "Digite o nome do seu usuário",
-                    icon: Icon(
-                      Icons.person_outline,
-                      color: Color(0xCCACACAC),
-                    ),
-                  ),
-                  PurpleTextField(
-                    label: "Digite a sua senha",
-                    icon: Icon(
-                      Icons.lock_outline,
-                      color: Color(0xCCACACAC),
-                    ),
-                  ),
+                  Form(child: Column(
+                    children: [
+                      PurpleTextField(
+                        label: "Digite o nome do seu usuário",
+                        icon: Icon(
+                          Icons.person_outline,
+                          color: Color(0xCCACACAC),
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      PurpleTextField(
+                        label: "Digite a sua senha",
+                        icon: Icon(
+                          Icons.lock_outline,
+                          color: Color(0xCCACACAC),
+                        ),
+                      ),
+                    ],
+                  )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
 
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 20, 20, 0),
+
+                        margin: EdgeInsets.fromLTRB(0, 50, 20, 0),
                         child: ButtonSingIn(
                           title: Text("Entrar" , style: TextStyle(
                               color: Colors.white
@@ -116,53 +123,4 @@ class _LoginState extends State<Login> {
 
 }
 
-class ButtonSingIn extends StatefulWidget {
-  final Widget title;
-  final Icon icon;
-  final bool isLoading;
 
-  final Function() onPressed;
-
-  const ButtonSingIn(
-      {super.key,
-      required this.title,
-      required this.icon,
-      required this.onPressed,
-      required this.isLoading});
-
-  @override
-  State<ButtonSingIn> createState() => _ButtonSingInState();
-}
-
-class _ButtonSingInState extends State<ButtonSingIn> {
-  @override
-
-
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap:(){
-        widget.onPressed();
-
-      },
-
-
-      child: Container(
-          height: 45,
-          width: 114,
-          decoration: BoxDecoration(
-              color: Color(0xFF75CDF3),
-              borderRadius: BorderRadius.circular(8.0)),
-          child: Center(
-              child: widget.isLoading
-                  ? Transform.scale( scale: 0.5,child: CircularProgressIndicator(color:Color(0xFFED5EA3 ) , backgroundColor: Colors.white,))
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: [widget.title,
-                        SizedBox(width: 5,),
-                        widget.icon,
-                      ],
-                    ))),
-    );
-  }
-}
