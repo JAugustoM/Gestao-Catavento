@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda_bloc.dart';
-
-import 'package:catavento/screens/dashboardAdmin/components/confirmDialog.dart';
+import 'package:catavento/shared/widgets/dialog.dart';
+import 'package:catavento/screens/dashboardAdmin/components/infoCard.dart';
+import 'package:catavento/shared/widgets/inputs.dart';
+import 'package:catavento/shared/widgets/confirmDialog.dart';
 
 class DemandCard extends StatelessWidget {
   final String nomeDemanda;
@@ -49,8 +51,8 @@ class DemandCard extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.info),
               onPressed: () {
-                _showInfoDialog(
-                    context, nomeDemanda, codigo, descricao, status);
+                _showInfoDialog(context, nomeDemanda, codigo, descricao, status,
+                    "https://via.placeholder.com/150");
               },
             ),
             // botão de Editar.
@@ -93,100 +95,102 @@ class DemandCard extends StatelessWidget {
 
   // Função para mostrar as informações da demanda em um diálogo
   void _showInfoDialog(BuildContext context, String nome, String codigo,
-      String descricao, String status) {
+      String descricao, String status, String imageUrl) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Informações da Demanda"),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Nome: $nome",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text("Código: $codigo",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text("Status: $status",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text("Descrição: $descricao",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
+        return ReusableDialog(
+          title: "Informações da Demanda",
+          body: InfoCard(
+            nome: nome,
+            codigo: codigo,
+            descricao: descricao,
+            status: status,
+            imageUrl: imageUrl,
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Fechar o diálogo
-              },
-              child: Text("Fechar"),
-            ),
-          ],
+          confirmBeforeClose: false,
         );
       },
     );
   }
 
-  // Função que exibe o diálogo de edição
   void _showEditDialog(
       BuildContext context,
       TextEditingController nomeController,
       TextEditingController codigoController,
       TextEditingController descricaoController,
-      DemandaBloc bloc) // BACKEND
-  {
+      DemandaBloc bloc) {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text("Editar Demanda"),
-          content: SingleChildScrollView(
+        return ReusableDialog(
+          title: "Editar Demanda",
+          confirmBeforeClose: true, // Ativa a confirmação para fechar a janela
+          body: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
+                InputTextField(
+                  labelText: "Nome da Demanda",
+                  hintText: "Digite o nome da demanda",
                   controller: nomeController,
-                  decoration: InputDecoration(labelText: "Nome da Demanda"),
                 ),
-                TextField(
+                const SizedBox(height: 10),
+                InputTextField(
+                  labelText: "Código da Demanda",
+                  hintText: "Digite o código da demanda",
                   controller: codigoController,
-                  decoration: InputDecoration(labelText: "Código da Demanda"),
                 ),
-                TextField(
+                const SizedBox(height: 10),
+                InputTextField(
+                  labelText: "Descrição",
+                  hintText: "Digite a descrição",
                   controller: descricaoController,
-                  decoration:
-                      InputDecoration(labelText: "Descrição da Demanda"),
-                  maxLines: null, // Permite múltiplas linhas
-                  minLines: 4,
+                  maxLines: 3,
+                  keyboardType: TextInputType.multiline,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Conexão com o Backend
+                        bloc.add(DemandaUpdate(
+                          id,
+                          order,
+                          nomeController.text,
+                          codigoController.text,
+                          descricaoController.text,
+                        ));
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF50B432),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      child: const Text("Salvar"),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFD54A3D),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      child: const Text("Cancelar"),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                // Atualizar a demanda no Supabase
-                bloc.add(DemandaUpdate(
-                  id,
-                  order,
-                  nomeController.text,
-                  codigoController.text,
-                  descricaoController.text,
-                )); // BACKEND
-                //_updateDemanda(nomeController.text, codigoController.text,descricaoController.text);
-                Navigator.pop(context); // Fechar o diálogo
-              },
-              child: Text("Salvar"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Fechar o diálogo sem salvar
-              },
-              child: Text("Cancelar"),
-            ),
-          ],
         );
       },
     );

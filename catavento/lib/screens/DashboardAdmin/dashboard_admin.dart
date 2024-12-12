@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 // BACKEND
@@ -13,6 +14,8 @@ import '../../services/table_import/table_picker.dart';
 // components
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/menu.dart';
+import 'package:catavento/shared/widgets/dialog.dart';
+import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 
@@ -404,7 +407,7 @@ class ButtonAddDemanda extends StatelessWidget {
       height: 47,
       child: ElevatedButton(
         onPressed: () {
-          AddInfoDemand(context);
+          addInfoDemand(context);
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF015C98),
@@ -420,187 +423,96 @@ class ButtonAddDemanda extends StatelessWidget {
     );
   }
 
-  Future<void> AddInfoDemand(BuildContext context) => showGeneralDialog(
+  Future<void> addInfoDemand(BuildContext context) => showDialog(
         context: context,
-        pageBuilder: (context, animation1, animation2) {
-          return Container();
-        },
-        transitionBuilder: (context, a1, a2, widget) {
-          return ScaleTransition(
-            scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-            child: AlertDialog(
-              backgroundColor: Color(0xFFD1EEFF),
-              content: SizedBox(
-                height: 446,
-                width: 534,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 41),
-                  child: Column(
+        builder: (BuildContext context) {
+          return ReusableDialog(
+            title: "Nova demanda",
+            confirmBeforeClose: true,
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // campo dos formulários
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Nova demanda",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              size: 25,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 47,
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Código",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  TextField(
-                                    controller: _codigoController,
-                                    decoration: InputDecoration(
-                                      hintText: "Código da demanda",
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Nome",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  TextField(
-                                    controller: _nomeController,
-                                    decoration: InputDecoration(
-                                      hintText: "Nome da demanda",
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 47,
-                      ),
-                      // campo de descricao
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              "Descrição",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-                      TextField(
-                        controller: _descricaoController,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                      Expanded(
+                        child: InputTextField(
+                          labelText: "Código",
+                          hintText: "Código da demanda",
+                          controller: _codigoController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                         ),
                       ),
-                      SizedBox(height: 5),
-                      // Botão para selecionar foto
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _selecionarFoto(context);
-                              },
-                              child: Text("Selecionar Foto"),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_nomeController.text.isNotEmpty &&
-                              _codigoController.text.isNotEmpty) {
-                            bloc.add(DemandaCreate(
-                              nomeDemanda: _nomeController.text,
-                              codigo: _codigoController.text,
-                              descricao: _descricaoController.text,
-                              foto: fotoSelecionada,
-                            )); // BACKEND
-
-                            Navigator.pop(context);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      "Por favor, preencha todos os campos")),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF015C98),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(22))),
-                        child: Text(
-                          "Cadastrar demanda",
-                          style: TextStyle(color: Colors.white),
+                      Expanded(
+                        child: InputTextField(
+                          labelText: "Nome",
+                          hintText: "Nome da demanda",
+                          controller: _nomeController,
                         ),
                       ),
                     ],
                   ),
-                ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InputTextField(
+                        labelText: "Descrição",
+                        hintText: "Digite a descrição",
+                        controller: _descricaoController,
+                        maxLines: 3,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _selecionarFoto(context);
+                          },
+                          child: const Text("Selecionar Foto"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_nomeController.text.isNotEmpty &&
+                          _codigoController.text.isNotEmpty) {
+                        bloc.add(DemandaCreate(
+                          nomeDemanda: _nomeController.text,
+                          codigo: _codigoController.text,
+                          descricao: _descricaoController.text,
+                          foto: fotoSelecionada,
+                        ));
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content:
+                                Text("Por favor, preencha todos os campos"),
+                          ),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF015C98),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: const Text(
+                      "Cadastrar demanda",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -893,198 +805,4 @@ class SearchState extends State<Search> {
       ),
     );
   }
-}
-
-// EDITAR DEMANDA
-// O parâmetro 'context' informa onde o widget será inserido na árvore de widgets.
-void editarDemanda(BuildContext context) {
-  showGeneralDialog(
-    context:
-        context, // Indica onde o diálogo será exibido na árvore de widgets.
-    pageBuilder: (context, animation1, animation2) {
-      return Container();
-    },
-    transitionBuilder: (context, a1, a2, widget) {
-      return ScaleTransition(
-        scale: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
-        child: AlertDialog(
-          backgroundColor: Color(0xFFD1EEFF),
-          content: SizedBox(
-            height: 446,
-            width: 534,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 41),
-              child: Column(
-                children: [
-                  // Título do diálogo
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Editar demanda",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          size: 25,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 30),
-
-                  // Campos de código
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Código",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      inputNameID(),
-                      SizedBox(width: 50),
-                    ],
-                  ),
-
-                  SizedBox(height: 14),
-
-                  // Campos de data do pedido e prazo
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Data do pedido",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      inputDate(),
-                      SizedBox(width: 54),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Prazo",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      inputDate(),
-                    ],
-                  ),
-
-                  SizedBox(height: 24),
-
-                  // Descrição
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 70),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Descrição",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SizedBox(
-                        width: 339,
-                        height: 92,
-                        child: TextField(
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                          maxLines: null,
-                          minLines: 6,
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(fontSize: 15),
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 2),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 23),
-
-                  // Prioridade
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Prioridade",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      ButtonChoosePriority(),
-                    ],
-                  ),
-
-                  SizedBox(height: 47),
-
-                  // Botão de Concluir
-                  ButtonConcluir(),
-                ],
-              ),
-            ),
-          ),
-          shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.0),
-            borderSide: BorderSide.none,
-          ),
-        ),
-      );
-    },
-  );
 }
