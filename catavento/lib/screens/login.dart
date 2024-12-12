@@ -64,44 +64,33 @@ class _LoginState extends State<Login> {
                       color: Color(0xCCACACAC),
                     ),
                   ),
-                  ButtonSingIn(
-                    title: Text("Sing in"),
-                    isLoading: isLoading,
-                    icon: Icon(
-                      Icons.keyboard_arrow_right_rounded,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
 
-                      setState(() {
-                        isLoading = !isLoading;
-                      });
-                      log("IsLoading  $isLoading");
-                    },
-                  ),
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 20, 20, 0),
+                        child: ButtonSingIn(
+                          title: Text("Entrar" , style: TextStyle(
+                              color: Colors.white
+                          ),),
+                          isLoading: isLoading,
+                          icon: Icon(
+                            Icons.keyboard_arrow_right_rounded,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
 
+                            setState(() {
+                              isLoading = !isLoading;
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  )
                   //SizedBox(height: 35),
-                  ElevatedButton(
-                    // colocar o botão para a direita
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      backgroundColor: Color.fromARGB(255, 28, 126, 238),
-                    ),
 
-                    child: Text(
-                      "Entrar",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -168,7 +157,10 @@ class _ButtonSingInState extends State<ButtonSingIn> {
                   ? Transform.scale( scale: 0.5,child: CircularProgressIndicator(color:Color(0xFFED5EA3 ) , backgroundColor: Colors.white,))
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [widget.title, widget.icon,
+
+                      children: [widget.title,
+                        SizedBox(width: 5,),
+                        widget.icon,
                       ],
                     ))),
     );
