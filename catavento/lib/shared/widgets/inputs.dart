@@ -53,3 +53,50 @@ class InputTextField extends StatelessWidget {
     );
   }
 }
+
+Widget inputDate() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      SizedBox(
+        width: 95,
+        height: 25,
+        //input da data
+        child: TextField(
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+          textAlignVertical: TextAlignVertical.center,
+          maxLines: 1,
+          decoration: InputDecoration(
+              hintText: 'dd/mm/yy',
+              hintStyle:
+                  TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey, width: 2),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey, width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey, width: 2))),
+        ),
+      ),
+      SizedBox(
+        width: 10,
+      ),
+      Icon(
+        Icons.calendar_month,
+        color: Colors.black26,
+      )
+    ],
+  );
+}
