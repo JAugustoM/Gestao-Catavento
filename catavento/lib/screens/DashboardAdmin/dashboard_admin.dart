@@ -94,10 +94,10 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
             children: [
               // Barra de Pesquisa
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                padding: EdgeInsets.zero,
                 child: Search(),
               ),
-              SizedBox(height: size.height * 0.02),
+              SizedBox(height: 20),
 
               // Ajustando a altura com Flex/Expanded
               Padding(
