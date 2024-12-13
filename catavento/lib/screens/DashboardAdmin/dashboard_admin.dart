@@ -26,9 +26,11 @@ class DashBoardAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+
     return Scaffold(
       drawer: Navbar(),
-      appBar: CustomHeader(),
+      appBar: CustomHeader(title: 'Demandas atuais $formattedDate'),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -83,55 +85,65 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    final size = MediaQuery.of(context).size; // Obtém o tamanho da tela
 
-    return Stack(
-      children: [
-        Center(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //Titulo
-              Text(
-                'Demandas atuais $formattedDate',
-                style: TextStyle(
-                    fontSize: 29.5,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF015C98)),
+              // Barra de Pesquisa
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                child: Search(),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: size.height * 0.03),
 
-              //Barra de pesquisa
-              Search(),
-
-              SizedBox(
-                height: 30,
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  QuadroPrioridade(),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  ListDemanda(),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  QuadroGrafico()
-                ],
-              ),
-
-              SizedBox(
-                height: 37,
+              // Row para Prioridades, Demandas, e Gráficos
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return constraints.maxWidth > 600
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                flex: 1,
+                                child: QuadroPrioridade(),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                flex: 2,
+                                child: ListDemanda(),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                flex: 1,
+                                child: QuadroGrafico(),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              QuadroPrioridade(),
+                              SizedBox(height: size.height * 0.02),
+                              ListDemanda(),
+                              SizedBox(height: size.height * 0.02),
+                              QuadroGrafico(),
+                            ],
+                          );
+                  },
+                ),
               ),
             ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 

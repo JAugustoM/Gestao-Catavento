@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
-  const CustomHeader({super.key});
+  final String title;
+
+  const CustomHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
       iconTheme: const IconThemeData(
         color: Color(0xFF015C98),
       ),
