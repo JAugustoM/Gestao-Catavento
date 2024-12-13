@@ -18,6 +18,7 @@ import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
 import 'package:catavento/screens/DashboardAdmin/components/search.dart';
+import 'package:catavento/screens/DashboardAdmin/components/graph.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 
 class DashBoardAdmin extends StatelessWidget {
@@ -153,6 +154,8 @@ class QuadroGrafico extends StatefulWidget {
 
 //Graficos
 class QuadroGraficoState extends State<QuadroGrafico> {
+  final List<Color> colors = [Colors.green, Colors.red];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DemandaBloc, DemandaState>(
@@ -167,38 +170,88 @@ class QuadroGraficoState extends State<QuadroGrafico> {
           children: [
             //Grafico 1
             Container(
-                width: 340,
-                height: 132,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-                    child: Column(
+              width: 340,
+              height: 132,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // Espaça os itens
+                  children: [
+                    // Texto à esquerda
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: colors[0], // cor da bolinha
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Completas: ${metaData['completo']}",
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: colors[1], // cor da bolinha
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Completas: ${metaData['restantes']}",
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
                         Text(
-                          "Completas: ${metaData['completo']}\n"
-                          "Restantes: ${metaData['restantes']}\n",
+                          "Total: ${metaData['total']}",
                           style: TextStyle(
                             fontSize: 17,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          "Total: ${metaData['total']}",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )
                       ],
-                    ))),
+                    ),
+                    // Gráfico de pizza à direita
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: PizzaChart(
+                        completas: metaData['completo'] ?? 0,
+                        restantes: metaData['restantes'] ?? 0,
+                        colors: [Colors.green, Colors.red],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             SizedBox(
               height: 20,
