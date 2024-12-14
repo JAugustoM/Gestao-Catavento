@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:catavento/screens/components/graficInfo.dart';
 import 'package:flutter/material.dart';
 import 'components/background.dart';
 import 'components/header.dart';
@@ -8,6 +5,7 @@ import 'components/blocks.dart';
 import 'components/showDialog.dart';
 
 class EmployeeManagement extends StatelessWidget {
+  const EmployeeManagement({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
