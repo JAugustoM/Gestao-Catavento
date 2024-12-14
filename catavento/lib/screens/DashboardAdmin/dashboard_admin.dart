@@ -17,8 +17,8 @@ import 'package:catavento/shared/widgets/menu.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
+import 'package:catavento/screens/DashboardAdmin/components/quadroGrafico.dart';
 import 'package:catavento/screens/DashboardAdmin/components/search.dart';
-import 'package:catavento/screens/DashboardAdmin/components/graph.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 
 class DashBoardAdmin extends StatelessWidget {
@@ -26,9 +26,11 @@ class DashBoardAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+
     return Scaffold(
       drawer: Navbar(),
-      appBar: CustomHeader(),
+      appBar: CustomHeader(title: 'Demandas atuais $formattedDate'),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -70,296 +72,87 @@ class AddDemandPageAdmin extends StatefulWidget {
   }
 }
 
-//Estrutura da pagina
 class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   late final DemandaController demandaController;
 
   @override
   void initState() {
-    // demandaController = DemandaController(context.read<DemandaBloc>());
-    // demandaController.initialize();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    final size = MediaQuery.of(context).size; // Obtém o tamanho da tela
 
-    return Stack(
-      children: [
-        Center(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //Titulo
-              Text(
-                'Demandas atuais $formattedDate',
-                style: TextStyle(
-                    fontSize: 29.5,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF015C98)),
+              // Barra de Pesquisa
+              Padding(
+                padding: EdgeInsets.zero,
+                child: Search(),
               ),
+              SizedBox(height: 20),
 
-              SizedBox(height: 40),
-
-              //Barra de pesquisa
-              Search(),
-
-              SizedBox(
-                height: 30,
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  QuadroPrioridade(),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  ListDemanda(),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  QuadroGrafico()
-                ],
-              ),
-
-              SizedBox(
-                height: 37,
+              // Ajustando a altura com Flex/Expanded
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return constraints.maxWidth > 600
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // ainda falta ajustar a responsividade desse quadro, além de q o design vai mudar
+                              Flexible(
+                                flex: 1,
+                                child: QuadroPrioridade(),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                flex: 2,
+                                child: ListDemanda(),
+                              ),
+                              SizedBox(width: 15),
+                              Flexible(
+                                flex: 1,
+                                child: QuadroGrafico(),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Expanded(
+                                child: QuadroPrioridade(),
+                              ),
+                              SizedBox(height: size.height * 0.02),
+                              Expanded(
+                                child: ListDemanda(),
+                              ),
+                              SizedBox(height: size.height * 0.02),
+                              Expanded(
+                                child: QuadroGrafico(),
+                              ),
+                            ],
+                          );
+                  },
+                ),
               ),
             ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 
   @override
   void dispose() {
     super.dispose();
-    // demandaController.finalize();
-  }
-}
-
-//Graficos
-class QuadroGrafico extends StatefulWidget {
-  const QuadroGrafico({super.key});
-
-  @override
-  State<QuadroGrafico> createState() {
-    return QuadroGraficoState();
-  }
-}
-
-//Graficos
-class QuadroGraficoState extends State<QuadroGrafico> {
-  final List<Color> colors = [Colors.green, Colors.red];
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DemandaBloc, DemandaState>(
-      // BACKEND (Fazer mudanças dentro do return Column() OK)
-      buildWhen: (previous, current) => current is! FilterState,
-      builder: (context, response) {
-        final metaData = response.metaData;
-
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            //Grafico 1
-            Container(
-              width: 340,
-              height: 132,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Espaça os itens
-                  children: [
-                    // Texto à esquerda
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: colors[0], // cor da bolinha
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              "Completas: ${metaData['completo']}",
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: colors[1], // cor da bolinha
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              "Completas: ${metaData['restantes']}",
-                              style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          "Total: ${metaData['total']}",
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Gráfico de pizza à direita
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: PizzaChart(
-                        completas: metaData['completo'] ?? 0,
-                        restantes: metaData['restantes'] ?? 0,
-                        colors: [Colors.green, Colors.red],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(
-              height: 20,
-            ),
-
-            Container(
-                width: 340,
-                height: 132,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                      child: Icon(
-                        Icons.cake,
-                        size: 80.0,
-                        color: Colors.pink,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(top: 25.0, right: 40.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "${metaData['fabricacao']}",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              "Em fabricação",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
-                            )
-                          ],
-                        )),
-                  ],
-                )),
-
-            SizedBox(
-              height: 30,
-            ),
-
-            Container(
-                width: 340,
-                height: 132,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.only(top: 10.0, bottom: 10.0, left: 60.0),
-                      child: Icon(
-                        Icons.layers,
-                        size: 80.0,
-                        color: Color(0xFF015C98),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 40,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(top: 25.0, right: 20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "${metaData['espera']}",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              "Em espera",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
-                            )
-                          ],
-                        )),
-                  ],
-                )),
-          ],
-        );
-      },
-    );
   }
 }
 
@@ -382,39 +175,49 @@ class ListDemandaState extends State<ListDemanda> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size; // Tamanho da tela
     return Container(
-      padding: EdgeInsets.all(7.0),
-      width: 499,
-      height: 438,
+      padding: EdgeInsets.all(10.0),
+      width: size.width * 0.9,
+      height: size.height * 0.65,
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(17),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          Expanded(child: BlocBuilder<DemandaBloc, DemandaState>(
-            // BACKEND (fazer mudanças dentro do listview.builder OK)
-            builder: (context, state) {
-              return ListView.builder(
-                itemCount: state.databaseResponse.length,
-                itemBuilder: (context, index) {
-                  final demanda = state.databaseResponse[index];
-                  return DemandCard(
-                    nomeDemanda:
-                        demanda['nomeDemanda'] ?? 'Nome não disponível',
-                    status: demanda['status'] ?? 'Status não disponível',
-                    codigo: demanda['codigo'] ?? 'Sem código',
-                    descricao: demanda['descricao'] ?? 'Sem descricao',
-                    id: demanda['id'],
-                    imagemUrl: demanda['imagemUrl'] ?? '',
-                    order: index,
-                    bloc: context.read<DemandaBloc>(), // BACKEND
-                  );
-                },
-              );
-            },
-          )),
-          SizedBox(height: 16), // Espaço entre a lista e o botão
+          Expanded(
+            child: BlocBuilder<DemandaBloc, DemandaState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.databaseResponse.length,
+                  itemBuilder: (context, index) {
+                    final demanda = state.databaseResponse[index];
+                    return DemandCard(
+                      nomeDemanda:
+                          demanda['nomeDemanda'] ?? 'Nome não disponível',
+                      status: demanda['status'] ?? 'Status não disponível',
+                      codigo: demanda['codigo'] ?? 'Sem código',
+                      descricao: demanda['descricao'] ?? 'Sem descricao',
+                      id: demanda['id'],
+                      imagemUrl: demanda['imagemUrl'] ?? '',
+                      order: index,
+                      bloc: context.read<DemandaBloc>(), // BACKEND
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 10), // Espaço entre a lista e o botão
           ButtonAddDemanda(
             bloc: context.read<DemandaBloc>(), // BACKEND
           ),

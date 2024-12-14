@@ -29,11 +29,11 @@ class DemandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nomeController =
+    final TextEditingController nomeController =
         TextEditingController(text: nomeDemanda);
-    final TextEditingController _codigoController =
+    final TextEditingController codigoController =
         TextEditingController(text: codigo);
-    final TextEditingController _descricaoController =
+    final TextEditingController descricaoController =
         TextEditingController(text: descricao);
 
     return Card(
@@ -62,9 +62,9 @@ class DemandCard extends StatelessWidget {
                 //  editar a demanda
                 _showEditDialog(
                     context,
-                    _nomeController,
-                    _codigoController,
-                    _descricaoController,
+                    nomeController,
+                    codigoController,
+                    descricaoController,
                     bloc); // BACKEND (não retirar o bloc, o resto OK)
               },
             ),
