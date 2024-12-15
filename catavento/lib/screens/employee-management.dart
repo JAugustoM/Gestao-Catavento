@@ -1,6 +1,9 @@
 import 'dart:ffi';
-
+import 'package:catavento/bloc/usuario_bloc.dart';
+import 'package:catavento/screens/components/confirmDialog.dart';
 import 'package:catavento/screens/components/graficInfo.dart';
+import 'package:catavento/screens/components/input.dart';
+import 'package:catavento/screens/dashboard_admin.dart';
 import 'package:flutter/material.dart';
 import 'components/background.dart';
 import 'components/header.dart';
@@ -76,6 +79,72 @@ class EmployeeManagement extends StatelessWidget {
                               width: 463,
                               height: 402,
                               title: 'Novo funcionário',
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Inputs(
+                                      text: "Nome:",
+                                      hint: "Nome do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Setor:",
+                                      hint: "Setor do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Email:",
+                                      hint: "Email do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Nome de usuário:",
+                                      hint: "Nome de usuário do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Senha:",
+                                      hint: "Senha para o funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.08),
+                                    Positioned.fill(
+                                        child: Center(
+                                            child: ElevatedButton(
+                                                onPressed: () {
+                                                  //Lógica do botão
+                                                  Navigator.pop(context);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        22))),
+                                                child: Text(
+                                                  "Cadastrar",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ))))
+                                  ]),
                             );
                           },
                         );

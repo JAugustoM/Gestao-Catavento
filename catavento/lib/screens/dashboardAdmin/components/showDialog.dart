@@ -4,13 +4,13 @@ class Showdialog extends StatelessWidget {
   final double? height;
   final double? width;
   final String title;
-  final List<Widget>? children;
+  final Widget? child;
 
   Showdialog({
     this.height,
     this.width,
     required this.title,
-    this.children,
+    this.child,
   });
 
   @override
@@ -59,7 +59,10 @@ class Showdialog extends StatelessWidget {
                     ),
                   ],
                 ),
-                ...?children,
+                
+                SizedBox( height: MediaQuery.of(context).size.height * 0.05),
+
+                child!,
               ],
             ),
           ),
