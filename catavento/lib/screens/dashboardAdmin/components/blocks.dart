@@ -1,18 +1,22 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class Blocks extends StatefulWidget {
+  final String? title;
   final double? height;
   final double? width;
   final double borderRadius;
   final Color color;
-  final List<Widget> children;
+  final Widget child;
 
   Blocks({
+    this.title,
     this.height,
     this.width,
     this.borderRadius = 16.0,
     required this.color,
-    required this.children,
+    required this.child,
   });
 
   @override
@@ -43,7 +47,30 @@ class BlocksState extends State<Blocks> {
           ),
         ),
 
-        ...widget.children,
+        if (widget.title != null) 
+          Positioned(
+            top: 10,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                widget.title!,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: widget.child,
+          ),
+        ),
+        
       ],
     );
   }

@@ -3,18 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class Graficinfo<B extends BlocBase<S>, S> extends StatefulWidget {
+  final double? size;
   final IconData icons;
   final Color colorIcons;
   final String info;
-  final String? dataKey;
-  final BlocBuilderCondition<S>? buildWhen;
+  final String dataKey;
+  final BlocBuilderCondition<S> buildWhen;
 
   Graficinfo ({
+    this.size,
     required this.icons,
     required this.colorIcons,
     required this.info,
-    this.dataKey,
-    this.buildWhen,
+    required this.dataKey,
+    required this.buildWhen,
 
   });
 
@@ -33,24 +35,19 @@ class GraficinfoState<B extends BlocBase<S>, S> extends State<Graficinfo<B, S>> 
         final metaData = (response as dynamic).metaData;
 
         return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding:
-                  EdgeInsets.only(top: 30.0, bottom: 10.0, left: 60.0),
-              child: Icon(
-                widget.icons,
-                size: 80.0,
-                color: widget.colorIcons,
-              ),
+            Icon(
+              widget.icons,
+              size: widget.size,
+              color: widget.colorIcons,
             ),
-            SizedBox(
-              width: 40,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 25.0, right: 20.0),
+            SizedBox(width: 20),
+
+            Center(  // Adicionado Center para centralizar o conteúdo dentro do Column
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,  // Centralizado horizontalmente
                 children: [
                   Text(
                     "${metaData[widget.dataKey] ?? '--'}",
@@ -60,18 +57,15 @@ class GraficinfoState<B extends BlocBase<S>, S> extends State<Graficinfo<B, S>> 
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(
-                    height: 2,
-                  ),
+                  SizedBox(height: 2),
                   Text(
                     widget.info,
-                    style:
-                        TextStyle(fontSize: 18, color: Colors.black),
-                  )
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
                 ],
-              )
+              ),
             ),
-          ],
+          ]
         );
       }
     );
