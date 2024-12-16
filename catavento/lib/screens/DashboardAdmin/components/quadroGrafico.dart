@@ -24,7 +24,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size; // Tamanho da tela
     return BlocBuilder<DemandaBloc, DemandaState>(
-      buildWhen: (previous, current) => current is! FilterState,
+      buildWhen: (previous, current) => current is! DemandaFilterState,
       builder: (context, response) {
         final metaData = response.metaData;
 

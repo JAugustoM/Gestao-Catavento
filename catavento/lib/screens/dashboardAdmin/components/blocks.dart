@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class Blocks extends StatefulWidget {
@@ -26,7 +24,6 @@ class Blocks extends StatefulWidget {
 }
 
 class BlocksState extends State<Blocks> {
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -42,12 +39,10 @@ class BlocksState extends State<Blocks> {
           height: blockHeight,
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: widget.color,
-            borderRadius: BorderRadius.circular(widget.borderRadius)
-          ),
+              color: widget.color,
+              borderRadius: BorderRadius.circular(widget.borderRadius)),
         ),
-
-        if (widget.title != null) 
+        if (widget.title != null)
           Positioned(
             top: 10,
             left: 0,
@@ -63,14 +58,12 @@ class BlocksState extends State<Blocks> {
               ),
             ),
           ),
-          
         Positioned.fill(
           child: Align(
             alignment: Alignment.center,
             child: widget.child,
           ),
         ),
-        
       ],
     );
   }

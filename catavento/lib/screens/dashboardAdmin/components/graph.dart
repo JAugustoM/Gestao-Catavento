@@ -22,24 +22,22 @@ class PizzaChart extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox(
-          width: constraints.maxWidth, // Largura total disponível
-          height: constraints.maxHeight, // Altura total disponível
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
           child: PieChart(
             PieChartData(
               sections: [
                 PieChartSectionData(
-                  value: completasPercent * 100, // Percentual de completas
+                  value: completasPercent * 100,
                   title: '${(completasPercent * 100).toStringAsFixed(1)}%',
                   color: colors[0],
-                  radius:
-                      constraints.maxWidth * 0.3, // Ajusta com base no tamanho
+                  radius: constraints.maxWidth * 0.3,
                 ),
                 PieChartSectionData(
-                  value: restantesPercent * 100, // Percentual de restantes
+                  value: restantesPercent * 100,
                   title: '${(restantesPercent * 100).toStringAsFixed(1)}%',
                   color: colors[1],
-                  radius:
-                      constraints.maxWidth * 0.3, // Ajusta com base no tamanho
+                  radius: constraints.maxWidth * 0.3,
                 ),
               ],
               centerSpaceRadius:
@@ -48,6 +46,77 @@ class PizzaChart extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class ChartContainer extends StatelessWidget {
+  final int completas;
+  final int restantes;
+  final List<Color> colors;
+
+  const ChartContainer({
+    super.key,
+    required this.completas,
+    required this.restantes,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 150,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+        child: Row(
+          children: [
+            // Texto à esquerda
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Completas: $completas",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    "Restantes: $restantes",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Total: ${completas + restantes}",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            // Gráfico à direita
+            Expanded(
+              flex: 3,
+              child: PizzaChart(
+                completas: completas,
+                restantes: restantes,
+                colors: colors,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

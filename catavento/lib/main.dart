@@ -3,7 +3,6 @@ import 'package:catavento/constants.dart';
 import 'package:catavento/screens/dashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';
 import 'package:catavento/screens/employee-management.dart';
-import 'package:catavento/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,7 +20,7 @@ void main() {
         ),
         home: const LoadView(),
         routes: {
-          loginRoute: (context) => const LoginView(),
+          loginRoute: (context) => const Login(),
           homeRoute: (context) => const DashBoardAdmin(),
           crudFuncionariosRoute: (context) => EmployeeManagement(),
         },
@@ -48,7 +47,7 @@ class LoadView extends StatelessWidget {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return const Login();
+              return const DashBoardAdmin();
             default:
               return const CircularProgressIndicator();
           }

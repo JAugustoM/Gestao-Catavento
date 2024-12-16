@@ -1,18 +1,10 @@
-import 'dart:ffi';
-import 'package:catavento/bloc/usuario_bloc.dart';
-import 'package:catavento/screens/components/ativAndamentoCard.dart';
-import 'package:catavento/screens/components/confirmDialog.dart';
-import 'package:catavento/screens/components/graficInfo.dart';
-import 'package:catavento/screens/components/input.dart';
-import 'package:catavento/screens/dashboard_admin.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'components/background.dart';
-import 'components/header.dart';
-import 'components/blocks.dart';
-import 'components/showDialog.dart';
-import 'package:catavento/screens/components/menu.dart';
-import 'components/funcionarioCard.dart';
+
+import 'DashboardAdmin/components/background.dart';
+import 'DashboardAdmin/components/blocks.dart';
+import 'DashboardAdmin/components/header.dart';
+import 'DashboardAdmin/components/input.dart';
+import 'DashboardAdmin/components/showDialog.dart';
 
 class EmployeeManagement extends StatelessWidget {
   final List<Map<String, String>> funcionarios = [
@@ -41,12 +33,11 @@ class EmployeeManagement extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Blocks(
-                    color: Colors.white,
-                    height: 97,
-                    width: 321,
-                    borderRadius: 26,
-                    children: [
-                      Row(
+                      color: Colors.white,
+                      height: 97,
+                      width: 321,
+                      borderRadius: 26,
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -63,9 +54,7 @@ class EmployeeManagement extends StatelessWidget {
                             children: [],
                           )
                         ],
-                      )
-                    ],
-                  ),
+                      )),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
                   /*Blocks(
@@ -267,7 +256,7 @@ class EmployeeManagement extends StatelessWidget {
 
                   ],
                 )
-                )
+              )*/
             ],
           ),
         ],

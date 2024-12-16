@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'components/input_purple.dart';
 import 'components/button_singIn.dart';
 
-
-class Login extends StatefulWidget{
-  const Login ({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  _LoginState createState()=> _LoginState();
+  _LoginState createState() => _LoginState();
 }
+
 class _LoginState extends State<Login> {
   bool isLoading = false;
   @override
@@ -51,7 +51,8 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 60,
                   ),
-                  Form(child: Column(
+                  Form(
+                      child: Column(
                     children: [
                       PurpleTextField(
                         label: "Digite o nome do seu usuário",
@@ -60,7 +61,9 @@ class _LoginState extends State<Login> {
                           color: Color(0xCCACACAC),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       PurpleTextField(
                         label: "Digite a sua senha",
                         icon: Icon(
@@ -72,22 +75,20 @@ class _LoginState extends State<Login> {
                   )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-
                     children: [
                       Container(
-
                         margin: EdgeInsets.fromLTRB(0, 50, 20, 0),
                         child: ButtonSingIn(
-                          title: Text("Entrar" , style: TextStyle(
-                              color: Colors.white
-                          ),),
+                          title: Text(
+                            "Entrar",
+                            style: TextStyle(color: Colors.white),
+                          ),
                           isLoading: isLoading,
                           icon: Icon(
                             Icons.keyboard_arrow_right_rounded,
                             color: Colors.white,
                           ),
                           onPressed: () {
-
                             setState(() {
                               isLoading = !isLoading;
                             });
@@ -97,7 +98,6 @@ class _LoginState extends State<Login> {
                     ],
                   )
                   //SizedBox(height: 35),
-
                 ],
               ),
             ),
@@ -118,9 +118,4 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
-
-
 }
-
-

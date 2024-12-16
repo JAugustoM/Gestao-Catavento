@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +20,6 @@ import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroGrafico.dart';
 import 'package:catavento/screens/DashboardAdmin/components/search.dart';
-import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
@@ -203,12 +203,12 @@ class ListDemandaState extends State<ListDemanda> {
                     final demanda = state.databaseResponse[index];
                     return DemandCard(
                       nomeDemanda:
-                          demanda['nomeDemanda'] ?? 'Nome não disponível',
+                          demanda['nome_demanda'] ?? 'Nome não disponível',
                       status: demanda['status'] ?? 'Status não disponível',
                       codigo: demanda['codigo'] ?? 'Sem código',
                       descricao: demanda['descricao'] ?? 'Sem descricao',
                       id: demanda['id'],
-                      imagemUrl: demanda['imagemUrl'] ?? '',
+                      imagemUrl: demanda['imagem_url'] ?? '',
                       order: index,
                       bloc: context.read<DemandaBloc>(), // BACKEND
                     );

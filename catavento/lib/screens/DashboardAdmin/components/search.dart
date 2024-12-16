@@ -49,7 +49,7 @@ class SearchState extends State<Search> {
         onEditingComplete: () {
           context.read<DemandaBloc>().add(DemandaFilter(
                 // BACKEND
-                'nomeDemanda',
+                'nome_demanda',
                 _nomeDemanda.text,
               )); // BACKEND
         },

@@ -1,10 +1,10 @@
-import 'package:catavento/screens/components/infoFuncionarios.dart';
-import 'package:catavento/screens/components/showDialog.dart';
+import 'package:catavento/screens/dashboardAdmin/components/infoFuncionarios.dart';
+import 'package:catavento/screens/dashboardAdmin/components/showDialog.dart';
 import 'package:flutter/material.dart';
 import 'input.dart';
 import 'confirmDialog.dart';
 
-class FuncionarioCard extends StatefulWidget{
+class FuncionarioCard extends StatefulWidget {
   final String nomeFuncionario;
   final String status;
   final String setor;
@@ -22,17 +22,14 @@ class FuncionarioCard extends StatefulWidget{
   }
 }
 
-class FuncionarioCardState extends State<FuncionarioCard>{
-  
+class FuncionarioCardState extends State<FuncionarioCard> {
   @override
   Widget build(BuildContext context) {
-
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         title: Text(widget.nomeFuncionario),
-        subtitle: Text(
-            'Setor: ${widget.setor}\nStatus: ${widget.status}'),
+        subtitle: Text('Setor: ${widget.setor}\nStatus: ${widget.status}'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -48,17 +45,20 @@ class FuncionarioCardState extends State<FuncionarioCard>{
                       height: 402,
                       title: 'nomeFuncionario', //Inserir o nome do funcionario
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
-                        children: [
-                          Infofuncionarios(nome: "Fulano", email: "email", status: "Ativo", setor: "Montagem", demanda: "Hello Kitty")  //Trocar para as informações do banco de dados
-                        ]
-                      ),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Infofuncionarios(
+                                nome: "Fulano",
+                                email: "email",
+                                status: "Ativo",
+                                setor: "Montagem",
+                                demanda:
+                                    "Hello Kitty") //Trocar para as informações do banco de dados
+                          ]),
                     );
                   },
                 );
-                
               },
             ),
             // botão de Editar.
@@ -74,47 +74,59 @@ class FuncionarioCardState extends State<FuncionarioCard>{
                       height: 402,
                       title: 'Editar',
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
-                        children: [
-                          Inputs(text: "Nome:",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                          Inputs(text: "Setor:",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                          Inputs(text: "Email:",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                          Inputs(text: "Nome de usuário:",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                          Inputs(text: "Senha:",),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-
-                          Positioned.fill(
-                            child: Center(
-                              child: ElevatedButton(onPressed: (){
-                                //Lógica do botão
-                                Navigator.pop(context);
-                              }, 
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22)
-                                )
-                              ),
-                              child: Text(
-                                "Cadastrar",
-                                style: TextStyle(color: Colors.white),
-                                )
-
-                              )
-                            )
-                          )
-                        ]
-                      ),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Inputs(
+                              text: "Nome:",
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Inputs(
+                              text: "Setor:",
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Inputs(
+                              text: "Email:",
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Inputs(
+                              text: "Nome de usuário:",
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02),
+                            Inputs(
+                              text: "Senha:",
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.08),
+                            Positioned.fill(
+                                child: Center(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          //Lógica do botão
+                                          Navigator.pop(context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(22))),
+                                        child: Text(
+                                          "Cadastrar",
+                                          style: TextStyle(color: Colors.white),
+                                        ))))
+                          ]),
                     );
                   },
                 );
-                
               },
             ),
             // apagar
