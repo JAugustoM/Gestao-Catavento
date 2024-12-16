@@ -21,7 +21,7 @@ class FuncionarioCard extends StatelessWidget {
       child: ListTile(
         title: Text(nomeFuncionario),
         subtitle: Text(
-            'Código: $setor\nStatus: $status'),
+            'Setor: $setor\nStatus: $status'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

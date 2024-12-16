@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'package:catavento/bloc/usuario_bloc.dart';
+import 'package:catavento/screens/components/ativAndamentoCard.dart';
 import 'package:catavento/screens/components/confirmDialog.dart';
 import 'package:catavento/screens/components/graficInfo.dart';
 import 'package:catavento/screens/components/input.dart';
@@ -15,12 +16,12 @@ import 'components/funcionarioCard.dart';
 
 class EmployeeManagement extends StatelessWidget {
   final List<Map<String, String>> funcionarios = [
-    {'nome': 'João Silva', 'setor': 'Corte', 'status': 'Ativo'},
-    {'nome': 'Maria Santos', 'setor': 'Montagem', 'status': 'Inativo'},
-    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'},
-    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'},
-    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'},
-    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'}
+    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
+    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
+    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
+    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
+    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
+    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'}
   ];
 
   @override
@@ -206,8 +207,70 @@ class EmployeeManagement extends StatelessWidget {
                 height: 559,
                 width: 380,
                 borderRadius: 26,
-                children[]
-                )*/
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Center(
+                        child: Text(
+                          "Setor de Montagem",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+                    SizedBox(
+                      height: 200,
+                      width: 330,
+                      child: ListView.builder(     //Aqui vai o card das atividades em andamento (Corte)
+                        itemCount: ativAndamento.length,
+                        itemBuilder: (context, index) {
+                          final atividade = ativAndamento[index];
+                          return AtivAndamentoCard(
+                            nomeFuncionario: atividade['nome']!,
+                            nomeDemanda: atividade['demanda']!,
+                          );
+                        },
+                      )
+                    ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+                    Center(
+                        child: Text(
+                          "Setor de Corte",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+                    SizedBox(
+                      height: 200,
+                      width: 330,
+                      child: ListView.builder(     //Aqui vai os cards das atividades em andamento (Montagem)
+                        itemCount: ativAndamento.length,
+                        itemBuilder: (context, index) {
+                          final atividade = ativAndamento[index];
+                          return AtivAndamentoCard(
+                            nomeFuncionario: atividade['nome']!,
+                            nomeDemanda: atividade['demanda']!,
+                          );
+                        },
+                      )
+                    ),
+
+                  ],
+                )
+                )
             ],
           ),
         ],
