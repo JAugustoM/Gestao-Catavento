@@ -31,7 +31,6 @@ Future<void> importExcelToSupabase(String filePath) async {
               row.map((cell) => cell?.value.toString() ?? '').toList();
 
           try {
-            // Evita linhas inválidas
             if ((rowData[0] != "" && rowData[0] != "null") &&
                 (rowData[1] != "" && rowData[1] != "null")) {
               final Map<String, dynamic> demanda = {
