@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class Inputs extends StatefulWidget {
   final String text;
-  final String hint;
+  final String? hint;
+  final TextEditingController? controller;
+  final Function(String)? onChanged;
 
   Inputs({
     required this.text,
-    required this.hint,
+    this.hint,
+    this.controller,
+    this.onChanged,
   });
 
   @override
@@ -38,19 +42,21 @@ class InputsState extends State<Inputs>{
           child: SizedBox(
             height: 33,
             child: TextField(
-            decoration: InputDecoration(
-              hintStyle: TextStyle(
-                fontSize: 15,
-                color: Colors.grey
+              controller: widget.controller,
+              onChanged: widget.onChanged,
+              decoration: InputDecoration(
+                hintStyle: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey
+                ),
+                hintText: widget.hint?? '',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)
               ),
-              hintText: widget.hint,
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10)
-              ),
-              contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)
-            ),
           ),
           )
           
