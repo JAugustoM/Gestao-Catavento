@@ -78,7 +78,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
 
-    print('Teste');
     print(event.descricao);
 
     final demanda = {
@@ -88,7 +87,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       'status_cobertura': 0,
       'status_aplique': 0,
       'data_adicao': dataAdicao,
-      'prioridade': 'media',
+      'loja': 'Não especificada',
     };
 
     if (fotoUrl != null) {
