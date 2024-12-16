@@ -26,17 +26,14 @@ class Blocks extends StatefulWidget {
 class BlocksState extends State<Blocks> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double blockWidth = widget.width ?? screenWidth * 0.9;
-    double blockHeight = widget.height ?? screenHeight * 0.5;
+    final double defaultHeight = MediaQuery.of(context).size.height * 0.75;
+    final double defaultWidth = MediaQuery.of(context).size.width * 0.3;
 
     return Stack(
       children: [
         Container(
-          width: blockWidth,
-          height: blockHeight,
+          height: widget.height ?? defaultHeight,
+          width: widget.width ?? defaultWidth,
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
               color: widget.color,

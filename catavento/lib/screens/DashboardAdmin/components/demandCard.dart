@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
-import 'package:catavento/screens/dashboardAdmin/components/infoCard.dart';
+import 'infoCard.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
 

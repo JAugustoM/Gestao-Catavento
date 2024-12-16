@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:catavento/screens/dashboardAdmin/components/menu.dart';
+import 'package:catavento/shared/widgets/menu.dart';
 import '../../services/table_import/table_import.dart';
 import '../../services/table_import/table_picker.dart';
 

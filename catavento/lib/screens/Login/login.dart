@@ -1,4 +1,3 @@
-import 'dart:js_interop';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'components/input_purple.dart';

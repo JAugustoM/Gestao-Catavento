@@ -27,11 +27,15 @@ class Navbar extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Demandas'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/home/');
+            },
           ),
           ListTile(
             title: const Text('Funcionários'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/dashboardEmployees');
+            },
           ),
           ListTile(
             title: const Text('Produtos'),

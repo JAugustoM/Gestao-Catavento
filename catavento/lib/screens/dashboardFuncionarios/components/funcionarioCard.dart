@@ -1,8 +1,8 @@
-import 'package:catavento/screens/dashboardAdmin/components/infoFuncionarios.dart';
-import 'package:catavento/screens/dashboardAdmin/components/showDialog.dart';
+import 'package:catavento/screens/dashboardFuncionarios/components/infoFuncionarios.dart';
+import 'package:catavento/shared/widgets/showDialog.dart';
 import 'package:flutter/material.dart';
-import 'input.dart';
-import 'confirmDialog.dart';
+import '../../../shared/widgets/input.dart';
+import 'package:catavento/shared/widgets/confirmDialog.dart';
 
 class FuncionarioCard extends StatefulWidget {
   final String nomeFuncionario;

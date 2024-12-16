@@ -1,8 +1,9 @@
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/constants.dart';
-import 'package:catavento/screens/dashboardAdmin/dashboard_admin.dart';
+import 'package:catavento/views/login_view.dart';
+import 'screens/DashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';
-import 'package:catavento/screens/employee-management.dart';
+import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,7 +21,7 @@ void main() {
         ),
         home: const LoadView(),
         routes: {
-          loginRoute: (context) => const Login(),
+          loginRoute: (context) => const LoginView(),
           homeRoute: (context) => const DashBoardAdmin(),
           crudFuncionariosRoute: (context) => EmployeeManagement(),
         },
