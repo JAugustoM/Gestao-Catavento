@@ -184,8 +184,9 @@ class EmployeeManagement extends StatelessWidget {
                 width: 346,
                 borderRadius: 26,
                 child: SizedBox(
-                  height: 470,
-                  width: 302,
+                  height: MediaQuery.of(context).size.height * 0.6,
+                    width: MediaQuery.of(context).size.height * 0.45,
+
                   child: ListView.builder(     //Aqui vai o cards dos funcionarios cadastrados
                     itemCount: funcionarios.length,
                     itemBuilder: (context, index) {
@@ -222,11 +223,9 @@ class EmployeeManagement extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
                     SizedBox(
-                      height: 200,
-                      width: 330,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.height * 0.5,
                       child: ListView.builder(     //Aqui vai o card das atividades em andamento (Corte)
                         itemCount: ativAndamento.length,
                         itemBuilder: (context, index) {
@@ -251,11 +250,9 @@ class EmployeeManagement extends StatelessWidget {
                         ),
                       ),
 
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
                     SizedBox(
-                      height: 200,
-                      width: 330,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      width: MediaQuery.of(context).size.height * 0.5,
                       child: ListView.builder(     //Aqui vai os cards das atividades em andamento (Montagem)
                         itemCount: ativAndamento.length,
                         itemBuilder: (context, index) {
