@@ -1,8 +1,3 @@
-import 'package:catavento/bloc/usuario_bloc.dart';
-import 'package:catavento/shared/widgets/confirmDialog.dart';
-import 'package:catavento/shared/widgets/graficInfo.dart';
-import 'package:catavento/screens/DashboardAdmin/dashboard_admin.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'components/ativAndamentoCard.dart';
 import 'package:catavento/shared/widgets/input.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +9,6 @@ import 'package:catavento/shared/widgets/menu.dart';
 import 'components/funcionarioCard.dart';
 
 class EmployeeManagement extends StatelessWidget {
-
   final List<Map<String, String>> ativAndamento = [
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
@@ -141,43 +135,71 @@ class EmployeeManagement extends StatelessWidget {
                               height: 402,
                               title: 'Novo funcionário',
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-
-                                children: [
-                                  Inputs(text: "Nome:",hint: "Nome do funcionário",),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                                  Inputs(text: "Setor:",hint: "Setor do funcionário",),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                                  Inputs(text: "Email:",hint: "Email do funcionário",),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                                  Inputs(text: "Nome de usuário:",hint: "Nome de usuário do funcionário",),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                                  Inputs(text: "Senha:",hint: "Senha para o funcionário",),
-                                  SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-
-                                  Positioned.fill(
-                                    child: Center(
-                                      child: ElevatedButton(onPressed: (){
-                                        //Lógica do botão
-                                        Navigator.pop(context);
-                                      }, 
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(22)
-                                        )
-                                      ),
-                                      child: Text(
-                                        "Cadastrar",
-                                        style: TextStyle(color: Colors.white),
-                                        )
-
-                                      )
-                                    )
-                                  )
-                                ]
-                              ),
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Inputs(
+                                      text: "Nome:",
+                                      hint: "Nome do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Setor:",
+                                      hint: "Setor do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Email:",
+                                      hint: "Email do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Nome de usuário:",
+                                      hint: "Nome de usuário do funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.02),
+                                    Inputs(
+                                      text: "Senha:",
+                                      hint: "Senha para o funcionário",
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.08),
+                                    Positioned.fill(
+                                        child: Center(
+                                            child: ElevatedButton(
+                                                onPressed: () {
+                                                  //Lógica do botão
+                                                  Navigator.pop(context);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        22))),
+                                                child: Text(
+                                                  "Cadastrar",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ))))
+                                  ]),
                             );
                           },
                         );
@@ -197,69 +219,61 @@ class EmployeeManagement extends StatelessWidget {
                 ],
               ),
               SizedBox(width: MediaQuery.of(context).size.height * 0.07),
-
               Blocks(
-                title: "Todos os funcionários",
-                color: Colors.white,
-
-                borderRadius: 26,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                    width: MediaQuery.of(context).size.height * 0.45,
-
-                  child: ListView.builder(     //Aqui vai o cards dos funcionarios cadastrados
-                    itemCount: funcionarios.length,
-                    itemBuilder: (context, index) {
-                      final funcionario = funcionarios[index];
-                      return FuncionarioCard(
-                        nomeFuncionario: funcionario['nome']!,
-                        setor: funcionario['setor']!,
-                        status: funcionario['status']!,
-                      );
-                    },
-                  ) 
-                )
-              ),
-
+                  title: "Todos os funcionários",
+                  color: Colors.white,
+                  borderRadius: 26,
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      width: MediaQuery.of(context).size.height * 0.45,
+                      child: ListView.builder(
+                        //Aqui vai o cards dos funcionarios cadastrados
+                        itemCount: funcionarios.length,
+                        itemBuilder: (context, index) {
+                          final funcionario = funcionarios[index];
+                          return FuncionarioCard(
+                            nomeFuncionario: funcionario['nome']!,
+                            setor: funcionario['setor']!,
+                            status: funcionario['status']!,
+                          );
+                        },
+                      ))),
               SizedBox(width: MediaQuery.of(context).size.height * 0.07),
-
               Blocks(
-                title: "Atividades em andamento",
-                color: Colors.white,
-                borderRadius: 26,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Center(
-                        child: Text(
-                          "Setor de Montagem",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
+                  title: "Atividades em andamento",
+                  color: Colors.white,
+                  borderRadius: 26,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Center(
+                          child: Text(
+                            "Setor de Montagem",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      width: MediaQuery.of(context).size.height * 0.5,
-                      child: ListView.builder(     //Aqui vai o card das atividades em andamento (Corte)
-                        itemCount: ativAndamento.length,
-                        itemBuilder: (context, index) {
-                          final atividade = ativAndamento[index];
-                          return AtivAndamentoCard(
-                            nomeFuncionario: atividade['nome']!,
-                            nomeDemanda: atividade['demanda']!,
-                          );
-                        },
-                      )
-                    ),
-
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
-                    Center(
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          width: MediaQuery.of(context).size.height * 0.5,
+                          child: ListView.builder(
+                            //Aqui vai o card das atividades em andamento (Corte)
+                            itemCount: ativAndamento.length,
+                            itemBuilder: (context, index) {
+                              final atividade = ativAndamento[index];
+                              return AtivAndamentoCard(
+                                nomeFuncionario: atividade['nome']!,
+                                nomeDemanda: atividade['demanda']!,
+                              );
+                            },
+                          )),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03),
+                      Center(
                         child: Text(
                           "Setor de Corte",
                           style: TextStyle(
@@ -268,25 +282,22 @@ class EmployeeManagement extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.height * 0.5,
-                      child: ListView.builder(     //Aqui vai os cards das atividades em andamento (Montagem)
-                        itemCount: ativAndamento.length,
-                        itemBuilder: (context, index) {
-                          final atividade = ativAndamento[index];
-                          return AtivAndamentoCard(
-                            nomeFuncionario: atividade['nome']!,
-                            nomeDemanda: atividade['demanda']!,
-                          );
-                        },
-                      )
-                    ),
-
-                  ],
-                )
-                )
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.height * 0.5,
+                          child: ListView.builder(
+                            //Aqui vai os cards das atividades em andamento (Montagem)
+                            itemCount: ativAndamento.length,
+                            itemBuilder: (context, index) {
+                              final atividade = ativAndamento[index];
+                              return AtivAndamentoCard(
+                                nomeFuncionario: atividade['nome']!,
+                                nomeDemanda: atividade['demanda']!,
+                              );
+                            },
+                          )),
+                    ],
+                  ))
             ],
           ),
         ],
