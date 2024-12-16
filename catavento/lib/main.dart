@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/constants.dart';
+import 'package:catavento/screens/Login/login.dart';
 import 'package:catavento/screens/dashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/dashboardFuncionarios/dashboard_funcionarios.dart';
 import 'package:catavento/views/login_view.dart';
@@ -47,7 +48,7 @@ class LoadView extends StatelessWidget {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return const DashBoardAdmin();
+              return const Login();
             default:
               return const CircularProgressIndicator();
           }
