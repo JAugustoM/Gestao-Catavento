@@ -5,12 +5,24 @@ import 'package:catavento/screens/components/graficInfo.dart';
 import 'package:catavento/screens/components/input.dart';
 import 'package:catavento/screens/dashboard_admin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'components/background.dart';
 import 'components/header.dart';
 import 'components/blocks.dart';
 import 'components/showDialog.dart';
+import 'package:catavento/screens/components/menu.dart';
+import 'components/funcionarioCard.dart';
 
 class EmployeeManagement extends StatelessWidget {
+  final List<Map<String, String>> funcionarios = [
+    {'nome': 'João Silva', 'setor': 'Corte', 'status': 'Ativo'},
+    {'nome': 'Maria Santos', 'setor': 'Montagem', 'status': 'Inativo'},
+    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'},
+    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'},
+    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'},
+    {'nome': 'Carlos Oliveira', 'setor': 'Montagem', 'status': 'Ativo'}
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,8 +182,22 @@ class EmployeeManagement extends StatelessWidget {
                 height: 559,
                 width: 346,
                 borderRadius: 26,
-                children[]
-                ),
+                child: SizedBox(
+                  height: 470,
+                  width: 302,
+                  child: ListView.builder(     //Aqui vai o cards dos funcionarios cadastrados
+                    itemCount: funcionarios.length,
+                    itemBuilder: (context, index) {
+                      final funcionario = funcionarios[index];
+                      return FuncionarioCard(
+                        nomeFuncionario: funcionario['nome']!,
+                        setor: funcionario['setor']!,
+                        status: funcionario['status']!,
+                      );
+                    },
+                  ) 
+                )
+              ),
 
               SizedBox(width: MediaQuery.of(context).size.height * 0.07),
 

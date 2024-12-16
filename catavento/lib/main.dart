@@ -23,7 +23,7 @@ void main() {
         routes: {
           loginRoute: (context) => const LoginView(),
           homeRoute: (context) => const DashBoardAdmin(),
-          crudFuncionariosRoute: (context) => const EmployeeManagement(),
+          crudFuncionariosRoute: (context) => EmployeeManagement(),
         },
       ),
     ),
