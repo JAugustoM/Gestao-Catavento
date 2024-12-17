@@ -33,23 +33,24 @@ class SearchState extends State<Search> {
                 color: Colors.black.withOpacity(0.5) //Opacidade do texto
                 ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: const Color.fromRGBO(232, 228, 228, 1),
+
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.white, width: 2),
+              borderSide: BorderSide(color: const Color.fromRGBO(232, 228, 228, 1), width: 2),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 2),
+              borderSide: BorderSide(color:const Color.fromRGBO(232, 228, 228, 1), width: 2),
               borderRadius: BorderRadius.circular(16),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 2),
+              borderSide: BorderSide(color: const Color.fromRGBO(232, 228, 228, 1), width: 2),
               borderRadius: BorderRadius.circular(16),
             )),
         onEditingComplete: () {
           context.read<DemandaBloc>().add(DemandaFilter(
                 // BACKEND
-                'nome_demanda',
+                'nome_demanda',        
                 _nomeDemanda.text,
               )); // BACKEND
         },

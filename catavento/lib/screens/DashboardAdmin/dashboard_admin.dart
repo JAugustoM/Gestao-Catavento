@@ -181,11 +181,11 @@ class ListDemandaState extends State<ListDemanda> {
       width: size.width * 0.9,
       height: size.height * 0.65,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: Color.fromRGBO(232, 228, 228, 1),
         borderRadius: BorderRadius.circular(17),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.3),
             spreadRadius: 1,
             blurRadius: 5,
             offset: Offset(0, 3),

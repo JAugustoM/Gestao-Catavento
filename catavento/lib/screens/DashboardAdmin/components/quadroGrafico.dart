@@ -38,7 +38,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                 width: size.width * 0.9,
                 height: size.height * 0.2,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color.fromRGBO(232, 228, 228, 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
@@ -118,7 +118,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                 width: size.width * 0.9,
                 height: size.height * 0.2,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color.fromRGBO(232, 228, 228, 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -166,7 +166,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                 width: size.width * 0.9,
                 height: size.height * 0.2,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color.fromRGBO(232, 228, 228, 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
