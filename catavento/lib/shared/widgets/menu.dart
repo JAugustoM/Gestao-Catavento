@@ -1,3 +1,4 @@
+import 'package:catavento/constants.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatelessWidget {
@@ -28,13 +29,13 @@ class Navbar extends StatelessWidget {
           ListTile(
             title: const Text('Demandas'),
             onTap: () {
-              Navigator.pushNamed(context, '/home/');
+              Navigator.pushNamed(context, homeRoute);
             },
           ),
           ListTile(
             title: const Text('Funcionários'),
             onTap: () {
-              Navigator.pushNamed(context, '/dashboardEmployees');
+              Navigator.pushNamed(context, crudFuncionariosRoute);
             },
           ),
           ListTile(
@@ -43,7 +44,9 @@ class Navbar extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Sair da Conta'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, loginRoute);
+            },
           ),
         ],
       ),
