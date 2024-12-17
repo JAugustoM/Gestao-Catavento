@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'components/input_purple.dart';
 import 'components/button_singIn.dart';
@@ -14,7 +13,6 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
