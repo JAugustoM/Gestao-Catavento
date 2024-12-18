@@ -1,4 +1,4 @@
-# Reunião com a Cliente 21/11
+# Reunião 24/11
 
 [Link da Reunião](https://unbbr.sharepoint.com/sites/MDS20242/Documentos%20Compartilhados/Equipe%20Fehu/Recordings/Reuni%C3%A3o%20de%20in%C3%ADcio%20de%20sprint%20-%20Equipe%204%20(Fehu)-20241124_160552-Grava%C3%A7%C3%A3o%20de%20Reuni%C3%A3o.mp4?web=1&referrer=Teams.TEAMS-WEB&referrerScenario=MeetingChicletGetLink.view) | [Transcrição](https://unbbr.sharepoint.com/:w:/s/MDS20242/EU_3tF_NwuZKkb07pYym29kB4lMwrUWNxEYDVLZOw7Hp8w?e=K4aXQX)
 
