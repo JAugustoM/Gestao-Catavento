@@ -17,6 +17,8 @@
 | 0.11 | 17/12/2024 | Redação visão de implementação | Daniel Fernandes |
 | 0.12 | 17/12/2024 | Redação das restrições adicionais | Gabriela Dourado |
 | 0.13 | 18/12/2024 | Complementando a visão de implementação e revisando | Mariana Pereira |
+| 0.14 | 18/12/2024 | Revisando e reestruturando os tópicos de metas e restrições arquiteturais e restrições adicionais | Mariana Pereira |
+| 1.0 | 18/12/2024 | Revisão final | José Augusto |
 
 ## Autores
 
@@ -76,7 +78,17 @@ No caso do sistema desenvolvido pela equipe, teremos as páginas do administrado
 
 ### 2.4. Metas e Restrições Arquiteturais
 
-### 2.5. Visão de Casos de Uso (escopo do produto)
+As metas e restrições arquiteturais para o sistema incluem diversos aspectos fundamentais para seu desenvolvimento e operação. Entre as metas arquiteturais, destaca–se o tempo que respostas, que deve ser de até 2 segundos para garantir uma experiência fluida para gerentes e funcionários, especialmente no acompanhamento em tempo real das demandas. Essa agilidade é essencial para evitar atrasos e desorganização no fluxo produtivo das demandas. Outra meta importante é a disponibilidade, que requer que o sistema deve estar disponível 24 horas por dia, com maior estabilidade durante o horário comercial da empresa, uma vez que a indisponibilidade do sistema pode interromper o fluxo produtivo, prejudicando a visualização e atualização das demandas pelos funcionários.
+
+Além disso, o sistema deve proporcionar visibilidade das etapas, permitindo que as informações sobre o estado de cada etapa da produção dos bolos devem estar acessíveis para todos os funcionários. Essa característica é crucial, pois algumas etapas só podem ser iniciadas após a conclusão de outras, é fundamental que todos os funcionários possam acompanhar o progresso, garantindo a continuidade e eficiência do processo. A facilidade de uso é outro objetivo essencial, exigindo que o aplicativo seja intuitivo e fácil de aprender, permitindo que novos funcionários consigam utilizá-lo com o menor tempo de treinamento possível. Isso é importante porque alguns funcionários podem ter pouca experiência com tecnologia, por isso a interface deve ser simples, acessível e funcional.
+
+Outro ponto relevante é a geração de relatórios automatizados. O sistema deve gerar automaticamente relatórios de desempenho dos funcionários, detalhando o tempo gasto na produção de cada bolo. Esses relatórios deverão ser armazenados em uma página específica do sistema, acessível para consulta pelos gerentes. Esses relatórios permitem um controle mais eficiente do desempenho dos funcionários e auxiliam no monitoramento das vendas e da produção. No que se refere a escalabilidade, o sistema deve ser capaz de suportar o aumento do número de demandas e usuários simultâneos sem comprometer o desempenho. Essa capacidade é essencial para preparar o sistema para o crescimento da empresa e atender a um número maior de processos no futuro. Além disso, a utilização do Supabase possibilita atender a demandas de expansão, como o desenvolvimento de outro aplicativo ou o compartilhamento de dados com clientes para que acompanhem o pregresso do produto, graças a capacidade de reagir a mudanças do banco de dados em tempo real e a compatibilidade com diferentes produtos. 
+
+Quantos as restrições arquiteturais, o projeto deve seguir o padrão arquitetural BLoC, que promove uma separação clara entre a interface e a lógica de negócios, aumentando a testabilidade, a manutenção do código e a modularidade. Além disso, o uso do BLoC facilita a escalabilidade do sistema, permitindo implementar novas funcionalidades sem comprometer a estrutura existente. O sistema utilizará o banco de dados Supabase para armazenamento e sincronização em tempo real, que oferece suporte nativo para essas funcionalidades, além de autenticação integradas. O Supabase é compatível com a linguagem Dart e com o framework Flutter, o que facilita a integração e atende às necessidades do sistema para controle dinâmico de demandas e geração de relatórios de desempenho. 
+
+Adicionalmente, o sistema deve ser compatível com tablets, pois esses dispositivos são as ferramentas utilizadas no ambiente de trabalho da empresa. Ele também deve permitir a importação da planilha de dados atualmente utilizada pela empresa, o que facilita a transição para o novo sistema, garantindo a continuidade das operações e evitando a perda de informações históricas importantes. Essa funcionalidade também reduz o esforço manual dos funcionários ao integrar dados ao sistema, considerando a grande quantidade de demandas diárias. 
+
+### 2.5. Visão de Casos de Uso (Escopo do produto)
 
 **<p style="text-align: center;">Figura 2: Diagrama de Casos de Uso</p>**
 
@@ -108,7 +120,7 @@ No diagrama da Figura 3, é possível observar que, após a autenticação, o us
 
 **<p style="text-align: center;">Figura 3: Diagrama de Estados de Sessão do Usuário Funcionário</p>**
 
-![Diagrama de Estados de Sessão do Usuário Funcionário]()
+![Diagrama de Estados de Sessão do Usuário Funcionário](./assets/estados-usuario.png)
 
 **<p style="text-align: center;">Fonte: autoria própria (2024)</p>**
 
@@ -116,7 +128,7 @@ Em seguida, o diagrama da Figura 4 mostra o fluxo de sessão do usuário adminis
 
 **<p style="text-align: center;">Figura 4: Diagrama de Estados de Sessão do Usuário Administrador</p>**
 
-![Diagrama de Estados de Sessão do Usuário Administrador]()
+![Diagrama de Estados de Sessão do Usuário Administrador](./assets/estados-admin.png)
 
 **<p style="text-align: center;">Fonte: autoria própria (2024)</p>**
 
@@ -162,7 +174,33 @@ A comunicação com o banco de dados é realizada através da classe **Client** 
 
 ### 2.8. Visão de Implantação
 
+O sistema será implantado em tablets android, por serem dispositivos que unem mobilidade com uma tela que permite o software apresentar mais informações ao usuário. Esses dispositivos são ideais para um software de gestão.  
+
+As tecnologias utilizadas serão o Flutter e o Supabase, o primeiro um framework de desenvolvimento multiplataforma especializado no desenvolvimento mobile baseado na linguagem Dart, linguagem que é compilada em código nativo proporcionando alto desempenho nessas plataformas, e o segundo um backend como serviço com integração nativa com o Flutter e APIs para a comunicação em tempo real com o banco de dados, essencial para o acompanhamento do processo produtivo. Além disso será usado um banco de dados PostgreSQL, que garante a integridade das informações armazenadas e a possibilidade de acesso simultâneo ao banco de dados por vários usuários.
+
+#### 2.8.1. Infraestrutura de Hardware 
+
+Para rodar o software, será necessário, como a alternativa pedida pela cliente, um tablet com 4GB de RAM e conexão Wi-Fi. Esse requisito garante que o sistema funcione de maneira eficiente e estável. 
+
+#### 2.8.2. Tecnologias
+
+O desenvolvimento será realizado utilizando tecnologias modernas. O Flutter, um framework amplamente utilizado no mercado, permitirá o desenvolvimento de aplicações para diferentes sistemas operacionais, como Android e iOS, além de multiplataformas. Ele oferece pacotes de bibliotecas pré-prontas que tornam o desenvolvimento mais ágil e eficiente. Sua popularidade no mercado é atribuída à versatilidade, desempenho elevado e alto grau de personalização. 
+
+A linguagem Dart será a base para o desenvolvimento do sistema. Essa linguagem, conhecida por sua eficiência, utiliza a compilação a compilação AOT (Ahead-of-Time), que converte o código diretamente em linguagem nativa, proporcionando alto desempenho em dispositivos móveis, como celulares, tablets e notebooks. 
+
+Como solução de backend, será utilizado o Supabase. Desenvolvido para ser escalável, acessível e baseado em código aberto, o Supabase atende às necessidades de desenvolvedores do todos os níveis de habilidade. Sua compatibilidade com o Flutter e a linguagem Dart facilita a integração e permite atualizações de dados em tempo real, um requisito essencial para o gerenciamento eficiente entre os departamentos do cliente. 
+
+#### 2.8.3. Banco de Dados
+
+O banco de dados desempenhará um papel crucial na gestão de usuário e autenticação, garantindo proteção contra acessos não autorizados. O sistema contará com diferentes níveis de acesso, divididos entre administradores, gerentes e funcionários, o que assegura maior controle e segurança. Além disso, o banco de dados será projetado para escalabilidade, permitindo que o sistema atenda a novas demandas no futuro. Isso inclui, por exemplo, a possibilidade de desenvolver outros aplicativos ou compartilhar dados com clientes, permitindo que acompanhem o progresso dos produtos em tempo real. Essa escalabilidade é essencial para suportar o aumento no número de demandas e usuários simultâneos, sem comprometer o desempenho do sistema.
+
 ### 2.9. Restrições Adicionais
+
+As restrições negociais e de qualidade do sistema estabelecem diretrizes importantes para o seu desenvolvimento e operação. Uma das principais restrições negocias é a autenticação obrigatória. O software exige que todos os usuários se autentiquem com um nome de usuário e senha, garantindo que cada funcionário tenha um perfil associado às suas funções, com níveis de acesso diferenciados. Perfis como Administrador e Gerente terão acesso a telas e funcionalidades exclusivas. Essa medida é necessária para proteger informações sensíveis da empresa, como registos de pedidos e informações confidenciais sobre clientes e fornecedores. Além disso, evita acessos não autorizados por terceiros, garantindo a conformidade com regulamentos de segurança e proteção de dados.
+
+Entre as restrições de qualidade, destaca-se a usabilidade, que requer que a interface do aplicativo deve ser acessível, intuitiva e amigável, projetada para facilitar a navegação, especialmente para usuários com menos familiaridade com tecnologia. Essa facilidade de uso é crucial para que todos os colaboradores, incluindo adultos mais velhos com pouca experiência tecnológica, consigam operar o sistema sem dificuldades, reduzindo o tempo necessário para treinamento e melhora a produtividade. Outra restrição essencial é a confiabilidade do sistema. Ele deve oferecer alta disponibilidade com um uptime de 99,9% e recuperação rápida de falhas, garantindo que nenhum dado seja perdido em casos de interrupções ou falhas. A confiabilidade é essencial para evitar prejuízos ao negócio, pois o sistema é usado para gerenciar a demanda de produção de bolos. Qualquer interrupção pode comprometer os prazos de entrega, prejudicar a satisfação da cliente e afetar a produtividade da empresa.
+
+No aspeto de portabilidade, o sistema deve ser projetado para funcionar de forma eficaz em dispositivos móveis como tablets, que são amplamente utilizados no ambiente de trabalho da empresa. Essa característica garante que o sistema possa ser acessado em qualquer local dentro do ambiente corporativo. Por fim, a manutenibilidade do código é uma prioridade. O sistema deve ser desenvolvido de forma modular, com documentação clara e boas práticas de programação, facilitando a identificação e correção de falhas ou a adição de novas funcionalidades. Isso é essencial para que o sistema possa	ser atualizado regularmente e acompanhar as necessidades crescentes do negócio e mantendo-se relevante e funcional ao longo do tempo. 
 
 ## 3. Bibliografia
 
