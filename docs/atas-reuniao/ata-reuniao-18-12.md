@@ -1,6 +1,6 @@
 # Reunião 18/12
 
-[Link da Reunião]() | [Transcrição]()
+[Link da Reunião](https://unbbr.sharepoint.com/sites/MDS20242/Documentos%20Compartilhados/Equipe%20Fehu/Recordings/Equipe%20Fehu%20-%20Reuni%C3%A3o%2018_12-20241218_141444-Grava%C3%A7%C3%A3o%20de%20Reuni%C3%A3o.mp4?web=1&referrer=Teams.TEAMS-WEB&referrerScenario=MeetingChicletGetLink.view) | [Transcrição](https://unbbr.sharepoint.com/:w:/s/MDS20242/EepA0qPNYQ1MmCL69TToYe4BP6tXhLS_qxTt5WsA596Opw?e=FcOfY6)
 
 ## Participantes
 
@@ -20,12 +20,12 @@ Fazer a última revisão do documento de arquitetura antes de entregar ao profes
 
 ## Resumo
 
-Foi feita uma última revisão do documento de arquitetura com a equipe.
+Foi feita uma última revisão do documento de arquitetura com a equipe e foi discutido um pouco sobre os testes de software que devem ser feitos.
 
 ## Resoluções
 
-Nada sobre o aplicativo ou sobre o desenvolvimento foi alterado durante a reunião, a reunião foi exclusivamente dedicada ao documento de arquitetura.
+A Mariana e a Maria Eduarda ficaram encarregadas de começar os testes unitários e de integração.
 
 ## Observações
 
-Nada a relatar
+A Gabriella chegou um pouco atrasada por causa de problemas técnicos em casa.
