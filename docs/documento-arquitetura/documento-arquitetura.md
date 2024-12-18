@@ -24,15 +24,15 @@
 
 | Matrícula | Nome | Descrição do Papel Assumido na Equipe | % Contribuição ao trabalho |
 | :-------: | :--: | :-----------------------------------: | :------------------------: |
-| 222008459 | Daniel | Desenvolvedor Frontend | |
-| 231012058 | Danielle | Desenvolvedora Frontend | |
-| 231026821 | Gabriela | Desenvolvedor Backend | |
-| 231026429 | José | Desenvolvedor Backend | |
-| 231012272 | Leticia | Desenvolvedor Frontend | |
-| 222037577 | Maria Eduarda | Desenvolvedora Backend, analista de qualidade | |
-| 231027005 | Maria Samara | Desenvolvedora Frontend | |
-| 232029210 | Mariana | Desenvolvedora Frontend | |
-| 231026545 | Pedro | Desenvolvedor Backend, Banco de Dados | |
+| 222008459 | Daniel | Desenvolvedor Frontend | 11% |
+| 231012058 | Danielle | Desenvolvedora Frontend | 11% |
+| 231026821 | Gabriela | Desenvolvedor Backend | 11% |
+| 231026429 | José | Desenvolvedor Backend | 12% |
+| 231012272 | Leticia | Desenvolvedor Frontend | 11% |
+| 222037577 | Maria Eduarda | Desenvolvedora Backend, analista de qualidade | 11% |
+| 231027005 | Maria Samara | Desenvolvedora Frontend | 11% |
+| 232029210 | Mariana | Desenvolvedora Frontend | 11% |
+| 231026545 | Pedro | Desenvolvedor Backend, Banco de Dados | 11% |
 
 ## 1. Introdução
 
