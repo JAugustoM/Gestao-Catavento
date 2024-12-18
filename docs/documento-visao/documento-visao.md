@@ -1,4 +1,6 @@
-# [VISÃO DO PRODUTO E PROJETO](https://unbbr.sharepoint.com/:w:/r/sites/MDS20242/_layouts/15/Doc2.aspx?action=edit&sourcedoc=%7B4ffe2197-4db2-4cbc-88df-397200886215%7D&wdOrigin=TEAMS-WEB.teamsSdk_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1733011856568&web=1)
+# VISÃO DO PRODUTO E PROJETO
+
+## Histórico de Revisões
 
 | Versão | Data | Descrição da Alteração | Nome(s) Integrante(s) |
 | :----: | :--: | :--------------------: | :-------------------: |
