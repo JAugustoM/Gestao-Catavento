@@ -1,8 +1,10 @@
 import 'package:catavento/screens/dashboardFuncionarios/components/infoFuncionarios.dart';
-import 'package:catavento/shared/widgets/showDialog.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
+import 'package:catavento/shared/theme/colors.dart';
+import 'DropDownButton.dart';
+import 'checkBox.dart';
 
 class FuncionarioCard extends StatefulWidget {
   final String nomeFuncionario;
@@ -26,112 +28,41 @@ class FuncionarioCardState extends State<FuncionarioCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
-        title: Text(widget.nomeFuncionario),
-        subtitle: Text('Setor: ${widget.setor}\nStatus: ${widget.status}'),
+        title: Text(
+          widget.nomeFuncionario,
+          style: TextStyle(
+            color: AppColors.blue,
+            fontWeight: FontWeight.bold
+          ),),
+        subtitle: Text('Setor: ${widget.setor}\nStatus: ${widget.status}',
+        style: TextStyle(color: AppColors.blue),),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
               icon: Icon(Icons.info),
+              color: AppColors.blue,
               onPressed: () {
                 //Lógica ao clicar
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Showdialog(
-                      width: 463,
-                      height: 402,
-                      title: 'nomeFuncionario', //Inserir o nome do funcionario
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Infofuncionarios(
-                                nome: "Fulano",
-                                email: "email",
-                                status: "Ativo",
-                                setor: "Montagem",
-                                demanda:
-                                    "Hello Kitty") //Trocar para as informações do banco de dados
-                          ]),
-                    );
-                  },
-                );
+                _showInfoEmployeeDialog('Maria', context);
               },
             ),
             // botão de Editar.
             IconButton(
               icon: Icon(Icons.edit),
+              color: AppColors.blue,
               onPressed: () {
                 //  editar a demanda
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Showdialog(
-                      width: 463,
-                      height: 402,
-                      title: 'Editar',
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Inputs(
-                              text: "Nome:",
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.02),
-                            Inputs(
-                              text: "Setor:",
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.02),
-                            Inputs(
-                              text: "Email:",
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.02),
-                            Inputs(
-                              text: "Nome de usuário:",
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.02),
-                            Inputs(
-                              text: "Senha:",
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.08),
-                            Positioned.fill(
-                                child: Center(
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          //Lógica do botão
-                                          Navigator.pop(context);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(22))),
-                                        child: Text(
-                                          "Cadastrar",
-                                          style: TextStyle(color: Colors.white),
-                                        ))))
-                          ]),
-                    );
-                  },
-                );
+                _showEditEmployeeDialog(context);
               },
             ),
             // apagar
             IconButton(
                 icon: Icon(Icons.delete),
+                color: AppColors.blue,
                 onPressed: () async {
                   showDialog(
                     context: context,
@@ -153,4 +84,217 @@ class FuncionarioCardState extends State<FuncionarioCard> {
       ),
     );
   }
+  void _showEditEmployeeDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double dialogWidth = constraints.maxWidth * 0.9; // 90% da largura disponível
+            if (dialogWidth > 500) {
+              dialogWidth = 500; // Limite máximo de largura
+            }
+
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: dialogWidth),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Editar Funcionario',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.blue,
+                              ),
+                            ),
+                          )),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.close,
+                              size: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Inputs(text: "Nome"),
+                            const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Tipo de Acesso',
+                                  style: TextStyle(
+                                      color: AppColors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  children: [
+                                    CheckBox(),
+                                    const Text(
+                                      'Gerente',
+                                      style: TextStyle(color: AppColors.blue),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    CheckBox(),
+                                    const Text(
+                                      'Funcionário',
+                                      style: TextStyle(color: AppColors.blue),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Text(
+                                  "Setor*",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: AppColors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Dropdownbutton()
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Inputs(text: "Email"),
+                            const SizedBox(height: 16),
+                            Inputs(text: "Nome de Usuário"),
+                            const SizedBox(height: 16),
+                            Inputs(text: "Senha"),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        ),
+                        child: const Text(
+                          "Concluir",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
+void _showInfoEmployeeDialog(String nomeFunc,BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double dialogWidth = constraints.maxWidth * 0.9; // 90% da largura disponível
+            if (dialogWidth > 500) {
+              dialogWidth = 500; // Limite máximo de largura
+            }
+
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: dialogWidth),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              nomeFunc,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.blue,
+                              ),
+                            ),
+                          )),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.close,
+                              size: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Infofuncionarios(
+                              nome: "Fulano",
+                              email: "email",
+                              status: "Ativo",
+                              setor: "Montagem",
+                              demanda: "Hello Kitty"
+                            ) //Trocar para as informações do banco de dados
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
 }
