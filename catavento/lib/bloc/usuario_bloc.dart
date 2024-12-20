@@ -32,7 +32,8 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
   void _onCreate(UsuarioCreate event, Emitter<UsuarioState> emit) async {
     final usuario = {
-      'usuario_nome': event.nome,
+      'nome': event.nome,
+      'usuario': event.usuario,
       'email': event.email,
       'setor': event.setor,
       'tipo': event.tipo
@@ -56,8 +57,11 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
   void _onDelete(UsuarioDelete event, Emitter<UsuarioState> emit) async {
     try {
-      final response =
-          await supabase.from('usuarios').delete().eq('id', event.id).select();
+      final response = await supabase
+          .from('usuarios')
+          .delete()
+          .eq('email', event.email)
+          .select();
       if (response.isNotEmpty) {
         currentData.removeAt(event.order);
       }
@@ -118,5 +122,24 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     }
     final metaData = {"total": numUsuarios};
     return metaData;
+  }
+
+  Map<String, dynamic>? getUser(String email) {
+    Map<String, dynamic>? user;
+    int id = 0;
+
+    for (var data in currentData) {
+      if (data['email'] == email) {
+        user = data;
+        break;
+      }
+      id++;
+    }
+
+    if (user != null) {
+      user['id'] = id;
+    }
+
+    return user;
   }
 }
