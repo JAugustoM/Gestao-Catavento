@@ -16,6 +16,7 @@
 | 1.0 | 02/12/2024 | Revisão final para entrega | Henrique Bernardes |
 | 1.1 | 06/12/2024 | Adaptação do backlog das sprints 2, 3 e 4 de acordo com as demandas relacionadas a refatoração do código de acordo com a arquitetura | Henrique Bernardes |
 | 1.2 | 10/12/2024 | Revisão da tabela de organização da equipe e retificação feita sobre a matriz de comunicação | José Augusto |
+| 1.3 | 21/12/2024 | Revisão da tabela de backlog e da declaração de posição do produto | José Augusto |
 
 ## 1 VISÃO GERAL DO PRODUTO
 
@@ -40,10 +41,10 @@ Após a identificação do problema e da oportunidade de solução mencionados a
 |       ----:          | :----                                               |
 | Para:                | Empresa Catavento                                   |
 | Necessidade:         | uma solução tecnológica para a gerência de demandas |
-| O (nome do produto): | Catavento é um App mobile                           |
-| Que:                 | centraliza as demandas de cada departamento, permitindo o lançamento e acompanhamento de demandas em tempo real pelos gerentes e a apresentação das demandas em forma estritamente sequencial aos funcionários |
+| O (nome do produto): | Gestão Catavento é um app                           |
+| Que:                 | centraliza as demandas de cada departamento, permitindo o lançamento e acompanhamento de demandas em tempo real do computador pelos gerentes e a apresentação das demandas em forma estritamente sequencial aos funcionários utilizando o app mobile |
 | Ao contrário:        | tecnologias voltadas para o gerenciamento de projetos como o Trello ou o Slack poderiam substituir o método atual de gerenciamento |
-| Nosso produto:       | porém, o Catavento será uma ferramenta especializada em atender nas necessidades da cliente, adaptada ao contexto produtivo da empresa. |
+| Nosso produto:       | porém, será uma ferramenta especializada em atender nas necessidades da cliente, adaptada ao contexto produtivo da empresa. |
 
 **<p style="text-align: center;"> Fonte: autoria própria (2024)</p>**
 
@@ -243,16 +244,18 @@ O *backlog* do produto foi elaborado como uma forma de organizar e priorizar os 
 | 3 | 1 | Página do gerente de departamento/admin | Funcional | *Must* | Uma tela visível aos gerentes de departamento e admin que implemente o CRUD do pedido. | Como gerente de departamento, quero ter acesso a uma página de gerenciamento de demandas e conseguir visualizar a situação das atividades de cada demanda. |
 | 4 | 2 | CRUD Funcionário | Funcional | *Must* | Funções de criar, editar, deletar e visualizar funcionários | Como gerente de departamento, quero poder adicionar, editar, remover ou visualizar uma conta do tipo funcionário. |
 | 5 | 2 | Página de gerenciamento de funcionários | Funcional | *Must* | Uma página que permite os gerentes de departamento gerenciarem os funcionários, como editar, remover ou detalhar informações sobre cada um. | Como gerente de departamento, quero poder gerenciar os funcionários por meio de uma página. |
-| 6 | 2 | Sistema de autenticação | Funcional | *Must* | Um sistema que verifique as credenciais entradas e permita ou não o acesso respectivo ao gerente de departamento ou funcionário. | Como gerente de departamento, quero que somente os usuários cadastrados possam ter acesso ao sistema. |
-| 7 | 3 | Página de login | Funcional | *Must* | Uma tela com os inputs de usuário e senha que verifique a validade dos dados de acordo com o sistema de autenticação. | Como usuário, quero conseguir entrar no sistema por meio de uma simples tela de login. |
-| 8 | 3 | Página de desempenho de funcionário | Funcional | *Should* | Uma página que mostra o desempenho de um funcionário para o administrador | Como gerente de departamento, quero poder ver o desempenho de um funcionário específico. |
-| 9 | 3 | Página de demandas para funcionário | Funcional | *Must* | Uma página que mostre a demanda atual disponível para trabalhar. | Como funcionário, quero poder iniciar uma demanda por meio de uma página que mostre os detalhes do bolo como o código, uma foto, a descrição e o nome. |
-| 10 | 3 | Menu de navegação | Funcional | *Must* | Um menu lateral de navegação que permite visitar outras páginas do sistema. | Como funcionário/ gerente de departamento, quero poder navegar pelo aplicativo por meio de um menu lateral de navegação. |
+| 6 | 2 | Página de login | Funcional | *Must* | Uma tela com os inputs de usuário e senha que verifique a validade dos dados de acordo com o sistema de autenticação. | Como usuário, quero conseguir entrar no sistema por meio de uma simples tela de login. |
+| 7 | 2 | Menu de navegação | Funcional | *Must* | Um menu lateral de navegação que permite visitar outras páginas do sistema. | Como funcionário/ gerente de departamento, quero poder navegar pelo aplicativo por meio de um menu lateral de navegação. |
+| 8 | 3 | Sistema de autenticação | Funcional | *Must* | Um sistema que verifique as credenciais entradas e permita ou não o acesso respectivo ao gerente de departamento ou funcionário. | Como gerente de departamento, quero que somente os usuários cadastrados possam ter acesso ao sistema. |
+| 9 | 3 | Página de desempenho de funcionário | Funcional | *Should* | Uma página que mostra o desempenho de um funcionário para o administrador | Como gerente de departamento, quero poder ver o desempenho de um funcionário específico. |
+| 10 | 3 | Página de demandas para funcionário | Funcional | *Must* | Uma página que mostre a demanda atual disponível para trabalhar. | Como funcionário, quero poder iniciar uma demanda por meio de uma página que mostre os detalhes do bolo como o código, uma foto, a descrição e o nome. |
 | 11 | 4 | Página de meta do funcionário | Funcional | *Must* | Uma página que mostre ao gerente de departamento e ao funcionário em si a meta atual imposta a ele e seu progresso para atingi-la | Como funcionário/ gerente de departamento, quero poder ver o progresso da minha meta/meta de um funcionário específico. |
 | 12 | 4 | Quadro de prioridades | Funcional | *Should* | Um quadro que liste as demandas com base na prioridade. | Como gerente de departamento, quero poder listar as demandas com base na prioridade (alta, média ou baixa). |
 | 13 | 5 | Geração de relatório | Funcional | *Could* | Um botão que gera um relatório relativo a um espaço de tempo especificado (dia, semana, mês) | Como gerente de departamento, quero poder gerar um relatório de acordo com uma faixa de tempo especificada. |
 
 **<p style="text-align: center;">Fonte: autoria própria (2024)</p>**
+
+Após diversas tentativas pela equipe foi constatado que o requisito 1 do backlog não poderá ser implementado como envisionado originalmente, por limitações técnicas que vão além do escopo do projeto. Porém, após conversas com a cliente, ficou acordado que a integração com o Microsoft 365 será substituído pela possibilidade de importar os dados de arquivos .xlsx, planilhas do Excel, armazenados no disposito do administrador ou gerente.
 
 ## 5 REFERÊNCIAS BIBLIOGRÁFICAS
 
