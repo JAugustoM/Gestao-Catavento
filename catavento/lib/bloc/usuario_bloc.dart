@@ -16,8 +16,8 @@ part 'usuario_event.dart';
 part 'usuario_state.dart';
 
 class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
-  final supabase = Supabase.instance.client;
-  DatabaseResponse currentData = [];
+  final _supabase = Supabase.instance.client;
+  DatabaseResponse _currentData = [];
   UsuarioEvent get initialState => UsuarioLoading();
 
   UsuarioBloc() : super(UsuarioLoadingState([], {})) {
@@ -40,9 +40,10 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     };
 
     try {
-      final response = await supabase.from('usuarios').insert(usuario).select();
+      final response =
+          await _supabase.from('usuarios').insert(usuario).select();
       if (response.isNotEmpty) {
-        currentData.add(response[0]);
+        _currentData.add(response[0]);
       } else {
         throw Exception("Erro ao adiciona usuario");
       }
@@ -52,18 +53,18 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
     final metaData = _countUsuarios();
 
-    emit(UsuarioCreateState(currentData, metaData));
+    emit(UsuarioCreateState(_currentData, metaData));
   }
 
   void _onDelete(UsuarioDelete event, Emitter<UsuarioState> emit) async {
     try {
-      final response = await supabase
+      final response = await _supabase
           .from('usuarios')
           .delete()
           .eq('email', event.email)
           .select();
       if (response.isNotEmpty) {
-        currentData.removeAt(event.order);
+        _currentData.removeAt(event.order);
       }
     } catch (e) {
       print('Erro ao buscar dados: $e');
@@ -71,51 +72,51 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
     final metaData = _countUsuarios();
 
-    emit(UsuarioDeleteState(currentData, metaData));
+    emit(UsuarioDeleteState(_currentData, metaData));
   }
 
   void _onUpdate(UsuarioUpdate event, Emitter<UsuarioState> emit) async {
     try {
       final nome = event.nome;
+      final usuario = event.usuario;
       final setor = event.setor;
       final email = event.email;
-      final tipo = event.tipo;
       final id = event.id;
 
-      await supabase.from('usuarios').update({
+      await _supabase.from('usuarios').update({
         'nome': nome,
         'setor': setor,
         'email': email,
-        'tipo': tipo,
-      }).eq('id', event.id);
+        'usuario': usuario,
+      }).eq('email', event.email);
 
       // verificar se pode usar o id
-      currentData[id]['nome'] = nome;
-      currentData[id]['setor'] = setor;
-      currentData[id]['email'] = email;
-      currentData[id]['tipo'] = tipo;
+      _currentData[id]['nome'] = nome;
+      _currentData[id]['setor'] = setor;
+      _currentData[id]['email'] = email;
+      _currentData[id]['usuario'] = usuario;
 
       final metaData = _countUsuarios();
 
-      emit(UsuarioUpdateState(currentData, metaData));
+      emit(UsuarioUpdateState(_currentData, metaData));
     } catch (e) {
       print("Erro ao atualizar usuario: $e");
     }
   }
 
   void _onLoading(UsuarioLoading event, Emitter<UsuarioState> emit) async {
-    final response = await supabase.from('usuarios').select();
-    currentData = response;
+    final response = await _supabase.from('usuarios').select();
+    _currentData = response;
 
     final metaData = _countUsuarios();
 
-    emit(UsuarioLoadingState(currentData, metaData));
+    emit(UsuarioLoadingState(_currentData, metaData));
   }
 
   Map<String, int> _countUsuarios() {
     int numUsuarios = 0;
 
-    for (var usuario in currentData) {
+    for (var usuario in _currentData) {
       if (usuario["tipo"] == "funcionario") {
         numUsuarios++;
       }
@@ -128,7 +129,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     Map<String, dynamic>? user;
     int id = 0;
 
-    for (var data in currentData) {
+    for (var data in _currentData) {
       if (data['email'] == email) {
         user = data;
         break;

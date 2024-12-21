@@ -1,4 +1,3 @@
-import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/bloc/usuario_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/infoFuncionarios.dart';
 import 'package:catavento/shared/widgets/showDialog.dart';
@@ -28,6 +27,12 @@ class FuncionarioCard extends StatefulWidget {
 }
 
 class FuncionarioCardState extends State<FuncionarioCard> {
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _setorController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final user = context.read<UsuarioBloc>().getUser(widget.email)!;
@@ -85,30 +90,35 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           children: [
                             Inputs(
                               text: "Nome:",
+                              controller: _nomeController,
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Setor:",
+                              controller: _setorController,
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Email:",
+                              controller: _emailController,
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Nome de usuário:",
+                              controller: _usuarioController,
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Senha:",
+                              controller: _senhaController,
                             ),
                             SizedBox(
                                 height:
@@ -117,7 +127,15 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                                 child: Center(
                                     child: ElevatedButton(
                                         onPressed: () {
-                                          //Lógica do botão
+                                          context
+                                              .read<UsuarioBloc>()
+                                              .add(UsuarioUpdate(
+                                                _nomeController.text,
+                                                _setorController.text,
+                                                _emailController.text,
+                                                _usuarioController.text,
+                                                user['id'],
+                                              ));
                                           Navigator.pop(context);
                                         },
                                         style: ElevatedButton.styleFrom(
