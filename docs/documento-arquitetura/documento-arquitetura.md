@@ -19,6 +19,7 @@
 | 0.13 | 18/12/2024 | Complementando a visão de implementação e revisando | Mariana Pereira |
 | 0.14 | 18/12/2024 | Revisando e reestruturando os tópicos de metas e restrições arquiteturais e restrições adicionais | Mariana Pereira |
 | 1.0 | 18/12/2024 | Revisão final | José Augusto |
+| 1.1 | 21/12/2024 | Menções adicionadas sobre a implantação do app em computadores Windows | José Augusto |
 
 ## Autores
 
@@ -174,13 +175,13 @@ A comunicação com o banco de dados é realizada através da classe **Client** 
 
 ### 2.8. Visão de Implantação
 
-O sistema será implantado em tablets android, por serem dispositivos que unem mobilidade com uma tela que permite o software apresentar mais informações ao usuário. Esses dispositivos são ideais para um software de gestão.  
+O sistema será implantado em tablets android, por serem dispositivos que unem mobilidade com uma tela que permite o software apresentar mais informações ao usuário. O sistema também será implantado em computadores Windows, utilizados atualmente na empresa Catavento para o controle de demandas.
 
 As tecnologias utilizadas serão o Flutter e o Supabase, o primeiro um framework de desenvolvimento multiplataforma especializado no desenvolvimento mobile baseado na linguagem Dart, linguagem que é compilada em código nativo proporcionando alto desempenho nessas plataformas, e o segundo um backend como serviço com integração nativa com o Flutter e APIs para a comunicação em tempo real com o banco de dados, essencial para o acompanhamento do processo produtivo. Além disso será usado um banco de dados PostgreSQL, que garante a integridade das informações armazenadas e a possibilidade de acesso simultâneo ao banco de dados por vários usuários.
 
 #### 2.8.1. Infraestrutura de Hardware 
 
-Para rodar o software, será necessário, como a alternativa pedida pela cliente, um tablet com 4GB de RAM e conexão Wi-Fi. Esse requisito garante que o sistema funcione de maneira eficiente e estável. 
+Para rodar o software, será necessário, como a alternativa pedida pela cliente, um tablet android com 4GB de RAM e conexão Wi-Fi ou um computador Windows, também com conexão a internet. Esses requisitos garantem que o sistema funcione de maneira eficiente e estável.
 
 #### 2.8.2. Tecnologias
 
@@ -200,7 +201,9 @@ As restrições negociais e de qualidade do sistema estabelecem diretrizes impor
 
 Entre as restrições de qualidade, destaca-se a usabilidade, que requer que a interface do aplicativo deve ser acessível, intuitiva e amigável, projetada para facilitar a navegação, especialmente para usuários com menos familiaridade com tecnologia. Essa facilidade de uso é crucial para que todos os colaboradores, incluindo adultos mais velhos com pouca experiência tecnológica, consigam operar o sistema sem dificuldades, reduzindo o tempo necessário para treinamento e melhora a produtividade. Outra restrição essencial é a confiabilidade do sistema. Ele deve oferecer alta disponibilidade com um uptime de 99,9% e recuperação rápida de falhas, garantindo que nenhum dado seja perdido em casos de interrupções ou falhas. A confiabilidade é essencial para evitar prejuízos ao negócio, pois o sistema é usado para gerenciar a demanda de produção de bolos. Qualquer interrupção pode comprometer os prazos de entrega, prejudicar a satisfação da cliente e afetar a produtividade da empresa.
 
-No aspeto de portabilidade, o sistema deve ser projetado para funcionar de forma eficaz em dispositivos móveis como tablets, que são amplamente utilizados no ambiente de trabalho da empresa. Essa característica garante que o sistema possa ser acessado em qualquer local dentro do ambiente corporativo. Por fim, a manutenibilidade do código é uma prioridade. O sistema deve ser desenvolvido de forma modular, com documentação clara e boas práticas de programação, facilitando a identificação e correção de falhas ou a adição de novas funcionalidades. Isso é essencial para que o sistema possa	ser atualizado regularmente e acompanhar as necessidades crescentes do negócio e mantendo-se relevante e funcional ao longo do tempo. 
+No aspeto de portabilidade, o sistema deve ser projetado para funcionar de forma eficaz em dispositivos móveis como tablets, que são amplamente utilizados no ambiente de trabalho da empresa. Essa característica garante que o sistema possa ser acessado em qualquer local dentro do ambiente corporativo. Por fim, a manutenibilidade do código é uma prioridade. O sistema deve ser desenvolvido de forma modular, com documentação clara e boas práticas de programação, facilitando a identificação e correção de falhas ou a adição de novas funcionalidades. Isso é essencial para que o sistema possa	ser atualizado regularmente e acompanhar as necessidades crescentes do negócio e mantendo-se relevante e funcional ao longo do tempo.
+
+O aplicativo também deverá ser facilmente instalável e executável em computadores Windows, visto o uso exclusivo do computador pelos gerentes para as atividades de planejamento de quais demandas serão produzidas no expediente. O arquivo de instalação deverá ser suficiente para a implantação do sistema nas máquinas da empresa, de forma que o aplicativo seja implantável sem conhecimento técnico prévio.
 
 ## 3. Bibliografia
 
