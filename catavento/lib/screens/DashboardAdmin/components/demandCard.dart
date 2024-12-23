@@ -2,7 +2,6 @@ import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
-import 'infoCard.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
 
@@ -193,20 +192,114 @@ class DemandCard extends StatelessWidget {
   void _showInfoDialog(BuildContext context, String nome, String codigo,
       String descricao, String status, String imageUrl) {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ReusableDialog(
-          title: "Informações da Demanda",
-          body: InfoCard(
-            nome: nome,
-            codigo: codigo,
-            descricao: descricao,
-            status: status,
-            imageUrl: imageUrl,
+        context: context,
+        builder: (context) {
+          return ReusableDialog(
+            title: nome,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Imagem e informações gerais
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.asset(
+                        'assets/images/photo.jpg',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Informações Gerais",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text("Código: 12345"),
+                          Text("Data do pedido: 12/10/2024"),
+                          Text("Prazo: 20/10/2024"),
+                          Text("Descrição: Bolo personalizado com tema Moana"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Acompanhamento
+                const Text(
+                  "Acompanhamento da produção",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Etapas dinâmicas
+                Column(
+                  children: [
+                    _buildEtapa("Etapa 1", "completed"),
+                    _buildEtapa("Etapa 2", "completed"),
+                    _buildEtapa("Etapa 3", "in_progress"),
+                    _buildEtapa("Etapa 4", "pending"),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget _buildEtapa(String nome, String status) {
+    Color etapaColor;
+    Icon etapaIcon;
+
+    switch (status) {
+      case 'completed':
+        etapaColor = Colors.green;
+        etapaIcon = const Icon(Icons.check, color: Colors.white);
+        break;
+      case 'in_progress':
+        etapaColor = Colors.yellow;
+        etapaIcon = const Icon(Icons.timelapse, color: Colors.white);
+        break;
+      case 'pending':
+        etapaColor = Colors.red;
+        etapaIcon = const Icon(Icons.close, color: Colors.white);
+        break;
+      default:
+        etapaColor = Colors.grey;
+        etapaIcon = const Icon(Icons.info, color: Colors.white);
+    }
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      decoration: BoxDecoration(
+        color: etapaColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            nome,
+            style: const TextStyle(color: Colors.white),
           ),
-          confirmBeforeClose: false,
-        );
-      },
+          etapaIcon,
+        ],
+      ),
     );
   }
 

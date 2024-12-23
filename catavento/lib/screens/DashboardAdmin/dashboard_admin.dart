@@ -262,18 +262,31 @@ class ButtonAddDemanda extends StatelessWidget {
     return SizedBox(
       width: 189,
       height: 47,
-      child: ElevatedButton(
-        onPressed: () {
-          addInfoDemand(context);
-        },
-        style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF015C98),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: ElevatedButton(
+          onPressed: () {
+            addInfoDemand(context);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(22))),
-        child: Text(
-          "Adicionar Demanda",
-          style: TextStyle(
-            color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+            ),
+          ),
+          child: const Text(
+            "Adicionar Demanda",
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
       ),
