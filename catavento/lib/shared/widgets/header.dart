@@ -48,12 +48,9 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
                   child: TextButton.icon(
-                    icon: const Icon(Icons.history, size: 18.0),
                     label: const Text("Ver Histórico",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        )),
+                        style:
+                            TextStyle(fontSize: 16, fontFamily: 'FredokaOne')),
                     onPressed: () {},
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -73,7 +70,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
             title,
             style: const TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontFamily: 'FredokaOne',
               color: Colors.white,
             ),
             textAlign: TextAlign.center,
