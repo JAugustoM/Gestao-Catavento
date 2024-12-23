@@ -1,6 +1,8 @@
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
+import 'package:catavento/core/di/dependency_injection.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';
 import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart';
@@ -14,6 +16,7 @@ void main() {
       providers: [
         BlocProvider(create: (context) => DemandaBloc()..add(DemandaLoading())),
         BlocProvider(create: (context) => UsuarioBloc()..add(UsuarioLoading())),
+        BlocProvider(create: (_) => getIt<AuthBloc>()..add(AuthInitialCheckRequested())),
       ],
       child: MaterialApp(
         title: "Gestão Catavento",
