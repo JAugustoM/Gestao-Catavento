@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // BACKEND
 import 'package:catavento/bloc/demanda_bloc.dart';
@@ -7,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // components
 import 'package:catavento/screens/DashboardAdmin/components/graph.dart';
+import 'package:catavento/shared/widgets/blocks.dart';
+import 'package:catavento/shared/theme/colors.dart';
 
 class QuadroGrafico extends StatefulWidget {
   const QuadroGrafico({super.key});
@@ -34,13 +35,9 @@ class QuadroGraficoState extends State<QuadroGrafico> {
           child: Column(
             children: [
               // Primeiro Card - Gráfico
-              Container(
-                width: size.width * 0.9,
+              Blocks(
                 height: size.height * 0.2,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(232, 228, 228, 1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                color: AppColors.lightGray,
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
@@ -113,14 +110,10 @@ class QuadroGraficoState extends State<QuadroGrafico> {
 
               SizedBox(height: 15),
 
-              // Segundo Card - Status de Fabricacao
-              Container(
-                width: size.width * 0.9,
+              // Segundo Card - Status de Fabricação
+              Blocks(
                 height: size.height * 0.2,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(232, 228, 228, 1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                color: AppColors.lightGray,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,16 +152,13 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                   ],
                 ),
               ),
+
               SizedBox(height: 15),
 
               // Terceiro Card - Status de Espera
-              Container(
-                width: size.width * 0.9,
+              Blocks(
                 height: size.height * 0.2,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(232, 228, 228, 1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                color: AppColors.lightGray,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

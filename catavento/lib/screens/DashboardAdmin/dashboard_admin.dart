@@ -17,6 +17,7 @@ import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/menu.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
+import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroGrafico.dart';
 import 'package:catavento/screens/DashboardAdmin/components/search.dart';
@@ -37,13 +38,7 @@ class DashBoardAdmin extends StatelessWidget {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF75CDF3), Color(0xFFB2E8FF)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+            color: Colors.white, // Cor fixa (branca)
             child: Center(child: AddDemandPageAdmin()),
           ),
         ],
@@ -181,7 +176,7 @@ class ListDemandaState extends State<ListDemanda> {
       width: size.width * 0.9,
       height: size.height * 0.65,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(232, 228, 228, 1),
+        color: AppColors.lightGray,
         borderRadius: BorderRadius.circular(17),
         boxShadow: [
           BoxShadow(

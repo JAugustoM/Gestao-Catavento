@@ -1,3 +1,4 @@
+import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,24 +34,23 @@ class SearchState extends State<Search> {
                 color: Colors.black.withOpacity(0.5) //Opacidade do texto
                 ),
             filled: true,
-            fillColor: const Color.fromRGBO(232, 228, 228, 1),
-
+            fillColor: AppColors.lightGray,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: const Color.fromRGBO(232, 228, 228, 1), width: 2),
+              borderSide: BorderSide(color: AppColors.lightGray, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color:const Color.fromRGBO(232, 228, 228, 1), width: 2),
+              borderSide: BorderSide(color: AppColors.lightGray, width: 2),
               borderRadius: BorderRadius.circular(16),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: const Color.fromRGBO(232, 228, 228, 1), width: 2),
+              borderSide: BorderSide(color: AppColors.lightGray, width: 2),
               borderRadius: BorderRadius.circular(16),
             )),
         onEditingComplete: () {
           context.read<DemandaBloc>().add(DemandaFilter(
                 // BACKEND
-                'nome_demanda',        
+                'nome_demanda',
                 _nomeDemanda.text,
               )); // BACKEND
         },

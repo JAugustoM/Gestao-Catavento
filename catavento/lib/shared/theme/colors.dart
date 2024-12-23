@@ -8,4 +8,5 @@ class AppColors {
   static const Color mediumPink = Color.fromRGBO(252, 156, 183, 1);
   static const Color pink = Color.fromRGBO(225, 75, 153, 1);
   static const Color lightGray = Color.fromRGBO(235, 235, 235, 1);
+  static const Color white = Color.fromRGBO(255, 255, 255, 1);
 }
