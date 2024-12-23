@@ -1,3 +1,4 @@
+import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
@@ -10,21 +11,26 @@ class DemandCard extends StatelessWidget {
   final String status;
   final String codigo;
   final String descricao;
-  final int id;
+  final bool isPriority; // Novo argumento para controlar o ícone de prioridade
+  final String
+      plataforma; // Novo argumento para controlar a plataforma da demanda
   final String imagemUrl;
+  final int id;
   final int order;
   final DemandaBloc bloc; // BACKEND
 
   const DemandCard({
     super.key,
     required this.nomeDemanda,
-    required this.codigo,
     required this.status,
+    required this.codigo,
     required this.descricao,
+    required this.plataforma,
     required this.id,
     required this.order,
     required this.imagemUrl,
     required this.bloc, // BACKEND
+    this.isPriority = false, // Padrão para false caso não seja informado
   });
 
   @override
@@ -35,59 +41,149 @@ class DemandCard extends StatelessWidget {
         TextEditingController(text: codigo);
     final TextEditingController descricaoController =
         TextEditingController(text: descricao);
-
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        title: Text(nomeDemanda),
-        subtitle: Text(
-            'Código: ${codigo.isNotEmpty ? codigo : 'Sem código'}\nStatus: $status'),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            imagemUrl.isNotEmpty
-                ? Image.network(imagemUrl, width: 50, height: 50)
-                : Icon(Icons.image, size: 50),
-            IconButton(
-              icon: Icon(Icons.info),
-              onPressed: () {
-                _showInfoDialog(context, nomeDemanda, codigo, descricao, status,
-                    "https://via.placeholder.com/150");
-              },
-            ),
-            // botão de Editar.
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                //  editar a demanda
-                _showEditDialog(
-                    context,
-                    nomeController,
-                    codigoController,
-                    descricaoController,
-                    bloc); // BACKEND (não retirar o bloc, o resto OK)
-              },
-            ),
-            // apagar
-            IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ConfirmDialog(
-                        title: 'Confirmar Exclusão',
-                        contente:
-                            'Tem certeza de que deseja apagar esta demanda?',
-                        onConfirm: () {
-                          Navigator.of(context).pop(); // Fecha o diálogo
-                          bloc.add(DemandaDelete(id, order)); // BACKEND
-                        },
-                      );
+      color: Colors.white,
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      elevation: 4,
+      child: SizedBox(
+        height: 150, // Define a altura fixa do card
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            crossAxisAlignment:
+                CrossAxisAlignment.center, // Centraliza verticalmente
+            children: [
+              Container(
+                width: 130,
+                height: 130,
+                decoration: BoxDecoration(
+                  color: AppColors.lightGray,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: const Icon(Icons.image, size: 30, color: Colors.grey),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            '$nomeDemanda ($codigo)',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: "FredokaOne",
+                              color: AppColors.gradientDarkBlue,
+                            ),
+                          ),
+                        ),
+                        if (isPriority)
+                          const Icon(
+                            Icons.warning,
+                            color: Colors.red,
+                            size: 20,
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Plataforma: ",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.gradientDarkBlue,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "$plataforma",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.gradientDarkBlue,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Descrição: ",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.gradientDarkBlue,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "$descricao",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.gradientDarkBlue,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.info, color: AppColors.gradientDarkBlue),
+                    onPressed: () {
+                      _showInfoDialog(context, nomeDemanda, codigo, descricao,
+                          status, "https://via.placeholder.com/150");
                     },
-                  );
-                }),
-          ],
+                  ),
+                  // botão de Editar.
+                  IconButton(
+                    icon: Icon(Icons.edit, color: AppColors.gradientDarkBlue),
+                    onPressed: () {
+                      //  editar a demanda
+                      _showEditDialog(
+                          context,
+                          nomeController,
+                          codigoController,
+                          descricaoController,
+                          bloc); // BACKEND (não retirar o bloc, o resto OK)
+                    },
+                  ),
+                  // apagar
+                  IconButton(
+                      icon:
+                          Icon(Icons.delete, color: AppColors.gradientDarkBlue),
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ConfirmDialog(
+                              title: 'Confirmar Exclusão',
+                              contente:
+                                  'Tem certeza de que deseja apagar esta demanda?',
+                              onConfirm: () {
+                                Navigator.of(context).pop(); // Fecha o diálogo
+                                bloc.add(DemandaDelete(id, order)); // BACKEND
+                              },
+                            );
+                          },
+                        );
+                      }),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

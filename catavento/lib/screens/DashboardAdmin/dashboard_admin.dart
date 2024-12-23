@@ -205,6 +205,8 @@ class ListDemandaState extends State<ListDemanda> {
                       id: demanda['id'],
                       imagemUrl: demanda['imagem_url'] ?? '',
                       order: index,
+                      plataforma:
+                          'Shopee', // ADICIONAR VARIÁVEL PARA PASSAR A PLATAFORMA DPS
                       bloc: context.read<DemandaBloc>(), // BACKEND
                     );
                   },
