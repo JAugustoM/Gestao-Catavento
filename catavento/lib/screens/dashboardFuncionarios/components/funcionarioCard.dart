@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/usuario_bloc.dart';
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/infoFuncionarios.dart';
 import 'package:catavento/shared/widgets/showDialog.dart';
 import 'package:flutter/material.dart';

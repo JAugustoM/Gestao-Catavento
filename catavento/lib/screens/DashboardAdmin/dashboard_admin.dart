@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 // BACKEND
-import 'package:catavento/bloc/demanda_bloc.dart';
-import 'package:catavento/bloc/demanda_controller.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../services/table_import/table_import.dart';
 import '../../services/table_import/table_picker.dart';

@@ -1,5 +1,5 @@
-import 'package:catavento/bloc/demanda_bloc.dart';
-import 'package:catavento/bloc/usuario_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';

@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/usuario_bloc.dart';
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/ativAndamentoCard.dart';

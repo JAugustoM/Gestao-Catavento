@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DemandaController {
