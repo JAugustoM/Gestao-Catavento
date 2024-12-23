@@ -9,54 +9,66 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.blue,
+      backgroundColor: Colors.transparent,
       elevation: 0,
-      automaticallyImplyLeading: false, // Remove o botão padrão
+      automaticallyImplyLeading: false,
       flexibleSpace: Stack(
-        alignment: Alignment.center, // Centraliza o título
+        alignment: Alignment.center,
         children: [
-          // Row para os elementos nas extremidades
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0), // Adiciona o padding
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Botão de menu
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: InkWell(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: const Icon(
-                    Icons.menu,
-                    size: 40.0,
-                    color: Colors.white,
-                  ),
-                ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.gradientDarkBlue,
+                  AppColors.gradientLightBlue,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              // Botão de "Ver Histórico"
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: TextButton.icon(
-                  icon: const Icon(Icons.history, size: 18.0),
-                  label: const Text("Ver Histórico"),
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: AppColors.mediumPink,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: InkWell(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: const Icon(
+                      Icons.menu,
+                      size: 40.0,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: TextButton.icon(
+                    icon: const Icon(Icons.history, size: 18.0),
+                    label: const Text("Ver Histórico",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: AppColors.mediumPink,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          // Título centralizado
           Text(
             title,
             style: const TextStyle(
