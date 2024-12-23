@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
-import 'package:catavento/shared/widgets/graficInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/checkBox.dart';
 import 'package:catavento/shared/theme/colors.dart';
@@ -40,7 +37,10 @@ class EmployeeManagement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Navbar(),
-      appBar: CustomHeader(title: 'Funcionários'),
+      appBar: CustomHeader(
+        title: 'Funcionários',
+        historyButton: false,
+      ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -64,9 +64,13 @@ class EmployeeManagement extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       //_buildBlockFunTotal(context),
-                                      const SizedBox(height: 20,),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
                                       //_buildBlockFunPresentes(context),
-                                      const SizedBox(height: 20,),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
                                       _buildNewEmployeeButton(context),
                                       const SizedBox(height: 20),
                                     ],
@@ -107,7 +111,7 @@ class EmployeeManagement extends StatelessWidget {
   Widget _buildNewEmployeeButton(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final buttonWidth = size.width * (size.width > 600 ? 0.25 : 0.8); 
+    final buttonWidth = size.width * (size.width > 600 ? 0.25 : 0.8);
     final buttonHeight = size.height * 0.06;
 
     return Center(
@@ -182,12 +186,11 @@ class EmployeeManagement extends StatelessWidget {
 
   Widget _buildFuncionariosBlock(BuildContext context) {
     return Blocks(
-      title: "Todos os funcionários",
-      titleColor: AppColors.blue,
-      color: AppColors.lightGray,
-      borderRadius: 26,
-      child: LayoutBuilder(
-        builder: (context, contraints){
+        title: "Todos os funcionários",
+        titleColor: AppColors.blue,
+        color: AppColors.lightGray,
+        borderRadius: 26,
+        child: LayoutBuilder(builder: (context, contraints) {
           double height = contraints.maxHeight * 0.85;
           double listWidth = contraints.maxWidth * 0.9;
           return SizedBox(
@@ -206,36 +209,30 @@ class EmployeeManagement extends StatelessWidget {
               },
             ),
           );
-        }
-      )
-    );
+        }));
   }
 
   Widget _buildAtividadesBlock(BuildContext context) {
     return Blocks(
-      title: "Atividades em andamento",
-      titleColor: AppColors.blue,
-      color: AppColors.lightGray,
-      borderRadius: 26,
-      child: LayoutBuilder(
-        builder: (context, contraints){
+        title: "Atividades em andamento",
+        titleColor: AppColors.blue,
+        color: AppColors.lightGray,
+        borderRadius: 26,
+        child: LayoutBuilder(builder: (context, contraints) {
           double height = contraints.maxHeight * 0.85;
           double listWidth = contraints.maxWidth * 0.9;
           return SizedBox(
-            width: listWidth,
-            height: height,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                _buildAtividadeSetor("Setor de Montagem"),
-                const SizedBox(height: 20),
-                _buildAtividadeSetor("Setor de Corte"),
-              ],
-            )
-          );
-        }
-      )
-    );
+              width: listWidth,
+              height: height,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  _buildAtividadeSetor("Setor de Montagem"),
+                  const SizedBox(height: 20),
+                  _buildAtividadeSetor("Setor de Corte"),
+                ],
+              ));
+        }));
   }
 
   Widget _buildAtividadeSetor(String setor) {
@@ -267,138 +264,143 @@ class EmployeeManagement extends StatelessWidget {
   }
 
   void _showNewEmployeeDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            double dialogWidth = constraints.maxWidth * 0.9; // 90% da largura disponível
-            if (dialogWidth > 500) {
-              dialogWidth = 500; // Limite máximo de largura
-            }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              double dialogWidth =
+                  constraints.maxWidth * 0.9; // 90% da largura disponível
+              if (dialogWidth > 500) {
+                dialogWidth = 500; // Limite máximo de largura
+              }
 
-            return ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: dialogWidth),
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Novo Funcionário',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.blue,
+              return ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: dialogWidth),
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                                child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Novo Funcionário',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue,
+                                ),
+                              ),
+                            )),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 25,
                               ),
                             ),
-                          )),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              size: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Inputs(text: "Nome"),
-                            const SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Tipo de Acesso',
-                                  style: TextStyle(
-                                      color: AppColors.blue,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Row(
-                                  children: [
-                                    CheckBox(),
-                                    const Text(
-                                      'Gerente',
-                                      style: TextStyle(color: AppColors.blue),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    CheckBox(),
-                                    const Text(
-                                      'Funcionário',
-                                      style: TextStyle(color: AppColors.blue),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              children: [
-                                Text(
-                                  "Setor*",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: AppColors.blue,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Dropdownbutton()
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            Inputs(text: "Email"),
-                            const SizedBox(height: 16),
-                            Inputs(text: "Nome de Usuário"),
-                            const SizedBox(height: 16),
-                            Inputs(text: "Senha"),
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(22),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Inputs(text: "Nome"),
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Tipo de Acesso',
+                                    style: TextStyle(
+                                        color: AppColors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Row(
+                                    children: [
+                                      CheckBox(),
+                                      const Text(
+                                        'Gerente',
+                                        style: TextStyle(color: AppColors.blue),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      CheckBox(),
+                                      const Text(
+                                        'Funcionário',
+                                        style: TextStyle(color: AppColors.blue),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Setor*",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Dropdownbutton()
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Inputs(text: "Email"),
+                              const SizedBox(height: 16),
+                              Inputs(text: "Nome de Usuário"),
+                              const SizedBox(height: 16),
+                              Inputs(text: "Senha"),
+                            ],
+                          ),
                         ),
-                        child: const Text(
-                          "Concluir",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 12),
+                          ),
+                          child: const Text(
+                            "Concluir",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        ),
-      );
-    },
-  );
-}
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 }

@@ -18,7 +18,7 @@ import 'package:catavento/shared/widgets/menu.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/theme/colors.dart';
-import 'package:catavento/screens/DashboardAdmin/components/quadroPrioridade.dart';
+import 'package:catavento/screens/DashboardAdmin/components/filterWidget.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroGrafico.dart';
 import 'package:catavento/screens/DashboardAdmin/components/search.dart';
 
@@ -31,7 +31,10 @@ class DashBoardAdmin extends StatelessWidget {
 
     return Scaffold(
       drawer: Navbar(),
-      appBar: CustomHeader(title: 'Demandas atuais $formattedDate'),
+      appBar: CustomHeader(
+        title: 'Demandas atuais $formattedDate',
+        historyButton: true,
+      ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [

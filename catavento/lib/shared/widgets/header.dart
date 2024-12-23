@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final bool historyButton;
 
-  const CustomHeader({super.key, required this.title});
+  const CustomHeader(
+      {super.key, required this.title, required this.historyButton});
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +49,21 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: TextButton.icon(
-                    label: const Text("Ver Histórico",
-                        style:
-                            TextStyle(fontSize: 16, fontFamily: 'FredokaOne')),
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: AppColors.mediumPink,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  child: Visibility(
+                    visible: historyButton,
+                    child: TextButton.icon(
+                      label: const Text("Ver Histórico",
+                          style: TextStyle(
+                              fontSize: 16, fontFamily: 'FredokaOne')),
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.mediumPink,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                       ),
                     ),
                   ),
