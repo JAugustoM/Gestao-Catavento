@@ -101,12 +101,12 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
                   builder: (context, constraints) {
                     return constraints.maxWidth > 600
                         ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               // ainda falta ajustar a responsividade desse quadro, além de q o design vai mudar
                               Flexible(
                                 flex: 1,
-                                child: QuadroPrioridade(),
+                                child: FilterWidget(),
                               ),
                               SizedBox(width: 15),
                               Flexible(
@@ -123,16 +123,12 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
                         : Column(
                             children: [
                               Expanded(
-                                child: QuadroPrioridade(),
+                                child: FilterWidget(),
                               ),
                               SizedBox(height: size.height * 0.02),
                               Expanded(
-                                  child: Column(children: [
-                                ListDemanda(),
-                                ButtonAddDemanda(
-                                  bloc: context.read<DemandaBloc>(), // BACKEND
-                                ),
-                              ])),
+                                child: ListDemanda(),
+                              ),
                               SizedBox(height: size.height * 0.02),
                               Expanded(
                                 child: QuadroGrafico(),
@@ -191,54 +187,38 @@ class ListDemandaState extends State<ListDemanda> {
           ),
         ],
       ),
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Column(
-            children: [
-              Expanded(
-                child: BlocBuilder<DemandaBloc, DemandaState>(
-                  builder: (context, state) {
-                    if (state.databaseResponse.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "Nenhuma demanda encontrada.",
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16,
-                          ),
-                        ),
-                      );
-                    }
-
-                    return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: state.databaseResponse.length,
-                      itemBuilder: (context, index) {
-                        final demanda = state.databaseResponse[index];
-                        return DemandCard(
-                          nomeDemanda:
-                              demanda['nome_demanda'] ?? 'Nome não disponível',
-                          status: demanda['status'] ?? 'Status não disponível',
-                          codigo: demanda['codigo'] ?? 'Sem código',
-                          descricao: demanda['descricao'] ?? 'Sem descrição',
-                          id: demanda['id'],
-                          imagemUrl: demanda['imagem_url'] ?? '',
-                          order: index,
-                          plataforma: 'Shopee',
-                          bloc: context.read<DemandaBloc>(),
-                        );
-                      },
+      child: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<DemandaBloc, DemandaState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.databaseResponse.length,
+                  itemBuilder: (context, index) {
+                    final demanda = state.databaseResponse[index];
+                    return DemandCard(
+                      nomeDemanda:
+                          demanda['nome_demanda'] ?? 'Nome não disponível',
+                      status: demanda['status'] ?? 'Status não disponível',
+                      codigo: demanda['codigo'] ?? 'Sem código',
+                      descricao: demanda['descricao'] ?? 'Sem descricao',
+                      id: demanda['id'],
+                      imagemUrl: demanda['imagem_url'] ?? '',
+                      order: index,
+                      plataforma:
+                          'Shopee', // ADICIONAR VARIÁVEL PARA PASSAR A PLATAFORMA DPS
+                      bloc: context.read<DemandaBloc>(), // BACKEND
                     );
                   },
-                ),
-              ),
-              SizedBox(height: 10),
-              ButtonAddDemanda(
-                bloc: context.read<DemandaBloc>(),
-              ),
-            ],
-          );
-        },
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 10), // Espaço entre a lista e o botão
+          ButtonAddDemanda(
+            bloc: context.read<DemandaBloc>(), // BACKEND
+          ),
+        ],
       ),
     );
   }

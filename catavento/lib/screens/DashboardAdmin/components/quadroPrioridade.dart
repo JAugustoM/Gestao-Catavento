@@ -1,129 +1,149 @@
 import 'package:flutter/material.dart';
+import 'package:catavento/shared/theme/colors.dart';
 
-class QuadroPrioridade extends StatefulWidget {
-  const QuadroPrioridade({super.key});
+class FilterWidget extends StatefulWidget {
+  const FilterWidget({super.key});
 
   @override
-  State<QuadroPrioridade> createState() {
-    return QuadroPrioridadeState();
-  }
+  State<FilterWidget> createState() => _FilterWidgetState();
 }
 
-class QuadroPrioridadeState extends State<QuadroPrioridade> {
-  Color colorQ = Color(0xFFC3206F);
-
-  //Troca a cor do quadro
-  void prioridadeAlta() {
-    setState(() {
-      colorQ = Color(0xFFC3206F);
-    });
-  }
-
-  //Troca a cor do quadro
-  void prioridadeMedia() {
-    setState(() {
-      colorQ = Color(0xFFFF66B0);
-    });
-  }
-
-  //Troca a cor do quadro
-  void prioridadeBaixa() {
-    setState(() {
-      colorQ = Color(0xFFFFC6E1);
-    });
-  }
-
+class _FilterWidgetState extends State<FilterWidget> {
+  String? selectedOption;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        //Quadro de prioridade
-        Container(
-          width: 340,
-          height: 398,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16), color: colorQ),
+    final size = MediaQuery.of(context).size;
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: size.height * 0.65, // Altura máxima do card
+      ),
+      child: Card(
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12), // Arredonda todas as bordas
         ),
-
-        SizedBox(
-          height: 15,
-        ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        elevation: 0,
+        margin: const EdgeInsets.all(0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Botão alta prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeAlta,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFC3206F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Alta',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.gradientDarkBlue,
+                    AppColors.gradientLightBlue,
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(12.0),
                 ),
               ),
-            ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão média prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeMedia,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFF66B0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Média',
-                  style: TextStyle(
-                    color: Colors.black,
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.filter_alt, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    'Filtros',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-
-            SizedBox(
-              width: 17,
-            ),
-
-            //Botão baixa prioridade
-            SizedBox(
-              width: 97,
-              height: 24,
-              child: ElevatedButton(
-                onPressed: prioridadeBaixa,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFC6E1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
-                child: Text(
-                  'Baixa',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.lightGray, // Cor do fundo
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(12.0), // Arredonda o fundo
                 ),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  DropdownButton<String>(
+                    value: 'Filtro por loja',
+                    icon: const Icon(Icons.arrow_drop_down),
+                    underline: const SizedBox(),
+                    items: ['Filtro por loja']
+                        .map((value) => DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      // lógica do dropdown aqui
+                    },
+                  ),
+                  Column(
+                    children: [
+                      RadioListTile<String>(
+                        value: 'Elo7',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value;
+                          });
+                        },
+                        title: const Text('Elo7'),
+                      ),
+                      RadioListTile<String>(
+                        value: 'Magalu',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value;
+                          });
+                        },
+                        title: const Text('Magalu'),
+                      ),
+                      RadioListTile<String>(
+                        value: 'Mercado Livre',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value;
+                          });
+                        },
+                        title: const Text('Mercado Livre'),
+                      ),
+                      RadioListTile<String>(
+                        value: 'Site',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value;
+                          });
+                        },
+                        title: const Text('Site'),
+                      ),
+                      RadioListTile<String>(
+                        value: 'Shopee',
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value;
+                          });
+                        },
+                        title: const Text('Shopee'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }
