@@ -195,6 +195,7 @@ class DemandCard extends StatelessWidget {
     context: context,
     builder: (context) {
       return ReusableDialog(
+        backgroundColor: AppColors.lightGray,
         title: nome,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,25 +215,33 @@ class DemandCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Informações Gerais",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Informações Gerais",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text("Código: 12345"),
-                      Text("Data do pedido: 12/10/2024"),
-                      Text("Prazo: 20/10/2024"),
-                      Text("Descrição: Bolo personalizado com tema Moana"),
-                    ],
+                        const SizedBox(height: 10),
+                        Text("Código: 12345"),
+                        Text("Data do pedido: 12/10/2024"),
+                        Text("Prazo: 20/10/2024"),
+                        Text("Descrição: Bolo personalizado com tema Moana"),
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -244,10 +253,18 @@ class DemandCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     "Acompanhamento da produção",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                   const Text(
+                    "Status: Em andamento ",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
