@@ -190,76 +190,90 @@ class DemandCard extends StatelessWidget {
 
   // Função para mostrar as informações da demanda em um diálogo
   void _showInfoDialog(BuildContext context, String nome, String codigo,
-      String descricao, String status, String imageUrl) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return ReusableDialog(
-            title: nome,
-            body: Column(
+    String descricao, String status, String imageUrl) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return ReusableDialog(
+        title: nome,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Imagem e informações gerais
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Imagem e informações gerais
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        'assets/images/photo.jpg',
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Informações Gerais",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text("Código: 12345"),
-                          Text("Data do pedido: 12/10/2024"),
-                          Text("Prazo: 20/10/2024"),
-                          Text("Descrição: Bolo personalizado com tema Moana"),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 16),
-                // Acompanhamento
-                const Text(
-                  "Acompanhamento da produção",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    'assets/images/photo.jpg',
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: 8),
-                // Etapas dinâmicas
-                Column(
-                  children: [
-                    _buildEtapa("Etapa 1", "completed"),
-                    _buildEtapa("Etapa 2", "completed"),
-                    _buildEtapa("Etapa 3", "in_progress"),
-                    _buildEtapa("Etapa 4", "pending"),
-                  ],
-                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Informações Gerais",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text("Código: 12345"),
+                      Text("Data do pedido: 12/10/2024"),
+                      Text("Prazo: 20/10/2024"),
+                      Text("Descrição: Bolo personalizado com tema Moana"),
+                    ],
+                  ),
+                )
               ],
             ),
-          );
-        });
-  }
+            const SizedBox(height: 16),
+            // Acompanhamento
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Acompanhamento da produção",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // Etapas dinâmicas
+                  Column(
+                    children: [
+                      _buildEtapa("Etapa 1", "completed"),
+                      _buildEtapa("Etapa 2", "completed"),
+                      _buildEtapa("Etapa 3", "in_progress"),
+                      _buildEtapa("Etapa 4", "pending"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   Widget _buildEtapa(String nome, String status) {
     Color etapaColor;

@@ -22,6 +22,8 @@ import 'package:catavento/screens/DashboardAdmin/components/filterWidget.dart';
 import 'package:catavento/screens/DashboardAdmin/components/quadroGrafico.dart';
 import 'package:catavento/screens/DashboardAdmin/components/search.dart';
 
+import 'package:catavento/shared/theme/colors.dart';
+
 class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
 
@@ -293,7 +295,7 @@ class ButtonAddDemanda extends StatelessWidget {
     );
   }
 
-  Future<void> addInfoDemand(BuildContext context) => showDialog(
+   Future<void> addInfoDemand(BuildContext context) => showDialog(
         context: context,
         builder: (BuildContext context) {
           return ReusableDialog(
@@ -389,3 +391,7 @@ class ButtonAddDemanda extends StatelessWidget {
         },
       );
 }
+
+
+              
+  
