@@ -295,101 +295,143 @@ class ButtonAddDemanda extends StatelessWidget {
     );
   }
 
-   Future<void> addInfoDemand(BuildContext context) => showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ReusableDialog(
-            title: "Nova demanda",
-            confirmBeforeClose: true,
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+  Future<void> addInfoDemand(BuildContext context) => showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return ReusableDialog(
+      backgroundColor: AppColors.lightGray,
+      title: "Adicionar Demanda",
+      confirmBeforeClose: true,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(  
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: InputTextField(
-                          labelText: "Código",
-                          hintText: "Código da demanda",
-                          controller: _codigoController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: InputTextField(
-                          labelText: "Nome",
-                          hintText: "Nome da demanda",
-                          controller: _nomeController,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InputTextField(
-                        labelText: "Descrição",
-                        hintText: "Digite a descrição",
-                        controller: _descricaoController,
-                        maxLines: 3,
-                      ),
-                    ],
+                  const Text(  
+                    "Informações Gerais",
+                    style: TextStyle(  
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.blue,
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _selecionarFoto(context);
-                          },
-                          child: const Text("Selecionar Foto"),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_nomeController.text.isNotEmpty &&
-                          _codigoController.text.isNotEmpty) {
-                        bloc.add(DemandaCreate(
-                          nomeDemanda: _nomeController.text,
-                          codigo: _codigoController.text,
-                          descricao: _descricaoController.text,
-                          foto: fotoSelecionada,
-                        ));
-                        Navigator.pop(context);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content:
-                                Text("Por favor, preencha todos os campos"),
-                          ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF015C98),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
+                    Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InputTextField(
+                        labelText: "Código",
+                        hintText: "Código da demanda",
+                        controller: _codigoController,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                       ),
                     ),
-                    child: const Text(
-                      "Cadastrar demanda",
-                      style: TextStyle(color: Colors.white),
+                    Expanded(
+                      child: InputTextField(
+                        labelText: "Nome",
+                        hintText: "Nome da demanda",
+                        controller: _nomeController,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+             ),
+            ),
+            const SizedBox(height: 20),
+            
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Informações Adicionais",
+                      style: TextStyle(
+
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blue,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    InputTextField(
+                      labelText: "Descrição",
+                      hintText: "Digite a descrição",
+                      controller: _descricaoController,
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _selecionarFoto(context);
+                      },
+                      child: const Text("Selecionar Foto"),
                     ),
                   ),
                 ],
               ),
-            ),
-          );
-        },
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_nomeController.text.isNotEmpty &&
+                      _codigoController.text.isNotEmpty) {
+                    bloc.add(DemandaCreate(
+                      nomeDemanda: _nomeController.text,
+                      codigo: _codigoController.text,
+                      descricao: _descricaoController.text,
+                      foto: fotoSelecionada,
+                    ));
+                    Navigator.pop(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Por favor, preencha todos os campos"),
+                      ),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF015C98),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                ),
+                child: const Text(
+                  "Concluir",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
+    },
+  );
+
 }
 
 
