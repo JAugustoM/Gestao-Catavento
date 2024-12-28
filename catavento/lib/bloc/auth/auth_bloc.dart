@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:catavento/domain/repositories/authentication/i_authentication_repository.dart';
+import 'package:catavento/domain/repositories/authentication/authentication/i_authentication_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

@@ -1,31 +1,36 @@
-part of 'login_bloc.dart';
+part of 'registration_bloc.dart';
 
 enum FormSubmissionStatus {
   initial,
   submitting,
   success,
   failure,
+  confirmPasswordNotMatchWithPassword
 }
 
-class LoginState extends Equatable {
+class RegistrationState extends Equatable {
   final EmailAddress email;
   final Password password;
+  final Password confirmPassword;
   final FormSubmissionStatus formSubmissionStatus;
 
-  const LoginState({
+  const RegistrationState({
     this.email = EmailAddress.empty,
     this.password = Password.empty,
+    this.confirmPassword = Password.empty,
     this.formSubmissionStatus = FormSubmissionStatus.initial,
   });
 
-  LoginState copyWith({
+  RegistrationState copyWith({
     EmailAddress? email,
     Password? password,
+    Password? confirmPassword,
     FormSubmissionStatus? formSubmissionStatus,
   }) =>
-      LoginState(
+      RegistrationState(
         email: email ?? this.email,
         password: password ?? this.password,
+        confirmPassword: confirmPassword ?? this.confirmPassword,
         formSubmissionStatus: formSubmissionStatus ?? this.formSubmissionStatus,
       );
 
@@ -33,15 +38,19 @@ class LoginState extends Equatable {
   List<Object?> get props => [
         email,
         password,
+        confirmPassword,
         formSubmissionStatus,
       ];
 
   bool isSubmitting() =>
       formSubmissionStatus == FormSubmissionStatus.submitting;
 
-  bool isSubmissionSuccessOrFailure() =>
+  bool isSubmissionSucessOrFailure() =>
       formSubmissionStatus == FormSubmissionStatus.success ||
-      formSubmissionStatus == FormSubmissionStatus.failure;
+      formSubmissionStatus == FormSubmissionStatus.failure ||
+      formSubmissionStatus ==
+          FormSubmissionStatus.confirmPasswordNotMatchWithPassword;
 
-  bool get isValid => !email.hasError && !password.hasError;
+  bool get isValid =>
+      !email.hasError && !password.hasError && !confirmPassword.hasError;
 }

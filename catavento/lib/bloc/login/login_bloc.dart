@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:catavento/domain/repositories/authentication/i_authentication_repository.dart';
+import 'package:catavento/domain/repositories/authentication/authentication/i_authentication_repository.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:catavento/domain/repositories/authentication/entities/email_address.dart';
+import 'package:catavento/domain/repositories/authentication/entities/password.dart';
+import 'package:equatable/equatable.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -18,9 +21,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<void> _onLoginButtonPressed(
-      LoginButtonPressed event,
-      Emitter<LoginState> emit,
-      ) async {
+    LoginButtonPressed event,
+    Emitter<LoginState> emit,
+  ) async {
     if (!state.isValid) return;
 
     emit(state.copyWith(formSubmissionStatus: FormSubmissionStatus.submitting));
@@ -37,19 +40,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<void> _onEmailAddressChanged(
-      LoginEmailAddressChanged event,
-      Emitter<LoginState> emit,
-      ) async =>
+    LoginEmailAddressChanged event,
+    Emitter<LoginState> emit,
+  ) async =>
       emit(state.copyWith(
         email: EmailAddress.create(event.value),
         formSubmissionStatus: FormSubmissionStatus.initial,
       ));
 
   Future<void> _onPasswordChanged(
-      LoginPasswordChanged event,
-      Emitter<LoginState> emit,
-      ) async =>
+    LoginPasswordChanged event,
+    Emitter<LoginState> emit,
+  ) async =>
       emit(state.copyWith(
         password: Password.create(event.value),
         formSubmissionStatus: FormSubmissionStatus.initial,
       ));
+}
