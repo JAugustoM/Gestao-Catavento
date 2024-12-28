@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:catavento/domain/repositories/authentication/authentication/i_authentication_repository.dart';
+import 'package:catavento/domain/repositories/authentication/i_authentication_repository.dart';
 import 'package:injectable/injectable.dart';
 
-import 'package:catavento/domain/repositories/authentication/entities/email_address.dart';
-import 'package:catavento/domain/repositories/authentication/entities/password.dart';
+import 'package:catavento/domain/repositories/entities/email_address.dart';
+import 'package:catavento/domain/repositories/entities/password.dart';
 
 part 'registration_event.dart';
 part 'registration_state.dart';
