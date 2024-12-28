@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'infoCard.dart';
 import 'package:catavento/shared/widgets/inputs.dart';

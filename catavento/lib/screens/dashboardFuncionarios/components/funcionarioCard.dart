@@ -1,6 +1,8 @@
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/infoFuncionarios.dart';
 import 'package:catavento/shared/widgets/showDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
 
@@ -8,12 +10,14 @@ class FuncionarioCard extends StatefulWidget {
   final String nomeFuncionario;
   final String status;
   final String setor;
+  final String email;
 
   const FuncionarioCard({
     super.key,
     required this.nomeFuncionario,
     required this.setor,
     required this.status,
+    required this.email,
   });
 
   @override
@@ -23,13 +27,20 @@ class FuncionarioCard extends StatefulWidget {
 }
 
 class FuncionarioCardState extends State<FuncionarioCard> {
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _setorController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final user = context.read<UsuarioBloc>().getUser(widget.email)!;
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
-        title: Text(widget.nomeFuncionario),
-        subtitle: Text('Setor: ${widget.setor}\nStatus: ${widget.status}'),
+        title: Text(user['usuario']),
+        subtitle: Text('Setor: ${user['setor']}\nStatus: ${user['status']}'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -43,16 +54,16 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                     return Showdialog(
                       width: 463,
                       height: 402,
-                      title: 'nomeFuncionario', //Inserir o nome do funcionario
+                      title: user['usuario'], //Inserir o nome do funcionario
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Infofuncionarios(
-                                nome: "Fulano",
-                                email: "email",
+                                nome: user['nome'],
+                                email: user['email'],
                                 status: "Ativo",
-                                setor: "Montagem",
+                                setor: user['setor'],
                                 demanda:
                                     "Hello Kitty") //Trocar para as informações do banco de dados
                           ]),
@@ -79,30 +90,39 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           children: [
                             Inputs(
                               text: "Nome:",
+                              controller: _nomeController,
+                              hint: user['nome'],
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Setor:",
+                              controller: _setorController,
+                              hint: user['setor'],
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Email:",
+                              controller: _emailController,
+                              hint: user['email'],
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Nome de usuário:",
+                              controller: _usuarioController,
+                              hint: user['usuario'],
                             ),
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
                             Inputs(
                               text: "Senha:",
+                              controller: _senhaController,
                             ),
                             SizedBox(
                                 height:
@@ -111,7 +131,15 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                                 child: Center(
                                     child: ElevatedButton(
                                         onPressed: () {
-                                          //Lógica do botão
+                                          context
+                                              .read<UsuarioBloc>()
+                                              .add(UsuarioUpdate(
+                                                _nomeController.text,
+                                                _setorController.text,
+                                                _emailController.text,
+                                                _usuarioController.text,
+                                                user['id'],
+                                              ));
                                           Navigator.pop(context);
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -141,7 +169,11 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         contente:
                             'Tem certeza de que deseja apagar esta demanda?',
                         onConfirm: () {
-                          Navigator.of(context).pop(); // Fecha o diálogo
+                          context.read<UsuarioBloc>().add(UsuarioDelete(
+                                user['id'],
+                                user['email'],
+                              ));
+                          Navigator.of(context).pop();
                           //Lógica do botão
                         },
                       );

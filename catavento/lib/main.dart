@@ -1,5 +1,8 @@
-import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/auth/auth_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
+import 'package:catavento/core/di/dependency_injection.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';
 import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart';
@@ -9,9 +12,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   runApp(
-    BlocProvider(
-      create: (_) =>
-          DemandaBloc()..add(DemandaLoading()), // Providing the bloc here
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => DemandaBloc()..add(DemandaLoading())),
+        BlocProvider(create: (context) => UsuarioBloc()..add(UsuarioLoading())),
+        BlocProvider(create: (_) => getIt<AuthBloc>()..add(AuthInitialCheckRequested())),
+      ],
       child: MaterialApp(
         title: "Gestão Catavento",
         theme: ThemeData(
@@ -34,25 +40,22 @@ class LoadView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DemandaBloc()..add(DemandaLoading()), // Providing the bloc
-      child: FutureBuilder(
-        future: Supabase.initialize(
-          url: supabaseUrl,
-          anonKey: supabaseKey,
-          authOptions: const FlutterAuthClientOptions(
-            authFlowType: AuthFlowType.implicit,
-          ),
+    return FutureBuilder(
+      future: Supabase.initialize(
+        url: supabaseUrl,
+        anonKey: supabaseKey,
+        authOptions: const FlutterAuthClientOptions(
+          authFlowType: AuthFlowType.implicit,
         ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return const DashBoardAdmin();
-            default:
-              return const CircularProgressIndicator();
-          }
-        },
       ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            return const DashBoardAdmin();
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }

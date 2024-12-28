@@ -6,25 +6,29 @@ sealed class UsuarioEvent {
 
 class UsuarioCreate extends UsuarioEvent {
   final String nome;
+  final String usuario;
   final String setor;
   final String email;
   final String tipo;
+  final String senha;
 
   const UsuarioCreate(
     this.nome,
+    this.usuario,
     this.setor,
     this.email,
     this.tipo,
+    this.senha,
   );
 }
 
 class UsuarioDelete extends UsuarioEvent {
-  final int id;
   final int order;
+  final String email;
 
   const UsuarioDelete(
-    this.id,
     this.order,
+    this.email,
   );
 }
 
@@ -33,13 +37,13 @@ class UsuarioUpdate extends UsuarioEvent {
   final String nome;
   final String setor;
   final String email;
-  final String tipo;
+  final String usuario;
 
   const UsuarioUpdate(
     this.nome,
     this.setor,
     this.email,
-    this.tipo,
+    this.usuario,
     this.id,
   );
 }

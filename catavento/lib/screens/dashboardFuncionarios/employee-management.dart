@@ -1,3 +1,6 @@
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'components/ativAndamentoCard.dart';
 import 'package:catavento/shared/widgets/input.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +21,11 @@ class EmployeeManagement extends StatelessWidget {
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
   ];
 
-  final List<Map<String, String>> funcionarios = [
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'}
-  ];
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _setorController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +141,7 @@ class EmployeeManagement extends StatelessWidget {
                                     Inputs(
                                       text: "Nome:",
                                       hint: "Nome do funcionário",
+                                      controller: _nomeController,
                                     ),
                                     SizedBox(
                                         height:
@@ -149,6 +150,7 @@ class EmployeeManagement extends StatelessWidget {
                                     Inputs(
                                       text: "Setor:",
                                       hint: "Setor do funcionário",
+                                      controller: _setorController,
                                     ),
                                     SizedBox(
                                         height:
@@ -157,6 +159,7 @@ class EmployeeManagement extends StatelessWidget {
                                     Inputs(
                                       text: "Email:",
                                       hint: "Email do funcionário",
+                                      controller: _emailController,
                                     ),
                                     SizedBox(
                                         height:
@@ -165,6 +168,7 @@ class EmployeeManagement extends StatelessWidget {
                                     Inputs(
                                       text: "Nome de usuário:",
                                       hint: "Nome de usuário do funcionário",
+                                      controller: _usuarioController,
                                     ),
                                     SizedBox(
                                         height:
@@ -173,6 +177,7 @@ class EmployeeManagement extends StatelessWidget {
                                     Inputs(
                                       text: "Senha:",
                                       hint: "Senha para o funcionário",
+                                      controller: _senhaController,
                                     ),
                                     SizedBox(
                                         height:
@@ -182,7 +187,16 @@ class EmployeeManagement extends StatelessWidget {
                                         child: Center(
                                             child: ElevatedButton(
                                                 onPressed: () {
-                                                  //Lógica do botão
+                                                  context
+                                                      .read<UsuarioBloc>()
+                                                      .add(UsuarioCreate(
+                                                        _nomeController.text,
+                                                        _usuarioController.text,
+                                                        _setorController.text,
+                                                        _emailController.text,
+                                                        'padrao',
+                                                        _senhaController.text,
+                                                      ));
                                                   Navigator.pop(context);
                                                 },
                                                 style: ElevatedButton.styleFrom(
@@ -226,15 +240,22 @@ class EmployeeManagement extends StatelessWidget {
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.6,
                       width: MediaQuery.of(context).size.height * 0.45,
-                      child: ListView.builder(
-                        //Aqui vai o cards dos funcionarios cadastrados
-                        itemCount: funcionarios.length,
-                        itemBuilder: (context, index) {
-                          final funcionario = funcionarios[index];
-                          return FuncionarioCard(
-                            nomeFuncionario: funcionario['nome']!,
-                            setor: funcionario['setor']!,
-                            status: funcionario['status']!,
+                      child: BlocBuilder<UsuarioBloc, UsuarioState>(
+                        builder: (context, state) {
+                          final funcionarios = state.databaseResponse;
+                          return ListView.builder(
+                            //Aqui vai o cards dos funcionarios cadastrados
+                            itemCount: funcionarios.length,
+                            itemBuilder: (context, index) {
+                              final funcionario = funcionarios[index];
+                              return FuncionarioCard(
+                                nomeFuncionario:
+                                    funcionario['usuario'] ?? "Indisponível",
+                                setor: funcionario['setor'] ?? "Indisponível",
+                                status: funcionario['status'] ?? "Indisponível",
+                                email: funcionario['email'] ?? "Indisponível",
+                              );
+                            },
                           );
                         },
                       ))),
@@ -249,7 +270,7 @@ class EmployeeManagement extends StatelessWidget {
                       Center(
                         child: Center(
                           child: Text(
-                            "Setor de Montagem",
+                            "Setor de Cobertura",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -275,7 +296,7 @@ class EmployeeManagement extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.03),
                       Center(
                         child: Text(
-                          "Setor de Corte",
+                          "Setor de Aplique",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,

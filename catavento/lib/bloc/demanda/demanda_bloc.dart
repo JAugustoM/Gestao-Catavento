@@ -10,9 +10,10 @@ part 'demanda_event.dart';
 part 'demanda_state.dart';
 
 class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
-  final supabase = Supabase.instance.client;
-  DatabaseResponse currentData = [];
-  File? fotoSelecionada;
+  final _supabase = Supabase.instance.client;
+  DatabaseResponse _currentData = [];
+  bool _newEvent = false;
+  File? _fotoSelecionada;
 
   DemandaEvent get initialState => DemandaLoading();
 
@@ -28,6 +29,21 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     on<DemandaUpdate>(_onUpdate);
   }
 
+  @override
+  void onEvent(DemandaEvent event) {
+    super.onEvent(event);
+    _newEvent = true;
+  }
+
+  bool isLocalEvent() {
+    if (_newEvent) {
+      _newEvent = false;
+      return _newEvent;
+    } else {
+      return true;
+    }
+  }
+
   void _onFilter(DemandaFilter event, Emitter<DemandaState> emit) {
     final column = event.column;
     var value = event.value;
@@ -35,7 +51,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     if (value != "") {
       value = value.toLowerCase();
-      for (var data in currentData) {
+      for (var data in _currentData) {
         if (data[column] != null) {
           var string = data[column] as String;
           string = string.toLowerCase();
@@ -49,19 +65,19 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     final metaData = _countDemandas();
 
     if (newData.isEmpty) {
-      emit(DemandaFilterState(currentData, metaData));
+      emit(DemandaFilterState(_currentData, metaData));
     } else {
       emit(DemandaFilterState(newData, metaData));
     }
   }
 
   void _onLoading(DemandaLoading event, Emitter<DemandaState> emit) async {
-    final response = await supabase.from('demandas').select();
-    currentData = response;
+    final response = await _supabase.from('demandas').select();
+    _currentData = response;
 
     final metaData = _countDemandas();
 
-    emit(DemandaLoadingState(currentData, metaData));
+    emit(DemandaLoadingState(_currentData, metaData));
   }
 
   void _onCreate(DemandaCreate event, Emitter<DemandaState> emit) async {
@@ -69,16 +85,14 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     if (event.foto != null) {
       try {
         final filename = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        await supabase.storage.from('imagens').upload(filename, event.foto!);
-        fotoUrl = supabase.storage.from('imagens').getPublicUrl(filename);
+        await _supabase.storage.from('imagens').upload(filename, event.foto!);
+        fotoUrl = _supabase.storage.from('imagens').getPublicUrl(filename);
       } catch (error) {
         throw Exception('Erro ao fazer upload da foto: $error');
       }
     }
 
     final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
-
-    print(event.descricao);
 
     final demanda = {
       'nome_demanda': event.nomeDemanda,
@@ -95,9 +109,10 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     }
 
     try {
-      final response = await supabase.from('demandas').insert(demanda).select();
+      final response =
+          await _supabase.from('demandas').insert(demanda).select();
       if (response.isNotEmpty) {
-        currentData.add(response[0]);
+        _currentData.add(response[0]);
       } else {
         throw Exception("Erro ao adiciona demanda");
       }
@@ -107,15 +122,15 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     final metaData = _countDemandas();
 
-    emit(DemandaCreateState(currentData, metaData));
+    emit(DemandaCreateState(_currentData, metaData));
   }
 
   void _onDelete(DemandaDelete event, Emitter<DemandaState> emit) async {
     try {
       final response =
-          await supabase.from('demandas').delete().eq('id', event.id).select();
+          await _supabase.from('demandas').delete().eq('id', event.id).select();
       if (response.isNotEmpty) {
-        currentData.removeAt(event.order);
+        _currentData.removeAt(event.order);
       }
     } catch (e) {
       print('Erro ao buscar dados: $e');
@@ -123,7 +138,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     final metaData = _countDemandas();
 
-    emit(DemandaDeleteState(currentData, metaData));
+    emit(DemandaDeleteState(_currentData, metaData));
   }
 
   void _onUpdate(DemandaUpdate event, Emitter<DemandaState> emit) async {
@@ -132,17 +147,17 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       final descricao = event.descricao;
       final order = event.order;
 
-      await supabase.from('demandas').update({
+      await _supabase.from('demandas').update({
         'nome_demanda': nomeDemanda,
         'descricao': descricao,
       }).eq('id', event.id);
 
-      currentData[order]['nome_demanda'] = nomeDemanda;
-      currentData[order]['descricao'] = descricao;
+      _currentData[order]['nome_demanda'] = nomeDemanda;
+      _currentData[order]['descricao'] = descricao;
 
       final metaData = _countDemandas();
 
-      emit(DemandaUpdateState(currentData, metaData));
+      emit(DemandaUpdateState(_currentData, metaData));
     } catch (e) {
       print("Erro ao atualizar demanda: $e");
     }
@@ -153,7 +168,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     int espera = 0;
     int fabricacao = 0;
 
-    for (var data in currentData) {
+    for (var data in _currentData) {
       switch (data['status']) {
         case '0' || 'Pendente':
           espera++;
