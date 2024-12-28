@@ -190,107 +190,224 @@ class DemandCard extends StatelessWidget {
 
   // Função para mostrar as informações da demanda em um diálogo
   void _showInfoDialog(BuildContext context, String nome, String codigo,
-    String descricao, String status, String imageUrl) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return ReusableDialog(
-        backgroundColor: AppColors.lightGray,
-        title: nome,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Imagem e informações gerais
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    'assets/images/photo.jpg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
+      String descricao, String status, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ReusableDialog(
+          backgroundColor: AppColors.lightGray,
+          title: nome,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Imagem e informações gerais
+              Container(
+                height: 200, // Limita a altura da Row
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      color: Colors.white,
+                      child: Image.asset(
+                        'assets/images/photo.jpg',
+                        width: 180, // largura fixa da imagem
+                        height:
+                            double.infinity, // altura ocupa o máximo disponível
+                        fit: BoxFit
+                            .cover, // Garante que a imagem cubra a área, podendo ser cortada
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    const SizedBox(width: 20),
+                    Expanded(
+                      // Faz a Row ocupar o restante do espaço
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.receipt_long_rounded,
+                                  color: AppColors.gradientDarkBlue,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Informações Gerais",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'FredokaOne',
+                                    color: AppColors.gradientDarkBlue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            SingleChildScrollView(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text.rich(
+                                  TextSpan(
+                                    text: "Código: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.gradientDarkBlue,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "12345",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.gradientDarkBlue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text.rich(
+                                  TextSpan(
+                                    text: "Data do pedido: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.gradientDarkBlue,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "12/10/2024",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.gradientDarkBlue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text.rich(
+                                  TextSpan(
+                                    text: "Prazo: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.gradientDarkBlue,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "20/10/2024",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.gradientDarkBlue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text.rich(
+                                  TextSpan(
+                                    text: "Descrição: ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.gradientDarkBlue,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            "Bolo personalizado com tema Moana",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.gradientDarkBlue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              // Acompanhamento
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
+                        Icon(
+                          Icons.search,
+                          color: AppColors.gradientDarkBlue,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
                         const Text(
                           "Informações Gerais",
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            fontFamily: 'FredokaOne',
+                            color: AppColors.gradientDarkBlue,
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        Text("Código: 12345"),
-                        Text("Data do pedido: 12/10/2024"),
-                        Text("Prazo: 20/10/2024"),
-                        Text("Descrição: Bolo personalizado com tema Moana"),
                       ],
                     ),
-                  ),
+                    const SizedBox(height: 5),
+                    Text.rich(
+                      TextSpan(
+                        text: "Status: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.gradientDarkBlue,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Em andamento",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: AppColors.gradientDarkBlue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Etapas dinâmicas
+                    Column(
+                      children: [
+                        _buildEtapa("Etapa 1", "completed"),
+                        _buildEtapa("Etapa 2", "in_progress"),
+                        _buildEtapa("Etapa 3", "pending"),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Acompanhamento
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Acompanhamento da produção",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                   const Text(
-                    "Status: Em andamento ",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  // Etapas dinâmicas
-                  Column(
-                    children: [
-                      _buildEtapa("Etapa 1", "completed"),
-                      _buildEtapa("Etapa 2", "completed"),
-                      _buildEtapa("Etapa 3", "in_progress"),
-                      _buildEtapa("Etapa 4", "pending"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Widget _buildEtapa(String nome, String status) {
     Color etapaColor;
@@ -298,15 +415,15 @@ class DemandCard extends StatelessWidget {
 
     switch (status) {
       case 'completed':
-        etapaColor = Colors.green;
+        etapaColor = AppColors.green;
         etapaIcon = const Icon(Icons.check, color: Colors.white);
         break;
       case 'in_progress':
-        etapaColor = Colors.yellow;
+        etapaColor = AppColors.orange;
         etapaIcon = const Icon(Icons.timelapse, color: Colors.white);
         break;
       case 'pending':
-        etapaColor = Colors.red;
+        etapaColor = AppColors.red;
         etapaIcon = const Icon(Icons.close, color: Colors.white);
         break;
       default:
