@@ -14,6 +14,10 @@ Future<String?> tablePicker() async {
     );
 
     if (result != null && result.files.isNotEmpty) {
+      if (Platform.isWindows) {
+        return result.files.single.path;
+      }
+
       final path = result.files.single.path;
       final file = File(path!);
       final newFileName = path.split('/').last;

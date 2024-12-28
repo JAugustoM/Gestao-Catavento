@@ -39,16 +39,18 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
       'tipo': event.tipo
     };
 
-    try {
-      final response =
-          await _supabase.from('usuarios').insert(usuario).select();
-      if (response.isNotEmpty) {
-        _currentData.add(response[0]);
-      } else {
-        throw Exception("Erro ao adiciona usuario");
+    if (usuario['email'] != null && usuario['email']!.isNotEmpty) {
+      try {
+        final response =
+            await _supabase.from('usuarios').insert(usuario).select();
+        if (response.isNotEmpty) {
+          _currentData.add(response[0]);
+        } else {
+          throw Exception("Erro ao adiciona usuario");
+        }
+      } catch (_) {
+        throw Exception('Erro ao adicionar usuario');
       }
-    } catch (_) {
-      throw Exception('Erro ao adicionar usuario');
     }
 
     final metaData = _countUsuarios();
@@ -83,18 +85,36 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
       final email = event.email;
       final id = event.id;
 
-      await _supabase.from('usuarios').update({
-        'nome': nome,
-        'setor': setor,
-        'email': email,
-        'usuario': usuario,
-      }).eq('email', event.email);
+      Map<String, dynamic> atualizado = {};
+
+      if (nome.isNotEmpty) {
+        atualizado['nome'] = nome;
+      }
+
+      if (usuario.isNotEmpty) {
+        atualizado['usuario'] = usuario;
+      }
+
+      if (setor.isNotEmpty) {
+        atualizado['setor'] = setor;
+      }
+
+      if (email.isNotEmpty) {
+        atualizado['email'] = email;
+      }
+
+      if (atualizado.isNotEmpty) {
+        await _supabase
+            .from('usuarios')
+            .update(atualizado)
+            .eq('email', event.email);
+      }
 
       // verificar se pode usar o id
-      _currentData[id]['nome'] = nome;
-      _currentData[id]['setor'] = setor;
-      _currentData[id]['email'] = email;
-      _currentData[id]['usuario'] = usuario;
+
+      for (var key in atualizado.keys) {
+        _currentData[id][key] = atualizado[key];
+      }
 
       final metaData = _countUsuarios();
 

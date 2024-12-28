@@ -91,6 +91,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             Inputs(
                               text: "Nome:",
                               controller: _nomeController,
+                              hint: user['nome'],
                             ),
                             SizedBox(
                                 height:
@@ -98,6 +99,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             Inputs(
                               text: "Setor:",
                               controller: _setorController,
+                              hint: user['setor'],
                             ),
                             SizedBox(
                                 height:
@@ -105,6 +107,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             Inputs(
                               text: "Email:",
                               controller: _emailController,
+                              hint: user['email'],
                             ),
                             SizedBox(
                                 height:
@@ -112,6 +115,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             Inputs(
                               text: "Nome de usuário:",
                               controller: _usuarioController,
+                              hint: user['usuario'],
                             ),
                             SizedBox(
                                 height:

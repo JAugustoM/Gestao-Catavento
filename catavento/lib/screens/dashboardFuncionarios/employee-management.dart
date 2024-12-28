@@ -270,7 +270,7 @@ class EmployeeManagement extends StatelessWidget {
                       Center(
                         child: Center(
                           child: Text(
-                            "Setor de Montagem",
+                            "Setor de Cobertura",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -296,7 +296,7 @@ class EmployeeManagement extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.03),
                       Center(
                         child: Text(
-                          "Setor de Corte",
+                          "Setor de Aplique",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,

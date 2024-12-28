@@ -9,8 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/bloc/demanda/demanda_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../services/table_import/table_import.dart';
-import '../../services/table_import/table_picker.dart';
+import 'package:catavento/core/services/table_import/table_import.dart';
+import 'package:catavento/core/services/table_import/table_picker.dart';
 
 // components
 import 'package:catavento/shared/widgets/header.dart';
@@ -78,6 +78,8 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   @override
   void initState() {
     super.initState();
+    demandaController = DemandaController(context.read<DemandaBloc>());
+    demandaController.initialize();
   }
 
   @override
@@ -153,6 +155,7 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   @override
   void dispose() {
     super.dispose();
+    demandaController.finalize();
   }
 }
 
