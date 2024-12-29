@@ -19,14 +19,14 @@ class ConfirmDialog extends StatelessWidget {
         title,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 20,
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       ),
       content: Text(
         contente,
         style: TextStyle(
-          fontSize: 20,
+          fontSize: 16,
           color: Colors.black,
         ),
       ),
@@ -48,7 +48,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: Text(
                   "Sim",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Colors.white,
                   ),
                 ),
@@ -71,7 +71,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: Text(
                   "Não",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     color: Colors.white,
                   ),
                 ),
