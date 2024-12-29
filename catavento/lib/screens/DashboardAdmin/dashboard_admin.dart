@@ -35,7 +35,6 @@ class DashBoardAdmin extends StatelessWidget {
         title: 'Demandas atuais $formattedDate',
         historyButton: true,
       ),
-      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Container(
@@ -84,7 +83,7 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(right: 20, left: 20, bottom: 20),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

@@ -14,7 +14,7 @@ class ReusableDialog extends StatelessWidget {
     required this.title,
     required this.body,
     this.confirmBeforeClose = false,
-    this.backgroundColor = const Color(0xFFD1EEFF),
+    this.backgroundColor = AppColors.lightGray,
     this.borderRadius = const BorderRadius.all(Radius.circular(25)),
   });
 

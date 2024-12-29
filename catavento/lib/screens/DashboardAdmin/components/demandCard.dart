@@ -200,7 +200,6 @@ class DemandCard extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Imagem e informações gerais
               Container(
                 height: 200, // Limita a altura da Row
                 child: Row(
@@ -467,28 +466,175 @@ class DemandCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InputTextField(
-                  labelText: "Nome da Demanda",
-                  hintText: "Digite o nome da demanda",
-                  controller: nomeController,
-                ),
-                const SizedBox(height: 10),
-                InputTextField(
-                  labelText: "Código da Demanda",
-                  hintText: "Digite o código da demanda",
-                  controller: codigoController,
-                ),
-                const SizedBox(height: 10),
-                InputTextField(
-                  labelText: "Descrição",
-                  hintText: "Digite a descrição",
-                  controller: descricaoController,
-                  maxLines: 3,
-                  keyboardType: TextInputType.multiline,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(16), // Bordas arredondadas
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.receipt_long_rounded,
+                                  color: AppColors.gradientDarkBlue,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Informações Gerais",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'FredokaOne',
+                                    color: AppColors.gradientDarkBlue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Código",
+                                  style: TextStyle(
+                                      color: AppColors.gradientDarkBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Código da demanda",
+                                    controller: codigoController,
+                                    labelText: '',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Nome",
+                                  style: TextStyle(
+                                      color: AppColors.gradientDarkBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Nome do bolo",
+                                    controller: nomeController,
+                                    labelText: '',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Data do pedido",
+                                  style: TextStyle(
+                                      color: AppColors.gradientDarkBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: inputDate(),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Prazo",
+                                  style: TextStyle(
+                                      color: AppColors.gradientDarkBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: inputDate(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(16), // Bordas arredondadas
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.receipt_long_rounded,
+                                  color: AppColors.gradientDarkBlue,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  "Informações Adicionais",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'FredokaOne',
+                                    color: AppColors.gradientDarkBlue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Código da demanda",
+                                    controller: descricaoController,
+                                    labelText: 'Descrição',
+                                    maxLines: 4,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () {
@@ -503,26 +649,16 @@ class DemandCard extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF50B432),
+                        textStyle: TextStyle(color: Colors.white),
+                        backgroundColor: AppColors.gradientDarkBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
-                      child: const Text("Salvar"),
-                    ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD54A3D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                      child: const Text("Cancelar"),
-                    ),
+                      child: const Text("Concluir",
+                          style: TextStyle(
+                              fontFamily: 'FredokaOne', color: Colors.white)),
+                    )
                   ],
                 ),
               ],
