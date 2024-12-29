@@ -35,8 +35,8 @@ class ConfirmDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 137,
-              height: 57,
+              width: 100,
+              height: 30,
               child: ElevatedButton(
                 onPressed: onConfirm,
                 style: ElevatedButton.styleFrom(
@@ -56,8 +56,8 @@ class ConfirmDialog extends StatelessWidget {
             ),
             SizedBox(width: 40),
             SizedBox(
-              width: 137,
-              height: 57,
+              width: 100,
+              height: 30,
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();

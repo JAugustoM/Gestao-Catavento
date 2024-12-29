@@ -95,6 +95,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           });
                         },
                         title: const Text('Elo7'),
+                        activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Magalu',
@@ -105,6 +106,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           });
                         },
                         title: const Text('Magalu'),
+                        activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Mercado Livre',
@@ -115,6 +117,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           });
                         },
                         title: const Text('Mercado Livre'),
+                        activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Site',
@@ -125,6 +128,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           });
                         },
                         title: const Text('Site'),
+                        activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Shopee',
@@ -135,6 +139,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           });
                         },
                         title: const Text('Shopee'),
+                        activeColor: AppColors.gradientDarkBlue,
                       ),
                     ],
                   ),
