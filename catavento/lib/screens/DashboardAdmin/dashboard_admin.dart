@@ -312,22 +312,35 @@ class ButtonAddDemanda extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Informações Gerais",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.blue,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Icon(
+                              Icons.receipt_long_rounded,
+                              color: AppColors.gradientDarkBlue,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              "Informações Gerais",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'FredokaOne',
+                                color: AppColors.gradientDarkBlue,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 20),
                         Row(
                           children: [
                             Text(
                               "Código",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: AppColors.gradientDarkBlue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(width: 10),
                             Expanded(
                               child: InputTextField(
                                 labelText: "",
@@ -341,12 +354,14 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
                         Row(
                           children: [
                             Text(
                               "Nome",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: AppColors.gradientDarkBlue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -358,17 +373,37 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
                             Text(
                               "Data do pedido",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: AppColors.gradientDarkBlue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: inputDate(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
                             Text(
                               "Prazo",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: AppColors.gradientDarkBlue,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: inputDate(),
                             ),
                           ],
                         ),
@@ -386,13 +421,25 @@ class ButtonAddDemanda extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Informações Adicionais",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.blue,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Icon(
+                              Icons.search,
+                              color: AppColors.gradientDarkBlue,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              "Informações Adicionais",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'FredokaOne',
+                                color: AppColors.gradientDarkBlue,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10),
                         InputTextField(
@@ -406,13 +453,31 @@ class ButtonAddDemanda extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _selecionarFoto(context);
-                          },
-                          child: const Text("Selecionar Foto"),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          _selecionarFoto(context);
+                        },
+                        icon: const Icon(
+                          Icons.camera_alt,
+                          size: 18, // Ícone de câmera
+                          color: Colors.white, // Cor do ícone (branco)
+                        ),
+                        label: const Text(
+                          "Selecionar Foto",
+                          style: TextStyle(
+                            fontFamily: 'FredokaOne',
+                            color: Colors.white, // Cor do texto (branca)
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              AppColors.gradientDarkBlue, // Cor de fundo
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                22), // Bordas arredondadas
+                          ),
                         ),
                       ),
                     ],
@@ -439,14 +504,15 @@ class ButtonAddDemanda extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF015C98),
+                      backgroundColor: AppColors.gradientDarkBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
                     child: const Text(
                       "Concluir",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          fontFamily: 'FredokaOne', color: Colors.white),
                     ),
                   ),
                 ],
