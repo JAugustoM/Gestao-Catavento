@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/constants.dart';
+import 'package:catavento/screens/Produtos/dashboard_produtos.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';
 import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart';
@@ -24,6 +25,7 @@ void main() {
           loginRoute: (context) => const Login(),
           homeRoute: (context) => const DashBoardAdmin(),
           crudFuncionariosRoute: (context) => EmployeeManagement(),
+          produtosRoute: (context) => DashboardProdutos(),
         },
       ),
     ),

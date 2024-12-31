@@ -100,7 +100,9 @@ class Navbar extends StatelessWidget {
                 color: AppColors.gradientDarkBlue,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, produtosRoute);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout,
