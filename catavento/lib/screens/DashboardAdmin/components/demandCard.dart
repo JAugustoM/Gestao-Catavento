@@ -262,7 +262,7 @@ class DemandCard extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: "12345",
+                                        text: codigo,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: AppColors.gradientDarkBlue,
