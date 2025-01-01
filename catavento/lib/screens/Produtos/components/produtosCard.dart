@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
-import 'package:catavento/shared/widgets/inputs.dart';
 
 class ProdutosCard extends StatefulWidget {
   final String nomeProduto;
@@ -113,7 +112,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                 borderRadius: BorderRadius.circular(30))),
         child: Text(
           "Editar",
-          style: TextStyle(fontSize: 13, color: Colors.white),
+          style: TextStyle(fontSize: 12, color: Colors.white),
         ),
       ),
     );
@@ -134,7 +133,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                 borderRadius: BorderRadius.circular(30))),
         child: Text(
           "Info",
-          style: TextStyle(fontSize: 14, color: Colors.white),
+          style: TextStyle(fontSize: 12, color: Colors.white),
         ),
       ),
     );
