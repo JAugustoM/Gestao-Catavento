@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 
 class FilterWidget extends StatefulWidget {
-  const FilterWidget({super.key});
+  final ValueChanged<String?> onFilterChanged;
+
+  const FilterWidget({super.key, required this.onFilterChanged});
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
@@ -10,6 +12,7 @@ class FilterWidget extends StatefulWidget {
 
 class _FilterWidgetState extends State<FilterWidget> {
   String? selectedOption;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -20,7 +23,7 @@ class _FilterWidgetState extends State<FilterWidget> {
       child: Card(
         color: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), // Arredonda todas as bordas
+          borderRadius: BorderRadius.circular(12),
         ),
         elevation: 0,
         margin: const EdgeInsets.all(0),
@@ -62,9 +65,9 @@ class _FilterWidgetState extends State<FilterWidget> {
             ),
             Container(
               decoration: const BoxDecoration(
-                color: AppColors.lightGray, // Cor do fundo
+                color: AppColors.lightGray,
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(12.0), // Arredonda o fundo
+                  bottom: Radius.circular(12.0),
                 ),
               ),
               padding: const EdgeInsets.all(10),
@@ -76,23 +79,23 @@ class _FilterWidgetState extends State<FilterWidget> {
                     underline: const SizedBox(),
                     items: ['Filtro por loja']
                         .map((value) => DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            ))
+                            value: value, child: Text(value)))
                         .toList(),
                     onChanged: (value) {
-                      // lógica do dropdown aqui
+                      // Não faz nada aqui, já que estamos filtrando pelo radio
                     },
                   ),
                   Column(
                     children: [
                       RadioListTile<String>(
-                        value: 'Elo7',
+                        value: 'Elo 7',
                         groupValue: selectedOption,
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value;
                           });
+                          widget.onFilterChanged(
+                              value); // Passando a loja selecionada para o widget pai
                         },
                         title: const Text('Elo7'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -104,6 +107,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
+                          widget.onFilterChanged(value);
                         },
                         title: const Text('Magalu'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -115,6 +119,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
+                          widget.onFilterChanged(value);
                         },
                         title: const Text('Mercado Livre'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -126,6 +131,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
+                          widget.onFilterChanged(value);
                         },
                         title: const Text('Site'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -137,6 +143,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
+                          widget.onFilterChanged(value);
                         },
                         title: const Text('Shopee'),
                         activeColor: AppColors.gradientDarkBlue,
