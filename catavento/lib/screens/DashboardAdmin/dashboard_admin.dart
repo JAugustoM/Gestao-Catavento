@@ -72,14 +72,23 @@ class AddDemandPageAdmin extends StatefulWidget {
 class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   late final DemandaController demandaController;
 
+  String? selectedFilter;
+
   @override
   void initState() {
     super.initState();
   }
 
+  // Função chamada quando o filtro é alterado
+  void handleFilterChange(String? filter) {
+    setState(() {
+      selectedFilter = filter;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size; // Obtém o tamanho da tela
+    final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
       child: Padding(
@@ -89,14 +98,11 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Barra de Pesquisa
               Padding(
                 padding: EdgeInsets.zero,
                 child: Search(),
               ),
               SizedBox(height: 20),
-
-              // Ajustando a altura com Flex/Expanded
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0),
                 child: LayoutBuilder(
@@ -105,15 +111,16 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              // ainda falta ajustar a responsividade desse quadro, além de q o design vai mudar
                               Flexible(
                                 flex: 1,
-                                child: FilterWidget(),
+                                child: FilterWidget(
+                                  onFilterChanged: handleFilterChange,
+                                ),
                               ),
                               SizedBox(width: 15),
                               Flexible(
                                 flex: 2,
-                                child: ListDemanda(),
+                                child: ListDemanda(filter: selectedFilter),
                               ),
                               SizedBox(width: 15),
                               Flexible(
@@ -125,11 +132,13 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
                         : Column(
                             children: [
                               Expanded(
-                                child: FilterWidget(),
+                                child: FilterWidget(
+                                  onFilterChanged: handleFilterChange,
+                                ),
                               ),
                               SizedBox(height: size.height * 0.02),
                               Expanded(
-                                child: ListDemanda(),
+                                child: ListDemanda(filter: selectedFilter),
                               ),
                               SizedBox(height: size.height * 0.02),
                               Expanded(
@@ -154,22 +163,15 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
 }
 
 class ListDemanda extends StatefulWidget {
-  const ListDemanda({super.key});
+  final String? filter; // Filtro que será aplicado
+
+  const ListDemanda({super.key, this.filter});
 
   @override
-  State<ListDemanda> createState() {
-    return ListDemandaState();
-  }
+  State<ListDemanda> createState() => ListDemandaState();
 }
 
 class ListDemandaState extends State<ListDemanda> {
-  File? foto;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size; // Tamanho da tela
@@ -194,21 +196,40 @@ class ListDemandaState extends State<ListDemanda> {
           Expanded(
             child: BlocBuilder<DemandaBloc, DemandaState>(
               builder: (context, state) {
+                List<dynamic> filteredList = [];
+
+                if (widget.filter != null && widget.filter!.isNotEmpty) {
+                  // Normaliza o valor do filtro (remove espaços e converte para minúsculas)
+                  final normalizedFilter =
+                      widget.filter!.toLowerCase().replaceAll(' ', '');
+
+                  // Filtra as demandas de acordo com a loja, insensível a maiúsculas e espaços
+                  filteredList = state.databaseResponse.where((demanda) {
+                    // Normaliza o valor da loja (remove espaços e converte para minúsculas)
+                    final loja = (demanda['loja'] ?? '')
+                        .toLowerCase()
+                        .replaceAll(' ', '');
+                    return loja
+                        .contains(normalizedFilter); // Compara sem espaços
+                  }).toList();
+                } else {
+                  // Se não houver filtro, exibe todas as demandas
+                  filteredList = state.databaseResponse;
+                }
                 return ListView.builder(
-                  itemCount: state.databaseResponse.length,
+                  itemCount: filteredList.length,
                   itemBuilder: (context, index) {
-                    final demanda = state.databaseResponse[index];
+                    final demanda = filteredList[index];
                     return DemandCard(
                       nomeDemanda:
                           demanda['nome_demanda'] ?? 'Nome não disponível',
                       status: demanda['status'] ?? 'Status não disponível',
                       codigo: demanda['codigo'] ?? 'Sem código',
-                      descricao: demanda['descricao'] ?? 'Sem descricao',
+                      descricao: demanda['descricao'] ?? 'Sem descrição',
                       id: demanda['id'],
                       imagemUrl: demanda['imagem_url'] ?? '',
                       order: index,
-                      plataforma:
-                          'Shopee', // ADICIONAR VARIÁVEL PARA PASSAR A PLATAFORMA DPS
+                      plataforma: demanda['loja'] ?? 'Sem plataforma',
                       bloc: context.read<DemandaBloc>(), // BACKEND
                     );
                   },
@@ -216,10 +237,8 @@ class ListDemandaState extends State<ListDemanda> {
               },
             ),
           ),
-          SizedBox(height: 10), // Espaço entre a lista e o botão
-          ButtonAddDemanda(
-            bloc: context.read<DemandaBloc>(), // BACKEND
-          ),
+          SizedBox(height: 10),
+          ButtonAddDemanda(bloc: context.read<DemandaBloc>()),
         ],
       ),
     );

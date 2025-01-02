@@ -18,7 +18,7 @@ class _FilterWidgetState extends State<FilterWidget> {
     final size = MediaQuery.of(context).size;
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: size.height * 0.65, // Altura máxima do card
+        maxHeight: size.height * 0.65,
       ),
       child: Card(
         color: Colors.transparent,
@@ -79,23 +79,23 @@ class _FilterWidgetState extends State<FilterWidget> {
                     underline: const SizedBox(),
                     items: ['Filtro por loja']
                         .map((value) => DropdownMenuItem<String>(
-                            value: value, child: Text(value)))
+                              value: value,
+                              child: Text(value),
+                            ))
                         .toList(),
-                    onChanged: (value) {
-                      // Não faz nada aqui, já que estamos filtrando pelo radio
-                    },
+                    onChanged: (value) {},
                   ),
                   Column(
                     children: [
                       RadioListTile<String>(
-                        value: 'Elo 7',
+                        value: 'Elo7',
                         groupValue: selectedOption,
                         onChanged: (value) {
                           setState(() {
                             selectedOption = value;
                           });
                           widget.onFilterChanged(
-                              value); // Passando a loja selecionada para o widget pai
+                              value); // Atualiza o filtro no widget pai
                         },
                         title: const Text('Elo7'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -107,7 +107,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
-                          widget.onFilterChanged(value);
+                          widget.onFilterChanged(
+                              value); // Passa o valor para o widget pai
                         },
                         title: const Text('Magalu'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -119,7 +120,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
-                          widget.onFilterChanged(value);
+                          widget.onFilterChanged(
+                              value); // Passa o valor para o widget pai
                         },
                         title: const Text('Mercado Livre'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -131,7 +133,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
-                          widget.onFilterChanged(value);
+                          widget.onFilterChanged(
+                              value); // Passa o valor para o widget pai
                         },
                         title: const Text('Site'),
                         activeColor: AppColors.gradientDarkBlue,
@@ -143,7 +146,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           setState(() {
                             selectedOption = value;
                           });
-                          widget.onFilterChanged(value);
+                          widget.onFilterChanged(
+                              value); // Passa o valor para o widget pai
                         },
                         title: const Text('Shopee'),
                         activeColor: AppColors.gradientDarkBlue,
