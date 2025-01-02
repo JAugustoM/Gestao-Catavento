@@ -87,6 +87,19 @@ class _FilterWidgetState extends State<FilterWidget> {
                   ),
                   Column(
                     children: [
+                      RadioListTile<String?>(
+                        value: null,
+                        groupValue: selectedOption,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedOption = value;
+                          });
+                          widget.onFilterChanged(
+                              value); // Atualiza o filtro no widget pai
+                        },
+                        title: const Text("Todos"),
+                        activeColor: AppColors.gradientDarkBlue,
+                      ),
                       RadioListTile<String>(
                         value: 'Elo7',
                         groupValue: selectedOption,
