@@ -107,7 +107,7 @@ class ProdutosCardState extends State<ProdutosCard> {
           // _showEditDialog(context, nome, codigo, descricao);
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.blue,
+            backgroundColor: AppColors.gradientDarkBlue,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30))),
         child: Text(
@@ -128,7 +128,7 @@ class ProdutosCardState extends State<ProdutosCard> {
               "https://via.placeholder.com/150");
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.blue,
+            backgroundColor: AppColors.gradientDarkBlue,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30))),
         child: Text(

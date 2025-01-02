@@ -47,11 +47,13 @@ class DashboardProdutos extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           child: Searchproducts(),
                         ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 0),
                           child: _buildBlockListProdutos(context)
-                        )
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                        _buildButtonAdicionar(context),
                       ],
                     ),
                   ),
@@ -103,6 +105,26 @@ class DashboardProdutos extends StatelessWidget {
           image: produto['imagem']!,
         );
       }
+    );
+  }
+
+  Widget _buildButtonAdicionar(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.05,
+      width: MediaQuery.of(context).size.width * 0.3,
+      child: ElevatedButton(
+        onPressed: () {
+          
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.gradientDarkBlue,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30))),
+        child: Text(
+          "Novo Produto",
+          style: TextStyle(fontSize: 12, color: Colors.white),
+        ),
+      ),
     );
   }
 }
