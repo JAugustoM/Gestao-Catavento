@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 // BACKEND
-import 'package:catavento/bloc/demanda_bloc.dart';
-import 'package:catavento/bloc/demanda_controller.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../services/table_import/table_import.dart';
-import '../../services/table_import/table_picker.dart';
+import 'package:catavento/core/services/table_import/table_import.dart';
+import 'package:catavento/core/services/table_import/table_picker.dart';
 
 // components
 import 'package:catavento/shared/widgets/header.dart';
@@ -77,6 +77,8 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   @override
   void initState() {
     super.initState();
+    demandaController = DemandaController(context.read<DemandaBloc>());
+    demandaController.initialize();
   }
 
   // Função chamada quando o filtro é alterado
@@ -159,6 +161,7 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   @override
   void dispose() {
     super.dispose();
+    demandaController.finalize();
   }
 }
 
@@ -226,6 +229,8 @@ class ListDemandaState extends State<ListDemanda> {
                       status: demanda['status'] ?? 'Status não disponível',
                       codigo: demanda['codigo'] ?? 'Sem código',
                       descricao: demanda['descricao'] ?? 'Sem descrição',
+                      dataAdicao: demanda['data_adicao'],
+                      prazo: demanda['prazo'] ?? demanda['data_adicao'],
                       id: demanda['id'],
                       imagemUrl: demanda['imagem_url'] ?? '',
                       order: index,

@@ -1,11 +1,15 @@
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
+
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'components/ativAndamentoCard.dart';
+import 'package:catavento/shared/widgets/input.dart';
+
 import 'package:flutter/material.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/checkBox.dart';
 import 'package:catavento/shared/theme/colors.dart';
-import 'package:flutter/rendering.dart';
-import 'components/ativAndamentoCard.dart';
 import 'components/funcionarioCard.dart';
-import 'package:catavento/shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/blocks.dart';
@@ -32,6 +36,13 @@ class EmployeeManagement extends StatelessWidget {
     {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
     {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
   ];
+
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _setorController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+  final TextEditingController _tipoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -196,15 +207,21 @@ class EmployeeManagement extends StatelessWidget {
           return SizedBox(
             width: listWidth,
             height: height,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: funcionarios.length,
-              itemBuilder: (context, index) {
-                final funcionario = funcionarios[index];
-                return FuncionarioCard(
-                  nomeFuncionario: funcionario['nome']!,
-                  setor: funcionario['setor']!,
-                  status: funcionario['status']!,
+            child: BlocBuilder<UsuarioBloc, UsuarioState>(
+              builder: (context, state) {
+                final data = state.databaseResponse;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final funcionario = data[index];
+                    return FuncionarioCard(
+                      nomeFuncionario: funcionario['usuario'],
+                      setor: funcionario['setor'],
+                      status: funcionario['status'] ?? "Indisponível",
+                      email: funcionario['email'],
+                    );
+                  },
                 );
               },
             ),
@@ -227,9 +244,11 @@ class EmployeeManagement extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  _buildAtividadeSetor("Setor de Montagem"),
+                  _buildAtividadeSetor("Setor de Cobertura"),
                   const SizedBox(height: 20),
-                  _buildAtividadeSetor("Setor de Corte"),
+                  _buildAtividadeSetor("Setor de Aplique"),
+                  const SizedBox(height: 20),
+                  _buildAtividadeSetor("Setor de Montagem"),
                 ],
               ));
         }));
@@ -322,7 +341,10 @@ class EmployeeManagement extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Inputs(text: "Nome"),
+                              Inputs(
+                                text: "Nome",
+                                controller: _nomeController,
+                              ),
                               const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment:
@@ -336,7 +358,10 @@ class EmployeeManagement extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      CheckBox(),
+                                      CheckBox(
+                                        tipo: 'gerente',
+                                        controller: _tipoController,
+                                      ),
                                       const Text(
                                         'Gerente',
                                         style: TextStyle(color: AppColors.blue),
@@ -345,7 +370,10 @@ class EmployeeManagement extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      CheckBox(),
+                                      CheckBox(
+                                        tipo: 'padrao',
+                                        controller: _tipoController,
+                                      ),
                                       const Text(
                                         'Funcionário',
                                         style: TextStyle(color: AppColors.blue),
@@ -364,21 +392,42 @@ class EmployeeManagement extends StatelessWidget {
                                         color: AppColors.blue,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Dropdownbutton()
+                                  Dropdownbutton(
+                                    controller: _setorController,
+                                  )
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              Inputs(text: "Email"),
+                              Inputs(
+                                text: "Email",
+                                controller: _emailController,
+                              ),
                               const SizedBox(height: 16),
-                              Inputs(text: "Nome de Usuário"),
+                              Inputs(
+                                text: "Nome de Usuário",
+                                controller: _usuarioController,
+                              ),
                               const SizedBox(height: 16),
-                              Inputs(text: "Senha"),
+                              Inputs(
+                                text: "Senha",
+                                controller: _senhaController,
+                              ),
                             ],
                           ),
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            context.read<UsuarioBloc>().add(UsuarioCreate(
+                                  _nomeController.text,
+                                  _usuarioController.text,
+                                  _setorController.text,
+                                  _emailController.text,
+                                  _tipoController.text,
+                                  _senhaController.text,
+                                ));
+                            Navigator.pop(context);
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.blue,
                             shape: RoundedRectangleBorder(

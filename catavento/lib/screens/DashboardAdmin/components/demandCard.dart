@@ -1,6 +1,6 @@
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
@@ -10,6 +10,8 @@ class DemandCard extends StatelessWidget {
   final String status;
   final String codigo;
   final String descricao;
+  final String dataAdicao;
+  final String prazo;
   final bool isPriority; // Novo argumento para controlar o ícone de prioridade
   final String
       plataforma; // Novo argumento para controlar a plataforma da demanda
@@ -25,6 +27,8 @@ class DemandCard extends StatelessWidget {
     required this.codigo,
     required this.descricao,
     required this.plataforma,
+    required this.dataAdicao,
+    required this.prazo,
     required this.id,
     required this.order,
     required this.imagemUrl,
@@ -102,7 +106,7 @@ class DemandCard extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "$plataforma",
+                          plataforma,
                           style: TextStyle(
                             fontSize: 14,
                             color: AppColors.gradientDarkBlue,
@@ -123,7 +127,7 @@ class DemandCard extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "$descricao",
+                          descricao,
                           style: TextStyle(
                             fontSize: 14,
                             color: AppColors.gradientDarkBlue,
@@ -191,6 +195,11 @@ class DemandCard extends StatelessWidget {
   // Função para mostrar as informações da demanda em um diálogo
   void _showInfoDialog(BuildContext context, String nome, String codigo,
       String descricao, String status, String imageUrl) {
+    final dataSplit = dataAdicao.substring(0, 10).split('-');
+    final data = "${dataSplit[2]}/${dataSplit[1]}/${dataSplit[0]}";
+
+    final prazoSplit = dataAdicao.substring(0, 10).split('-');
+    final prazo = "${prazoSplit[2]}/${prazoSplit[1]}/${prazoSplit[0]}";
     showDialog(
       context: context,
       builder: (context) {
@@ -281,7 +290,7 @@ class DemandCard extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: "12/10/2024",
+                                        text: data,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: AppColors.gradientDarkBlue,
@@ -300,7 +309,7 @@ class DemandCard extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: "20/10/2024",
+                                        text: prazo,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: AppColors.gradientDarkBlue,
@@ -319,8 +328,7 @@ class DemandCard extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text:
-                                            "Bolo personalizado com tema Moana",
+                                        text: descricao,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: AppColors.gradientDarkBlue,

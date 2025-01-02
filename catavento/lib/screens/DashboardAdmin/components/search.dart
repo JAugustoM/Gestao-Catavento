@@ -1,6 +1,6 @@
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Search extends StatefulWidget {

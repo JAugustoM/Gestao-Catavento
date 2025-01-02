@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // BACKEND
-import 'package:catavento/bloc/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // components
