@@ -192,7 +192,6 @@ class DemandCard extends StatelessWidget {
     );
   }
 
-  // Função para mostrar as informações da demanda em um diálogo
   void _showInfoDialog(BuildContext context, String nome, String codigo,
       String descricao, String status, String imageUrl) {
     final dataSplit = dataAdicao.substring(0, 10).split('-');
@@ -626,7 +625,7 @@ class DemandCard extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: InputTextField(
-                                    hintText: "Código da demanda",
+                                    hintText: "Descrição da demanda",
                                     controller: descricaoController,
                                     labelText: 'Descrição',
                                     maxLines: 4,
