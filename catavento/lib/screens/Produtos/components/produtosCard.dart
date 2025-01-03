@@ -175,6 +175,7 @@ class ProdutosCardState extends State<ProdutosCard> {
         return ReusableDialog(
           title: "Editar Produto",
           confirmBeforeClose: true,
+          closeRoute: '/dashboardProdutos',
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
