@@ -32,7 +32,9 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   @override
   void onEvent(DemandaEvent event) {
     super.onEvent(event);
-    _newEvent = true;
+    if (event is! DemandaFilter && event is! DemandaLoading) {
+      _newEvent = true;
+    }
   }
 
   bool isLocalEvent() {
