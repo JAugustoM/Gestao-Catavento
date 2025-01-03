@@ -105,6 +105,22 @@ class Navbar extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.bar_chart,
+                color: AppColors.gradientDarkBlue,
+                size: 20), // Ícone de produtos
+            title: const Text(
+              'Desempenho',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.gradientDarkBlue,
+              ),
+            ),
+            onTap: () {
+              
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.logout,
                 color: AppColors.gradientDarkBlue, size: 20), // Ícone de sair
             title: const Text(

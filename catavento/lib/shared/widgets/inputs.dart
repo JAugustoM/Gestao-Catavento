@@ -5,7 +5,7 @@ import 'package:catavento/shared/theme/colors.dart';
 class InputTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool isPassword;
   final int? maxLines;
@@ -15,7 +15,7 @@ class InputTextField extends StatelessWidget {
     super.key,
     required this.labelText,
     required this.hintText,
-    required this.controller,
+    this.controller,
     this.keyboardType = TextInputType.text,
     this.isPassword = false,
     this.maxLines,
