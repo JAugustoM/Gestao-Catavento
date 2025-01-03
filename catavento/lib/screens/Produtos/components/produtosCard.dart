@@ -264,7 +264,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                                 ),
                                 const SizedBox(width: 10),
                                 Icon(Icons.camera_alt,
-                                    size: 40,
+                                    size: 30,
                                     color: AppColors.gradientDarkBlue),
                               ],
                             )
@@ -292,7 +292,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Icon(
-                                  Icons.receipt_long_rounded,
+                                  Icons.search,
                                   color: AppColors.gradientDarkBlue,
                                   size: 20,
                                 ),

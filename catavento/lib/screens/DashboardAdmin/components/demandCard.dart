@@ -604,7 +604,7 @@ class DemandCard extends StatelessWidget {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Icon(
-                                  Icons.receipt_long_rounded,
+                                  Icons.search,
                                   color: AppColors.gradientDarkBlue,
                                   size: 20,
                                 ),

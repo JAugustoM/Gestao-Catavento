@@ -132,17 +132,34 @@ class DashboardProdutos extends StatelessWidget {
 
   Widget _buildButtonAdicionar(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.05,
       width: MediaQuery.of(context).size.width * 0.3,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
+      height: MediaQuery.of(context).size.height * 0.05,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: ElevatedButton(
+          onPressed: () {
+            // adicionar aqui a função para abrir o dialog de
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30))),
-        child: Text(
-          "Novo Produto",
-          style: TextStyle(fontSize: 12, color: Colors.white),
+              borderRadius: BorderRadius.circular(22),
+            ),
+          ),
+          child: const Text(
+            "Adicionar Demanda",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
