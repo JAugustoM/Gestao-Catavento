@@ -62,7 +62,7 @@ class Navbar extends StatelessWidget {
                       Column(
                         children: [
                           ListTile(
-                            leading: const Icon(Icons.list_alt , color: Colors.white,),
+                            leading: const Icon(Icons.task , color: Colors.white,),
                             contentPadding: EdgeInsets.symmetric(horizontal: 20),
                             title: const Text("Minhas tarefas" , style: TextStyle(color:Colors.white),),
                             onTap: ()=> {

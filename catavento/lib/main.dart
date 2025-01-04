@@ -10,6 +10,7 @@ import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+// import 'screens/Funcionario/dashboardfuncionario.dart';//
 
 void main() {
   runApp(
