@@ -44,25 +44,47 @@ class Navbar extends StatelessWidget {
                 Color(0xFF015C98), //
               ])),
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Center(
 
-          UserAccountsDrawerHeader(
+            child: Center(
 
-            accountName: Text("Lucas"),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Icon(
-                  Icons.person,
-                  size: 40,
-                ),
+              child: Column(
+
+                children: [
+                  SizedBox(height: 20,),
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration:BoxDecoration(
+                        color: Color(0xFFE1DCE6),
+                        borderRadius: BorderRadius.circular(100)
+                      ) ,
+                      child: Center(
+                        child:Icon(Icons.person_outline , size: 30, color: Color(00000000).withOpacity(0.45),),
+                      ),
+                    ),
+                  SizedBox(height: 16,),
+                  Column(
+                    children: [
+                      Text("Lucas Almeida" , style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      )),
+                      Text("Produção de Bolos Artificiais" , style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12
+                      ))
+                    ],
+                  )
+
+
+                ],
               ),
             ),
-            accountEmail: Text("data"),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-          )
+          ),
         ],
       ),
     ));
