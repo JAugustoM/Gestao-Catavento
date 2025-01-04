@@ -1,3 +1,4 @@
+import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -78,15 +79,48 @@ class Navbar extends StatelessWidget {
                         fontSize: 12
                       ))
                     ],
-                  )
+                  ),
 
-
+                  SizedBox(height: 30),
+                   
+                  ListTile( 
+                    leading: Icon(Icons.task, color: AppColors.white),
+                    title: Text(
+                      "Minhas tarefas",
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                    onTap: () { 
+                      Navigator.pop(context);
+                     },
+                  ),
+                  ListTile(  
+                    leading: Icon(Icons.bar_chart, color: AppColors.white),
+                    title: Text( 
+                      "Meus dados e desempenho",
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.logout, color: AppColors.white), 
+                    title: Text (
+                      "Sair da conta",
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    }
+                   )
                 ],
               ),
             ),
-          ),
-        ],
+          )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
+                    
