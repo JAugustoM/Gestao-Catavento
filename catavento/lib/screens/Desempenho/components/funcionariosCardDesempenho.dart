@@ -1,3 +1,4 @@
+import 'package:catavento/screens/Desempenho/components/bolosDesempenhoCard.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,15 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
   final String nome = '{nomeFuncionario}';
   final String setor = '{setor}';
   final String mediaDesempenho = '00:00';
+
+    final List<Map<String, String>> bolos = [
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +106,6 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Código
                       Row(
                         children: [
                           Icon(Icons.person, color: AppColors.blue,),
@@ -168,7 +177,7 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    
+                                    _showDesempenhoDialog(context, nome, setor, mediaDesempenho);
                                   },
                                   child: Text(
                                   'Desempenho: ',
@@ -183,7 +192,7 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
 
                                 InkWell(
                                   onTap: () {
-                                    
+                                    _showDesempenhoDialog(context, nome, setor, mediaDesempenho);
                                   },
                                   child: Text(
                                   mediaDesempenho,
@@ -201,6 +210,54 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                       )
                     ],
                   ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDesempenhoDialog(BuildContext context, String nome, String setor,
+      String mediaDesempenho) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ReusableDialog(
+          backgroundColor: AppColors.lightGray,
+          title: 'Desempenhos',
+          body: SingleChildScrollView(
+            // Adicionando SingleChildScrollView para evitar overflow
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: AppColors.gradientDarkBlue),
+                    borderRadius:
+                        BorderRadius.circular(16), // Bordas arredondadas
+                  ),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: bolos.length,
+                      itemBuilder: (context, index) {
+                        final bolo = bolos[index];
+                        return Bolosdesempenhocard(
+                          nomeDemanda: bolo['nomeDemanda']!,
+                          inicio: bolo['inicio']!,
+                          fim: bolo['fim']!,
+                          duracao: bolo['duracao']!,
+                          image: bolo['image']!,
+                        );
+                      }
+                    ),
+                  )
                 ),
               ],
             ),
