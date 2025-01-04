@@ -38,12 +38,6 @@ class DemandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nomeController =
-        TextEditingController(text: nomeDemanda);
-    final TextEditingController codigoController =
-        TextEditingController(text: codigo);
-    final TextEditingController descricaoController =
-        TextEditingController(text: descricao);
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -155,11 +149,7 @@ class DemandCard extends StatelessWidget {
                     icon: Icon(Icons.edit, color: AppColors.gradientDarkBlue),
                     onPressed: () {
                       //  editar a demanda
-                      _showEditDialog(
-                          context,
-                          nomeController,
-                          codigoController,
-                          descricaoController,
+                      _showEditDialog(context,
                           bloc); // BACKEND (não retirar o bloc, o resto OK)
                     },
                   ),
@@ -198,8 +188,8 @@ class DemandCard extends StatelessWidget {
     final dataSplit = dataAdicao.substring(0, 10).split('-');
     final data = "${dataSplit[2]}/${dataSplit[1]}/${dataSplit[0]}";
 
-    final prazoSplit = dataAdicao.substring(0, 10).split('-');
-    final prazo = "${prazoSplit[2]}/${prazoSplit[1]}/${prazoSplit[0]}";
+    final prazoSplit = prazo.substring(0, 10).split('-');
+    final prazoString = "${prazoSplit[2]}/${prazoSplit[1]}/${prazoSplit[0]}";
     showDialog(
       context: context,
       builder: (context) {
@@ -309,7 +299,7 @@ class DemandCard extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: prazo,
+                                        text: prazoString,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           color: AppColors.gradientDarkBlue,
@@ -458,12 +448,12 @@ class DemandCard extends StatelessWidget {
     );
   }
 
-  void _showEditDialog(
-      BuildContext context,
-      TextEditingController nomeController,
-      TextEditingController codigoController,
-      TextEditingController descricaoController,
-      DemandaBloc bloc) {
+  void _showEditDialog(BuildContext context, DemandaBloc bloc) {
+    final TextEditingController nomeController = TextEditingController();
+    final TextEditingController codigoController = TextEditingController();
+    final TextEditingController descricaoController = TextEditingController();
+    final TextEditingController dataController = TextEditingController();
+    final TextEditingController prazoController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
@@ -560,7 +550,7 @@ class DemandCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: inputDate(),
+                                  child: inputDate(dataController),
                                 ),
                               ],
                             ),
@@ -577,7 +567,7 @@ class DemandCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: inputDate(),
+                                  child: inputDate(prazoController),
                                 ),
                               ],
                             ),
@@ -648,11 +638,13 @@ class DemandCard extends StatelessWidget {
                       onPressed: () {
                         // Conexão com o Backend
                         bloc.add(DemandaUpdate(
-                          id,
-                          order,
-                          nomeController.text,
-                          codigoController.text,
-                          descricaoController.text,
+                          id: id,
+                          order: order,
+                          nomeDemanda: nomeController.text,
+                          codigo: codigoController.text,
+                          descricao: descricaoController.text,
+                          data: dataController.text,
+                          prazo: prazoController.text,
                         ));
                         Navigator.pop(context);
                       },
