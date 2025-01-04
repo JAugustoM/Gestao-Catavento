@@ -1,7 +1,10 @@
+import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "./components/menuBar.dart";
 import 'package:catavento/screens/Funcionario/components/Dadosfuncionario.dart';
+import 'package:catavento/shared/widgets/blocks.dart';
+
 
 
 class DashBoardFuncionario extends StatelessWidget {
@@ -16,8 +19,8 @@ class DashBoardFuncionario extends StatelessWidget {
         leading: Builder(
           builder: (context) => IconButton(
               onPressed: () => {
-                    Scaffold.of(context).openDrawer(),
-                  },
+                Scaffold.of(context).openDrawer(),
+              },
               icon: Icon(Icons.tune, color: Colors.black),
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -25,24 +28,24 @@ class DashBoardFuncionario extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-       padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Dadosfuncionarios(
-              nome: 'fulano',
-              nomeusuario: 'nomeusuario',
-              email: 'email',
-              setor: 'setor',
-            ),
-          ],
+      body: Center(
+        child: 
+          Blocks(
+            title: "Meus dados",
+            titleColor: AppColors.blue,
+            color: AppColors.lightGray,
+            child: Container(
+              color: AppColors.white,
+              child: Dadosfuncionarios(
+                nome: 'fulano',
+                nomeusuario: 'nomeusuario',
+                email: 'email',
+                setor: 'setor',
+              ),
+          ),
         ),
       ),
     );
   }
 }
+
