@@ -2,6 +2,7 @@ import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
+import 'package:catavento/screens/Desempenho/dashboard_desempenhoAdmin.dart';
 import 'package:catavento/screens/Produtos/dashboard_produtos.dart';
 import 'package:catavento/core/di/dependency_injection.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
@@ -33,6 +34,7 @@ void main() {
           homeRoute: (context) => const DashBoardAdmin(),
           crudFuncionariosRoute: (context) => EmployeeManagement(),
           produtosRoute: (context) => DashboardProdutos(),
+          desempenhoAdminRoute: (context) => DashboardDesempenhoAdmin(),
         },
       ),
     ),
