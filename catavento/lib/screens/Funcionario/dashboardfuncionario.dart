@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "./components/menuBar.dart";
+import 'package:catavento/screens/Funcionario/components/Dadosfuncionario.dart';
+
+
 class DashBoardFuncionario extends StatelessWidget {
   const DashBoardFuncionario({super.key});
 
@@ -23,8 +26,21 @@ class DashBoardFuncionario extends StatelessWidget {
         ),
       ),
       body: Container(
-        child: Center(
-          child: Text("aqui"),
+       padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Dadosfuncionarios(
+              nome: 'fulano',
+              nomeusuario: 'nomeusuario',
+              email: 'email',
+              setor: 'setor',
+            ),
+          ],
         ),
       ),
     );

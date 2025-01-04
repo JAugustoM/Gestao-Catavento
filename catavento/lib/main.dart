@@ -10,7 +10,7 @@ import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'screens/Funcionario/dashboardfuncionario.dart';//
+import 'screens/Funcionario/dashboardfuncionario.dart';//
 
 void main() {
   runApp(
@@ -33,7 +33,7 @@ void main() {
           loginRoute: (context) => const Login(),
           homeRoute: (context) => const DashBoardAdmin(),
           crudFuncionariosRoute: (context) => EmployeeManagement(),
-          produtosRoute: (context) => DashboardProdutos(),
+          produtosRoute: (context) => DashBoardFuncionario(),
         },
       ),
     ),
