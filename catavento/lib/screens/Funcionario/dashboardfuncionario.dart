@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "../../shared/widgets/menuBar.dart";
 import "./components/cardDemandaFuncionario.dart";
-import 'package:catavento/screens/DadosFuncionario/components/Dadosfuncionario.dart';
+import 'package:catavento/screens/DadosFuncionario/components/widgetDadosFuncionario.dart';
 
 class DashBoardFuncionario extends StatelessWidget {
   const DashBoardFuncionario({super.key});

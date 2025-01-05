@@ -1,7 +1,8 @@
+import 'package:catavento/screens/DadosFuncionario/components/widgetDesempenho.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "../../shared/widgets/menuBar.dart";
-import 'package:catavento/screens/DadosFuncionario/components/Dadosfuncionario.dart';
+import 'package:catavento/screens/DadosFuncionario/components/widgetDadosFuncionario.dart';
 
 class Dadosfuncionario extends StatelessWidget {
   const Dadosfuncionario({super.key});
@@ -27,10 +28,12 @@ class Dadosfuncionario extends StatelessWidget {
       body:Container(
         width: MediaQuery.of(context).size.width,
         child:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            WidgetDadosFuncionario(nome: "nome", nomeusuario: "nomeusuario", email: "email", setor: "setor")
+            WidgetDadosFuncionario(nome: "nome", nickname: "nomeusuario", email: "email", setor: "setor")
+            ,
+            SizedBox(height: 20,),
+            Widgetdesempenho()
           ],
         ),
       ),
