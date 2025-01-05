@@ -66,7 +66,7 @@ class Navbar extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(horizontal: 20),
                             title: const Text("Minhas tarefas" , style: TextStyle(color:Colors.white),),
                             onTap: ()=> {
-                              Navigator.pushNamed(context, homeRoute)
+                              Navigator.pushNamed(context, atividadesFuncionarioRoute)
                             },
                           )
                           ,
@@ -77,7 +77,8 @@ class Navbar extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(horizontal: 20),
                             title: const Text("Meus dados e desempenho" , style: TextStyle(color:Colors.white),),
                             onTap: ()=> {
-                              Navigator.pushNamed(context, homeRoute)
+                              Navigator.pushNamed(context, dadosFuncionario)
+
                             },
                           )
                           ,
@@ -88,7 +89,7 @@ class Navbar extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(horizontal: 20),
                             title: const Text("Sair da conta" , style: TextStyle(color:Colors.white),),
                             onTap: ()=> {
-                              Navigator.pushNamed(context, homeRoute)
+                              Navigator.pushNamed(context, loginRoute)
                             },
                           )
                           ,
