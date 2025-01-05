@@ -24,8 +24,15 @@ class Dadosfuncionario extends StatelessWidget {
           ),
         ),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body:Container(
+        width: MediaQuery.of(context).size.width,
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            WidgetDadosFuncionario(nome: "nome", nomeusuario: "nomeusuario", email: "email", setor: "setor")
+          ],
+        ),
       ),
     );
   }

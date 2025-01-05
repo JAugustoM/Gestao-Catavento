@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 
-class Dadosfuncionarios extends StatelessWidget{
+class WidgetDadosFuncionario extends StatelessWidget {
   final String nome;
   final String nomeusuario;
   final String email;
   final String setor;
 
-  const Dadosfuncionarios({
+  const WidgetDadosFuncionario({
     super.key,
     required this.nome,
     required this.nomeusuario,
@@ -17,53 +17,57 @@ class Dadosfuncionarios extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      decoration: BoxDecoration(
+          color: Color(0xFFEBEBEB),
+          borderRadius: BorderRadius.circular(12)
+      ),
+      height: 244,
+      width: 530,
+      child: Column(
+        children: [
+          Padding(padding: EdgeInsets.all(20), child: Column(
+            children: [
+              Container(
 
-      children: [
-        Dados(texto: "Nome: ", info: nome),
-        Dados(texto: "Usuario: ", info: nomeusuario),
-        Dados(texto: "Email: ", info: email),
-        Dados(texto: "Setor: ", info: setor),
-
-      ],
-    );
-  }
-}
-
-class Dados extends StatelessWidget {
-  final String texto;
-  final String info;
-
-  Dados({
-    required this.texto,
-    required this.info
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-
-      children: [
-        Text(
-          texto,
-          style: TextStyle(
-            fontSize: 20,
-            color: AppColors.blue,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-        Text(
-          info,
-          style: TextStyle(
-            fontSize: 20,
-            color: AppColors.blue,
-          )
-        )
-      ],
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.person_outline, color: Color(0xFF015C98)),
+                    Text("Meus Dados", style: TextStyle(
+                        color: Color(0xFF015C98),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    ),)
+                  ],
+                ),
+              ),
+              SizedBox(height: 20,),
+              Container(
+                  height: 140,
+                  width: 500,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)
+                  ),
+                  child: Padding(padding: EdgeInsets.all(20), child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text("Nome: "),
+                          Text("nome do usuario"),
+                        ],
+                      )
+                    ],
+                  ),)
+              )
+            ],
+          ),)
+        ],
+      ),
     );
   }
 }
