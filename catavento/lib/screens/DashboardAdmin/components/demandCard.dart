@@ -242,7 +242,7 @@ class DemandCard extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.receipt_long_rounded,
-                                  color: AppColors.blue,
+                                  color: AppColors.gradientDarkBlue,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 8),
@@ -251,7 +251,7 @@ class DemandCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'FredokaOne',
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                   ),
                                 ),
                               ],
@@ -266,14 +266,14 @@ class DemandCard extends StatelessWidget {
                                     text: "Código: ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                     ),
                                     children: [
                                       TextSpan(
                                         text: codigo,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
-                                          color: AppColors.blue,
+                                          color: AppColors.gradientDarkBlue,
                                         ),
                                       ),
                                     ],
@@ -285,14 +285,14 @@ class DemandCard extends StatelessWidget {
                                     text: "Data do pedido: ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                     ),
                                     children: [
                                       TextSpan(
                                         text: data,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
-                                          color: AppColors.blue,
+                                          color: AppColors.gradientDarkBlue,
                                         ),
                                       ),
                                     ],
@@ -304,14 +304,14 @@ class DemandCard extends StatelessWidget {
                                     text: "Prazo: ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                     ),
                                     children: [
                                       TextSpan(
                                         text: prazo,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
-                                          color: AppColors.blue,
+                                          color: AppColors.gradientDarkBlue,
                                         ),
                                       ),
                                     ],
@@ -323,14 +323,14 @@ class DemandCard extends StatelessWidget {
                                     text: "Descrição: ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                     ),
                                     children: [
                                       TextSpan(
                                         text: descricao,
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
-                                          color: AppColors.blue,
+                                          color: AppColors.gradientDarkBlue,
                                         ),
                                       ),
                                     ],
@@ -363,7 +363,7 @@ class DemandCard extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.search,
-                          color: AppColors.blue,
+                          color: AppColors.gradientDarkBlue,
                           size: 20,
                         ),
                         const SizedBox(width: 8),
@@ -372,7 +372,7 @@ class DemandCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontFamily: 'FredokaOne',
-                            color: AppColors.blue,
+                            color: AppColors.gradientDarkBlue,
                           ),
                         ),
                       ],
@@ -383,14 +383,14 @@ class DemandCard extends StatelessWidget {
                         text: "Status: ",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.blue,
+                          color: AppColors.gradientDarkBlue,
                         ),
                         children: [
                           TextSpan(
                             text: "Em andamento",
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: AppColors.blue,
+                              color: AppColors.gradientDarkBlue,
                             ),
                           ),
                         ],
@@ -400,9 +400,9 @@ class DemandCard extends StatelessWidget {
                     // Etapas dinâmicas
                     Column(
                       children: [
-                        _buildEtapa("Etapa 1", "completed"),
-                        _buildEtapa("Etapa 2", "in_progress"),
-                        _buildEtapa("Etapa 3", "pending"),
+                        _buildEtapa("Etapa 1: Corte", "completed"),
+                        _buildEtapa("Etapa 2: Aplique", "in_progress"),
+                        _buildEtapa("Etapa 3: Montagem", "pending"),
                       ],
                     ),
                   ],
@@ -449,7 +449,10 @@ class DemandCard extends StatelessWidget {
         children: [
           Text(
             nome,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           etapaIcon,
         ],
@@ -491,7 +494,7 @@ class DemandCard extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.receipt_long_rounded,
-                                  color: AppColors.blue,
+                                  color: AppColors.gradientDarkBlue,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 8),
@@ -500,7 +503,7 @@ class DemandCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'FredokaOne',
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                   ),
                                 ),
                               ],
@@ -512,7 +515,7 @@ class DemandCard extends StatelessWidget {
                                 Text(
                                   "Código",
                                   style: TextStyle(
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -532,7 +535,7 @@ class DemandCard extends StatelessWidget {
                                 Text(
                                   "Nome",
                                   style: TextStyle(
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -553,7 +556,7 @@ class DemandCard extends StatelessWidget {
                                 Text(
                                   "Data do pedido",
                                   style: TextStyle(
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -570,7 +573,7 @@ class DemandCard extends StatelessWidget {
                                 Text(
                                   "Prazo",
                                   style: TextStyle(
-                                      color: AppColors.blue,
+                                      color: AppColors.gradientDarkBlue,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -605,7 +608,7 @@ class DemandCard extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.receipt_long_rounded,
-                                  color: AppColors.blue,
+                                  color: AppColors.gradientDarkBlue,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 8),
@@ -614,7 +617,7 @@ class DemandCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'FredokaOne',
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                   ),
                                 ),
                               ],
