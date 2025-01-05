@@ -190,7 +190,7 @@ class EmployeeManagement extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     final blockWidth = size.width * (size.width > 600 ? 0.25 : 0.8);
-    final blockHeight = size.height * 0.2;
+    final blockHeight = size.height * 0.17;
 
     return Blocks(
       height: blockHeight,
