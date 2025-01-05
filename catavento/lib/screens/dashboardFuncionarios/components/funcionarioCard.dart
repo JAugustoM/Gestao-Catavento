@@ -46,8 +46,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
       child: ListTile(
         title: Text(
           widget.nomeFuncionario,
-          style: TextStyle(
-              color: AppColors.gradientDarkBlue, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.blue, fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
           'Setor: ${widget.setor}\nStatus: ${widget.status}',
@@ -58,7 +57,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
           children: [
             IconButton(
               icon: Icon(Icons.info),
-              color: AppColors.gradientDarkBlue,
+              color: AppColors.blue,
               onPressed: () {
                 //Lógica ao clicar
                 _showInfoEmployeeDialog(user, context);
@@ -67,7 +66,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
             // botão de Editar.
             IconButton(
               icon: Icon(Icons.edit),
-              color: AppColors.gradientDarkBlue,
+              color: AppColors.blue,
               onPressed: () {
                 //  editar a demanda
                 _showEditEmployeeDialog(context, user);
@@ -76,7 +75,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
             // apagar
             IconButton(
                 icon: Icon(Icons.delete),
-                color: AppColors.gradientDarkBlue,
+                color: AppColors.blue,
                 onPressed: () async {
                   showDialog(
                     context: context,

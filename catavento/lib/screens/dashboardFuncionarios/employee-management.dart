@@ -280,7 +280,7 @@ class EmployeeManagement extends StatelessWidget {
           setor,
           style: const TextStyle(
             fontSize: 14,
-            color: AppColors.gradientDarkBlue,
+            color: AppColors.blue,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -333,7 +333,7 @@ class EmployeeManagement extends StatelessWidget {
                           const Text(
                             'Tipo de Acesso',
                             style: TextStyle(
-                                color: AppColors.gradientDarkBlue,
+                                color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
                           Row(
@@ -344,8 +344,7 @@ class EmployeeManagement extends StatelessWidget {
                               ),
                               const Text(
                                 'Gerente',
-                                style: TextStyle(
-                                    color: AppColors.gradientDarkBlue),
+                                style: TextStyle(color: AppColors.blue),
                               ),
                             ],
                           ),
@@ -357,8 +356,7 @@ class EmployeeManagement extends StatelessWidget {
                               ),
                               const Text(
                                 'Funcionário',
-                                style: TextStyle(
-                                    color: AppColors.gradientDarkBlue),
+                                style: TextStyle(color: AppColors.blue),
                               ),
                             ],
                           ),
@@ -371,7 +369,7 @@ class EmployeeManagement extends StatelessWidget {
                             "Setor*",
                             style: TextStyle(
                                 fontSize: 15,
-                                color: AppColors.gradientDarkBlue,
+                                color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
                           Dropdownbutton(

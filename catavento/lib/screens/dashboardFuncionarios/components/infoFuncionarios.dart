@@ -55,14 +55,12 @@ class Info extends StatelessWidget {
         Text(
           texto,
           style: TextStyle(
-              fontSize: 20,
-              color: AppColors.gradientDarkBlue,
-              fontWeight: FontWeight.bold),
+              fontSize: 20, color: AppColors.blue, fontWeight: FontWeight.bold),
         ),
         Text(info,
             style: TextStyle(
               fontSize: 20,
-              color: AppColors.gradientDarkBlue,
+              color: AppColors.blue,
             ))
       ],
     );
