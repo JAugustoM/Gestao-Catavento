@@ -190,7 +190,7 @@ class EmployeeManagement extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     final blockWidth = size.width * (size.width > 600 ? 0.25 : 0.8);
-    final blockHeight = size.height * 0.17;
+    final blockHeight = size.height * 0.2;
 
     return Blocks(
       height: blockHeight,
@@ -225,6 +225,7 @@ class EmployeeManagement extends StatelessWidget {
               builder: (context, state) {
                 final data = state.databaseResponse;
                 return ListView.builder(
+                  padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
@@ -245,27 +246,30 @@ class EmployeeManagement extends StatelessWidget {
 
   Widget _buildAtividadesBlock(BuildContext context) {
     return Blocks(
-        title: "Atividades em andamento",
-        titleColor: AppColors.gradientDarkBlue,
-        color: AppColors.lightGray,
-        borderRadius: 26,
-        child: LayoutBuilder(builder: (context, contraints) {
-          double height = contraints.maxHeight * 0.85;
-          double listWidth = contraints.maxWidth * 0.9;
-          return SizedBox(
-              width: listWidth,
-              height: height,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  _buildAtividadeSetor("Setor de Cobertura"),
-                  const SizedBox(height: 20),
-                  _buildAtividadeSetor("Setor de Aplique"),
-                  const SizedBox(height: 20),
-                  _buildAtividadeSetor("Setor de Montagem"),
-                ],
-              ));
-        }));
+      title: "Atividades em andamento",
+      titleColor: AppColors.gradientDarkBlue,
+      color: AppColors.lightGray,
+      borderRadius: 26,
+      child: LayoutBuilder(builder: (context, contraints) {
+        double height = contraints.maxHeight * 0.85;
+        double listWidth = contraints.maxWidth * 0.9;
+        return SizedBox(
+          width: listWidth,
+          height: height,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            children: [
+              _buildAtividadeSetor("Setor de Cobertura"),
+              const SizedBox(height: 20),
+              _buildAtividadeSetor("Setor de Aplique"),
+              const SizedBox(height: 20),
+              _buildAtividadeSetor("Setor de Montagem"),
+            ],
+          ),
+        );
+      }),
+    );
   }
 
   Widget _buildAtividadeSetor(String setor) {
@@ -281,6 +285,7 @@ class EmployeeManagement extends StatelessWidget {
           ),
         ),
         ListView.builder(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: ativAndamento.length,
