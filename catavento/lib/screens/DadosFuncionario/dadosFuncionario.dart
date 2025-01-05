@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "../../shared/widgets/menuBar.dart";
-import "./components/cardDemandaFuncionario.dart";
 import 'package:catavento/screens/DadosFuncionario/components/Dadosfuncionario.dart';
 
-class DashBoardFuncionario extends StatelessWidget {
-  const DashBoardFuncionario({super.key});
+class Dadosfuncionario extends StatelessWidget {
+  const Dadosfuncionario({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class DashBoardFuncionario extends StatelessWidget {
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [CardDemanda(title: "Demanda 1", codigo: "2313421", description: "des",) ],
       ),
     );
   }

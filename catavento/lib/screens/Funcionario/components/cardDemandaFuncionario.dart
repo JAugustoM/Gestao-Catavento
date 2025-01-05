@@ -2,7 +2,9 @@ import 'package:catavento/screens/Funcionario/components/buttonCard.dart';
 import 'package:flutter/material.dart';
 
 class CardDemanda extends StatelessWidget {
-  const CardDemanda({super.key});
+  final String title , description ;
+  final String codigo;
+  const CardDemanda({super.key , required this.title , required this.description , required this.codigo});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class CardDemanda extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "nome da demanda",
+              "${title}",
               style: TextStyle(
                   color: Color(0xFF015C98),
                   fontWeight: FontWeight.bold,
@@ -82,7 +84,7 @@ class CardDemanda extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "{codigo da demanda}",
+                          "${codigo}",
                           style:
                           TextStyle(color: Color(0xFF015C98), fontSize: 14),
                         )
@@ -102,7 +104,7 @@ class CardDemanda extends StatelessWidget {
                       child: Text(
                         overflow: TextOverflow.ellipsis,
                         maxLines: 10,
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sollicitudin, risus vel sodales egestas, purus nulla aliquet erat, a tristique nisl urna a lorem. Donec hendrerit ante ut ante sollicitudin, at malesuada risus tempor. Integer ultricies felis vitae dolor auctor, vel sollicitudin mauris maximus. Sed sit amet consequat ligula. Integer varius felis id justo congue auctor. Nullam sit amet euismod risus, eget posuere risus. Curabitur non quam sit amet lectus eleifend accumsan at ac eros. Sed auctor risus ut purus fermentum, ac malesuada lorem gravida. Donec varius orci vitae felis congue, eu dapibus ante pharetra. Cras euismod nisi sit amet ex tempus, eget lobortis orci finibus. Etiam tempor lorem eu tortor gravida, ac fermentum metus mollis. Proin ac urna tincidunt, cursus augue eu, tincidunt felis. Nullam ac fringilla leo. Mauris sed placerat augue. Pellentesque sed neque id odio egestas volutpat Mauris consequat justo sed sapien tincidunt, at condimentum elit tempor. Vivamus fringilla orci turpis, et interdum felis pretium sed. Proin tincidunt odio et velit cursus vehicula. Aenean sit amet quam euismod, varius ante sed, auctor sem. Quisque eu gravida sapien. Curabitur dapibus vehicula elit, nec convallis ex finibus ac. Nam sed eros et libero suscipit tincidunt ut et lectus. Donec sit amet justo nunc. Suspendisse potenti.",
+                        "${description}",
                         style: TextStyle(
                             color: Color(0xFF015C98), fontSize: 14),
                       ),
