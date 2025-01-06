@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 
 class Widgetdesempenho extends StatelessWidget {
+
+  final String data;
+  final double isCompleted , isMissing , goal;
+  const Widgetdesempenho({super.key , required this.data , required this.isMissing, required this.isCompleted , required this.goal});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +29,7 @@ class Widgetdesempenho extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        "Meu Desempenho (19/12/2025)",
+                        "Meu Desempenho ${data}",
                         style: TextStyle(
                             color: Color(0xFF015C98),
                             fontWeight: FontWeight.bold,
@@ -51,7 +55,7 @@ class Widgetdesempenho extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Meta 200",
+                                  "Meta ${goal}",
                                   style: TextStyle(
                                       color: Color(0xFF015C98),
                                       fontWeight: FontWeight.bold,
@@ -71,7 +75,7 @@ class Widgetdesempenho extends StatelessWidget {
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Concluídas: 150",
+                                        "Concluídas: ${isCompleted}",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
@@ -88,7 +92,7 @@ class Widgetdesempenho extends StatelessWidget {
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Faltam: 150",
+                                        "Faltam: ${isMissing}",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),

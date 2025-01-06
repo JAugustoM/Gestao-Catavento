@@ -9,10 +9,14 @@ class CardDemanda extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height / 1.2;
+    double screenHeightCard = MediaQuery.of(context).size.height / 2.2;
 
     return Container(
       width: 300,
       height: screenHeight,
+      constraints: BoxConstraints(
+        maxHeight: 679,
+      ),
       decoration: BoxDecoration(
           color: Color(0xFFEBEBEB), borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -28,6 +32,7 @@ class CardDemanda extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
+
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -43,7 +48,11 @@ class CardDemanda extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
-              height: 250,
+              height: screenHeightCard,
+              constraints: BoxConstraints(
+                maxHeight: 384,
+              ),
+
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
               child: Padding(

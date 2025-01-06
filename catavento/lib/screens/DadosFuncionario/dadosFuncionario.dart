@@ -29,11 +29,11 @@ class Dadosfuncionario extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            WidgetDadosFuncionario(nome: "nome", nickname: "nomeusuario", email: "email", setor: "setor")
-            ,
+            WidgetDadosFuncionario(nome: "nome", nickname: "nomeusuario", email: "email", setor: "setor"),
             SizedBox(height: 20,),
-            Widgetdesempenho()
+            Widgetdesempenho(data: "16/12/2004" , goal: 12, isCompleted: 1, isMissing: 11,)
           ],
         ),
       ),
