@@ -163,8 +163,7 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   }
 
   Future<String> _uploadImage(File image) async {
-    // Implementar lógica de upload de imagem aqui
-    // Retorne o caminho da imagem salva
+
       try {
         final imageName = '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
         final response = await _supabase.storage
