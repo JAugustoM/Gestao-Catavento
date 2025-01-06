@@ -19,6 +19,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   UsuarioEvent get initialState => UsuarioLoading();
+  bool _newEvent = false;
 
   UsuarioBloc() : super(UsuarioLoadingState([], {})) {
     on<UsuarioLoading>(_onLoading);
@@ -28,6 +29,21 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     on<UsuarioDelete>(_onDelete);
 
     on<UsuarioUpdate>(_onUpdate);
+  }
+
+  @override
+  void onEvent(UsuarioEvent event) {
+    super.onEvent(event);
+    _newEvent = true;
+  }
+
+  bool isLocalEvent() {
+    if (_newEvent) {
+      _newEvent = false;
+      return _newEvent;
+    } else {
+      return true;
+    }
   }
 
   void _onCreate(UsuarioCreate event, Emitter<UsuarioState> emit) async {
