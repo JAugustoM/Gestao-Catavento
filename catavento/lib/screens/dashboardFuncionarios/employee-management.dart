@@ -209,6 +209,13 @@ class EmployeeManagement extends StatelessWidget {
             height: height,
             child: BlocBuilder<UsuarioBloc, UsuarioState>(
               builder: (context, state) {
+                if (state is UsuarioErrorState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
                 final data = state.databaseResponse;
                 return ListView.builder(
                   shrinkWrap: true,

@@ -8,14 +8,18 @@ class TrabalhoInit extends TrabalhoEvent {
   final String email;
   final String setor;
 
-  TrabalhoInit({required this.email, required this.setor});
+  const TrabalhoInit({required this.email, required this.setor});
 }
 
 class TrabalhoFinish extends TrabalhoEvent {
   final String email;
   final String setor;
 
-  TrabalhoFinish({required this.email, required this.setor});
+  const TrabalhoFinish({required this.email, required this.setor});
 }
 
-class TrabalhoLoading extends TrabalhoEvent {}
+class TrabalhoLoading extends TrabalhoEvent {
+  final String email;
+
+  const TrabalhoLoading({required this.email});
+}
