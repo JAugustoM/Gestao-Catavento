@@ -105,9 +105,82 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
     emit(ProdutoCreateState(_currentData, metaData));
   }
 
-  void _onDelete() {}
+  void _onDelete(ProdutoDelete event, Emitter<ProdutoState> emit) async {
+    try {
+      final response = await _supabase
+          .from('produtos')
+          .delete()
+          .eq('id', event.id)
+          .select();
 
-  void _onUpdate() {}
+      if (response.isNotEmpty) {
+        _currentData.removeWhere((produto) => produto['id'] == event.id);
+        final metaData = _countProdutos();
+        emit(ProdutoDeleteState(_currentData, metaData));
+      } else {
+        throw Exception("Produto não encontrado");
+      }
+    } catch (_) {
+      throw Exception("Erro ao deletar produto");
+    }
+  }
+
+
+  void _onUpdate(ProdutoUpdate event, Emitter<ProdutoState> emit) async {
+    final produtoAtualizado = {
+      'nome_produto': event.nomeProduto,
+      'descricao_padrao': event.descricaoProduto,
+    };
+
+    if (event.imagemProduto != null) {
+      final filePath = await _uploadImage(event.imagemProduto!);
+      produtoAtualizado['imagem_produto'] = filePath;
+    }
+
+    try {
+      final response = await _supabase
+          .from('produtos')
+          .update(produtoAtualizado)
+          .eq('id', event.id)
+          .select();
+
+      if (response.isNotEmpty) {
+        _currentData = _currentData.map((produto) {
+          if (produto['id'] == event.id) {
+            return response[0];
+          }
+          return produto;
+        }).toList();
+
+        final metaData = _countProdutos();
+        emit(ProdutoUpdateState(_currentData, metaData));
+      } else {
+        throw Exception("Erro ao atualizar produto");
+      }
+    } catch (_) {
+      throw Exception("Erro ao atualizar produto");
+    }
+  }
+
+  Future<String> _uploadImage(File image) async {
+
+      try {
+        final imageName = '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
+        final response = await _supabase.storage
+            .from('imagens')
+            .upload(imageName, image);
+
+        if (response.error == null) {
+          final publicUrl = _supabase.storage.from('imagens').getPublicUrl(imageName).data;
+          return publicUrl ?? '';
+        } else {
+          throw Exception('Erro ao fazer upload da imagem: ${response.error?.message}');
+        }
+      } catch (e) {
+        throw Exception('Erro ao fazer upload da imagem: $e');
+      }
+  }
+
 
   Map<String, int> _countProdutos() {
     int numProdutos = _currentData.length;
