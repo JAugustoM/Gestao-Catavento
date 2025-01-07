@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
@@ -199,6 +200,24 @@ class ListDemandaState extends State<ListDemanda> {
           Expanded(
             child: BlocBuilder<DemandaBloc, DemandaState>(
               builder: (context, state) {
+                final showSnack = context.read<DemandaBloc>().showSnack();
+                if (showSnack) {
+                  switch (state) {
+                    case DemandaCreateState():
+                      showBlocSnackbar(context, "Bolo adicionado com sucesso");
+                    case DemandaDeleteState():
+                      showBlocSnackbar(context, "Bolo removido com sucesso!");
+                    case DemandaUpdateState():
+                      showBlocSnackbar(context, "Bolo atualizado com sucesso!");
+                    case DemandaLoadingState():
+                      break;
+                    case DemandaFilterState():
+                      break;
+                    case DemandaErrorState():
+                      showBlocSnackbar(context, state.message);
+                  }
+                }
+
                 List<dynamic> filteredList = [];
 
                 if (widget.filter != null && widget.filter!.isNotEmpty) {
