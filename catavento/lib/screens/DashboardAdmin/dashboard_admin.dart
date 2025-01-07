@@ -199,6 +199,14 @@ class ListDemandaState extends State<ListDemanda> {
           Expanded(
             child: BlocBuilder<DemandaBloc, DemandaState>(
               builder: (context, state) {
+                if (state is DemandaErrorState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
+
                 List<dynamic> filteredList = [];
 
                 if (widget.filter != null && widget.filter!.isNotEmpty) {
@@ -227,7 +235,7 @@ class ListDemandaState extends State<ListDemanda> {
                       nomeDemanda:
                           demanda['nome_demanda'] ?? 'Nome não disponível',
                       status: demanda['status'] ?? 'Status não disponível',
-                      codigo: demanda['codigo'] ?? 'Sem código',
+                      codigo: demanda['produto_id'] ?? 'Sem código',
                       descricao: demanda['descricao'] ?? 'Sem descrição',
                       dataAdicao: demanda['data_adicao'],
                       prazo: demanda['prazo'] ?? demanda['data_adicao'],
@@ -261,6 +269,8 @@ class ButtonAddDemanda extends StatelessWidget {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _codigoController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
+  final TextEditingController _dataController = TextEditingController();
+  final TextEditingController _prazoController = TextEditingController();
   File? fotoSelecionada;
 
   Future<void> _selecionarFoto(BuildContext context) async {
@@ -370,10 +380,6 @@ class ButtonAddDemanda extends StatelessWidget {
                                 labelText: "",
                                 hintText: "Código da demanda",
                                 controller: _codigoController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                ],
                               ),
                             ),
                           ],
@@ -410,7 +416,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                              child: inputDate(),
+                              child: inputDate(_dataController),
                             ),
                           ],
                         ),
@@ -427,7 +433,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                              child: inputDate(),
+                              child: inputDate(_prazoController),
                             ),
                           ],
                         ),
@@ -509,20 +515,22 @@ class ButtonAddDemanda extends StatelessWidget {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () async {
-                      if (_nomeController.text.isNotEmpty &&
-                          _codigoController.text.isNotEmpty) {
+                      if (_codigoController.text.isNotEmpty ||
+                          _nomeController.text.isNotEmpty) {
                         bloc.add(DemandaCreate(
                           nomeDemanda: _nomeController.text,
                           codigo: _codigoController.text,
                           descricao: _descricaoController.text,
                           foto: fotoSelecionada,
+                          data: _dataController.text,
+                          prazo: _prazoController.text,
                         ));
                         Navigator.pop(context);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Por favor, preencha todos os campos"),
+                            content: Text(
+                                "Por favor, preencha pelo menos o código ou nome do bolo"),
                           ),
                         );
                       }

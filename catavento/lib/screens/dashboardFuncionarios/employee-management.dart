@@ -209,6 +209,13 @@ class EmployeeManagement extends StatelessWidget {
             height: height,
             child: BlocBuilder<UsuarioBloc, UsuarioState>(
               builder: (context, state) {
+                if (state is UsuarioErrorState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
                 final data = state.databaseResponse;
                 return ListView.builder(
                   shrinkWrap: true,
@@ -418,15 +425,29 @@ class EmployeeManagement extends StatelessWidget {
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<UsuarioBloc>().add(UsuarioCreate(
-                                  _nomeController.text,
-                                  _usuarioController.text,
-                                  _setorController.text,
-                                  _emailController.text,
-                                  _tipoController.text,
-                                  _senhaController.text,
-                                ));
-                            Navigator.pop(context);
+                            if (_nomeController.text.isNotEmpty &&
+                                _usuarioController.text.isNotEmpty &&
+                                _setorController.text.isNotEmpty &&
+                                _emailController.text.isNotEmpty &&
+                                _tipoController.text.isNotEmpty &&
+                                _senhaController.text.isNotEmpty) {
+                              context.read<UsuarioBloc>().add(UsuarioCreate(
+                                    _nomeController.text,
+                                    _usuarioController.text,
+                                    _setorController.text,
+                                    _emailController.text,
+                                    _tipoController.text,
+                                    _senhaController.text,
+                                  ));
+                              Navigator.pop(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Por favor, preencha todos os campos para concluir."),
+                                ),
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.blue,

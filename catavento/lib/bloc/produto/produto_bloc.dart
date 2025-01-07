@@ -107,11 +107,8 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
 
   void _onDelete(ProdutoDelete event, Emitter<ProdutoState> emit) async {
     try {
-      final response = await _supabase
-          .from('produtos')
-          .delete()
-          .eq('id', event.id)
-          .select();
+      final response =
+          await _supabase.from('produtos').delete().eq('id', event.id).select();
 
       if (response.isNotEmpty) {
         _currentData.removeWhere((produto) => produto['id'] == event.id);
@@ -124,7 +121,6 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
       throw Exception("Erro ao deletar produto");
     }
   }
-
 
   void _onUpdate(ProdutoUpdate event, Emitter<ProdutoState> emit) async {
     final produtoAtualizado = {
@@ -163,24 +159,23 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   }
 
   Future<String> _uploadImage(File image) async {
+    try {
+      final imageName =
+          '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
+      final response =
+          await _supabase.storage.from('imagens').upload(imageName, image);
 
-      try {
-        final imageName = '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
-        final response = await _supabase.storage
-            .from('imagens')
-            .upload(imageName, image);
-
-        if (response.error == null) {
-          final publicUrl = _supabase.storage.from('imagens').getPublicUrl(imageName).data;
-          return publicUrl ?? '';
-        } else {
-          throw Exception('Erro ao fazer upload da imagem: ${response.error?.message}');
-        }
-      } catch (e) {
-        throw Exception('Erro ao fazer upload da imagem: $e');
+      if (response.isNotEmpty) {
+        final publicUrl =
+            _supabase.storage.from('imagens').getPublicUrl(imageName);
+        return publicUrl ?? '';
+      } else {
+        throw Exception('Erro ao fazer upload da imagem: $response');
       }
+    } catch (e) {
+      throw Exception('Erro ao fazer upload da imagem: $e');
+    }
   }
-
 
   Map<String, int> _countProdutos() {
     int numProdutos = _currentData.length;

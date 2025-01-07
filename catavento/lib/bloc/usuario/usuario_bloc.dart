@@ -19,7 +19,6 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   UsuarioEvent get initialState => UsuarioLoading();
-  bool _newEvent = false;
 
   UsuarioBloc() : super(UsuarioLoadingState([], {})) {
     on<UsuarioLoading>(_onLoading);
@@ -29,21 +28,6 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     on<UsuarioDelete>(_onDelete);
 
     on<UsuarioUpdate>(_onUpdate);
-  }
-
-  @override
-  void onEvent(UsuarioEvent event) {
-    super.onEvent(event);
-    _newEvent = true;
-  }
-
-  bool isLocalEvent() {
-    if (_newEvent) {
-      _newEvent = false;
-      return _newEvent;
-    } else {
-      return true;
-    }
   }
 
   void _onCreate(UsuarioCreate event, Emitter<UsuarioState> emit) async {
@@ -64,8 +48,13 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
         } else {
           throw Exception("Erro ao adiciona usuario");
         }
-      } catch (_) {
-        throw Exception('Erro ao adicionar usuario');
+      } catch (e) {
+        final metaData = _countUsuarios();
+        emit(UsuarioErrorState(
+          _currentData,
+          metaData,
+          "Erro ao criar novo usuário - $e",
+        ));
       }
     }
 
@@ -85,7 +74,12 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
         _currentData.removeAt(event.order);
       }
     } catch (e) {
-      print('Erro ao buscar dados: $e');
+      final metaData = _countUsuarios();
+      emit(UsuarioErrorState(
+        _currentData,
+        metaData,
+        "Erro ao remover usuário - $e",
+      ));
     }
 
     final metaData = _countUsuarios();
@@ -141,17 +135,31 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
       emit(UsuarioUpdateState(_currentData, metaData));
     } catch (e) {
-      print("Erro ao atualizar usuario: $e");
+      final metaData = _countUsuarios();
+      emit(UsuarioErrorState(
+        _currentData,
+        metaData,
+        "Erro ao atualizar usuário - $e",
+      ));
     }
   }
 
   void _onLoading(UsuarioLoading event, Emitter<UsuarioState> emit) async {
-    final response = await _supabase.from('usuarios').select();
-    _currentData = response;
+    try {
+      final response = await _supabase.from('usuarios').select();
+      _currentData = response;
 
-    final metaData = _countUsuarios();
+      final metaData = _countUsuarios();
 
-    emit(UsuarioLoadingState(_currentData, metaData));
+      emit(UsuarioLoadingState(_currentData, metaData));
+    } catch (e) {
+      final metaData = _countUsuarios();
+      emit(UsuarioErrorState(
+        _currentData,
+        metaData,
+        "Erro ao acessar o banco de dados - $e",
+      ));
+    }
   }
 
   Map<String, int> _countUsuarios() {

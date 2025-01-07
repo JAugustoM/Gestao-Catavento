@@ -5,7 +5,6 @@ sealed class UsuarioEvent {
 }
 
 class UsuarioCreate extends UsuarioEvent {
-  final int id;
   final String nome;
   final String usuario;
   final String setor;
@@ -14,7 +13,6 @@ class UsuarioCreate extends UsuarioEvent {
   final String senha;
 
   const UsuarioCreate(
-    this.id,
     this.nome,
     this.usuario,
     this.setor,

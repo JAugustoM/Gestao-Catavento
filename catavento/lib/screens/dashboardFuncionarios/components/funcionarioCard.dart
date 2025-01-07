@@ -247,7 +247,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                                   _tipoController.text,
                                   _emailController.text.isEmpty
                                       ? user['email']
-                                      : _emailController.text.isEmpty,
+                                      : _emailController.text,
                                   _usuarioController.text,
                                   user['id'],
                                 ));

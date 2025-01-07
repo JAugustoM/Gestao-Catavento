@@ -1,3 +1,4 @@
+import 'package:catavento/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:catavento/shared/theme/colors.dart';
@@ -71,7 +72,7 @@ class InputTextField extends StatelessWidget {
   }
 }
 
-Widget inputDate() {
+Widget inputDate(TextEditingController controller) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -80,6 +81,8 @@ Widget inputDate() {
         height: 25,
         //input da data
         child: TextField(
+          controller: controller,
+          inputFormatters: [dateInputFormat],
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
