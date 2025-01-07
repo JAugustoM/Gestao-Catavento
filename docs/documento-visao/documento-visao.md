@@ -252,6 +252,7 @@ O *backlog* do produto foi elaborado como uma forma de organizar e priorizar os 
 | 11 | 4 | Página de meta do funcionário | Funcional | *Must* | Uma página que mostre ao gerente de departamento e ao funcionário em si a meta atual imposta a ele e seu progresso para atingi-la | Como funcionário/ gerente de departamento, quero poder ver o progresso da minha meta/meta de um funcionário específico. |
 | 12 | 4 | Filtro de demandas por loja | Funcional | *Should* | Um filtro por loja na página de demandas do admin | Como gerente de departamento, quero poder filtrar as demandas visualizadas tendo como critério de onde a demanda foi feita |
 | 13 | 5 | Geração de relatório | Funcional | *Could* | Um botão que gera um relatório relativo a um espaço de tempo especificado (dia, semana, mês) | Como gerente de departamento, quero poder gerar um relatório de acordo com uma faixa de tempo especificada. |
+| 14 | 5 | Página de adicionar produtos | Funcional | *Must* | Uma página em que o admin pode adicionar novos produtos | Como administrador, quero poder cadastrar novos produtos, esses produtos devem ter nome, código único, descrição e foto |
 
 **<p style="text-align: center;">Fonte: autoria própria (2024)</p>**
 
