@@ -5,9 +5,11 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 const loginRoute = "/login/";
 const homeRoute = "/home/";
 const crudFuncionariosRoute = "/dashboardEmployees/";
+
 const produtosRoute = "/dashboardProdutos/";
 const atividadesFuncionarioRoute = "/employee/task";
 const dadosFuncionario = "/employee/data";
+const desempenhoAdminRoute = "/dashboardDesempenhoAdmin";
 
 // Supabase
 

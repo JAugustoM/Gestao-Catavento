@@ -117,7 +117,7 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              
+              Navigator.pushNamed(context, desempenhoAdminRoute);
             },
           ),
           ListTile(

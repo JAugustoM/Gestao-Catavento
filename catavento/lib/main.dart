@@ -3,6 +3,7 @@ import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/screens/DadosFuncionario/dadosFuncionario.dart';
+import 'package:catavento/screens/Desempenho/dashboard_desempenhoAdmin.dart';
 import 'package:catavento/screens/Produtos/dashboard_produtos.dart';
 import 'package:catavento/core/di/dependency_injection.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
@@ -36,7 +37,8 @@ void main() {
           crudFuncionariosRoute: (context) => EmployeeManagement(),
           produtosRoute: (context) => DashboardProdutos(),
           atividadesFuncionarioRoute: (context) => DashBoardFuncionario(),
-          dadosFuncionario: (context) => Dadosfuncionario()
+          dadosFuncionario: (context) => Dadosfuncionario(),
+          desempenhoAdminRoute: (context) => DashboardDesempenhoAdmin(),
         },
       ),
     ),

@@ -199,14 +199,6 @@ class ListDemandaState extends State<ListDemanda> {
           Expanded(
             child: BlocBuilder<DemandaBloc, DemandaState>(
               builder: (context, state) {
-                if (state is DemandaErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                    ),
-                  );
-                }
-
                 List<dynamic> filteredList = [];
 
                 if (widget.filter != null && widget.filter!.isNotEmpty) {

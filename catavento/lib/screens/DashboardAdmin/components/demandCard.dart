@@ -76,7 +76,7 @@ class DemandCard extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 14,
                               fontFamily: "FredokaOne",
-                              color: AppColors.gradientDarkBlue,
+                              color: AppColors.blue,
                             ),
                           ),
                         ),
@@ -96,14 +96,14 @@ class DemandCard extends StatelessWidget {
                           "Plataforma: ",
                           style: TextStyle(
                               fontSize: 14,
-                              color: AppColors.gradientDarkBlue,
+                              color: AppColors.blue,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
                           plataforma,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.gradientDarkBlue,
+                            color: AppColors.blue,
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -117,14 +117,14 @@ class DemandCard extends StatelessWidget {
                           "Descrição: ",
                           style: TextStyle(
                               fontSize: 14,
-                              color: AppColors.gradientDarkBlue,
+                              color: AppColors.blue,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
                           descricao,
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.gradientDarkBlue,
+                            color: AppColors.blue,
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -138,7 +138,7 @@ class DemandCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.info, color: AppColors.gradientDarkBlue),
+                    icon: Icon(Icons.info, color: AppColors.blue),
                     onPressed: () {
                       _showInfoDialog(context, nomeDemanda, codigo, descricao,
                           status, "https://via.placeholder.com/150");
@@ -146,7 +146,7 @@ class DemandCard extends StatelessWidget {
                   ),
                   // botão de Editar.
                   IconButton(
-                    icon: Icon(Icons.edit, color: AppColors.gradientDarkBlue),
+                    icon: Icon(Icons.edit, color: AppColors.blue),
                     onPressed: () {
                       //  editar a demanda
                       _showEditDialog(context,
@@ -155,8 +155,7 @@ class DemandCard extends StatelessWidget {
                   ),
                   // apagar
                   IconButton(
-                      icon:
-                          Icon(Icons.delete, color: AppColors.gradientDarkBlue),
+                      icon: Icon(Icons.delete, color: AppColors.blue),
                       onPressed: () async {
                         showDialog(
                           context: context,
@@ -390,9 +389,9 @@ class DemandCard extends StatelessWidget {
                     // Etapas dinâmicas
                     Column(
                       children: [
-                        _buildEtapa("Etapa 1", "completed"),
-                        _buildEtapa("Etapa 2", "in_progress"),
-                        _buildEtapa("Etapa 3", "pending"),
+                        _buildEtapa("Etapa 1: Corte", "completed"),
+                        _buildEtapa("Etapa 2: Aplique", "in_progress"),
+                        _buildEtapa("Etapa 3: Montagem", "pending"),
                       ],
                     ),
                   ],
@@ -439,7 +438,10 @@ class DemandCard extends StatelessWidget {
         children: [
           Text(
             nome,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           etapaIcon,
         ],
@@ -649,7 +651,7 @@ class DemandCard extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         textStyle: TextStyle(color: Colors.white),
-                        backgroundColor: AppColors.gradientDarkBlue,
+                        backgroundColor: AppColors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),

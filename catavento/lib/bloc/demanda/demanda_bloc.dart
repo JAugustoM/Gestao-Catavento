@@ -229,7 +229,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         _currentData[order]['descricao'] = descricao;
       }
 
-      if (event.data != null || event.data!.length == 8) {
+      if (event.data!.length == 8) {
         final splitData = event.data!.split('/');
         final time = DateFormat('HH:mm:ss').format(DateTime.now());
         final dataString =
@@ -241,7 +241,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         }
       }
 
-      if (event.prazo != null || event.prazo!.length == 8) {
+      if (event.prazo!.length == 8) {
         final splitData = event.prazo!.split('/');
         final time = DateFormat('HH:mm:ss').format(DateTime.now());
         final dataString =
@@ -259,6 +259,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
       emit(DemandaUpdateState(_currentData, metaData));
     } catch (e) {
+      print(e);
       final metaData = _countDemandas();
       emit(DemandaErrorState(
         _currentData,
