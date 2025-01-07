@@ -1,11 +1,11 @@
-import 'package:catavento/bloc/auth/auth_bloc.dart';
+import 'package:catavento/bloc/auth2/auth_bloc.dart';
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/screens/DadosFuncionario/dadosFuncionario.dart';
 import 'package:catavento/screens/Desempenho/dashboard_desempenhoAdmin.dart';
 import 'package:catavento/screens/Produtos/dashboard_produtos.dart';
-import 'package:catavento/core/di/dependency_injection.dart';
+// import 'package:catavento/core/di/dependency_injection.dart';
 import 'screens/DashboardAdmin/dashboard_admin.dart';
 import 'package:catavento/screens/Login/login.dart';
 import 'package:catavento/screens/dashboardFuncionarios/employee-management.dart';
@@ -20,8 +20,7 @@ void main() {
       providers: [
         BlocProvider(create: (context) => DemandaBloc()..add(DemandaLoading())),
         BlocProvider(create: (context) => UsuarioBloc()..add(UsuarioLoading())),
-        BlocProvider<AuthBloc>(
-            create: (_) => getIt<AuthBloc>()..add(AuthInitialCheckRequested())),
+        BlocProvider(create: (context) => AuthBloc()..add(AuthLoading())),
       ],
       child: MaterialApp(
         title: "Gestão Catavento",
@@ -61,7 +60,7 @@ class LoadView extends StatelessWidget {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            return const DashBoardAdmin();
+            return const Login();
           default:
             return const CircularProgressIndicator();
         }

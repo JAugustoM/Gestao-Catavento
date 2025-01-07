@@ -1,4 +1,8 @@
+import 'package:catavento/bloc/auth2/auth_bloc.dart';
+import 'package:catavento/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'components/input_purple.dart';
 import 'components/button_singIn.dart';
 
@@ -11,6 +15,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isLoading = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,28 +55,55 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 60,
                   ),
-                  Form(
-                      child: Column(
-                    children: [
-                      PurpleTextField(
-                        label: "Digite o nome do seu usuário",
-                        icon: Icon(
-                          Icons.person_outline,
-                          color: Color(0xCCACACAC),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      PurpleTextField(
-                        label: "Digite a sua senha",
-                        icon: Icon(
-                          Icons.lock_outline,
-                          color: Color(0xCCACACAC),
-                        ),
-                      ),
-                    ],
-                  )),
+
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      });
+
+                      if (state is AuthSignInState) {
+                        if (state.userData.isNotEmpty) {
+                          if (state.userData['tipo'] == 'padrao') {
+                            SchedulerBinding.instance.addPostFrameCallback((_) {
+                              Navigator.popAndPushNamed(
+                                  context, atividadesFuncionarioRoute);
+                            });
+                          } else {
+                            SchedulerBinding.instance.addPostFrameCallback((_) {
+                              Navigator.popAndPushNamed(context, homeRoute);
+                            });
+                          }
+                        }
+                      }
+                      return Form(
+                          child: Column(
+                        children: [
+                          PurpleTextField(
+                            controller: _emailController,
+                            label: "Digite o seu email",
+                            icon: Icon(
+                              Icons.person_outline,
+                              color: Color(0xCCACACAC),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          PurpleTextField(
+                            controller: _senhaController,
+                            label: "Digite a sua senha",
+                            icon: Icon(
+                              Icons.lock_outline,
+                              color: Color(0xCCACACAC),
+                            ),
+                          ),
+                        ],
+                      ));
+                    },
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -85,10 +119,14 @@ class _LoginState extends State<Login> {
                             Icons.keyboard_arrow_right_rounded,
                             color: Colors.white,
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               isLoading = !isLoading;
                             });
+                            context.read<AuthBloc>().add(AuthSignIn(
+                                  email: _emailController.text,
+                                  password: _senhaController.text,
+                                ));
                           },
                         ),
                       )
