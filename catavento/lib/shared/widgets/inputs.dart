@@ -1,3 +1,4 @@
+import 'package:catavento/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:catavento/shared/theme/colors.dart';
@@ -5,7 +6,7 @@ import 'package:catavento/shared/theme/colors.dart';
 class InputTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool isPassword;
   final int? maxLines;
@@ -15,7 +16,7 @@ class InputTextField extends StatelessWidget {
     super.key,
     required this.labelText,
     required this.hintText,
-    required this.controller,
+    this.controller,
     this.keyboardType = TextInputType.text,
     this.isPassword = false,
     this.maxLines,
@@ -71,7 +72,7 @@ class InputTextField extends StatelessWidget {
   }
 }
 
-Widget inputDate() {
+Widget inputDate(TextEditingController controller) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -80,6 +81,8 @@ Widget inputDate() {
         height: 25,
         //input da data
         child: TextField(
+          controller: controller,
+          inputFormatters: [dateInputFormat],
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
