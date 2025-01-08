@@ -1,5 +1,7 @@
 # Reunião com a Cliente 06/01
 
+[Link da Reunião](https://unbbr.sharepoint.com/sites/MDS20242/_layouts/15/stream.aspx?id=%2Fsites%2FMDS20242%2FDocumentos%20Compartilhados%2FEquipe%20Fehu%2FRecordings%2FEquipe%20Fehu%20%2D%20Planning%20Sprint%205%2D20250106%5F193917%2DMeeting%20Recording%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ee1f3271c%2Da748%2D4a72%2D84a4%2D9bcad0c8a5e5)
+
 ## Participantes
 
 1. Daniel
@@ -34,4 +36,4 @@ Foi determinado que serão feitas as seguintes demandas:
 
 ## Observações
 
-Link da Reunião: https://unbbr.sharepoint.com/sites/MDS20242/_layouts/15/stream.aspx?id=%2Fsites%2FMDS20242%2FDocumentos%20Compartilhados%2FEquipe%20Fehu%2FRecordings%2FEquipe%20Fehu%20%2D%20Planning%20Sprint%205%2D20250106%5F193917%2DMeeting%20Recording%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ee1f3271c%2Da748%2D4a72%2D84a4%2D9bcad0c8a5e5
+Link da Reunião: 
