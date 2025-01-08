@@ -10,6 +10,7 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userData = context.read<AuthBloc>().userData;
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -37,9 +38,9 @@ class Navbar extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'João das Couves',
+                      userData['usuario'],
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -47,7 +48,7 @@ class Navbar extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Administrador',
+                      userData['tipo'] == 'admin' ? 'Administrador' : 'Gerente',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,

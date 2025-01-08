@@ -1,3 +1,4 @@
+import 'package:catavento/bloc/auth2/auth_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
@@ -432,6 +433,7 @@ class EmployeeManagement extends StatelessWidget {
                             _tipoController.text,
                             _senhaController.text,
                           ));
+                      context.read<AuthBloc>().add(AuthReauthenticate());
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(

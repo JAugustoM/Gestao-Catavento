@@ -4,9 +4,14 @@ sealed class AuthState {}
 
 class AuthSignInState extends AuthState {
   final Map<String, dynamic> userData;
-  final bool loading;
 
-  AuthSignInState(this.userData, this.loading);
+  AuthSignInState(this.userData);
+}
+
+class AuthLoadingState extends AuthState {
+  final String? email;
+
+  AuthLoadingState(this.email);
 }
 
 class AuthFailState extends AuthState {}

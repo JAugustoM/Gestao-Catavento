@@ -142,17 +142,16 @@ class DashboardProdutos extends StatelessWidget {
           _showAdicionarDialog(context);
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
-      
-          ),
-          child: const Text(
-            "Adicionar Demanda",
-            style: TextStyle(
-              color: Colors.white,
-            ),
+          backgroundColor: AppColors.gradientDarkBlue,
+        ),
+        child: const Text(
+          "Adicionar Produto",
+          style: TextStyle(
+            color: Colors.white,
           ),
         ),
-      );
+      ),
+    );
   }
 
   void _showAdicionarDialog(BuildContext context) {
@@ -198,9 +197,15 @@ class DashboardProdutos extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Inputs(text: 'Códigos',),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                            Inputs(text: 'Nome',),
+                            Inputs(
+                              text: 'Códigos',
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.02,
+                            ),
+                            Inputs(
+                              text: 'Nome',
+                            ),
                             const SizedBox(height: 20),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,

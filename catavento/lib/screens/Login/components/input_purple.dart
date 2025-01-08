@@ -4,11 +4,14 @@ class PurpleTextField extends StatelessWidget {
   final String label;
   final Icon icon;
   final TextEditingController controller;
-  const PurpleTextField(
-      {super.key,
-      required this.label,
-      required this.icon,
-      required this.controller});
+  final bool isPassword;
+  const PurpleTextField({
+    super.key,
+    required this.label,
+    required this.icon,
+    required this.controller,
+    required this.isPassword,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +19,7 @@ class PurpleTextField extends StatelessWidget {
       width: 324,
       height: 68,
       child: TextField(
+        obscureText: isPassword,
         controller: controller,
         decoration: InputDecoration(
             border: OutlineInputBorder(

@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/auth2/auth_bloc.dart';
 import 'package:catavento/constants.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,13 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _senhaController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +86,7 @@ class _LoginState extends State<Login> {
                           }
                         }
                       }
+
                       return Form(
                           child: Column(
                         children: [
@@ -88,6 +97,7 @@ class _LoginState extends State<Login> {
                               Icons.person_outline,
                               color: Color(0xCCACACAC),
                             ),
+                            isPassword: false,
                           ),
                           SizedBox(
                             height: 20,
@@ -99,6 +109,7 @@ class _LoginState extends State<Login> {
                               Icons.lock_outline,
                               color: Color(0xCCACACAC),
                             ),
+                            isPassword: true,
                           ),
                         ],
                       ));

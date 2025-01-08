@@ -6,17 +6,20 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _supabase = Supabase.instance.client;
-  User? _user;
   Map<String, dynamic> _userData = {};
+  String? _email;
+  String? _password;
 
   AuthEvent get initialState => AuthLoading();
 
-  AuthBloc() : super(AuthSignInState({}, true)) {
+  AuthBloc() : super(AuthSignInState({})) {
     on<AuthSignIn>(_onSignIn);
 
     on<AuthSignOut>(_onSignOut);
 
     on<AuthLoading>(_onLoading);
+
+    on<AuthReauthenticate>(_onReauthenticate);
   }
 
   void _onSignIn(AuthSignIn event, Emitter<AuthState> emit) async {
@@ -27,12 +30,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       if (response.user != null) {
-        _user = response.user!;
         final data =
             await _supabase.from('usuarios').select().eq('email', event.email);
         _userData = data.first;
 
-        emit(AuthSignInState(_userData, false));
+        _email = event.email;
+        _password = event.password;
+
+        emit(AuthSignInState(_userData));
       } else {
         emit(AuthErrorState("Erro ao autenticar usuário"));
       }
@@ -58,17 +63,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = _supabase.auth.currentUser;
       if (user != null) {
-        _user = user;
-        final data = await _supabase
-            .from('usuarios')
-            .select()
-            .eq('email', _user!.email!);
-        _userData = data.first;
+        _email = user.email;
 
-        emit(AuthSignInState(_userData, true));
+        emit(AuthLoadingState(_email));
       }
     } catch (e) {
       emit(AuthErrorState("Erro ao autenticar usuário - $e"));
     }
   }
+
+  void _onReauthenticate(
+      AuthReauthenticate event, Emitter<AuthState> emit) async {
+    try {
+      await _supabase.auth.signInWithPassword(
+        email: _email!,
+        password: _password!,
+      );
+    } catch (e) {
+      emit(AuthErrorState("Erro ao autenticar usuário - $e"));
+    }
+  }
+
+  String? get email => _email;
+
+  Map<String, dynamic> get userData => _userData;
 }

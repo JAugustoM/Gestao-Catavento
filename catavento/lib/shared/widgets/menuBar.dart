@@ -1,15 +1,13 @@
 import 'package:catavento/bloc/auth2/auth_bloc.dart';
 import 'package:catavento/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    final userData = context.read<AuthBloc>().userData;
     return Drawer(
         child: Container(
       decoration: BoxDecoration(
@@ -50,12 +48,12 @@ class Navbar extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      Text("Lucas Almeida",
+                      Text(userData['usuario'],
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold)),
-                      Text("Produção de Bolos Artificiais",
+                      Text(userData['setor'],
                           style: TextStyle(color: Colors.white, fontSize: 12))
                     ],
                   ),
