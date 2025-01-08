@@ -1,6 +1,8 @@
+import 'package:catavento/bloc/auth2/auth_bloc.dart';
 import 'package:catavento/screens/DadosFuncionario/components/widgetDesempenho.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import "../../shared/widgets/menuBar.dart";
 import 'package:catavento/screens/DadosFuncionario/components/widgetDadosFuncionario.dart';
 
@@ -9,7 +11,6 @@ class Dadosfuncionario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       drawer: Navbar(),
       appBar: AppBar(
@@ -25,16 +26,35 @@ class Dadosfuncionario extends StatelessWidget {
           ),
         ),
       ),
-      body:Container(
+      body: Container(
         width: MediaQuery.of(context).size.width,
-        child:Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            WidgetDadosFuncionario(nome: "nome", nickname: "nomeusuario", email: "email", setor: "setor"),
-            SizedBox(height: 20,),
-            Widgetdesempenho(data: "16/12/2004" , goal: 12, isCompleted: 1, isMissing: 11,)
-          ],
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            var userData;
+            if (state is AuthSignInState) {
+              userData = state.userData;
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                WidgetDadosFuncionario(
+                    nome: userData['nome'] ?? "Nome",
+                    nickname: userData['usuario'] ?? "Usuario",
+                    email: userData['email'] ?? "Email",
+                    setor: userData['setor'] ?? "Setor"),
+                SizedBox(
+                  height: 20,
+                ),
+                Widgetdesempenho(
+                  data: "16/12/2004",
+                  goal: 12,
+                  isCompleted: 1,
+                  isMissing: 11,
+                )
+              ],
+            );
+          },
         ),
       ),
     );
