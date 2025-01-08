@@ -5,7 +5,6 @@ import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'produto_event.dart';
