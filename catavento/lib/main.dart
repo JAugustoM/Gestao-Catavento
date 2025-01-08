@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/Funcionario/dashboardfuncionario.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(
@@ -30,6 +31,15 @@ void main() {
           useMaterial3: true,
           fontFamily: 'Fredoka',
         ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en', 'US'), // Suporte para inglês
+          Locale('pt', 'BR'), // Suporte para português
+        ],
         home: const LoadView(),
         routes: {
           loginRoute: (context) => const Login(),

@@ -55,7 +55,9 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
                       label: const Text("Ver Histórico",
                           style: TextStyle(
                               fontSize: 16, fontFamily: 'FredokaOne')),
-                      onPressed: () {},
+                      onPressed: () {
+                        _showDatePicker(context);
+                      },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: AppColors.mediumPink,
@@ -83,6 +85,39 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
     );
+  }
+
+  // Função para mostrar o Date Picker
+  void _showDatePicker(BuildContext context) async {
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(), // Data inicial
+      firstDate: DateTime(2020), // Primeira data possível
+      lastDate: DateTime(2101), // Última data possível
+    );
+
+    if (selectedDate != null) {
+      String selectedDateString = "Data selecionada: ${selectedDate.toLocal()}";
+
+      // Aqui, você pode definir as ações dependendo da data escolhida
+      if (_isToday(selectedDate)) {
+        // Data é hoje, mudar para a página principal ou fazer outra ação
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        // Executar ações para datas anteriores
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Data anterior selecionada: $selectedDateString'),
+        ));
+      }
+    }
+  }
+
+  // Verifica se a data selecionada é hoje
+  bool _isToday(DateTime date) {
+    DateTime today = DateTime.now();
+    return today.year == date.year &&
+        today.month == date.month &&
+        today.day == date.day;
   }
 
   @override
