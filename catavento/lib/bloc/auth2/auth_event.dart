@@ -14,14 +14,4 @@ class AuthSignIn extends AuthEvent {
 
 class AuthSignOut extends AuthEvent {}
 
-class AuthCreateUser extends AuthEvent {
-  final String email;
-  final String password;
-
-  AuthCreateUser({
-    required this.email,
-    required this.password,
-  });
-}
-
 class AuthLoading extends AuthEvent {}

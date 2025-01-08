@@ -41,12 +41,36 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
     if (usuario['email'] != null && usuario['email']!.isNotEmpty) {
       try {
-        final response =
-            await _supabase.from('usuarios').insert(usuario).select();
-        if (response.isNotEmpty) {
-          _currentData.add(response[0]);
-        } else {
-          throw Exception("Erro ao adiciona usuario");
+        final user = _supabase.auth.currentUser;
+        final userData = await _supabase
+            .from('usuarios')
+            .select('tipo')
+            .eq('email', user!.email!);
+        final userTipo = userData.first['tipo'] as String;
+
+        if (userTipo != 'admin' && event.tipo == 'gerente') {
+          final metaData = _countUsuarios();
+          emit(UsuarioErrorState(_currentData, metaData,
+              'Apenas o admin pode cadastrar gerentes'));
+        }
+
+        final authResponse = await _supabase.auth.signUp(
+          email: event.email,
+          password: event.senha,
+        );
+        if (authResponse.user != null) {
+          final response =
+              await _supabase.from('usuarios').insert(usuario).select();
+          if (response.isNotEmpty) {
+            _currentData.add(response[0]);
+          } else {
+            final metaData = _countUsuarios();
+            emit(UsuarioErrorState(
+              _currentData,
+              metaData,
+              "Erro ao criar usuário",
+            ));
+          }
         }
       } catch (e) {
         final metaData = _countUsuarios();
@@ -95,6 +119,25 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
       final setor = event.setor;
       final email = event.email;
       final id = event.id;
+
+      try {
+        final user = _supabase.auth.currentUser;
+        final userData = await _supabase
+            .from('usuarios')
+            .select('tipo')
+            .eq('email', user!.email!);
+        final userTipo = userData.first['tipo'] as String;
+
+        if (userTipo != 'admin' && tipo == 'gerente') {
+          final metaData = _countUsuarios();
+          emit(UsuarioErrorState(_currentData, metaData,
+              'Apenas o admin pode cadastrar gerentes'));
+        }
+      } catch (e) {
+        final metaData = _countUsuarios();
+        emit(UsuarioErrorState(
+            _currentData, metaData, 'Erro ao acessar o banco de dados - $e'));
+      }
 
       Map<String, dynamic> atualizado = {};
 
@@ -166,7 +209,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     int numUsuarios = 0;
 
     for (var usuario in _currentData) {
-      if (usuario["tipo"] == "funcionario") {
+      if (usuario["tipo"] != "admin") {
         numUsuarios++;
       }
     }

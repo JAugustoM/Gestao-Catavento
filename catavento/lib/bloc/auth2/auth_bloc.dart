@@ -16,8 +16,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthSignOut>(_onSignOut);
 
-    on<AuthCreateUser>(_onCreateUser);
-
     on<AuthLoading>(_onLoading);
   }
 
@@ -35,6 +33,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _userData = data.first;
 
         emit(AuthSignInState(_userData, false));
+      } else {
+        emit(AuthErrorState("Erro ao autenticar usuário"));
       }
     } catch (e) {
       emit(AuthErrorState("Erro ao autenticar usuário - $e"));
@@ -53,8 +53,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthErrorState("Erro ao sair da conta - $e"));
     }
   }
-
-  void _onCreateUser(AuthCreateUser event, Emitter<AuthState> emit) {}
 
   void _onLoading(AuthLoading event, Emitter<AuthState> emit) async {
     try {

@@ -1,6 +1,7 @@
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/ativAndamentoCard.dart';
@@ -224,6 +225,19 @@ class EmployeeManagement extends StatelessWidget {
             child: BlocBuilder<UsuarioBloc, UsuarioState>(
               builder: (context, state) {
                 final data = state.databaseResponse;
+                switch (state) {
+                  case UsuarioCreateState():
+                    showBlocSnackbar(context, "Usuário criado com sucesso!");
+                  case UsuarioDeleteState():
+                    showBlocSnackbar(context, "Usuário removido com sucesso!");
+                  case UsuarioUpdateState():
+                    showBlocSnackbar(
+                        context, "Usuário atualizado com sucesso!");
+                  case UsuarioLoadingState():
+                    break;
+                  case UsuarioErrorState():
+                    showBlocSnackbar(context, state.message);
+                }
                 return ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
