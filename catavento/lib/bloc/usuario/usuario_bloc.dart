@@ -189,7 +189,8 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
   void _onLoading(UsuarioLoading event, Emitter<UsuarioState> emit) async {
     try {
-      final response = await _supabase.from('usuarios').select();
+      final response =
+          await _supabase.from('usuarios').select().neq('tipo', 'admin');
       _currentData = response;
 
       final metaData = _countUsuarios();

@@ -3,6 +3,7 @@ import 'package:catavento/screens/DadosFuncionario/components/widgetDesempenho.d
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import "../../shared/widgets/menuBar.dart";
 import 'package:catavento/screens/DadosFuncionario/components/widgetDadosFuncionario.dart';
 
@@ -47,7 +48,7 @@ class Dadosfuncionario extends StatelessWidget {
                   height: 20,
                 ),
                 Widgetdesempenho(
-                  data: "16/12/2004",
+                  data: DateFormat('dd/MM/yyyy').format(DateTime.now()),
                   goal: 12,
                   isCompleted: 1,
                   isMissing: 11,

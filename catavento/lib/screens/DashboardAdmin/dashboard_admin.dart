@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
+import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -537,11 +538,9 @@ class ButtonAddDemanda extends StatelessWidget {
                         ));
                         Navigator.pop(context);
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                "Por favor, preencha pelo menos o código ou nome do bolo"),
-                          ),
+                        showSnackbar(
+                          context,
+                          "Por favor, preencha pelo menos o código ou nome do bolo",
                         );
                       }
                     },

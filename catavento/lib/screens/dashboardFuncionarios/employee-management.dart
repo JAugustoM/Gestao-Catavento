@@ -3,6 +3,7 @@ import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButto
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
+import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/ativAndamentoCard.dart';
@@ -29,16 +30,6 @@ class EmployeeManagement extends StatelessWidget {
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
-  ];
-
-  final List<Map<String, String>> funcionarios = [
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
   ];
 
   final TextEditingController _nomeController = TextEditingController();
@@ -425,16 +416,28 @@ class EmployeeManagement extends StatelessWidget {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<UsuarioBloc>().add(UsuarioCreate(
-                            _nomeController.text,
-                            _usuarioController.text,
-                            _setorController.text,
-                            _emailController.text,
-                            _tipoController.text,
-                            _senhaController.text,
-                          ));
-                      context.read<AuthBloc>().add(AuthReauthenticate());
-                      Navigator.pop(context);
+                      if (_nomeController.text.isNotEmpty &&
+                          _usuarioController.text.isNotEmpty &&
+                          _setorController.text.isNotEmpty &&
+                          _emailController.text.isNotEmpty &&
+                          _tipoController.text.isNotEmpty &&
+                          _senhaController.text.isNotEmpty) {
+                        context.read<UsuarioBloc>().add(UsuarioCreate(
+                              _nomeController.text,
+                              _usuarioController.text,
+                              _setorController.text,
+                              _emailController.text,
+                              _tipoController.text,
+                              _senhaController.text,
+                            ));
+                        context.read<AuthBloc>().add(AuthReauthenticate());
+                        Navigator.pop(context);
+                      } else {
+                        showSnackbar(
+                          context,
+                          "Por favor, preencha todos os campos antes de prosseguir",
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
