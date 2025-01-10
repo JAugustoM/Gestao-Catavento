@@ -32,14 +32,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (response.user != null) {
         final data =
             await _supabase.from('usuarios').select().eq('email', event.email);
-        _userData = data.first;
 
-        _email = event.email;
-        _password = event.password;
+        if (data.isNotEmpty) {
+          _userData = data.first;
 
-        emit(AuthSignInState(_userData));
+          _email = event.email;
+          _password = event.password;
+
+          emit(AuthSignInState(_userData));
+        } else {
+          emit(AuthErrorState("Usuário não encontrado"));
+        }
       } else {
-        emit(AuthErrorState("Erro ao autenticar usuário"));
+        emit(AuthErrorState("Usuário não encontrado"));
       }
     } catch (e) {
       emit(AuthErrorState("Erro ao autenticar usuário - $e"));
