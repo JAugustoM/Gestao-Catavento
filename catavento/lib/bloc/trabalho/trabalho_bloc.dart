@@ -11,9 +11,10 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   DatabaseResponse _demandas = [];
+  String? _setor;
 
   TrabalhoEvent get initialState =>
-      TrabalhoLoading(email: _supabase.auth.currentUser!.email!);
+      TrabalhoLoading(email: _supabase.auth.currentUser!.email!, setor: null);
 
   TrabalhoBloc() : super(TrabalhoLoadingState([], [], {})) {
     on<TrabalhoLoading>(_onLoading);
@@ -24,6 +25,8 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   }
 
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {
+    _setor = event.setor;
+
     _currentData = await _supabase
         .from('trabalho')
         .select()
@@ -43,6 +46,8 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   }
 
   void _onInit(TrabalhoInit event, Emitter<TrabalhoState> emit) async {
+    _setor = event.setor;
+
     final response = await _supabase
         .from('demandas')
         .select()
@@ -60,6 +65,9 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
       try {
         await _supabase.from('trabalho').insert(trabalho);
+        await _supabase
+            .from('demandas')
+            .update({'status_${event.setor}': 1}).eq('id', demanda['id']);
         _currentData.add(trabalho);
         _demandas.add(demanda);
         emit(TrabalhoInitState(
@@ -73,5 +81,43 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     }
   }
 
-  void _onFinish(TrabalhoFinish event, Emitter<TrabalhoState> emit) {}
+  void _onFinish(TrabalhoFinish event, Emitter<TrabalhoState> emit) async {
+    final demanda = _demandas.last;
+
+    final dataFinal = DateFormat(timeFormat).format(DateTime.now());
+
+    try {
+      await _supabase
+          .from('demandas')
+          .update({'status_${event.setor}': 2}).eq('id', demanda['id']);
+      _demandas.last['status_${event.setor}'] = 2;
+
+      await _supabase.from('trabalho').update(
+          {'data_finalizacao': dataFinal}).eq('demanda_id', demanda['id']);
+      _currentData.last['data_finalizacao'] = dataFinal;
+
+      emit(TrabalhoFinishState(_currentData, _demandas, {}));
+    } catch (e) {
+      print("Erro ao finalizar o trabalho");
+    }
+  }
+
+  Map<String, int>? _countTrabalho() {
+    if (_setor != null) {
+      var total = 0;
+      var completo = 0;
+
+      for (var trabalho in _currentData) {
+        if (trabalho['status_$_setor'] == 1) {
+          total++;
+        } else {
+          completo++;
+        }
+      }
+
+      return {'total': total, 'completo': completo};
+    } else {
+      return null;
+    }
+  }
 }
