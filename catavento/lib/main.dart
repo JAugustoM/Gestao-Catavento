@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/auth2/auth_bloc.dart';
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/screens/DadosFuncionario/dadosFuncionario.dart';
@@ -21,6 +22,9 @@ void main() {
         BlocProvider(create: (context) => DemandaBloc()..add(DemandaLoading())),
         BlocProvider(create: (context) => UsuarioBloc()..add(UsuarioLoading())),
         BlocProvider(create: (context) => AuthBloc()..add(AuthLoading())),
+        BlocProvider(
+            create: (context) =>
+                TrabalhoBloc()..add(TrabalhoLoading(email: '', setor: ''))),
       ],
       child: MaterialApp(
         title: "Gestão Catavento",

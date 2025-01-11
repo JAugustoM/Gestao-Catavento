@@ -13,8 +13,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   DatabaseResponse _demandas = [];
   String? _setor;
 
-  TrabalhoEvent get initialState =>
-      TrabalhoLoading(email: _supabase.auth.currentUser!.email!, setor: null);
+  TrabalhoEvent get initialState => TrabalhoLoading(email: '', setor: '');
 
   TrabalhoBloc() : super(TrabalhoLoadingState([], [], {})) {
     on<TrabalhoLoading>(_onLoading);
@@ -25,24 +24,37 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   }
 
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {
-    _setor = event.setor;
+    if (event.email.isNotEmpty && event.setor.isNotEmpty) {
+      try {
+        _setor = event.setor;
 
-    _currentData = await _supabase
-        .from('trabalho')
-        .select()
-        .eq('usuario_email', event.email);
+        _currentData = await _supabase
+            .from('trabalho')
+            .select()
+            .eq('usuario_email', event.email);
 
-    for (var demanda in _currentData) {
-      var response = await _supabase
-          .from('demandas')
-          .select()
-          .eq('id', demanda['demanda_id']);
-      if (response.isNotEmpty) {
-        _demandas.add(response.first);
+        for (var demanda in _currentData) {
+          var response = await _supabase
+              .from('demandas')
+              .select()
+              .eq('id', demanda['demanda_id']);
+          if (response.isNotEmpty) {
+            _demandas.add(response.first);
+          }
+        }
+
+        emit(TrabalhoLoadingState(_currentData, _demandas, {}));
+      } catch (e) {
+        emit(TrabalhoErrorState(
+          _currentData,
+          _demandas,
+          {},
+          "Erro ao acessar o banco de dados - $e",
+        ));
       }
+    } else {
+      emit(TrabalhoLoadingState([], [], {}));
     }
-
-    emit(TrabalhoLoadingState(_currentData, _demandas, {}));
   }
 
   void _onInit(TrabalhoInit event, Emitter<TrabalhoState> emit) async {
@@ -76,7 +88,12 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           {},
         ));
       } catch (e) {
-        print('Erro ao receber demanda: $e');
+        emit(TrabalhoErrorState(
+          _currentData,
+          _demandas,
+          {},
+          "Erro ao começar trabalho - $e",
+        ));
       }
     }
   }
@@ -98,7 +115,12 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
       emit(TrabalhoFinishState(_currentData, _demandas, {}));
     } catch (e) {
-      print("Erro ao finalizar o trabalho");
+      emit(TrabalhoErrorState(
+        _currentData,
+        _demandas,
+        {},
+        "Erro ao finalizar trabalho - $e",
+      ));
     }
   }
 

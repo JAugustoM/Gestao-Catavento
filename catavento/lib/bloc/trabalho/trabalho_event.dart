@@ -20,7 +20,7 @@ class TrabalhoFinish extends TrabalhoEvent {
 
 class TrabalhoLoading extends TrabalhoEvent {
   final String email;
-  final String? setor;
+  final String setor;
 
   const TrabalhoLoading({required this.email, required this.setor});
 }
