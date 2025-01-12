@@ -11,7 +11,6 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   DatabaseResponse _demandas = [];
-  String? _setor;
 
   TrabalhoEvent get initialState => TrabalhoLoading(email: '', setor: '');
 
@@ -26,8 +25,6 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {
     if (event.email.isNotEmpty && event.setor.isNotEmpty) {
       try {
-        _setor = event.setor;
-
         _currentData = await _supabase
             .from('trabalho')
             .select()
@@ -42,24 +39,27 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
             _demandas.add(response.first);
           }
         }
-
-        emit(TrabalhoLoadingState(_currentData, _demandas, {}));
+        final metaData = _countTrabalho(event.setor);
+        emit(TrabalhoLoadingState(
+          _currentData,
+          _demandas,
+          metaData,
+        ));
       } catch (e) {
+        final metaData = _countTrabalho(event.setor);
         emit(TrabalhoErrorState(
           _currentData,
           _demandas,
-          {},
+          metaData,
           "Erro ao acessar o banco de dados - $e",
         ));
       }
     } else {
-      emit(TrabalhoLoadingState([], [], {}));
+      emit(TrabalhoEmptyState([], [], {}));
     }
   }
 
   void _onInit(TrabalhoInit event, Emitter<TrabalhoState> emit) async {
-    _setor = event.setor;
-
     final response = await _supabase
         .from('demandas')
         .select()
@@ -82,16 +82,18 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
             .update({'status_${event.setor}': 1}).eq('id', demanda['id']);
         _currentData.add(trabalho);
         _demandas.add(demanda);
+        final metaData = _countTrabalho(event.setor);
         emit(TrabalhoInitState(
           _currentData,
           _demandas,
-          {},
+          metaData,
         ));
       } catch (e) {
+        final metaData = _countTrabalho(event.setor);
         emit(TrabalhoErrorState(
           _currentData,
           _demandas,
-          {},
+          metaData,
           "Erro ao começar trabalho - $e",
         ));
       }
@@ -113,33 +115,32 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           {'data_finalizacao': dataFinal}).eq('demanda_id', demanda['id']);
       _currentData.last['data_finalizacao'] = dataFinal;
 
-      emit(TrabalhoFinishState(_currentData, _demandas, {}));
+      final metaData = _countTrabalho(event.setor);
+
+      emit(TrabalhoFinishState(_currentData, _demandas, metaData));
     } catch (e) {
+      final metaData = _countTrabalho(event.setor);
       emit(TrabalhoErrorState(
         _currentData,
         _demandas,
-        {},
+        metaData,
         "Erro ao finalizar trabalho - $e",
       ));
     }
   }
 
-  Map<String, int>? _countTrabalho() {
-    if (_setor != null) {
-      var total = 0;
-      var completo = 0;
+  Map<String, int> _countTrabalho(String setor) {
+    var total = 0;
+    var completo = 0;
 
-      for (var trabalho in _currentData) {
-        if (trabalho['status_$_setor'] == 1) {
-          total++;
-        } else {
-          completo++;
-        }
+    for (var trabalho in _currentData) {
+      if (trabalho['status_$setor'] == 1) {
+        total++;
+      } else {
+        completo++;
       }
-
-      return {'total': total, 'completo': completo};
-    } else {
-      return null;
     }
+
+    return {'total': total, 'completo': completo};
   }
 }

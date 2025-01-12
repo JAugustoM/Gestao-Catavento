@@ -91,5 +91,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   String? get email => _email;
 
+  String? get setor => _userData['setor'];
+
   Map<String, dynamic> get userData => _userData;
 }
