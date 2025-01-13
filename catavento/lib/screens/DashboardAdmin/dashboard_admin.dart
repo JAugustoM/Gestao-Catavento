@@ -51,7 +51,10 @@ class DashBoardAdmin extends StatelessWidget {
         onPressed: () async {
           final filePath = await tablePicker();
           if (filePath != null) {
-            await importExcelToSupabase(filePath);
+            final message = await importExcelToSupabase(filePath);
+            if (context.mounted) {
+              showSnackbar(context, message);
+            }
           }
         },
         child: Icon(Icons.upload_file, color: Colors.white),
@@ -198,26 +201,24 @@ class ListDemandaState extends State<ListDemanda> {
       child: Column(
         children: [
           Expanded(
-            child: BlocBuilder<DemandaBloc, DemandaState>(
-              builder: (context, state) {
-                final showSnack = context.read<DemandaBloc>().showSnack();
-                if (showSnack) {
-                  switch (state) {
-                    case DemandaCreateState():
-                      showBlocSnackbar(context, "Bolo adicionado com sucesso");
-                    case DemandaDeleteState():
-                      showBlocSnackbar(context, "Bolo removido com sucesso!");
-                    case DemandaUpdateState():
-                      showBlocSnackbar(context, "Bolo atualizado com sucesso!");
-                    case DemandaLoadingState():
-                      break;
-                    case DemandaFilterState():
-                      break;
-                    case DemandaErrorState():
-                      showBlocSnackbar(context, state.message);
-                  }
+            child: BlocConsumer<DemandaBloc, DemandaState>(
+              listener: (context, state) {
+                switch (state) {
+                  case DemandaCreateState():
+                    showBlocSnackbar(context, "Bolo adicionado com sucesso");
+                  case DemandaDeleteState():
+                    showBlocSnackbar(context, "Bolo removido com sucesso!");
+                  case DemandaUpdateState():
+                    showBlocSnackbar(context, "Bolo atualizado com sucesso!");
+                  case DemandaLoadingState():
+                    break;
+                  case DemandaFilterState():
+                    break;
+                  case DemandaErrorState():
+                    showBlocSnackbar(context, state.message);
                 }
-
+              },
+              builder: (context, state) {
                 List<dynamic> filteredList = [];
 
                 if (widget.filter != null && widget.filter!.isNotEmpty) {

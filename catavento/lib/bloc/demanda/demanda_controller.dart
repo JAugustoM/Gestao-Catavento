@@ -9,7 +9,6 @@ class DemandaController {
   DemandaController(this._bloc);
 
   void initialize() async {
-    await _client.removeAllChannels();
     _channel = _client
         .channel('public:demandas')
         .onPostgresChanges(

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:excel/excel.dart';
 
-Future<void> importExcelToSupabase(String filePath) async {
+Future<String> importExcelToSupabase(String filePath) async {
   final supabase = Supabase.instance.client;
   DatabaseResponse demandas = [];
 
@@ -13,56 +13,73 @@ Future<void> importExcelToSupabase(String filePath) async {
     final file = File(filePath);
     final excel = Excel.decodeBytes(file.readAsBytesSync());
 
-    for (var sheetName in excel.tables.keys) {
-      final sheet = excel.tables[sheetName];
+    final sheetName = excel.tables.keys.first;
+    final sheet = excel.tables[sheetName];
 
-      if (sheet != null) {
-        var rowId = 0;
-        var loja = "";
-        final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
-        for (var row in sheet.rows) {
-          final rowData =
-              row.map((cell) => cell?.value.toString() ?? '').toList();
+    if (sheet != null) {
+      var loja = "";
+      final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
+      for (var row in sheet.rows) {
+        final rowData =
+            row.map((cell) => cell?.value.toString() ?? '').toList();
 
-          try {
-            if ((rowData[0] != "" && rowData[0] != "null") &&
-                (rowData[1] != "" && rowData[1] != "null")) {
-              final Map<String, dynamic> demanda = {
-                'nome_demanda': rowData[0],
-                'data_adicao': dataAdicao,
-                'descricao': 'Bolo normal',
-                'status': 'Pendente',
-              };
+        if ((rowData[2].isNotEmpty && rowData[2] != "null") ||
+            (rowData[3].isNotEmpty && rowData[3] != "null")) {
+          return "Tabela inválida";
+        }
 
-              final codigo = int.tryParse(rowData[1]);
+        if ((rowData[0] != "" && rowData[0] != "null") &&
+            (rowData[1] != "" && rowData[1] != "null")) {
+          final Map<String, dynamic> demanda = {
+            'nome_demanda': rowData[0],
+            'data_adicao': dataAdicao,
+            'descricao': 'Bolo normal',
+            'status': 'Pendente',
+          };
 
-              if (codigo != null) {
-                demanda['produto_id'] = codigo;
-              }
+          final codigo = int.tryParse(rowData[1]);
 
-              if (loja.isNotEmpty) {
-                demanda['loja'] = loja;
-              }
-
-              demandas.add(demanda);
-            } else if (rowData[0] != "" && rowData[0] != "null") {
-              loja = rowData[0].toUpperCase();
-            }
-          } catch (e) {
-            print('Erro ao processar a linha ${rowId + 1}: $e');
+          if (codigo != null) {
+            demanda['produto_id'] = codigo;
           }
-          rowId++;
+
+          if (loja.isNotEmpty) {
+            demanda['loja'] = loja;
+          }
+
+          demandas.add(demanda);
+        } else if (rowData[0] != "" && rowData[0] != "null") {
+          loja = rowData[0].toUpperCase();
         }
       }
+    } else {
+      return "Planilha vazia";
     }
-    print('Planilha importada e atualizada com sucesso!');
   } catch (e) {
-    print('Erro ao importar a planilha: $e');
+    return "Erro ao importar a tabela - $e";
+  }
+
+  try {
+    var order = 0;
+    for (var demanda in demandas) {
+      if (demanda['produto_id'] != null) {
+        final id = demanda['produto_id'];
+        final dados = await supabase.from('produtos').select().eq('id', id);
+        if (dados.isNotEmpty) {
+          final dadosBolo = dados.first;
+          demandas[order]['descricao'] = dadosBolo['descricao_padrao'];
+        }
+      }
+      order++;
+    }
+  } catch (e) {
+    return "Falha ao importar dados do produto";
   }
 
   try {
     await supabase.from('demandas').insert(demandas);
+    return "Planilha importada com sucesso!";
   } catch (e) {
-    print("Erro ao enviar os dados: $e");
+    return "Erro ao enviar os dados para o banco de dados: $e";
   }
 }

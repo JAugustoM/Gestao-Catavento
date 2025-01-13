@@ -13,7 +13,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   bool _newEvent = false;
-  bool _showSnack = false;
   // File? _fotoSelecionada;
 
   DemandaEvent get initialState => DemandaLoading();
@@ -36,7 +35,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     if (event is! DemandaFilter && event is! DemandaLoading) {
       _newEvent = true;
     }
-    _showSnack = true;
   }
 
   bool isLocalEvent() {
@@ -45,15 +43,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       return _newEvent;
     } else {
       return true;
-    }
-  }
-
-  bool showSnack() {
-    if (_showSnack) {
-      _showSnack = false;
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -226,9 +215,16 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     try {
       final nomeDemanda = event.nomeDemanda;
       final descricao = event.descricao;
-      final order = event.order;
 
       final demanda = {};
+
+      var order = 0;
+      for (var d in _currentData) {
+        if (d['id'] == event.id) {
+          break;
+        }
+        order++;
+      }
 
       if (nomeDemanda.isNotEmpty) {
         demanda["nome_demanda"] = nomeDemanda;

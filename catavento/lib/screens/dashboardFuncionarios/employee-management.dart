@@ -214,9 +214,8 @@ class EmployeeManagement extends StatelessWidget {
           return SizedBox(
             width: listWidth,
             height: height,
-            child: BlocBuilder<UsuarioBloc, UsuarioState>(
-              builder: (context, state) {
-                final data = state.databaseResponse;
+            child: BlocConsumer<UsuarioBloc, UsuarioState>(
+              listener: (context, state) {
                 switch (state) {
                   case UsuarioCreateState():
                     showBlocSnackbar(context, "Usuário criado com sucesso!");
@@ -230,6 +229,10 @@ class EmployeeManagement extends StatelessWidget {
                   case UsuarioErrorState():
                     showBlocSnackbar(context, state.message);
                 }
+              },
+              builder: (context, state) {
+                final data = state.databaseResponse;
+
                 return ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
