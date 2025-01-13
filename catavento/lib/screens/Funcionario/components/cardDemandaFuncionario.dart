@@ -1,135 +1,200 @@
-import 'package:catavento/screens/Funcionario/components/buttonCard.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:catavento/shared/theme/colors.dart';
 
 class CardDemanda extends StatelessWidget {
-  final String title , description ;
+  final String title;
+  final String description;
   final String codigo;
-  const CardDemanda({super.key , required this.title , required this.description , required this.codigo});
+  final Color backgroundColor;
+  final Color shadowColor;
+  final VoidCallback onFinish;
+
+  const CardDemanda({
+    Key? key,
+    required this.title,
+    required this.description,
+    required this.codigo,
+    required this.backgroundColor,
+    required this.shadowColor,
+    required this.onFinish,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height / 1.2;
-    double screenHeightCard = MediaQuery.of(context).size.height / 2.2;
-
-    return Container(
-      width: 300,
-      height: screenHeight,
-      constraints: BoxConstraints(
-        maxHeight: 679,
-      ),
-      decoration: BoxDecoration(
-          color: Color(0xFFEBEBEB), borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: EdgeInsets.only(top: 20, left: 7.5, right: 7.5, bottom: 0),
-        child: Column(
-          children: [
-            Text(
-              "${title}",
-              style: TextStyle(
-                  color: Color(0xFF015C98),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-            SizedBox(height: 10),
-            Container(
-
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      offset: Offset(3, 3),
-                      blurRadius: 12,
-                      spreadRadius: 0,
-                    ),
-                  ]),
-              height: 150,
-            ),
-            SizedBox(height: 10),
-            Container(
-              height: screenHeightCard,
-              constraints: BoxConstraints(
-                maxHeight: 384,
+    double cardWidth = 400;
+    double cardHeight = 600;
+    return SizedBox(
+      width: cardWidth,
+      height: cardHeight,
+      child: Card(
+        color: backgroundColor,
+        shadowColor: shadowColor,
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Título da tarefa
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'FredokaOne',
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.gradientDarkBlue),
+                  ),
+                ],
               ),
+              SizedBox(height: 10),
 
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: Colors.white),
-              child: Padding(
-                padding:
-                EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: Color(0xFF015C98),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Informações",
-                          style: TextStyle(
-                              color: Color(0xFF015C98),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        )
-                      ],
+              Row(children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      'assets/images/photo.jpg', // URL da imagem
+                      width: 100,
+                      height: 150,
+                      fit: BoxFit.cover,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Código: ",
-                          style: TextStyle(
-                              color: Color(0xFF015C98),
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "${codigo}",
-                          style:
-                          TextStyle(color: Color(0xFF015C98), fontSize: 14),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Descrição: ",
-                      style: TextStyle(
-                          color: Color(0xFF015C98),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 10,
-                        "${description}",
-                        style: TextStyle(
-                            color: Color(0xFF015C98), fontSize: 14),
+                  ),
+                )
+              ]),
+
+              SizedBox(height: 10),
+              // Descrição com scroll
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(2, 2),
                       ),
+                    ],
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.search,
+                              size: 24,
+                              color: AppColors.gradientDarkBlue,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Texto ao lado do ícone',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'FredokaOne',
+                                  color: AppColors.gradientDarkBlue),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Código: ",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.gradientDarkBlue),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              codigo,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.gradientDarkBlue),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Descrição: ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.gradientDarkBlue,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              description, // Texto longo que pode ter rolagem
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppColors.gradientDarkBlue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 12,),
-            ButtonCard(title: Text("Inicar Bolo" , style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold
-            ),), icon: Icon(Icons.alarm , color: Colors.white,), onPressed: ()=> {}, isCompleted: true),
-
-          ],
+              SizedBox(height: 10),
+              // Botão de finalizar tarefa
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 300,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.gradientDarkBlue,
+                        AppColors.gradientLightBlue,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: onFinish,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: const Text(
+                      "Concluir Bolo",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:catavento/shared/theme/colors.dart';
 
 class Widgetdesempenho extends StatelessWidget {
-
   final String data;
-  final double isCompleted , isMissing , goal;
-  const Widgetdesempenho({super.key , required this.data , required this.isMissing, required this.isCompleted , required this.goal});
+  final double isCompleted, isMissing, goal;
+  const Widgetdesempenho(
+      {super.key,
+      required this.data,
+      required this.isMissing,
+      required this.isCompleted,
+      required this.goal});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,7 +51,8 @@ class Widgetdesempenho extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12)),
                     child: Padding(
-                        padding: EdgeInsets.only(top:10 , right: 40, left: 40, bottom: 0),
+                        padding: EdgeInsets.only(
+                            top: 10, right: 40, left: 40, bottom: 0),
                         child: Column(
                           children: [
                             Row(

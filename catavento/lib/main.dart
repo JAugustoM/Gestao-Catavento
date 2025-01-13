@@ -61,7 +61,7 @@ class LoadView extends StatelessWidget {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            return const DashBoardAdmin();
+            return const DashBoardFuncionario();
           default:
             return const CircularProgressIndicator();
         }
