@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
-
+import './buttonCard.dart';
 class CardDemanda extends StatelessWidget {
   final String title;
   final String description;
@@ -175,7 +175,10 @@ class CardDemanda extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(22),
                   ),
-                  child: ElevatedButton(
+                  child:
+
+
+                  /* ElevatedButton(
                     onPressed: onFinish,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -190,7 +193,10 @@ class CardDemanda extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                  ),
+                  ),*/
+                  ButtonCard(title: Text("Concluir Bolo" , style: TextStyle(color: Colors.white),) ,  onPressed: onFinish, isCompleted: false),
+                  
+                  
                 ),
               ),
             ],
