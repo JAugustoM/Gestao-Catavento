@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:catavento/bloc/demanda/demanda_bloc.dart';
-import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'produto_event.dart';
@@ -15,7 +11,6 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   ProdutoEvent get initialState => ProdutoLoading();
-  bool _newEvent = false;
 
   ProdutoBloc() : super(ProdutoLoadingState([], {})) {
     on<ProdutoFilter>(_onFilter);
@@ -27,21 +22,6 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
     on<ProdutoDelete>(_onDelete);
 
     on<ProdutoUpdate>(_onUpdate);
-  }
-
-  @override
-  void onEvent(ProdutoEvent event) {
-    super.onEvent(event);
-    _newEvent = true;
-  }
-
-  bool isLocalEvent() {
-    if (_newEvent) {
-      _newEvent = false;
-      return _newEvent;
-    } else {
-      return true;
-    }
   }
 
   void _onFilter(ProdutoFilter event, Emitter<ProdutoState> emit) {
@@ -82,27 +62,35 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
 
   void _onCreate(ProdutoCreate event, Emitter<ProdutoState> emit) async {
     final produto = {
+      'id': event.codigo,
       'nome_produto': event.nomeProduto,
       'descricao_padrao': event.descricaoPadrao,
     };
 
-    if (produto['nomeProduto'] != null && produto['nomeProduto']!.isEmpty) {
+    if (event.imagemProduto != null) {
+      produto['image_url'] = await _uploadImage(
+        event.imagemProduto!,
+        event.codigo,
+      );
+    }
+    if (produto['nome_produto']!.isNotEmpty && produto['id']!.isNotEmpty) {
       try {
         final response =
             await _supabase.from('produtos').insert(produto).select();
 
         if (response.isNotEmpty) {
           _currentData.add(response[0]);
+
+          final metaData = _countProdutos();
+
+          emit(ProdutoCreateState(_currentData, metaData));
         } else {
           throw Exception("Erro ao adicionar produto");
         }
       } catch (_) {
         throw Exception("Erro ao adicionar produto");
       }
-    }
-    final metaData = _countProdutos();
-
-    emit(ProdutoCreateState(_currentData, metaData));
+    } else {}
   }
 
   void _onDelete(ProdutoDelete event, Emitter<ProdutoState> emit) async {
@@ -123,26 +111,35 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   }
 
   void _onUpdate(ProdutoUpdate event, Emitter<ProdutoState> emit) async {
-    final produtoAtualizado = {
-      'nome_produto': event.nomeProduto,
-      'descricao_padrao': event.descricaoProduto,
-    };
+    final produtoAtualizado = {};
+
+    if (event.codigo.isNotEmpty) {
+      produtoAtualizado['id'] = event.codigo;
+    }
+
+    if (event.nomeProduto.isNotEmpty) {
+      produtoAtualizado['nome_produto'] = event.nomeProduto;
+    }
+
+    if (event.descricaoProduto.isNotEmpty) {
+      produtoAtualizado['descricao_padrao'] = event.descricaoProduto;
+    }
 
     if (event.imagemProduto != null) {
-      final filePath = await _uploadImage(event.imagemProduto!);
-      produtoAtualizado['imagem_produto'] = filePath;
+      final filePath = await _uploadImage(event.imagemProduto!, event.codigo);
+      produtoAtualizado['imagem_url'] = filePath;
     }
 
     try {
       final response = await _supabase
           .from('produtos')
           .update(produtoAtualizado)
-          .eq('id', event.id)
+          .eq('id', event.codigo)
           .select();
 
       if (response.isNotEmpty) {
         _currentData = _currentData.map((produto) {
-          if (produto['id'] == event.id) {
+          if (produto['id'] == event.codigo) {
             return response[0];
           }
           return produto;
@@ -158,17 +155,16 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
     }
   }
 
-  Future<String> _uploadImage(File image) async {
+  Future<String> _uploadImage(File image, String codigo) async {
     try {
-      final imageName =
-          '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
+      final imageName = '${DateTime.now().millisecondsSinceEpoch}_$codigo';
       final response =
           await _supabase.storage.from('imagens').upload(imageName, image);
 
       if (response.isNotEmpty) {
         final publicUrl =
             _supabase.storage.from('imagens').getPublicUrl(imageName);
-        return publicUrl ?? '';
+        return publicUrl;
       } else {
         throw Exception('Erro ao fazer upload da imagem: $response');
       }

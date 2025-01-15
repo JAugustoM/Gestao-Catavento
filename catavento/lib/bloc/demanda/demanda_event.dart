@@ -33,14 +33,12 @@ class DemandaCreate extends DemandaEvent {
 
 class DemandaDelete extends DemandaEvent {
   final int id;
-  final int order;
 
-  const DemandaDelete(this.id, this.order);
+  const DemandaDelete(this.id);
 }
 
 class DemandaUpdate extends DemandaEvent {
   final int id;
-  final int order;
   final String nomeDemanda;
   final String codigo;
   final String descricao;
@@ -49,7 +47,6 @@ class DemandaUpdate extends DemandaEvent {
 
   const DemandaUpdate({
     required this.id,
-    required this.order,
     required this.nomeDemanda,
     required this.codigo,
     required this.descricao,

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
-import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 
 class ProdutosCard extends StatefulWidget {
@@ -11,12 +8,10 @@ class ProdutosCard extends StatefulWidget {
   final String descricaoProduto;
   final String codigoProduto;
   final String image;
-  final DemandaBloc bloc; // ---- COLOCAR O BLOC DOS PRODUTOS AQUI DEPOIS
 
   const ProdutosCard(
       {super.key,
       required this.nomeProduto,
-      required this.bloc,
       required this.descricaoProduto,
       required this.codigoProduto,
       required this.image});
@@ -29,12 +24,9 @@ class ProdutosCard extends StatefulWidget {
 
 class ProdutosCardState extends State<ProdutosCard> {
   // dados estáticos temporários
-  final String nome = "Bolo Exemplo";
+  final String nome = "Nome";
   final String codigo = "CODIGO123";
   final String descricao = "Descrição do produto (Bolo Exemplo) aqui.";
-  final int id = 10; // -- pode apagar isso dps
-  final int order = 11; // --- pode apagar isso dps
-  final DemandaBloc bloc = DemandaBloc();
 
   late final TextEditingController nomeController;
   late final TextEditingController codigoController;
@@ -75,8 +67,9 @@ class ProdutosCardState extends State<ProdutosCard> {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
-                child: Image.file(
-                  File(widget.image),
+                // substituir por Image.network() quando tiver imagens
+                child: Image.network(
+                  widget.image,
                   fit: BoxFit.cover,
                 ),
               )),
@@ -148,8 +141,13 @@ class ProdutosCardState extends State<ProdutosCard> {
       width: MediaQuery.of(context).size.width * 0.066,
       child: ElevatedButton(
         onPressed: () {
-          _showInfoDialog(context, nome, codigo, descricao,
-              "https://via.placeholder.com/150");
+          _showInfoDialog(
+            context,
+            widget.nomeProduto,
+            widget.codigoProduto,
+            widget.descricaoProduto,
+            widget.image,
+          );
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.gradientDarkBlue,
@@ -175,7 +173,7 @@ class ProdutosCardState extends State<ProdutosCard> {
         return ReusableDialog(
           title: "Editar Produto",
           confirmBeforeClose: true,
-          closeRoute: '/dashboardProdutos',
+          closeRoute: '/dashboardProdutos/',
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,9 +262,12 @@ class ProdutosCardState extends State<ProdutosCard> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(width: 10),
-                                Icon(Icons.camera_alt,
-                                    size: 30,
-                                    color: AppColors.gradientDarkBlue),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.camera_alt,
+                                      size: 30,
+                                      color: AppColors.gradientDarkBlue),
+                                )
                               ],
                             )
                           ],
@@ -358,8 +359,8 @@ class ProdutosCardState extends State<ProdutosCard> {
                       150, // Altura fixada para evitar que a imagem ocupe um tamanho indefinido
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      'assets/images/photo.jpg',
+                    child: Image.network(
+                      imageUrl,
                       fit: BoxFit.cover, // Garante que a imagem cubra a área
                     ),
                   ),
@@ -406,7 +407,7 @@ class ProdutosCardState extends State<ProdutosCard> {
 
                       // Descrição
                       Text(
-                        descricao,
+                        "Descrição: $descricao",
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

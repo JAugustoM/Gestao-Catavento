@@ -166,7 +166,7 @@ class DemandCard extends StatelessWidget {
                                   'Tem certeza de que deseja apagar esta demanda?',
                               onConfirm: () {
                                 Navigator.of(context).pop(); // Fecha o diálogo
-                                bloc.add(DemandaDelete(id, order)); // BACKEND
+                                bloc.add(DemandaDelete(id)); // BACKEND
                               },
                             );
                           },
@@ -640,7 +640,6 @@ class DemandCard extends StatelessWidget {
                         // Conexão com o Backend
                         bloc.add(DemandaUpdate(
                           id: id,
-                          order: order,
                           nomeDemanda: nomeController.text,
                           codigo: codigoController.text,
                           descricao: descricaoController.text,
