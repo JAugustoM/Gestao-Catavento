@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Widgetdesempenho extends StatelessWidget {
   final String data;
-  final double isCompleted, isMissing, goal;
+  final int isCompleted, isMissing, goal;
   const Widgetdesempenho(
       {super.key,
       required this.data,

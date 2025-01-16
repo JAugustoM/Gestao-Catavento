@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import './buttonCard.dart';
+
 class CardDemanda extends StatelessWidget {
   final String title;
   final String description;
@@ -9,6 +10,8 @@ class CardDemanda extends StatelessWidget {
   final Color backgroundColor;
   final Color shadowColor;
   final VoidCallback onFinish;
+  final double width;
+  final double height;
 
   const CardDemanda({
     Key? key,
@@ -18,12 +21,14 @@ class CardDemanda extends StatelessWidget {
     required this.backgroundColor,
     required this.shadowColor,
     required this.onFinish,
+    required this.width,
+    required this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = 400;
-    double cardHeight = 600;
+    double cardWidth = width;
+    double cardHeight = height;
     return SizedBox(
       width: cardWidth,
       height: cardHeight,
@@ -39,7 +44,6 @@ class CardDemanda extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Título da tarefa
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,7 +65,7 @@ class CardDemanda extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.asset(
-                      'assets/images/photo.jpg', // URL da imagem
+                      'assets/images/photo.jpg',
                       width: 100,
                       height: 150,
                       fit: BoxFit.cover,
@@ -71,7 +75,6 @@ class CardDemanda extends StatelessWidget {
               ]),
 
               SizedBox(height: 10),
-              // Descrição com scroll
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -177,8 +180,7 @@ class CardDemanda extends StatelessWidget {
                   ),
                   child:
 
-
-                  /* ElevatedButton(
+                      /* ElevatedButton(
                     onPressed: onFinish,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -194,9 +196,13 @@ class CardDemanda extends StatelessWidget {
                       ),
                     ),
                   ),*/
-                  ButtonCard(title: Text("Concluir Bolo" , style: TextStyle(color: Colors.white),) ,  onPressed: onFinish, isCompleted: false),
-                  
-                  
+                      ButtonCard(
+                          title: Text(
+                            "Concluir Bolo",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: onFinish,
+                          isCompleted: false),
                 ),
               ),
             ],

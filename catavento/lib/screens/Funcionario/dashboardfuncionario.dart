@@ -87,60 +87,64 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
             child: Center(
               child: currentTasks.isNotEmpty
                   ? Container(
-                  margin:  EdgeInsets.symmetric(horizontal:  screenWidth/5, vertical: 50),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: currentTasks
-                        .take(5) // Limita a 5 cards no máximo
-                        .toList()
-                        .asMap()
-                        .entries
-                        .map((entry) {
-                      int index = entry.key;
-                      Map<String, String> task = entry.value;
+                      margin: EdgeInsets.symmetric(
+                          horizontal: screenWidth / 5, vertical: 50),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: currentTasks
+                              .take(5) // Limita a 5 cards no máximo
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map((entry) {
+                                int index = entry.key;
+                                Map<String, String> task = entry.value;
 
-                      return AnimatedPositioned(
-                        duration: Duration(milliseconds: 500),
-                        top: index * 20.0, // Distância entre os cards
-                        left: index * 20.0, // Distância entre os cards
-                        child: AnimatedOpacity(
-                          duration: Duration(milliseconds: 300),
-                          opacity: 1,
-                          child: Transform.scale(
-                            scale: 1 - (index * 0.05), // Escala para o fundo
-                            child: CardDemanda(
-                              title: task["nome"]!,
-                              description: task["descricao"]!,
-                              codigo: task["codigo"]!,
-                              backgroundColor: Color.lerp(
-                                const Color.fromARGB(
-                                    255, 235, 235, 235),
-                                const Color.fromARGB(
-                                    255, 168, 168, 168),
-                                index / 5,
-                              ) ??
-                                  const Color.fromARGB(
-                                      255, 235, 235, 235),
-                              shadowColor: Colors.black
-                                  .withOpacity(0.2 + index * 0.1),
-                              onFinish: () => _removeTask(index),
-                            ),
-                          ),
+                                return AnimatedPositioned(
+                                  duration: Duration(milliseconds: 500),
+                                  top: index * 20.0,
+                                  left: index * 20.0,
+                                  child: AnimatedOpacity(
+                                    duration: Duration(milliseconds: 300),
+                                    opacity: 1,
+                                    child: Transform.scale(
+                                      scale: 1 - (index * 0.05),
+                                      child: CardDemanda(
+                                        title: task["nome"]!,
+                                        width: screenWidth * 0.27,
+                                        height: screenHeight * 0.8,
+                                        description: task["descricao"]!,
+                                        codigo: task["codigo"]!,
+                                        backgroundColor: Color.lerp(
+                                              const Color.fromARGB(
+                                                  255, 235, 235, 235),
+                                              const Color.fromARGB(
+                                                  255, 168, 168, 168),
+                                              index / 5,
+                                            ) ??
+                                            const Color.fromARGB(
+                                                255, 235, 235, 235),
+                                        shadowColor: Colors.black
+                                            .withOpacity(0.2 + index * 0.1),
+                                        onFinish: () => _removeTask(index),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              })
+                              .toList()
+                              .reversed
+                              .toList(),
                         ),
-                      );
-                    })
-                        .toList()
-                        .reversed // Inverte a ordem para que o último card fique no topo
-                        .toList(),
-                  ),
-                ),
-              )
+                      ),
+                    )
                   : Text(
-                "Todas as tarefas foram concluídas!",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+                      "Todas as tarefas foram concluídas!",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
             ),
           ),
         ],
