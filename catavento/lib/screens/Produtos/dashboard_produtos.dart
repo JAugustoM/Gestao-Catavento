@@ -200,9 +200,6 @@ class DashboardProdutos extends StatelessWidget {
                                 IconButton(
                                   onPressed: () async {
                                     image = await selecionarFoto(context);
-                                    if (image != null) {
-                                      print(image!.path);
-                                    }
                                   },
                                   icon: Icon(Icons.camera_alt,
                                       size: 40,

@@ -113,10 +113,6 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   void _onUpdate(ProdutoUpdate event, Emitter<ProdutoState> emit) async {
     final produtoAtualizado = {};
 
-    if (event.codigo.isNotEmpty) {
-      produtoAtualizado['id'] = event.codigo;
-    }
-
     if (event.nomeProduto.isNotEmpty) {
       produtoAtualizado['nome_produto'] = event.nomeProduto;
     }
@@ -127,7 +123,7 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
 
     if (event.imagemProduto != null) {
       final filePath = await _uploadImage(event.imagemProduto!, event.codigo);
-      produtoAtualizado['imagem_url'] = filePath;
+      produtoAtualizado['image_url'] = filePath;
     }
 
     try {
@@ -150,8 +146,8 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
       } else {
         throw Exception("Erro ao atualizar produto");
       }
-    } catch (_) {
-      throw Exception("Erro ao atualizar produto");
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

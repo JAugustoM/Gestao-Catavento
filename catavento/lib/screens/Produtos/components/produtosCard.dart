@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:catavento/bloc/produto/produto_bloc.dart';
+import 'package:catavento/services/image_picker/image_picker.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProdutosCard extends StatefulWidget {
   final String nomeProduto;
@@ -170,6 +175,7 @@ class ProdutosCardState extends State<ProdutosCard> {
     showDialog(
       context: context,
       builder: (context) {
+        File? image;
         return ReusableDialog(
           title: "Editar Produto",
           confirmBeforeClose: true,
@@ -263,13 +269,15 @@ class ProdutosCardState extends State<ProdutosCard> {
                                 ),
                                 const SizedBox(width: 10),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    image = await selecionarFoto(context);
+                                  },
                                   icon: Icon(Icons.camera_alt,
                                       size: 30,
                                       color: AppColors.gradientDarkBlue),
                                 )
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -322,7 +330,46 @@ class ProdutosCardState extends State<ProdutosCard> {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.gradientDarkBlue,
+                                    AppColors.gradientLightBlue
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context.read<ProdutoBloc>().add(ProdutoUpdate(
+                                        nomeProduto: nomeController.text,
+                                        codigo: codigoController.text,
+                                        descricaoProduto:
+                                            descricaoController.text,
+                                        imagemProduto: image,
+                                      ));
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Concluir",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
