@@ -43,6 +43,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SearchFuncionarios(),
                             SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
