@@ -45,6 +45,7 @@ class _ButtonCardState extends State<ButtonCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Bolo Concluído", style: TextStyle(
+                    fontFamily: 'FredokaOne',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
 
