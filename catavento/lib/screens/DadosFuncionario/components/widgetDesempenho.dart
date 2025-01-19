@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:catavento/shared/theme/colors.dart';
 
 class Widgetdesempenho extends StatelessWidget {
   final String data;

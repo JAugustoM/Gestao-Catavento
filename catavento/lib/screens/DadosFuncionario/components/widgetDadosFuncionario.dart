@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:catavento/shared/theme/colors.dart';
 
 class WidgetDadosFuncionario extends StatelessWidget {
   final String nome;
@@ -71,12 +70,13 @@ class WidgetDadosFuncionario extends StatelessWidget {
                               Text(
                                 "${nome}",
                                 style: TextStyle(
-                                    color: Color(0xFF015C98),
-                                    fontSize: 16),
+                                    color: Color(0xFF015C98), fontSize: 16),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             children: [
                               Text(
@@ -89,13 +89,13 @@ class WidgetDadosFuncionario extends StatelessWidget {
                               Text(
                                 "${nickname}",
                                 style: TextStyle(
-                                    color: Color(0xFF015C98),
-                                    fontSize: 16),
+                                    color: Color(0xFF015C98), fontSize: 16),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10,),
-
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             children: [
                               Text(
@@ -108,13 +108,13 @@ class WidgetDadosFuncionario extends StatelessWidget {
                               Text(
                                 "${email}",
                                 style: TextStyle(
-                                    color: Color(0xFF015C98),
-                                    fontSize: 16),
+                                    color: Color(0xFF015C98), fontSize: 16),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10,),
-
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             children: [
                               Text(
@@ -127,8 +127,7 @@ class WidgetDadosFuncionario extends StatelessWidget {
                               Text(
                                 "${setor} ",
                                 style: TextStyle(
-                                    color: Color(0xFF015C98),
-                                    fontSize: 16),
+                                    color: Color(0xFF015C98), fontSize: 16),
                               ),
                             ],
                           )
