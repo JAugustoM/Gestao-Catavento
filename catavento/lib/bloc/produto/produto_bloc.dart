@@ -67,7 +67,7 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
       'descricao_padrao': event.descricaoPadrao,
     };
 
-    if (event.imagemProduto != null) {
+    if (event.imagemProduto != null && event.imagemProduto!.existsSync()) {
       produto['image_url'] = await _uploadImage(
         event.imagemProduto!,
         event.codigo,
@@ -94,19 +94,31 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   }
 
   void _onDelete(ProdutoDelete event, Emitter<ProdutoState> emit) async {
-    try {
-      final response =
-          await _supabase.from('produtos').delete().eq('id', event.id).select();
+    final produto = _currentData.firstWhere(
+      (test) => test['id'] == event.id,
+      orElse: () => {},
+    );
+    final imagemUrl = produto['image_url'] as String;
+    final imagem = imagemUrl.split('/').last;
+    if (produto.isNotEmpty) {
+      try {
+        final response = await _supabase
+            .from('produtos')
+            .delete()
+            .eq('id', event.id)
+            .select();
 
-      if (response.isNotEmpty) {
-        _currentData.removeWhere((produto) => produto['id'] == event.id);
-        final metaData = _countProdutos();
-        emit(ProdutoDeleteState(_currentData, metaData));
-      } else {
-        throw Exception("Produto não encontrado");
+        if (response.isNotEmpty) {
+          _currentData.removeWhere((produto) => produto['id'] == event.id);
+          await _supabase.storage.from('imagens').remove([imagem]);
+          final metaData = _countProdutos();
+          emit(ProdutoDeleteState(_currentData, metaData));
+        } else {
+          throw Exception("Produto não encontrado");
+        }
+      } catch (_) {
+        throw Exception("Erro ao deletar produto");
       }
-    } catch (_) {
-      throw Exception("Erro ao deletar produto");
     }
   }
 

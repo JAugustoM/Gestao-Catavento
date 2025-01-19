@@ -26,7 +26,7 @@ class ProdutoCreate extends ProdutoEvent {
 }
 
 class ProdutoDelete extends ProdutoEvent {
-  final int id;
+  final String id;
 
   const ProdutoDelete(
     this.id,

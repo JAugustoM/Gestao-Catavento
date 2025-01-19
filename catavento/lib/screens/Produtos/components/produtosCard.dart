@@ -29,11 +29,6 @@ class ProdutosCard extends StatefulWidget {
 }
 
 class ProdutosCardState extends State<ProdutosCard> {
-  // dados estáticos temporários
-  final String nome = "Nome";
-  final String codigo = "CODIGO123";
-  final String descricao = "Descrição do produto (Bolo Exemplo) aqui.";
-
   late final TextEditingController nomeController;
   late final TextEditingController codigoController;
   late final TextEditingController descricaoController;
@@ -110,7 +105,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                     SizedBox(
                       width: screenWidth * 0.01,
                     ),
-                    _buildButtonDeletar(context)
+                    _buildButtonDeletar(context, widget.codigoProduto)
                   ],
                 ),
                 SizedBox(
@@ -149,7 +144,7 @@ class ProdutosCardState extends State<ProdutosCard> {
     );
   }
 
-  Widget _buildButtonDeletar(BuildContext context) {
+  Widget _buildButtonDeletar(BuildContext context, String codigoProduto) {
     return SizedBox(
       height: screenHeight * 0.03,
       width: screenWidth * 0.066,
@@ -162,6 +157,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                 title: 'Confirmar Exclusão',
                 contente: 'Tem certeza de que deseja apagar este produto?',
                 onConfirm: () {
+                  context.read<ProdutoBloc>().add(ProdutoDelete(codigoProduto));
                   Navigator.of(context).pop();
                   //Lógica do botão
                 },

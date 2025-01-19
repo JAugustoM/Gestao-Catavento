@@ -494,37 +494,6 @@ class ButtonAddDemanda extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          _selecionarFoto(context);
-                        },
-                        icon: const Icon(
-                          Icons.camera_alt,
-                          size: 18, // Ícone de câmera
-                          color: Colors.white, // Cor do ícone (branco)
-                        ),
-                        label: const Text(
-                          "Selecionar Foto",
-                          style: TextStyle(
-                            fontFamily: 'FredokaOne',
-                            color: Colors.white, // Cor do texto (branca)
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              AppColors.gradientDarkBlue, // Cor de fundo
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                22), // Bordas arredondadas
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () async {
                       if (_codigoController.text.isNotEmpty ||
