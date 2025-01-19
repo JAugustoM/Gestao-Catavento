@@ -117,9 +117,11 @@ class DashboardProdutos extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.gradientDarkBlue,
         ),
-        child: const Text(
-          "Adicionar Produto",
+        child: Text(
+          "Adicionar Demanda",
           style: TextStyle(
+            fontFamily: "FredokaOne",
+            fontSize: MediaQuery.of(context).size.height * 0.020,
             color: Colors.white,
           ),
         ),
@@ -160,13 +162,16 @@ class DashboardProdutos extends StatelessWidget {
                                 Icon(
                                   Icons.receipt_long_rounded,
                                   color: AppColors.gradientDarkBlue,
-                                  size: 20,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.020,
                                 ),
                                 const SizedBox(width: 8),
-                                const Text(
+                                Text(
                                   "Informações Gerais",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
                                     fontFamily: 'FredokaOne',
                                     color: AppColors.gradientDarkBlue,
                                   ),
@@ -174,16 +179,61 @@ class DashboardProdutos extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Inputs(
-                              text: 'Códigos',
-                              controller: codigoController,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.02),
+                                  child: Text(
+                                    "Código",
+                                    style: TextStyle(
+                                        color: AppColors.gradientDarkBlue,
+                                        fontFamily: "FredokaOne",
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.016,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Digite o código...",
+                                    labelText: '',
+                                    controller: codigoController,
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                            ),
-                            Inputs(
-                              text: 'Nome',
-                              controller: nomeController,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.02),
+                                  child: Text(
+                                    "Nome",
+                                    style: TextStyle(
+                                        color: AppColors.gradientDarkBlue,
+                                        fontFamily: "FredokaOne",
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.016,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Digite o nome...",
+                                    labelText: '',
+                                    controller: nomeController,
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 20),
                             Row(
@@ -193,7 +243,9 @@ class DashboardProdutos extends StatelessWidget {
                                   "Adicionar Imagem",
                                   style: TextStyle(
                                       color: AppColors.gradientDarkBlue,
-                                      fontSize: 16,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.016,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(width: 10),
@@ -202,7 +254,8 @@ class DashboardProdutos extends StatelessWidget {
                                     image = await selecionarFoto(context);
                                   },
                                   icon: Icon(Icons.camera_alt,
-                                      size: 40,
+                                      size: MediaQuery.of(context).size.width *
+                                          0.040,
                                       color: AppColors.gradientDarkBlue),
                                 ),
                               ],
@@ -233,13 +286,16 @@ class DashboardProdutos extends StatelessWidget {
                                 Icon(
                                   Icons.receipt_long_rounded,
                                   color: AppColors.gradientDarkBlue,
-                                  size: 20,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.020,
                                 ),
                                 const SizedBox(width: 8),
-                                const Text(
+                                Text(
                                   "Informações Adicionais",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
                                     fontFamily: 'FredokaOne',
                                     color: AppColors.gradientDarkBlue,
                                   ),
@@ -252,7 +308,7 @@ class DashboardProdutos extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: InputTextField(
-                                    hintText: "Descrição",
+                                    hintText: "Digite a descrição...",
                                     labelText: 'Descrição',
                                     maxLines: 4,
                                     controller: descricaoController,
