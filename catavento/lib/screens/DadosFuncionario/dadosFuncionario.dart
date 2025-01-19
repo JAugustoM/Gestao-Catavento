@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/auth2/auth_bloc.dart';
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/DadosFuncionario/components/widgetDesempenho.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +31,8 @@ class Dadosfuncionario extends StatelessWidget {
                   BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
                       Map<String, dynamic> userData = {};
-                      if (state is AuthSignInState) {
-                        userData = state.userData;
+                      if (state is AuthAuthenticated) {
+                        userData = context.read<AuthBloc>().userData;
                       }
                       return WidgetDadosFuncionario(
                         nome: userData['nome'] ?? "Nome",

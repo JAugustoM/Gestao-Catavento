@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/auth2/auth_bloc.dart';
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
@@ -433,7 +433,7 @@ class EmployeeManagement extends StatelessWidget {
                               _tipoController.text,
                               _senhaController.text,
                             ));
-                        context.read<AuthBloc>().add(AuthReauthenticate());
+                        context.read<AuthBloc>().add(AuthReauthenticateEvent());
                         Navigator.pop(context);
                       } else {
                         showSnackbar(

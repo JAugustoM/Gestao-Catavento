@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/auth2/auth_bloc.dart';
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +144,7 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              context.read<AuthBloc>().add(AuthSignOut());
+              context.read<AuthBloc>().add(SignOutEvent());
               SchedulerBinding.instance.addPostFrameCallback((_) {
                 Navigator.pushNamed(context, loginRoute);
               });
