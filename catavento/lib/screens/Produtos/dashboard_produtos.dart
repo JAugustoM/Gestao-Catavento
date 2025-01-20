@@ -4,7 +4,6 @@ import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/header.dart';
-import 'package:catavento/shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/menu.dart';
 
@@ -133,16 +132,30 @@ class DashboardProdutos extends StatelessWidget {
   }
 
   Widget _buildButtonAdicionar(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: MediaQuery.of(context).size.height * 0.05,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.gradientDarkBlue,
+            AppColors.gradientLightBlue
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.022),
+      ),
       child: ElevatedButton(
         onPressed: () {
           _showAdicionarDialog(context);
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
-      
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.03),
+            ),
           ),
           child: Text(
             "Adicionar Demanda",
