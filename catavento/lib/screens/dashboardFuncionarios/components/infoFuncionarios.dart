@@ -55,11 +55,12 @@ class Info extends StatelessWidget {
         Text(
           texto,
           style: TextStyle(
-              fontSize: 20, color: AppColors.blue, fontWeight: FontWeight.bold),
+              fontSize: MediaQuery.of(context).size.height * 0.02, fontFamily: "FredokaOne", color: AppColors.blue, fontWeight: FontWeight.bold),
         ),
         Text(info,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: MediaQuery.of(context).size.height * 0.02,
+              fontFamily: "FredokaOne",
               color: AppColors.blue,
             ))
       ],
