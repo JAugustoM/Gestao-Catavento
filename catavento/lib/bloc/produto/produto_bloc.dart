@@ -186,4 +186,16 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
     final metaData = {"total": numProdutos};
     return metaData;
   }
+
+  String? getImageUrl(String id) {
+    final produto = _currentData.firstWhere(
+      (data) => data['id'] == id,
+      orElse: () => {},
+    );
+    if (produto.isNotEmpty && produto['image_url'] != null) {
+      return produto['image_url'];
+    } else {
+      return null;
+    }
+  }
 }

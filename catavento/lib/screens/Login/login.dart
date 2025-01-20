@@ -1,10 +1,7 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart';
-import 'package:catavento/constants.dart';
 import 'package:catavento/main.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
-import 'package:catavento/shared/widgets/showDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'components/input_purple.dart';
 import 'components/button_singIn.dart';
@@ -38,7 +35,7 @@ class _LoginState extends State<Login> {
               MaterialPageRoute(
                   builder: (BuildContext context) => const LoadView()));
         } else if (state is AuthError) {
-          Showdialog(title: state.message);
+          showBlocSnackbar(context, state.message);
         }
       },
       child: Scaffold(

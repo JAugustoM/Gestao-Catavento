@@ -79,7 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(AuthAuthenticated(user));
         } else {
-          emit(AuthError("Usuário não encontrado."));
+          emit(AuthError("Credenciais incorretas ou usuário inexistente."));
         }
       } else {
         emit(AuthError("Usuário não encontrado."));

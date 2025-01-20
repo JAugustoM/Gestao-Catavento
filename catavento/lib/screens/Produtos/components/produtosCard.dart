@@ -69,10 +69,15 @@ class ProdutosCardState extends State<ProdutosCard> {
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
                 // substituir por Image.network() quando tiver imagens
-                child: Image.network(
-                  widget.image,
-                  fit: BoxFit.cover,
-                ),
+                child: widget.image != ''
+                    ? Image.network(
+                        widget.image,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.file(
+                        File('../catavento/assets/images/cake.png'),
+                        fit: BoxFit.cover,
+                      ),
               )),
           Container(
             height: screenHeight * 0.01,
@@ -472,12 +477,17 @@ class ProdutosCardState extends State<ProdutosCard> {
                   height: screenHeight *
                       0.3, // Altura fixada para evitar que a imagem ocupe um tamanho indefinido
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover, // Garante que a imagem cubra a área
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(16),
+                      child: imageUrl != ''
+                          ? Image.network(
+                              imageUrl,
+                              fit: BoxFit
+                                  .cover, // Garante que a imagem cubra a área
+                            )
+                          : Image.file(
+                              File('../catavento/assets/images/cake.png'),
+                              fit: BoxFit.cover,
+                            )),
                 ),
                 const SizedBox(height: 20),
 

@@ -1,10 +1,9 @@
-import 'dart:io';
+import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:image_picker/image_picker.dart';
 
 // BACKEND
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
@@ -243,19 +242,27 @@ class ListDemandaState extends State<ListDemanda> {
                   itemCount: filteredList.length,
                   itemBuilder: (context, index) {
                     final demanda = filteredList[index];
+                    String? imageUrl;
+                    if (demanda['produto_id'] != null) {
+                      imageUrl = context
+                          .read<ProdutoBloc>()
+                          .getImageUrl(demanda['produto_id']);
+                    }
                     return DemandCard(
                       nomeDemanda:
                           demanda['nome_demanda'] ?? 'Nome não disponível',
                       status: demanda['status'] ?? 'Status não disponível',
+                      statusAplique: demanda['status_aplique'] ?? 1,
+                      statusCobertura: demanda['status_cobertura'] ?? 1,
+                      statusMontagem: demanda['status_montagem'] ?? 1,
                       codigo: demanda['produto_id'] ?? 'Sem código',
                       descricao: demanda['descricao'] ?? 'Sem descrição',
                       dataAdicao: demanda['data_adicao'],
                       prazo: demanda['prazo'] ?? demanda['data_adicao'],
                       id: demanda['id'],
-                      imagemUrl: demanda['imagem_url'] ?? '',
+                      imagemUrl: imageUrl ?? '',
                       order: index,
                       plataforma: demanda['loja'] ?? 'Sem plataforma',
-                      bloc: context.read<DemandaBloc>(), // BACKEND
                     );
                   },
                 );
@@ -283,24 +290,6 @@ class ButtonAddDemanda extends StatelessWidget {
   final TextEditingController _descricaoController = TextEditingController();
   final TextEditingController _dataController = TextEditingController();
   final TextEditingController _prazoController = TextEditingController();
-  File? fotoSelecionada;
-
-  Future<void> _selecionarFoto(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? imagemSelecionada = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 800,
-      maxWidth: 800,
-      imageQuality: 85,
-    );
-
-    if (imagemSelecionada != null) {
-      fotoSelecionada = File(imagemSelecionada.path);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Foto selecionada com sucesso!')),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -502,7 +491,6 @@ class ButtonAddDemanda extends StatelessWidget {
                           nomeDemanda: _nomeController.text,
                           codigo: _codigoController.text,
                           descricao: _descricaoController.text,
-                          foto: fotoSelecionada,
                           data: _dataController.text,
                           prazo: _prazoController.text,
                         ));

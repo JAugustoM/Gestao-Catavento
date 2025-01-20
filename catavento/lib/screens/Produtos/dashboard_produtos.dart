@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:catavento/bloc/produto/produto_bloc.dart';
-import 'package:catavento/constants.dart';
 import 'package:catavento/screens/Produtos/components/produtosCard.dart';
 import 'package:catavento/screens/Produtos/components/searchProducts.dart';
 import 'package:catavento/services/image_picker/image_picker.dart';
@@ -9,7 +8,6 @@ import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/header.dart';
-import 'package:catavento/shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/menu.dart';
 
@@ -97,7 +95,7 @@ class DashboardProdutos extends StatelessWidget {
               final produto = produtos[index];
               return ProdutosCard(
                 nomeProduto: produto['nome_produto'],
-                image: produto['image_url'] ?? boloPadrao,
+                image: produto['image_url'] ?? '',
                 codigoProduto: produto['id'],
                 descricaoProduto: produto['descricao_padrao'],
               );
