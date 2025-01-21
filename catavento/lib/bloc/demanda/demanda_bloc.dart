@@ -13,7 +13,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   bool _newEvent = false;
-  // File? _fotoSelecionada;
 
   DemandaEvent get initialState => DemandaLoading();
 
@@ -86,22 +85,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   }
 
   void _onCreate(DemandaCreate event, Emitter<DemandaState> emit) async {
-    String? fotoUrl;
-    if (event.foto != null) {
-      try {
-        final filename = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        await _supabase.storage.from('imagens').upload(filename, event.foto!);
-        fotoUrl = _supabase.storage.from('imagens').getPublicUrl(filename);
-      } catch (e) {
-        final metaData = _countDemandas();
-        emit(DemandaErrorState(
-          _currentData,
-          metaData,
-          "Erro ao importar foto - $e",
-        ));
-      }
-    }
-
     final demanda = {
       'nome_demanda': event.nomeDemanda,
       'descricao': event.descricao == '' ? 'Bolo normal' : event.descricao,
@@ -159,10 +142,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       if (dateTime != null) demanda['prazo'] = dataSting;
     }
 
-    if (fotoUrl != null) {
-      demanda['image_url'] = fotoUrl;
-    }
-
     try {
       final response =
           await _supabase.from('demandas').insert(demanda).select();
@@ -195,7 +174,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       final response =
           await _supabase.from('demandas').delete().eq('id', event.id).select();
       if (response.isNotEmpty) {
-        _currentData.removeAt(event.order);
+        _currentData.removeWhere((test) => test['id'] == event.id);
       }
     } catch (e) {
       final metaData = _countDemandas();
@@ -215,9 +194,10 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     try {
       final nomeDemanda = event.nomeDemanda;
       final descricao = event.descricao;
-      final order = event.order;
 
       final demanda = {};
+
+      final order = _currentData.indexWhere((test) => test['id'] == event.id);
 
       if (nomeDemanda.isNotEmpty) {
         demanda["nome_demanda"] = nomeDemanda;

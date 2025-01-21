@@ -11,14 +11,12 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
   final TextEditingController _setorcontroller = TextEditingController();
 
   final List<Map<String, String>> funcionarios = [
-    {'nomeFuncionario' : 'nomeFuncionario', 'setor' : 'Montagem'},
-    {'nomeFuncionario' : 'nomeFuncionario', 'setor' : 'Montagem'},
-    {'nomeFuncionario' : 'nomeFuncionario', 'setor' : 'Montagem'},
-    {'nomeFuncionario' : 'nomeFuncionario', 'setor' : 'Montagem'},
-    {'nomeFuncionario' : 'nomeFuncionario', 'setor' : 'Montagem'},
-    {'nomeFuncionario' : 'nomeFuncionario', 'setor' : 'Montagem'},
-
-    
+    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
   ];
 
   @override
@@ -43,9 +41,12 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SearchFuncionarios(),
-                            SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02,
+                            ),
                             Filtrosetor(controller: _setorcontroller)
                           ],
                         ),
@@ -87,24 +88,21 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
   }
 
   Widget _buildListFuncionarios(BuildContext context) {
-    
     return GridView.builder(
-      shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3, //numero de cards por linha
-        crossAxisSpacing: 35, //espaçamento horizontal
-        mainAxisSpacing: 25, //espaçamento vertical
-        childAspectRatio: 3.5 //Proporção entre largura e altura
-      ),
-      itemCount: funcionarios.length,
-      itemBuilder: (context, index) {
-        final funcionario = funcionarios[index];
-        return FuncionariosCardDesempenho(
-          nomeFuncionario: funcionario['nomeFuncionario']!, 
-          setor: funcionario['setor']!, 
-        );
-      }
-    );
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3, //numero de cards por linha
+            crossAxisSpacing: 35, //espaçamento horizontal
+            mainAxisSpacing: 25, //espaçamento vertical
+            childAspectRatio: 3.5 //Proporção entre largura e altura
+            ),
+        itemCount: funcionarios.length,
+        itemBuilder: (context, index) {
+          final funcionario = funcionarios[index];
+          return FuncionariosCardDesempenho(
+            nomeFuncionario: funcionario['nomeFuncionario']!,
+            setor: funcionario['setor']!,
+          );
+        });
   }
-
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:catavento/shared/theme/colors.dart';
 
 class Widgetdesempenho extends StatelessWidget {
-
   final String data;
-  final double isCompleted , isMissing , goal;
-  const Widgetdesempenho({super.key , required this.data , required this.isMissing, required this.isCompleted , required this.goal});
+  final int isCompleted, isMissing, goal;
+  const Widgetdesempenho(
+      {super.key,
+      required this.data,
+      required this.isMissing,
+      required this.isCompleted,
+      required this.goal});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +32,7 @@ class Widgetdesempenho extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        "Meu Desempenho ${data}",
+                        "Meu Desempenho: $data",
                         style: TextStyle(
                             color: Color(0xFF015C98),
                             fontWeight: FontWeight.bold,
@@ -48,14 +51,15 @@ class Widgetdesempenho extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12)),
                     child: Padding(
-                        padding: EdgeInsets.only(top:10 , right: 40, left: 40, bottom: 0),
+                        padding: EdgeInsets.only(
+                            top: 10, right: 40, left: 40, bottom: 0),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Meta ${goal}",
+                                  "Meta: $goal",
                                   style: TextStyle(
                                       color: Color(0xFF015C98),
                                       fontWeight: FontWeight.bold,
@@ -75,7 +79,7 @@ class Widgetdesempenho extends StatelessWidget {
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Concluídas: ${isCompleted}",
+                                        "Concluídas: $isCompleted",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
@@ -92,7 +96,7 @@ class Widgetdesempenho extends StatelessWidget {
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Faltam: ${isMissing}",
+                                        "Faltam: ${isMissing.round()}",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),

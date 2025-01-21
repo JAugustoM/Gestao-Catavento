@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:catavento/domain/repositories/authentication/i_authentication_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -10,42 +11,124 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthenticationRepository _authenticationRepository;
-  StreamSubscription<User?>? _userSubscription;
+  final _supabase = Supabase.instance.client;
+  Map<String, dynamic> _userData = {};
+  String? _email;
+  String? _password;
+  // StreamSubscription<User?>? _userSubscription;
+  AuthLoading get initialState => AuthLoading();
 
   AuthBloc(this._authenticationRepository) : super(AuthInitial()) {
-    on<AuthInitialCheckRequested>(_onInitialAuthChecked);
-    on<AuthLogoutButtonPressed>(_onLogoutButtonPressed);
-    on<AuthOnCurrentUserChanged>(_onCurrentUserChanged);
-
-    _startUserSubscription();
+    on<SignUpEvent>(_onSignUpEvent);
+    on<SignInEvent>(_onSignInEvent);
+    on<SignOutEvent>(_onSignOut);
+    on<CheckAuthEvent>(_onCheckAuthEvent);
+    on<AuthReauthenticateEvent>(_onReauthenticate);
+    // _startUserSubscription();
   }
 
-  Future<void> _onInitialAuthChecked(
-      AuthInitialCheckRequested event, Emitter<AuthState> emit) async {
-    User? signedInUser = _authenticationRepository.getSignedInUser();
-    signedInUser != null
-        ? emit(AuthUserAuthenticated(signedInUser))
-        : emit(AuthUserUnauthenticated());
+  Future<void> _onSignUpEvent(
+      SignUpEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+
+    try {
+      await _authenticationRepository.signUpWithEmailAndPassword(
+          email: event.email, password: event.password);
+      final user = await _authenticationRepository.getCurrentUser();
+
+      if (user != null) {
+        final data =
+            await _supabase.from('usuarios').select().eq('email', event.email);
+
+        if (data.isNotEmpty) {
+          _userData = data.first;
+
+          _email = event.email;
+          _password = event.password;
+
+          emit(AuthAuthenticated(user));
+        } else {
+          emit(AuthError("Usuário não encontrado."));
+        }
+      } else {
+        emit(AuthError("Falha ao criar conta. Verifique suas credenciais."));
+      }
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
   }
 
-  Future<void> _onLogoutButtonPressed(
-      AuthLogoutButtonPressed event, Emitter<AuthState> emit) async {
-    await _authenticationRepository.signOut();
+  Future<void> _onSignInEvent(
+      SignInEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+
+    try {
+      await _authenticationRepository.signInWithEmailAndPassword(
+          email: event.email, password: event.password);
+      final user = await _authenticationRepository.getCurrentUser();
+
+      if (user != null) {
+        final data =
+            await _supabase.from('usuarios').select().eq('email', event.email);
+
+        if (data.isNotEmpty) {
+          _userData = data.first;
+
+          _email = event.email;
+          _password = event.password;
+
+          emit(AuthAuthenticated(user));
+        } else {
+          emit(AuthError("Credenciais incorretas ou usuário inexistente."));
+        }
+      } else {
+        emit(AuthError("Usuário não encontrado."));
+      }
+    } catch (e) {
+      emit(AuthError("Erro ao autenticar usuário - $e"));
+    }
   }
 
-  Future<void> _onCurrentUserChanged(
-          AuthOnCurrentUserChanged event, Emitter<AuthState> emit) async =>
-      event.user != null
-          ? emit(AuthUserAuthenticated(event.user!))
-          : emit(AuthUserUnauthenticated());
+  Future<void> _onSignOut(SignOutEvent event, Emitter<AuthState> emit) async {
+    try {
+      final session = await _authenticationRepository.signOut();
 
-  void _startUserSubscription() => _userSubscription = _authenticationRepository
-      .getCurrentUser()
-      .listen((user) => add(AuthOnCurrentUserChanged(user)));
-
-  @override
-  Future<void> close() {
-    _userSubscription?.cancel();
-    return super.close();
+      if (session) {
+        emit(AuthInitial());
+      }
+    } catch (e) {
+      emit(AuthError("Erro ao sair da conta - $e"));
+    }
   }
+
+  Future<void> _onCheckAuthEvent(
+      CheckAuthEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final user = await _authenticationRepository.getCurrentUser();
+      if (user != null) {
+        emit(AuthAuthenticated(user));
+      } else {
+        emit(AuthInitial());
+      }
+    } catch (e) {
+      emit(AuthError("Erro ao autenticar usuário - $e"));
+    }
+  }
+
+  Future<void> _onReauthenticate(
+      AuthReauthenticateEvent event, Emitter<AuthState> emit) async {
+    try {
+      await _authenticationRepository.signInWithEmailAndPassword(
+          email: _email!, password: _password!);
+    } catch (e) {
+      emit(AuthError("Erro ao autenticar usuário - $e"));
+    }
+  }
+
+  String? get email => _email;
+
+  String? get setor => _userData['setor'];
+
+  Map<String, dynamic> get userData => _userData;
 }

@@ -26,10 +26,17 @@ class CheckBoxState extends State<CheckBox> {
       child: Checkbox(
         value: isChecked,
         onChanged: (bool? value) {
-          widget.controller.text = widget.tipo;
-          setState(() {
-            isChecked = value!;
-          });
+          if (widget.controller.text == '' ||
+              widget.controller.text == widget.tipo) {
+            if (value!) {
+              widget.controller.text = widget.tipo;
+            } else {
+              widget.controller.text = '';
+            }
+            setState(() {
+              isChecked = value;
+            });
+          }
         },
       ),
     );

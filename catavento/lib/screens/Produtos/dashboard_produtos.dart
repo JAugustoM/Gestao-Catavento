@@ -1,53 +1,21 @@
+import 'dart:io';
+
+import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/Produtos/components/produtosCard.dart';
 import 'package:catavento/screens/Produtos/components/searchProducts.dart';
+import 'package:catavento/services/image_picker/image_picker.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/header.dart';
-import 'package:catavento/shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/menu.dart';
 
-import 'package:catavento/bloc/demanda/demanda_bloc.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardProdutos extends StatelessWidget {
-  final List<Map<String, String>> produtos = [
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-    {
-      'nomeProduto': '{nomeProduto}',
-      'imagem': "../catavento/assets/images/cake.png"
-    },
-  ];
+  const DashboardProdutos({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,26 +79,29 @@ class DashboardProdutos extends StatelessWidget {
   }
 
   Widget _buildListProdutos(BuildContext context) {
-    final DemandaBloc bloc = DemandaBloc();
-    return GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4, //numero de cards por linha
-          crossAxisSpacing: 25, //espaçamento horizontal
-          mainAxisSpacing: 55, //espaçamento vertical
-          childAspectRatio: 0.8, //Proporção entre largura e altura
-        ),
-        itemCount: produtos.length,
-        itemBuilder: (context, index) {
-          final produto = produtos[index];
-          return ProdutosCard(
-            nomeProduto: produto['nomeProduto']!,
-            image: produto['imagem']!,
-            bloc: bloc,
-            codigoProduto: '123',
-            descricaoProduto: 'Descicao 123',
-          );
-        });
+    return BlocBuilder<ProdutoBloc, ProdutoState>(
+      builder: (context, state) {
+        final produtos = state.databaseResponse;
+        return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4, //numero de cards por linha
+              crossAxisSpacing: 25, //espaçamento horizontal
+              mainAxisSpacing: 55, //espaçamento vertical
+              childAspectRatio: 0.8, //Proporção entre largura e altura
+            ),
+            itemCount: produtos.length,
+            itemBuilder: (context, index) {
+              final produto = produtos[index];
+              return ProdutosCard(
+                nomeProduto: produto['nome_produto'],
+                image: produto['image_url'] ?? '',
+                codigoProduto: produto['id'],
+                descricaoProduto: produto['descricao_padrao'],
+              );
+            });
+      },
+    );
   }
 
   Widget _buildButtonAdicionar(BuildContext context) {
@@ -142,20 +113,25 @@ class DashboardProdutos extends StatelessWidget {
           _showAdicionarDialog(context);
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
-      
-          ),
-          child: const Text(
-            "Adicionar Demanda",
-            style: TextStyle(
-              color: Colors.white,
-            ),
+          backgroundColor: AppColors.gradientDarkBlue,
+        ),
+        child: Text(
+          "Adicionar Produto",
+          style: TextStyle(
+            fontFamily: "FredokaOne",
+            fontSize: MediaQuery.of(context).size.height * 0.020,
+            color: Colors.white,
           ),
         ),
-      );
+      ),
+    );
   }
 
   void _showAdicionarDialog(BuildContext context) {
+    TextEditingController codigoController = TextEditingController();
+    TextEditingController nomeController = TextEditingController();
+    TextEditingController descricaoController = TextEditingController();
+    File? image;
     showDialog(
       context: context,
       builder: (context) {
@@ -184,13 +160,16 @@ class DashboardProdutos extends StatelessWidget {
                                 Icon(
                                   Icons.receipt_long_rounded,
                                   color: AppColors.gradientDarkBlue,
-                                  size: 20,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.020,
                                 ),
                                 const SizedBox(width: 8),
-                                const Text(
+                                Text(
                                   "Informações Gerais",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
                                     fontFamily: 'FredokaOne',
                                     color: AppColors.gradientDarkBlue,
                                   ),
@@ -198,9 +177,62 @@ class DashboardProdutos extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Inputs(text: 'Códigos',),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                            Inputs(text: 'Nome',),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.02),
+                                  child: Text(
+                                    "Código",
+                                    style: TextStyle(
+                                        color: AppColors.gradientDarkBlue,
+                                        fontFamily: "FredokaOne",
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.016,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Digite o código...",
+                                    labelText: '',
+                                    controller: codigoController,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.02),
+                                  child: Text(
+                                    "Nome",
+                                    style: TextStyle(
+                                        color: AppColors.gradientDarkBlue,
+                                        fontFamily: "FredokaOne",
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.016,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: InputTextField(
+                                    hintText: "Digite o nome...",
+                                    labelText: '',
+                                    controller: nomeController,
+                                  ),
+                                ),
+                              ],
+                            ),
                             const SizedBox(height: 20),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -209,13 +241,21 @@ class DashboardProdutos extends StatelessWidget {
                                   "Adicionar Imagem",
                                   style: TextStyle(
                                       color: AppColors.gradientDarkBlue,
-                                      fontSize: 16,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.016,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(width: 10),
-                                Icon(Icons.camera_alt,
-                                    size: 40,
-                                    color: AppColors.gradientDarkBlue),
+                                IconButton(
+                                  onPressed: () async {
+                                    image = await selecionarFoto(context);
+                                  },
+                                  icon: Icon(Icons.camera_alt,
+                                      size: MediaQuery.of(context).size.width *
+                                          0.040,
+                                      color: AppColors.gradientDarkBlue),
+                                ),
                               ],
                             )
                           ],
@@ -244,13 +284,16 @@ class DashboardProdutos extends StatelessWidget {
                                 Icon(
                                   Icons.receipt_long_rounded,
                                   color: AppColors.gradientDarkBlue,
-                                  size: 20,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.020,
                                 ),
                                 const SizedBox(width: 8),
-                                const Text(
+                                Text(
                                   "Informações Adicionais",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016,
                                     fontFamily: 'FredokaOne',
                                     color: AppColors.gradientDarkBlue,
                                   ),
@@ -263,13 +306,53 @@ class DashboardProdutos extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: InputTextField(
-                                    hintText: "Descrição",
+                                    hintText: "Digite a descrição...",
                                     labelText: 'Descrição',
                                     maxLines: 4,
+                                    controller: descricaoController,
                                   ),
                                 ),
                               ],
-                            )
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.gradientDarkBlue,
+                                    AppColors.gradientLightBlue
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context.read<ProdutoBloc>().add(ProdutoCreate(
+                                        nomeProduto: nomeController.text,
+                                        codigo: codigoController.text,
+                                        descricaoPadrao:
+                                            descricaoController.text,
+                                        imagemProduto: image,
+                                      ));
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Concluir",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

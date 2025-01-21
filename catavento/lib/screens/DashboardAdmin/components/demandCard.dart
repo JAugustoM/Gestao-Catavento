@@ -4,10 +4,14 @@ import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DemandCard extends StatelessWidget {
   final String nomeDemanda;
   final String status;
+  final int statusAplique;
+  final int statusCobertura;
+  final int statusMontagem;
   final String codigo;
   final String descricao;
   final String dataAdicao;
@@ -18,12 +22,14 @@ class DemandCard extends StatelessWidget {
   final String imagemUrl;
   final int id;
   final int order;
-  final DemandaBloc bloc; // BACKEND
 
   const DemandCard({
     super.key,
     required this.nomeDemanda,
     required this.status,
+    required this.statusAplique,
+    required this.statusCobertura,
+    required this.statusMontagem,
     required this.codigo,
     required this.descricao,
     required this.plataforma,
@@ -32,7 +38,6 @@ class DemandCard extends StatelessWidget {
     required this.id,
     required this.order,
     required this.imagemUrl,
-    required this.bloc, // BACKEND
     this.isPriority = false, // Padrão para false caso não seja informado
   });
 
@@ -54,14 +59,16 @@ class DemandCard extends StatelessWidget {
                 CrossAxisAlignment.center, // Centraliza verticalmente
             children: [
               Container(
-                width: 130,
-                height: 130,
-                decoration: BoxDecoration(
-                  color: AppColors.lightGray,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: const Icon(Icons.image, size: 30, color: Colors.grey),
-              ),
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    color: AppColors.lightGray,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: imagemUrl == ''
+                      ? const Icon(Icons.image, size: 30, color: Colors.grey)
+                      : Image.network(imagemUrl, fit: BoxFit.fill) //
+                  ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -140,8 +147,17 @@ class DemandCard extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.info, color: AppColors.blue),
                     onPressed: () {
-                      _showInfoDialog(context, nomeDemanda, codigo, descricao,
-                          status, "https://via.placeholder.com/150");
+                      _showInfoDialog(
+                        context,
+                        nomeDemanda,
+                        codigo,
+                        descricao,
+                        status,
+                        statusAplique,
+                        statusCobertura,
+                        statusMontagem,
+                        imagemUrl,
+                      );
                     },
                   ),
                   // botão de Editar.
@@ -149,8 +165,12 @@ class DemandCard extends StatelessWidget {
                     icon: Icon(Icons.edit, color: AppColors.blue),
                     onPressed: () {
                       //  editar a demanda
-                      _showEditDialog(context,
-                          bloc); // BACKEND (não retirar o bloc, o resto OK)
+                      _showEditDialog(
+                        context,
+                        nomeDemanda,
+                        codigo,
+                        descricao,
+                      );
                     },
                   ),
                   // apagar
@@ -165,8 +185,10 @@ class DemandCard extends StatelessWidget {
                               contente:
                                   'Tem certeza de que deseja apagar esta demanda?',
                               onConfirm: () {
-                                Navigator.of(context).pop(); // Fecha o diálogo
-                                bloc.add(DemandaDelete(id, order)); // BACKEND
+                                context
+                                    .read<DemandaBloc>()
+                                    .add(DemandaDelete(id));
+                                Navigator.of(context).pop();
                               },
                             );
                           },
@@ -181,8 +203,17 @@ class DemandCard extends StatelessWidget {
     );
   }
 
-  void _showInfoDialog(BuildContext context, String nome, String codigo,
-      String descricao, String status, String imageUrl) {
+  void _showInfoDialog(
+    BuildContext context,
+    String nome,
+    String codigo,
+    String descricao,
+    String status,
+    int statusAplique,
+    int statusCobertura,
+    int statusMontagem,
+    String imageUrl,
+  ) {
     final dataSplit = dataAdicao.substring(0, 10).split('-');
     final data = "${dataSplit[2]}/${dataSplit[1]}/${dataSplit[0]}";
 
@@ -204,14 +235,19 @@ class DemandCard extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        'assets/images/photo.jpg',
-                        width: 180, // largura fixa da imagem
-                        height:
-                            double.infinity, // altura ocupa o máximo disponível
-                        fit: BoxFit
-                            .cover, // Garante que a imagem cubra a área, podendo ser cortada
-                      ),
+                      child: imageUrl == ''
+                          ? Image.asset(
+                              'assets/images/photo.jpg',
+                              width: 180,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              imageUrl,
+                              width: 180,
+                              height: double.infinity,
+                              fit: BoxFit.fill,
+                            ),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
@@ -376,7 +412,7 @@ class DemandCard extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: "Em andamento",
+                            text: status,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: AppColors.gradientDarkBlue,
@@ -389,9 +425,9 @@ class DemandCard extends StatelessWidget {
                     // Etapas dinâmicas
                     Column(
                       children: [
-                        _buildEtapa("Etapa 1: Corte", "completed"),
-                        _buildEtapa("Etapa 2: Aplique", "in_progress"),
-                        _buildEtapa("Etapa 3: Montagem", "pending"),
+                        _buildEtapa("Etapa 1: Cobertura", statusCobertura),
+                        _buildEtapa("Etapa 2: Aplique", statusAplique),
+                        _buildEtapa("Etapa 3: Montagem", statusMontagem),
                       ],
                     ),
                   ],
@@ -404,20 +440,20 @@ class DemandCard extends StatelessWidget {
     );
   }
 
-  Widget _buildEtapa(String nome, String status) {
+  Widget _buildEtapa(String nome, int status) {
     Color etapaColor;
     Icon etapaIcon;
 
     switch (status) {
-      case 'completed':
+      case 2:
         etapaColor = AppColors.green;
         etapaIcon = const Icon(Icons.check, color: Colors.white);
         break;
-      case 'in_progress':
+      case 1:
         etapaColor = AppColors.orange;
         etapaIcon = const Icon(Icons.timelapse, color: Colors.white);
         break;
-      case 'pending':
+      case 0:
         etapaColor = AppColors.red;
         etapaIcon = const Icon(Icons.close, color: Colors.white);
         break;
@@ -449,12 +485,18 @@ class DemandCard extends StatelessWidget {
     );
   }
 
-  void _showEditDialog(BuildContext context, DemandaBloc bloc) {
+  void _showEditDialog(
+      BuildContext context, String nome, String codigo, String descricao) {
     final TextEditingController nomeController = TextEditingController();
     final TextEditingController codigoController = TextEditingController();
     final TextEditingController descricaoController = TextEditingController();
     final TextEditingController dataController = TextEditingController();
     final TextEditingController prazoController = TextEditingController();
+
+    nomeController.text = nome;
+    codigoController.text = codigo;
+    descricaoController.text = descricao;
+
     showDialog(
       context: context,
       builder: (context) {
@@ -638,15 +680,19 @@ class DemandCard extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Conexão com o Backend
-                        bloc.add(DemandaUpdate(
-                          id: id,
-                          order: order,
-                          nomeDemanda: nomeController.text,
-                          codigo: codigoController.text,
-                          descricao: descricaoController.text,
-                          data: dataController.text,
-                          prazo: prazoController.text,
-                        ));
+                        context.read<DemandaBloc>().add(DemandaUpdate(
+                              id: id,
+                              nomeDemanda: nomeController.text,
+                              codigo: codigoController.text,
+                              descricao: descricaoController.text,
+                              data: dataController.text,
+                              prazo: prazoController.text,
+                            ));
+                        nomeController.dispose();
+                        codigoController.dispose();
+                        descricaoController.dispose();
+                        dataController.dispose();
+                        prazoController.dispose();
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

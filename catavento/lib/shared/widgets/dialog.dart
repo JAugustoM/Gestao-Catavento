@@ -44,26 +44,29 @@ class ReusableDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Dialog(
       backgroundColor: backgroundColor,
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
       child: Stack(
         children: [
           SizedBox(
-            width: 534,
+            width: screenWidth * 0.4,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 50, right: 25, top: 25, bottom: 10),
+                  padding: EdgeInsets.only(
+                      left: screenWidth * 0.05, right: screenWidth * 0.025, top: screenHeight * 0.025, bottom: screenHeight * 0.01),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          fontSize: 20,
+                        style: TextStyle(
+                          fontSize: screenHeight * 0.020,
                           fontFamily: 'FredokaOne',
                           color: AppColors.gradientDarkBlue,
                           fontWeight: FontWeight.bold,
@@ -95,8 +98,8 @@ class ReusableDialog extends StatelessWidget {
                 }
               },
               child: Container(
-                width: 25,
-                height: 25,
+                width: screenWidth * 0.025,
+                height: screenHeight * 0.025,
                 decoration: BoxDecoration(
                   color: AppColors.gradientDarkBlue,
                   shape: BoxShape.circle,
@@ -104,7 +107,7 @@ class ReusableDialog extends StatelessWidget {
                 child: Icon(
                   Icons.close,
                   color: Colors.white,
-                  size: 22,
+                  size: screenHeight * 0.022,
                 ),
               ),
             ),

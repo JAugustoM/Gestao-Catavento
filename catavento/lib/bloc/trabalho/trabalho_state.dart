@@ -35,3 +35,22 @@ class TrabalhoLoadingState extends TrabalhoState {
     super.metaData,
   );
 }
+
+class TrabalhoEmptyState extends TrabalhoState {
+  TrabalhoEmptyState(
+    super.trabalho,
+    super.demandas,
+    super.metaData,
+  );
+}
+
+class TrabalhoErrorState extends TrabalhoState {
+  final String message;
+
+  TrabalhoErrorState(
+    super.trabalho,
+    super.demandas,
+    super.metaData,
+    this.message,
+  );
+}

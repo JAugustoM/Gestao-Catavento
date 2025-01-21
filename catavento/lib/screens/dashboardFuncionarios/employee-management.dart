@@ -1,6 +1,9 @@
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
+import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/ativAndamentoCard.dart';
@@ -27,16 +30,6 @@ class EmployeeManagement extends StatelessWidget {
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
-  ];
-
-  final List<Map<String, String>> funcionarios = [
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
   ];
 
   final TextEditingController _nomeController = TextEditingController();
@@ -221,9 +214,25 @@ class EmployeeManagement extends StatelessWidget {
           return SizedBox(
             width: listWidth,
             height: height,
-            child: BlocBuilder<UsuarioBloc, UsuarioState>(
+            child: BlocConsumer<UsuarioBloc, UsuarioState>(
+              listener: (context, state) {
+                switch (state) {
+                  case UsuarioCreateState():
+                    showBlocSnackbar(context, "Usuário criado com sucesso!");
+                  case UsuarioDeleteState():
+                    showBlocSnackbar(context, "Usuário removido com sucesso!");
+                  case UsuarioUpdateState():
+                    showBlocSnackbar(
+                        context, "Usuário atualizado com sucesso!");
+                  case UsuarioLoadingState():
+                    break;
+                  case UsuarioErrorState():
+                    showBlocSnackbar(context, state.message);
+                }
+              },
               builder: (context, state) {
                 final data = state.databaseResponse;
+
                 return ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
@@ -410,15 +419,28 @@ class EmployeeManagement extends StatelessWidget {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<UsuarioBloc>().add(UsuarioCreate(
-                            _nomeController.text,
-                            _usuarioController.text,
-                            _setorController.text,
-                            _emailController.text,
-                            _tipoController.text,
-                            _senhaController.text,
-                          ));
-                      Navigator.pop(context);
+                      if (_nomeController.text.isNotEmpty &&
+                          _usuarioController.text.isNotEmpty &&
+                          _setorController.text.isNotEmpty &&
+                          _emailController.text.isNotEmpty &&
+                          _tipoController.text.isNotEmpty &&
+                          _senhaController.text.isNotEmpty) {
+                        context.read<UsuarioBloc>().add(UsuarioCreate(
+                              _nomeController.text,
+                              _usuarioController.text,
+                              _setorController.text,
+                              _emailController.text,
+                              _tipoController.text,
+                              _senhaController.text,
+                            ));
+                        context.read<AuthBloc>().add(AuthReauthenticateEvent());
+                        Navigator.pop(context);
+                      } else {
+                        showSnackbar(
+                          context,
+                          "Por favor, preencha todos os campos antes de prosseguir",
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:catavento/bloc/demanda/demanda_bloc.dart';
-import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'produto_event.dart';
@@ -15,7 +11,6 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
   ProdutoEvent get initialState => ProdutoLoading();
-  bool _newEvent = false;
 
   ProdutoBloc() : super(ProdutoLoadingState([], {})) {
     on<ProdutoFilter>(_onFilter);
@@ -27,21 +22,6 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
     on<ProdutoDelete>(_onDelete);
 
     on<ProdutoUpdate>(_onUpdate);
-  }
-
-  @override
-  void onEvent(ProdutoEvent event) {
-    super.onEvent(event);
-    _newEvent = true;
-  }
-
-  bool isLocalEvent() {
-    if (_newEvent) {
-      _newEvent = false;
-      return _newEvent;
-    } else {
-      return true;
-    }
   }
 
   void _onFilter(ProdutoFilter event, Emitter<ProdutoState> emit) {
@@ -82,67 +62,92 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
 
   void _onCreate(ProdutoCreate event, Emitter<ProdutoState> emit) async {
     final produto = {
+      'id': event.codigo,
       'nome_produto': event.nomeProduto,
       'descricao_padrao': event.descricaoPadrao,
     };
 
-    if (produto['nomeProduto'] != null && produto['nomeProduto']!.isEmpty) {
+    if (event.imagemProduto != null && event.imagemProduto!.existsSync()) {
+      produto['image_url'] = await _uploadImage(
+        event.imagemProduto!,
+        event.codigo,
+      );
+    }
+    if (produto['nome_produto']!.isNotEmpty && produto['id']!.isNotEmpty) {
       try {
         final response =
             await _supabase.from('produtos').insert(produto).select();
 
         if (response.isNotEmpty) {
           _currentData.add(response[0]);
+
+          final metaData = _countProdutos();
+
+          emit(ProdutoCreateState(_currentData, metaData));
         } else {
           throw Exception("Erro ao adicionar produto");
         }
       } catch (_) {
         throw Exception("Erro ao adicionar produto");
       }
-    }
-    final metaData = _countProdutos();
-
-    emit(ProdutoCreateState(_currentData, metaData));
+    } else {}
   }
 
   void _onDelete(ProdutoDelete event, Emitter<ProdutoState> emit) async {
-    try {
-      final response =
-          await _supabase.from('produtos').delete().eq('id', event.id).select();
+    final produto = _currentData.firstWhere(
+      (test) => test['id'] == event.id,
+      orElse: () => {},
+    );
+    final imagemUrl = produto['image_url'] as String;
+    final imagem = imagemUrl.split('/').last;
+    if (produto.isNotEmpty) {
+      try {
+        final response = await _supabase
+            .from('produtos')
+            .delete()
+            .eq('id', event.id)
+            .select();
 
-      if (response.isNotEmpty) {
-        _currentData.removeWhere((produto) => produto['id'] == event.id);
-        final metaData = _countProdutos();
-        emit(ProdutoDeleteState(_currentData, metaData));
-      } else {
-        throw Exception("Produto não encontrado");
+        if (response.isNotEmpty) {
+          _currentData.removeWhere((produto) => produto['id'] == event.id);
+          await _supabase.storage.from('imagens').remove([imagem]);
+          final metaData = _countProdutos();
+          emit(ProdutoDeleteState(_currentData, metaData));
+        } else {
+          throw Exception("Produto não encontrado");
+        }
+      } catch (_) {
+        throw Exception("Erro ao deletar produto");
       }
-    } catch (_) {
-      throw Exception("Erro ao deletar produto");
     }
   }
 
   void _onUpdate(ProdutoUpdate event, Emitter<ProdutoState> emit) async {
-    final produtoAtualizado = {
-      'nome_produto': event.nomeProduto,
-      'descricao_padrao': event.descricaoProduto,
-    };
+    final produtoAtualizado = {};
+
+    if (event.nomeProduto.isNotEmpty) {
+      produtoAtualizado['nome_produto'] = event.nomeProduto;
+    }
+
+    if (event.descricaoProduto.isNotEmpty) {
+      produtoAtualizado['descricao_padrao'] = event.descricaoProduto;
+    }
 
     if (event.imagemProduto != null) {
-      final filePath = await _uploadImage(event.imagemProduto!);
-      produtoAtualizado['imagem_produto'] = filePath;
+      final filePath = await _uploadImage(event.imagemProduto!, event.codigo);
+      produtoAtualizado['image_url'] = filePath;
     }
 
     try {
       final response = await _supabase
           .from('produtos')
           .update(produtoAtualizado)
-          .eq('id', event.id)
+          .eq('id', event.codigo)
           .select();
 
       if (response.isNotEmpty) {
         _currentData = _currentData.map((produto) {
-          if (produto['id'] == event.id) {
+          if (produto['id'] == event.codigo) {
             return response[0];
           }
           return produto;
@@ -153,22 +158,21 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
       } else {
         throw Exception("Erro ao atualizar produto");
       }
-    } catch (_) {
-      throw Exception("Erro ao atualizar produto");
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
-  Future<String> _uploadImage(File image) async {
+  Future<String> _uploadImage(File image, String codigo) async {
     try {
-      final imageName =
-          '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
+      final imageName = '${DateTime.now().millisecondsSinceEpoch}_$codigo';
       final response =
           await _supabase.storage.from('imagens').upload(imageName, image);
 
       if (response.isNotEmpty) {
         final publicUrl =
             _supabase.storage.from('imagens').getPublicUrl(imageName);
-        return publicUrl ?? '';
+        return publicUrl;
       } else {
         throw Exception('Erro ao fazer upload da imagem: $response');
       }
@@ -181,5 +185,17 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
     int numProdutos = _currentData.length;
     final metaData = {"total": numProdutos};
     return metaData;
+  }
+
+  String? getImageUrl(String id) {
+    final produto = _currentData.firstWhere(
+      (data) => data['id'] == id,
+      orElse: () => {},
+    );
+    if (produto.isNotEmpty && produto['image_url'] != null) {
+      return produto['image_url'];
+    } else {
+      return null;
+    }
   }
 }

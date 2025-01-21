@@ -25,6 +25,9 @@ class InputTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Padding(
       padding: const EdgeInsets.only(right: 0),
       child: Column(
@@ -33,7 +36,8 @@ class InputTextField extends StatelessWidget {
           Text(
             labelText,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: MediaQuery.of(context).size.height * 0.016,
+              fontFamily: "FredokaOne",
               fontWeight: FontWeight.bold,
               color: AppColors.gradientDarkBlue,
             ),
@@ -41,26 +45,30 @@ class InputTextField extends StatelessWidget {
           const SizedBox(height: 5),
           TextField(
               controller: controller,
+              cursorHeight: screenWidth * 0.016,
+              style: TextStyle(fontFamily: "FredokaOne", fontSize: screenHeight * 0.016),
               keyboardType: keyboardType,
               obscureText: isPassword,
               inputFormatters: inputFormatters,
               maxLines: maxLines,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: screenHeight * 0.01, horizontal: screenWidth * 0.02),
                 isDense: true,
                 hintText: hintText,
+                hintStyle: TextStyle(fontFamily: "FredokaOne", fontSize: screenHeight * 0.016, color: Colors.black.withOpacity(0.5)),
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(screenHeight * 0.02),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(screenHeight * 0.02),
                   borderSide: BorderSide(
                       color: AppColors.mediumPink,
                       width: 2), // Cor e espessura da borda
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(screenHeight * 0.02),
                   borderSide: BorderSide(
                       color: AppColors.pink, width: 2), // Cor da borda ao focar
                 ),
