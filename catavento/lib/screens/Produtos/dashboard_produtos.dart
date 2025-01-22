@@ -158,7 +158,7 @@ class DashboardProdutos extends StatelessWidget {
             ),
           ),
           child: Text(
-            "Adicionar Demanda",
+            "Adicionar Produto",
             style: TextStyle(
               fontFamily: "FredokaOne",
               fontSize: MediaQuery.of(context).size.height * 0.020,
