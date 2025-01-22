@@ -326,15 +326,37 @@ class DashboardProdutos extends StatelessWidget {
                                     maxLines: 4,
                                   ),
                                 ),
+                                const SizedBox(height: 16),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ],
                 ),
-              ],
+                const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ///
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.blue, 
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: const Text(
+                      "Salvar",
+                      style: TextStyle(
+                        fontFamily: "FredokaOne",
+                        color: Colors.white, 
+                      ),
+                    ),
+                  ),
+                ),
+              ] ,
             ),
           ),
         );
