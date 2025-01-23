@@ -1,6 +1,8 @@
 import 'package:catavento/screens/Desempenho/components/filtroSetor.dart';
 import 'package:catavento/screens/Desempenho/components/funcionariosCardDesempenho.dart';
 import 'package:catavento/screens/Desempenho/components/searchFuncionarios.dart';
+import 'package:catavento/screens/Desempenho/dashboard_desempenhoLoja.dart.dart';
+import 'package:catavento/shared/widgets/dropdown.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/header.dart';
@@ -24,11 +26,9 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
     return Scaffold(
       drawer: Navbar(),
       appBar: CustomHeader(title: "Desempenho", historyButton: true),
-      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           BackgroundPage(backgroundColor: Colors.white, children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.18),
             SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(right: 10, left: 10),
@@ -37,10 +37,28 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04),
+                      CustomDropdown(
+                        initialValue: 'funcionarios',
+                        onChanged: (value) {
+                          if (value == 'loja') {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardDesempenhoLoja(),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04),
                       Padding(
                         padding: EdgeInsets.zero,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SearchFuncionarios(),
                             SizedBox(
@@ -51,7 +69,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05),
+                          height: MediaQuery.of(context).size.height * 0.04),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 0),
                           child: _buildBlockListFuncionarios(context)),
