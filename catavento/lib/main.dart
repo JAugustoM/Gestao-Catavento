@@ -35,6 +35,12 @@ void main() {
         BlocProvider(
             create: (context) =>
                 getIt<auth_bloc.AuthBloc>()..add(auth_bloc.CheckAuthEvent())),
+        BlocProvider(
+            create: (context) => TrabalhoBloc()
+              ..add(TrabalhoLoading(
+                email: '',
+                setor: '',
+              ))),
       ],
       child: MaterialApp(
         title: "Gestão Catavento",

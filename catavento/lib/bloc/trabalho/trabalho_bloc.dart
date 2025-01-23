@@ -28,23 +28,34 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         _currentData = await _supabase
             .from('trabalho')
             .select()
-            .eq('usuario_email', event.email);
+            .eq('usuario_email', event.email)
+            .isFilter('data_finalizacao', null);
 
-        for (var demanda in _currentData) {
-          var response = await _supabase
-              .from('demandas')
-              .select()
-              .eq('id', demanda['demanda_id']);
-          if (response.isNotEmpty) {
-            _demandas.add(response.first);
+        if (_currentData.isNotEmpty) {
+          for (var demanda in _currentData) {
+            var response = await _supabase
+                .from('demandas')
+                .select()
+                .eq('id', demanda['demanda_id']);
+            if (response.isNotEmpty) {
+              _demandas.add(response.first);
+            }
           }
+          final metaData = _countTrabalho(event.setor);
+          emit(TrabalhoLoadingState(
+            _currentData,
+            _demandas,
+            metaData,
+          ));
+        } else {
+          await _iniciarTrabalho(event.email, event.setor);
+          final metaData = _countTrabalho(event.setor);
+          emit(TrabalhoInitState(
+            _currentData,
+            _demandas,
+            metaData,
+          ));
         }
-        final metaData = _countTrabalho(event.setor);
-        emit(TrabalhoLoadingState(
-          _currentData,
-          _demandas,
-          metaData,
-        ));
       } catch (e) {
         final metaData = _countTrabalho(event.setor);
         emit(TrabalhoErrorState(
@@ -64,7 +75,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         .from('demandas')
         .select()
         .eq('status_${event.setor}', 0)
-        .order('data_adicao');
+        .order('data_adicao', ascending: true);
 
     if (response.isNotEmpty) {
       final demanda = response.first;
@@ -109,11 +120,11 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
       await _supabase
           .from('demandas')
           .update({'status_${event.setor}': 2}).eq('id', demanda['id']);
-      _demandas.last['status_${event.setor}'] = 2;
+      _demandas.removeAt(0);
 
       await _supabase.from('trabalho').update(
           {'data_finalizacao': dataFinal}).eq('demanda_id', demanda['id']);
-      _currentData.last['data_finalizacao'] = dataFinal;
+      _currentData.removeAt(0);
 
       final metaData = _countTrabalho(event.setor);
 
@@ -126,6 +137,31 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         metaData,
         "Erro ao finalizar trabalho - $e",
       ));
+    }
+  }
+
+  Future<void> _iniciarTrabalho(String email, String setor) async {
+    final response = await _supabase
+        .from('demandas')
+        .select()
+        .eq('status_$setor', 0)
+        .order('data_adicao', ascending: true);
+
+    if (response.isNotEmpty) {
+      final demanda = response.first;
+      final data = DateFormat(timeFormat).format(DateTime.now());
+      final trabalho = {
+        'demanda_id': demanda['id'],
+        'usuario_email': email,
+        'data_inicio': data,
+      };
+
+      await _supabase.from('trabalho').insert(trabalho);
+      await _supabase
+          .from('demandas')
+          .update({'status_$setor': 1}).eq('id', demanda['id']);
+      _currentData.add(trabalho);
+      _demandas.add(demanda);
     }
   }
 

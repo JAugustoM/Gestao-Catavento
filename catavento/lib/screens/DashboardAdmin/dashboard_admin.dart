@@ -33,7 +33,7 @@ class DashBoardAdmin extends StatelessWidget {
       drawer: Navbar(),
       appBar: CustomHeader(
         title: 'Demandas atuais $formattedDate',
-        historyButton: true,
+        historyButton: false,
       ),
       body: Stack(
         children: [

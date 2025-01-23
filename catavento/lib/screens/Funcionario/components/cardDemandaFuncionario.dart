@@ -12,6 +12,7 @@ class CardDemanda extends StatelessWidget {
   final VoidCallback onFinish;
   final double width;
   final double height;
+  final String? imagem;
 
   const CardDemanda({
     Key? key,
@@ -23,6 +24,7 @@ class CardDemanda extends StatelessWidget {
     required this.onFinish,
     required this.width,
     required this.height,
+    required this.imagem,
   }) : super(key: key);
 
   @override
@@ -64,12 +66,19 @@ class CardDemanda extends StatelessWidget {
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      'assets/images/photo.jpg',
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
+                    child: imagem == null
+                        ? Image.asset(
+                            'assets/images/photo.jpg',
+                            width: 100,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            imagem!,
+                            width: 100,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 )
               ]),

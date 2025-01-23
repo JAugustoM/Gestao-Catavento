@@ -1,4 +1,10 @@
+import "dart:io";
+
+import "package:catavento/bloc/auth/auth_bloc.dart";
+import "package:catavento/bloc/produto/produto_bloc.dart";
+import "package:catavento/bloc/trabalho/trabalho_bloc.dart";
 import 'package:flutter/material.dart';
+import "package:flutter_bloc/flutter_bloc.dart";
 import "../../shared/widgets/menuBar.dart";
 import "./components/cardDemandaFuncionario.dart";
 
@@ -27,30 +33,6 @@ final List<Map<String, String>> tasks = [
     "codigo": "Código: T4",
     "foto": "https://via.placeholder.com/150"
   },
-  {
-    "nome": "Tarefa 5",
-    "descricao": "Descrição da tarefa 5",
-    "codigo": "Código: T5",
-    "foto": "https://via.placeholder.com/150"
-  },
-  {
-    "nome": "Tarefa 6",
-    "descricao": "Descrição da tarefa 6",
-    "codigo": "Código: T6",
-    "foto": "https://via.placeholder.com/150"
-  },
-  {
-    "nome": "Tarefa 7",
-    "descricao": "Descrição da tarefa 7",
-    "codigo": "Código: T7",
-    "foto": "https://via.placeholder.com/150"
-  },
-  {
-    "nome": "Tarefa 8",
-    "descricao": "Descrição da tarefa 8",
-    "codigo": "Código: T8",
-    "foto": "https://via.placeholder.com/150"
-  },
 ];
 
 class DashBoardFuncionario extends StatefulWidget {
@@ -62,12 +44,6 @@ class DashBoardFuncionario extends StatefulWidget {
 
 class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
   List<Map<String, String>> currentTasks = List.from(tasks);
-
-  void _removeTask(int index) {
-    setState(() {
-      currentTasks.removeAt(index);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,67 +59,97 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
             child: Navbar(),
           ),
           Expanded(
-            child: Center(
-              child: currentTasks.isNotEmpty
-                  ? Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: screenWidth / 5, vertical: 50),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: currentTasks
-                              .take(5) // Limita a 5 cards no máximo
-                              .toList()
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                                int index = entry.key;
-                                Map<String, String> task = entry.value;
+            child: BlocConsumer<TrabalhoBloc, TrabalhoState>(
+              listener: (context, state) {
+                if (state is TrabalhoEmptyState) {
+                  final email = context.read<AuthBloc>().email;
+                  final setor = context.read<AuthBloc>().setor!.toLowerCase();
+                  context.read<TrabalhoBloc>().add(TrabalhoLoading(
+                        email: email!,
+                        setor: setor,
+                      ));
+                }
+              },
+              builder: (context, state) {
+                final demandas = state.demandas;
+                List<String?> imagens = [];
+                for (var demanda in demandas) {
+                  final imagem = context
+                      .read<ProdutoBloc>()
+                      .getImageUrl(demanda['produto_id']);
+                  imagens.add(imagem);
+                }
+                return Center(
+                  child: demandas.isNotEmpty
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: screenWidth / 5, vertical: 50),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: demandas
+                                  .take(5) // Limita a 5 cards no máximo
+                                  .toList()
+                                  .asMap()
+                                  .entries
+                                  .map((entry) {
+                                    int index = entry.key;
+                                    Map<String, dynamic> task = entry.value;
 
-                                return AnimatedPositioned(
-                                  duration: Duration(milliseconds: 500),
-                                  top: index * 20.0,
-                                  left: index * 20.0,
-                                  child: AnimatedOpacity(
-                                    duration: Duration(milliseconds: 300),
-                                    opacity: 1,
-                                    child: Transform.scale(
-                                      scale: 1 - (index * 0.05),
-                                      child: CardDemanda(
-                                        title: task["nome"]!,
-                                        width: screenWidth * 0.27,
-                                        height: screenHeight * 0.8,
-                                        description: task["descricao"]!,
-                                        codigo: task["codigo"]!,
-                                        backgroundColor: Color.lerp(
-                                              const Color.fromARGB(
-                                                  255, 235, 235, 235),
-                                              const Color.fromARGB(
-                                                  255, 168, 168, 168),
-                                              index / 5,
-                                            ) ??
-                                            const Color.fromARGB(
-                                                255, 235, 235, 235),
-                                        shadowColor: Colors.black
-                                            .withOpacity(0.2 + index * 0.1),
-                                        onFinish: () => _removeTask(index),
+                                    return AnimatedPositioned(
+                                      duration: Duration(milliseconds: 500),
+                                      top: index * 20.0,
+                                      left: index * 20.0,
+                                      child: AnimatedOpacity(
+                                        duration: Duration(milliseconds: 300),
+                                        opacity: 1,
+                                        child: Transform.scale(
+                                          scale: 1 - (index * 0.05),
+                                          child: CardDemanda(
+                                            title: task["nome_demanda"] ??
+                                                "Sem nome",
+                                            width: screenWidth * 0.27,
+                                            height: screenHeight * 0.8,
+                                            description: task["descricao"] ??
+                                                "Sem descrição",
+                                            codigo: task["produto_id"] ??
+                                                "Sem código",
+                                            backgroundColor: Color.lerp(
+                                                  const Color.fromARGB(
+                                                      255, 235, 235, 235),
+                                                  const Color.fromARGB(
+                                                      255, 168, 168, 168),
+                                                  index / 5,
+                                                ) ??
+                                                const Color.fromARGB(
+                                                    255, 235, 235, 235),
+                                            shadowColor: Colors.black
+                                                .withOpacity(0.2 + index * 0.1),
+                                            onFinish: () {
+                                              setState(() {
+                                                demandas.removeAt(index);
+                                              });
+                                            },
+                                            imagem: imagens[index],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              })
-                              .toList()
-                              .reversed
-                              .toList(),
+                                    );
+                                  })
+                                  .toList()
+                                  .reversed
+                                  .toList(),
+                            ),
+                          ),
+                        )
+                      : Text(
+                          "Todas as tarefas foram concluídas!",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    )
-                  : Text(
-                      "Todas as tarefas foram concluídas!",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                );
+              },
             ),
           ),
         ],
