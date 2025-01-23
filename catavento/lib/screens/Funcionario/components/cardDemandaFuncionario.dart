@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
@@ -11,8 +10,7 @@ class CardDemanda extends StatelessWidget {
   final Color backgroundColor;
   final Color shadowColor;
   final VoidCallback onFinish;
-  final double width;
-  final double height;
+
 
   const CardDemanda({
     Key? key,
@@ -22,18 +20,23 @@ class CardDemanda extends StatelessWidget {
     required this.backgroundColor,
     required this.shadowColor,
     required this.onFinish,
-    required this.width,
-    required this.height,
+
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = width;
-    double cardHeight = height;
-    return SizedBox(
-      width: cardWidth,
-      height: cardHeight,
+
+    return Container(
+      //width:200 ,
+      //height:1500 ,
+      constraints: BoxConstraints(
+        maxWidth: 432.3,
+        maxHeight: 800,
+        minHeight: 700,
+        minWidth: 300
+      ),
       child: Card(
+
         color: backgroundColor,
         shadowColor: shadowColor,
         elevation: 5,
@@ -61,7 +64,7 @@ class CardDemanda extends StatelessWidget {
               ),
               SizedBox(height: 10),
 
-              Row(children: [
+              /*Row(children: [
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
@@ -73,7 +76,22 @@ class CardDemanda extends StatelessWidget {
                     ),
                   ),
                 )
-              ]),
+              ])*/
+
+              Container(
+                width: 450,
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  // Adicionando um BoxDecoration com bordas arredondadas
+                ),
+                clipBehavior: Clip.hardEdge, // Certifique-se de que a imagem seja cortada pelas bordas arredondadas
+                child: Image.asset(
+                  'assets/images/bolo_fake.jpg',
+                  fit: BoxFit.cover,
+                  cacheWidth:900 ,
+                ),
+              ),
 
               SizedBox(height: 10),
               Expanded(
@@ -181,7 +199,7 @@ class CardDemanda extends StatelessWidget {
                   ),
                   child:
 
-                  /* ElevatedButton(
+                      /* ElevatedButton(
                     onPressed: onFinish,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -197,13 +215,13 @@ class CardDemanda extends StatelessWidget {
                       ),
                     ),
                   ),*/
-                  ButtonCard(
-                      title: Text(
-                        "Concluir Bolo",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: onFinish,
-                      isCompleted: false),
+                      ButtonCard(
+                          title: Text(
+                            "Concluir Bolo",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: onFinish,
+                          isCompleted: false),
                 ),
               ),
             ],

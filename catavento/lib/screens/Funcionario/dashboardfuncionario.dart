@@ -113,8 +113,8 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                             scale: 1 - (index * 0.05),
                             child: CardDemanda(
                               title: task["nome"]!,
-                              width: screenWidth * 0.27,
-                              height: screenHeight * 0.8,
+                              //width: screenWidth * 0.27,
+                              //height: screenHeight * 0.8,
                               description: task["descricao"]!,
                               codigo: task["codigo"]!,
                               backgroundColor: Color.lerp(
