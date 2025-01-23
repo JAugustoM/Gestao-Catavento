@@ -41,16 +41,16 @@ class SearchproductsState extends State<Searchproducts> {
             filled: true,
             fillColor: AppColors.lightGray,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(height * 0.016),
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(height * 0.016),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(height * 0.016),
             )
           ),
       ),
