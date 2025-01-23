@@ -1,8 +1,4 @@
-import 'package:catavento/screens/Desempenho/components/filtroSetor.dart';
-import 'package:catavento/screens/Desempenho/components/funcionariosCardDesempenho.dart';
-import 'package:catavento/screens/Desempenho/components/searchFuncionarios.dart';
 import 'package:catavento/shared/theme/colors.dart';
-import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/menu.dart';
 import 'package:flutter/material.dart';
@@ -24,16 +20,17 @@ class _DashboardDesempenhoLojaState extends State<DashboardDesempenhoLoja> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       drawer: Navbar(),
-      appBar: CustomHeader(title: "Desempenho", historyButton: true),
+      appBar: CustomHeader(title: "Desempenho", historyButton: false),
       body: Column(
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.04),
           Center(
             child: CustomDropdown(
-              initialValue: 'funcionarios',
+              initialValue: 'loja',
               onChanged: (value) {
-                if (value == 'loja') {
+                if (value == 'funcionarios') {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -44,41 +41,93 @@ class _DashboardDesempenhoLojaState extends State<DashboardDesempenhoLoja> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: ['Diário', 'Semanal', 'Mensal'].map((option) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedOption = option;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _selectedOption == option
-                          ? Colors.blue
-                          : Colors.grey[300],
-                      foregroundColor: _selectedOption == option
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    child: Text(option),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-
-          // Conteúdo que muda com base na opção selecionada
+          SizedBox(height: MediaQuery.of(context).size.height * 0.04),
           Expanded(
             child: Center(
-              child: Text(
-                'Conteúdo: $_selectedOption',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    padding: const EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.only(top: 32),
+                    decoration: BoxDecoration(
+                      color: AppColors.lightGray,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 40),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              'Conteúdo: $_selectedOption',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: -10,
+                    left: MediaQuery.of(context).size.width * 0.3,
+                    right: MediaQuery.of(context).size.width * 0.3,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: AppColors.lightGray,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: ['Diário', 'Semanal', 'Mensal'].map((option) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _selectedOption = option;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                backgroundColor: _selectedOption == option
+                                    ? AppColors.pink
+                                    : AppColors.mediumPink,
+                                foregroundColor: _selectedOption == option
+                                    ? AppColors.white
+                                    : AppColors.white,
+                              ),
+                              child: Text(
+                                option,
+                                style: TextStyle(fontFamily: 'FredokaOne'),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

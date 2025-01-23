@@ -25,7 +25,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Navbar(),
-      appBar: CustomHeader(title: "Desempenho", historyButton: true),
+      appBar: CustomHeader(title: "Desempenho", historyButton: false),
       body: Stack(
         children: [
           BackgroundPage(backgroundColor: Colors.white, children: [
