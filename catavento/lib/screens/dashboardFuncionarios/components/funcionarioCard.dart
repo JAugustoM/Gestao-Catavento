@@ -213,6 +213,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                               : _emailController.text.isEmpty,
                           _usuarioController.text,
                           user['id'],
+                          _senhaController.text,
                         ));
                     Navigator.pop(context);
                   },

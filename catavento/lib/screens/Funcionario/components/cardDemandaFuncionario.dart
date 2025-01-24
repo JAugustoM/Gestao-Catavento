@@ -1,6 +1,9 @@
+import 'package:catavento/bloc/auth/auth_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import './buttonCard.dart';
 
 class CardDemanda extends StatelessWidget {
@@ -210,7 +213,14 @@ class CardDemanda extends StatelessWidget {
                             "Concluir Bolo",
                             style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: onFinish,
+                          onPressed: () {
+                            final email = context.read<AuthBloc>().email;
+                            final setor =
+                                context.read<AuthBloc>().setor!.toLowerCase();
+                            context.read<TrabalhoBloc>().add(
+                                TrabalhoFinish(email: email!, setor: setor));
+                            onFinish;
+                          },
                           isCompleted: false),
                 ),
               ),

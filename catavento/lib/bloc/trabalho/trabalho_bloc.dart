@@ -50,11 +50,20 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         } else {
           await _iniciarTrabalho(event.email, event.setor);
           final metaData = _countTrabalho(event.setor);
-          emit(TrabalhoInitState(
-            _currentData,
-            _demandas,
-            metaData,
-          ));
+          if (_demandas.isNotEmpty) {
+            emit(TrabalhoInitState(
+              _currentData,
+              _demandas,
+              metaData,
+            ));
+          } else {
+            emit(TrabalhoErrorState(
+              _currentData,
+              _demandas,
+              {},
+              "Nenhuma demanda disponível no momento",
+            ));
+          }
         }
       } catch (e) {
         final metaData = _countTrabalho(event.setor);
@@ -71,11 +80,24 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   }
 
   void _onInit(TrabalhoInit event, Emitter<TrabalhoState> emit) async {
-    final response = await _supabase
-        .from('demandas')
-        .select()
-        .eq('status_${event.setor}', 0)
-        .order('data_adicao', ascending: true);
+    late final DatabaseResponse response;
+    if (event.setor == "montagem") {
+      response = await _supabase
+          .from('demandas')
+          .select()
+          .eq('status_${event.setor}', 0)
+          .eq('status_aplique', 2)
+          .eq('status_cobertura', 2)
+          .order('data_adicao', ascending: true);
+    } else {
+      response = await _supabase
+          .from('demandas')
+          .select()
+          .eq('status_${event.setor}', 0)
+          .order('data_adicao', ascending: true)
+          .order('status_aplique')
+          .order('status_cobertura');
+    }
 
     if (response.isNotEmpty) {
       final demanda = response.first;
@@ -88,9 +110,10 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
       try {
         await _supabase.from('trabalho').insert(trabalho);
-        await _supabase
-            .from('demandas')
-            .update({'status_${event.setor}': 1}).eq('id', demanda['id']);
+        await _supabase.from('demandas').update({
+          'status_${event.setor}': 1,
+          'status': "Em fabricação",
+        }).eq('id', demanda['id']);
         _currentData.add(trabalho);
         _demandas.add(demanda);
         final metaData = _countTrabalho(event.setor);
@@ -108,18 +131,32 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           "Erro ao começar trabalho - $e",
         ));
       }
+    } else {
+      emit(TrabalhoErrorState(
+        _currentData,
+        _demandas,
+        {},
+        "Nenhuma demanda disponível no momento",
+      ));
     }
   }
 
   void _onFinish(TrabalhoFinish event, Emitter<TrabalhoState> emit) async {
-    final demanda = _demandas.last;
+    final demanda = _demandas[0];
 
     final dataFinal = DateFormat(timeFormat).format(DateTime.now());
 
     try {
-      await _supabase
-          .from('demandas')
-          .update({'status_${event.setor}': 2}).eq('id', demanda['id']);
+      if (event.setor == 'montagem') {
+        await _supabase.from('demandas').update({
+          'status_${event.setor}': 2,
+          'status': "Finalizado",
+        }).eq('id', demanda['id']);
+      } else {
+        await _supabase
+            .from('demandas')
+            .update({'status_${event.setor}': 2}).eq('id', demanda['id']);
+      }
       _demandas.removeAt(0);
 
       await _supabase.from('trabalho').update(
@@ -141,11 +178,24 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   }
 
   Future<void> _iniciarTrabalho(String email, String setor) async {
-    final response = await _supabase
-        .from('demandas')
-        .select()
-        .eq('status_$setor', 0)
-        .order('data_adicao', ascending: true);
+    late final DatabaseResponse response;
+    if (setor == "montagem") {
+      response = await _supabase
+          .from('demandas')
+          .select()
+          .eq('status_$setor', 0)
+          .eq('status_aplique', 2)
+          .eq('status_cobertura', 2)
+          .order('data_adicao', ascending: true);
+    } else {
+      response = await _supabase
+          .from('demandas')
+          .select()
+          .eq('status_$setor', 0)
+          .order('data_adicao', ascending: true)
+          .order('status_aplique')
+          .order('status_cobertura');
+    }
 
     if (response.isNotEmpty) {
       final demanda = response.first;
@@ -157,9 +207,10 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
       };
 
       await _supabase.from('trabalho').insert(trabalho);
-      await _supabase
-          .from('demandas')
-          .update({'status_$setor': 1}).eq('id', demanda['id']);
+      await _supabase.from('demandas').update({
+        'status_$setor': 1,
+        'status': "Em fabricação",
+      }).eq('id', demanda['id']);
       _currentData.add(trabalho);
       _demandas.add(demanda);
     }
