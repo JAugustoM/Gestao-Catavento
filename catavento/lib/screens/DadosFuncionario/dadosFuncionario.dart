@@ -13,6 +13,7 @@ class Dadosfuncionario extends StatelessWidget {
     return Scaffold(
       drawer: Navbar(),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: Builder(
           builder: (context) => IconButton(
             onPressed: () => {
@@ -26,6 +27,7 @@ class Dadosfuncionario extends StatelessWidget {
         ),
       ),
       body:Container(
+        color: Colors.white,
         width: MediaQuery.of(context).size.width,
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.center,
