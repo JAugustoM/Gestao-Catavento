@@ -1,7 +1,6 @@
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
-import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +51,7 @@ class DashBoardAdmin extends StatelessWidget {
           if (filePath != null) {
             final message = await importExcelToSupabase(filePath);
             if (context.mounted) {
-              showSnackbar(context, message);
+              showBlocSnackbar(context, message, postFrameCallBack: false);
             }
           }
         },
@@ -496,9 +495,10 @@ class ButtonAddDemanda extends StatelessWidget {
                         ));
                         Navigator.pop(context);
                       } else {
-                        showSnackbar(
+                        showBlocSnackbar(
                           context,
                           "Por favor, preencha pelo menos o código ou nome do bolo",
+                          postFrameCallBack: false,
                         );
                       }
                     },

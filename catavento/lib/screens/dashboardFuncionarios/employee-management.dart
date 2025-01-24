@@ -3,7 +3,6 @@ import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButto
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
-import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/ativAndamentoCard.dart';
@@ -436,9 +435,10 @@ class EmployeeManagement extends StatelessWidget {
                         context.read<AuthBloc>().add(AuthReauthenticateEvent());
                         Navigator.pop(context);
                       } else {
-                        showSnackbar(
+                        showBlocSnackbar(
                           context,
                           "Por favor, preencha todos os campos antes de prosseguir",
+                          postFrameCallBack: false,
                         );
                       }
                     },
