@@ -73,90 +73,95 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+   // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      drawer: Navbar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: () => {
+              Scaffold.of(context).openDrawer(),
+            },
+            icon: Icon(Icons.tune, color: Colors.black),
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Row(
         children: [
-          Container(
-            width: 300,
-            color: Colors.transparent,
-            child: Navbar(),
-          ),
           Expanded(
-            child: Center(
-              child: currentTasks.isNotEmpty
-                  ? Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: screenWidth / 5, vertical: 50),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: currentTasks
-                              .take(5) // Limita a 5 cards no máximo
-                              .toList()
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                                int index = entry.key;
-                                Map<String, String> task = entry.value;
+            child: currentTasks.isNotEmpty
+                ? Center(
+              child: Container(
+                // Tamanho do container para evitar que ele ocupe a tela inteira
+                padding: EdgeInsets.only(bottom: 0, left: screenWidth/4, right: 0, top: 50),  // Pode adicionar padding para dar um respiro
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: currentTasks
+                      .take(5) // Limita a 5 cards no máximo
+                      .toList()
+                      .asMap()
+                      .entries
+                      .map((entry) {
+                    int index = entry.key;
+                    Map<String, String> task = entry.value;
 
-                                return AnimatedPositioned(
-                                  duration: Duration(milliseconds: 500),
-                                  top: index * 20.0,
-                                  left: index * 20.0,
-                                  child: AnimatedOpacity(
-                                    duration: Duration(milliseconds: 300),
-                                    opacity: 1,
-                                    child: Transform.scale(
-                                      scale: 1 - (index * 0.05),
-                                      child: CardDemanda(
-                                        title: task["nome"]!,
-                                        //width: screenWidth * 0.27,
-                                        //height: screenHeight * 0.8,
-                                        description: task["descricao"]!,
-                                        codigo: task["codigo"]!,
-                                        backgroundColor: Color.lerp(
-                                              const Color.fromARGB(
-                                                  255, 235, 235, 235),
-                                              const Color.fromARGB(
-                                                  255, 168, 168, 168),
-                                              index / 5,
-                                            ) ??
-                                            const Color.fromARGB(
-                                                255, 235, 235, 235),
-                                        shadowColor: Colors.black
-                                            .withOpacity(0.2 + index * 0.1),
-                                        onFinish: () => _removeTask(index),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              })
-                              .toList()
-                              .reversed
-                              .toList(),
+                    return AnimatedPositioned(
+                      duration: Duration(milliseconds: 500),
+                      top: index * 20.0,
+                      left: index * 20.0,
+                      child: AnimatedOpacity(
+                        duration: Duration(milliseconds: 300),
+                        opacity: 1,
+                        child: Transform.scale(
+                          scale: 1 - (index * 0.05),
+                          child: CardDemanda(
+                            title: task["nome"]!,
+                            description: task["descricao"]!,
+                            codigo: task["codigo"]!,
+                            backgroundColor: Color.lerp(
+                              const Color.fromARGB(255, 235, 235, 235),
+                              const Color.fromARGB(255, 168, 168, 168),
+                              index / 5,
+                            ) ??
+                                const Color.fromARGB(255, 235, 235, 235),
+                            shadowColor: Colors.black,
+                            onFinish: () => _removeTask(index),
+                          ),
                         ),
                       ),
-                    )
-                  : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  Text(
-                    "Todas as tarefas foram concluídas!",
-                    style:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-
-                  ),
-                  Container(
-                    child: Image.asset("assets/images/clipboard-x.png"),
-                  )
-                ],
+                    );
+                  })
+                      .toList()
+                      .reversed
+                      .toList(),
+                ),
               ),
-            ),
+            )
+
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Image.asset("assets/images/clipboard-x.png"),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Todas as tarefas foram concluídas!",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF878787)),
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
