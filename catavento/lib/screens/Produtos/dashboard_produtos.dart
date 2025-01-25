@@ -267,6 +267,7 @@ class DashboardProdutos extends StatelessWidget {
                                   "Adicionar Imagem",
                                   style: TextStyle(
                                       color: AppColors.gradientDarkBlue,
+                                      fontFamily: "FredokaOne",
                                       fontSize: MediaQuery.of(context).size.height * 0.016,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -342,7 +343,7 @@ class DashboardProdutos extends StatelessWidget {
                       ///
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.blue, 
+                      backgroundColor: AppColors.gradientDarkBlue, 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),

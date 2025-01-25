@@ -411,7 +411,29 @@ class ProdutosCardState extends State<ProdutosCard> {
                     ),
                   ],
                 ),
-              ],
+                      const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ///
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.gradientDarkBlue, 
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: const Text(
+                      "Salvar",
+                      style: TextStyle(
+                        fontFamily: "FredokaOne",
+                        color: Colors.white, 
+                      ),
+                    ),
+                  ),
+                ),
+              ] ,
+
             ),
           ),
         );
