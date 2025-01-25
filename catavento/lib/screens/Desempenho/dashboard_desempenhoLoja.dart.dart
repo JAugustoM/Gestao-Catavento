@@ -1,3 +1,6 @@
+import 'package:catavento/screens/Desempenho/components/diario.dart';
+import 'package:catavento/screens/Desempenho/components/mensal.dart';
+import 'package:catavento/screens/Desempenho/components/semanal.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/menu.dart';
@@ -67,16 +70,17 @@ class _DashboardDesempenhoLojaState extends State<DashboardDesempenhoLoja> {
                       children: [
                         const SizedBox(height: 40),
                         Expanded(
-                          child: Center(
-                            child: Text(
-                              'Conteúdo: $_selectedOption',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                          child: Builder(
+                            builder: (context){
+                              if (_selectedOption == 'Diário'){
+                                return Diario();
+                              } else if (_selectedOption == 'Semanal'){
+                                return Semanal();
+                              } else {
+                                return Mensal();
+                              }
+                            },
+                          )
                         ),
                       ],
                     ),
@@ -119,7 +123,7 @@ class _DashboardDesempenhoLojaState extends State<DashboardDesempenhoLoja> {
                               ),
                               child: Text(
                                 option,
-                                style: TextStyle(fontFamily: 'FredokaOne'),
+                                style: TextStyle(fontFamily: 'FredokaOne', fontSize: MediaQuery.of(context).size.height * 0.018),
                               ),
                             ),
                           );
