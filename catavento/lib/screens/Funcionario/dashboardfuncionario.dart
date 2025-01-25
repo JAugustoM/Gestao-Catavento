@@ -94,7 +94,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: currentTasks
-                              .take(5) // Limita a 5 cards no máximo
+                              .take(5)
                               .toList()
                               .asMap()
                               .entries
@@ -103,6 +103,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                 Map<String, String> task = entry.value;
 
                                 return AnimatedPositioned(
+                                  key: ValueKey(task["codigo"]),
                                   duration: Duration(milliseconds: 500),
                                   top: index * 20.0,
                                   left: index * 20.0,
@@ -128,7 +129,13 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                                 255, 235, 235, 235),
                                         shadowColor: Colors.black
                                             .withOpacity(0.2 + index * 0.1),
-                                        onFinish: () => _removeTask(index),
+                                        onCronometroFinalizado: (int duration) {
+                                          // duration é basicamente o tempo que o funcionário levou pra concluir o bolo
+                                          // levar esse dado para o banco de dados
+                                          print(
+                                              "Tempo finalizado: $duration segundos");
+                                          _removeTask(index);
+                                        },
                                       ),
                                     ),
                                   ),
