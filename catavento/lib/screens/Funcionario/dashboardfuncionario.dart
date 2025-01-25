@@ -71,6 +71,13 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                       ));
                 } else if (state is TrabalhoErrorState) {
                   showBlocSnackbar(context, state.message);
+                } else if (state is TrabalhoFinishState) {
+                  final email = context.read<AuthBloc>().email;
+                  final setor = context.read<AuthBloc>().setor!.toLowerCase();
+                  context.read<TrabalhoBloc>().add(TrabalhoInit(
+                        email: email!,
+                        setor: setor,
+                      ));
                 }
               },
               builder: (context, state) {
