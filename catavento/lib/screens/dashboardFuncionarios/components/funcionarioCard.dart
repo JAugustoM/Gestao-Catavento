@@ -30,13 +30,6 @@ class FuncionarioCard extends StatefulWidget {
 }
 
 class FuncionarioCardState extends State<FuncionarioCard> {
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _setorController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usuarioController = TextEditingController();
-  final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _tipoController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final user = context.read<UsuarioBloc>().getUser(widget.email)!;
@@ -107,6 +100,18 @@ class FuncionarioCardState extends State<FuncionarioCard> {
     showDialog(
       context: context,
       builder: (context) {
+        final TextEditingController _nomeController = TextEditingController();
+        final TextEditingController _setorController = TextEditingController();
+        final TextEditingController _emailController = TextEditingController();
+        final TextEditingController _usuarioController =
+            TextEditingController();
+        final TextEditingController _senhaController = TextEditingController();
+        final TextEditingController _tipoController = TextEditingController();
+
+        _nomeController.text = user['nome'];
+        _emailController.text = user['email'];
+        _usuarioController.text = user['usuario'];
+
         return ReusableDialog(
           title: "Editar Funcionário",
           confirmBeforeClose: false,
@@ -126,7 +131,6 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                       Inputs(
                         text: "Nome",
                         controller: _nomeController,
-                        hint: user['nome'],
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -197,6 +201,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                       Inputs(
                         text: "Senha",
                         controller: _senhaController,
+                        hint: "Digite uma nova senha",
                       ),
                     ],
                   ),

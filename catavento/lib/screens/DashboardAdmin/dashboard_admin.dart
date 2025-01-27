@@ -284,12 +284,6 @@ class ButtonAddDemanda extends StatelessWidget {
     required this.bloc, // BACKEND
   });
 
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _codigoController = TextEditingController();
-  final TextEditingController _descricaoController = TextEditingController();
-  final TextEditingController _dataController = TextEditingController();
-  final TextEditingController _prazoController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -329,6 +323,14 @@ class ButtonAddDemanda extends StatelessWidget {
   Future<void> addInfoDemand(BuildContext context) => showDialog(
         context: context,
         builder: (BuildContext context) {
+          final TextEditingController _nomeController = TextEditingController();
+          final TextEditingController _codigoController =
+              TextEditingController();
+          final TextEditingController _descricaoController =
+              TextEditingController();
+          final TextEditingController _dataController = TextEditingController();
+          final TextEditingController _prazoController =
+              TextEditingController();
           return ReusableDialog(
             backgroundColor: AppColors.lightGray,
             title: "Adicionar Demanda",

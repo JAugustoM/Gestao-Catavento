@@ -16,7 +16,7 @@ Future<String> importExcelToSupabase(String filePath) async {
     final sheetName = excel.tables.keys.first;
     final sheet = excel.tables[sheetName];
 
-    if (sheet != null) {
+    if (sheet != null && sheet.maxColumns != 0) {
       var loja = "";
       final dataAdicao = DateFormat(timeFormat).format(DateTime.now());
       for (var row in sheet.rows) {

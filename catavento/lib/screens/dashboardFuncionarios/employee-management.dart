@@ -31,13 +31,6 @@ class EmployeeManagement extends StatelessWidget {
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
   ];
 
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _setorController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usuarioController = TextEditingController();
-  final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _tipoController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -313,6 +306,13 @@ class EmployeeManagement extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
+        final TextEditingController _nomeController = TextEditingController();
+        final TextEditingController _setorController = TextEditingController();
+        final TextEditingController _emailController = TextEditingController();
+        final TextEditingController _usuarioController =
+            TextEditingController();
+        final TextEditingController _senhaController = TextEditingController();
+        final TextEditingController _tipoController = TextEditingController();
         return ReusableDialog(
           backgroundColor: AppColors.lightGray,
           title: "Novo Funcionário",
