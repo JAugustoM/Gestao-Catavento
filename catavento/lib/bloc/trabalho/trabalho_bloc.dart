@@ -17,6 +17,8 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   TrabalhoBloc() : super(TrabalhoLoadingState([], [], {})) {
     on<TrabalhoLoading>(_onLoading);
 
+    on<TrabalhoGet>(_onGet);
+
     on<TrabalhoInit>(_onInit);
 
     on<TrabalhoFinish>(_onFinish);
@@ -79,7 +81,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     }
   }
 
-  void _onInit(TrabalhoInit event, Emitter<TrabalhoState> emit) async {
+  void _onGet(TrabalhoGet event, Emitter<TrabalhoState> emit) async {
     late final DatabaseResponse response;
     if (event.setor == "montagem") {
       response = await _supabase
@@ -101,23 +103,17 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
     if (response.isNotEmpty) {
       final demanda = response.first;
-      final data = DateFormat(timeFormat).format(DateTime.now());
       final trabalho = {
         'demanda_id': demanda['id'],
         'usuario_email': event.email,
-        'data_inicio': data,
       };
 
       try {
         await _supabase.from('trabalho').insert(trabalho);
-        await _supabase.from('demandas').update({
-          'status_${event.setor}': 1,
-          'status': "Em fabricação",
-        }).eq('id', demanda['id']);
         _currentData.add(trabalho);
         _demandas.add(demanda);
         final metaData = _countTrabalho(event.setor);
-        emit(TrabalhoInitState(
+        emit(TrabalhoGetState(
           _currentData,
           _demandas,
           metaData,
@@ -128,7 +124,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           _currentData,
           _demandas,
           metaData,
-          "Erro ao começar trabalho - $e",
+          "Erro ao importar bolo do banco de dados - $e",
         ));
       }
     } else {
@@ -137,6 +133,42 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         _demandas,
         {},
         "Nenhuma demanda disponível no momento",
+      ));
+    }
+  }
+
+  void _onInit(TrabalhoInit event, Emitter<TrabalhoState> emit) async {
+    final trabalho = _currentData.first;
+    final demanda = _demandas.first;
+
+    final data = DateFormat(timeFormat).format(DateTime.now());
+    trabalho['data_inicio'] = data;
+    demanda['status_${event.setor}'] = 1;
+    demanda['status'] = "Em fabricação";
+
+    try {
+      await _supabase.from('trabalho').update({
+        'data_inicio': data,
+      }).eq('demanda_id', trabalho['demanda_id']);
+      await _supabase.from('demandas').update({
+        'status_${event.setor}': 1,
+        'status': "Em fabricação",
+      }).eq('id', demanda['id']);
+      _currentData.first = trabalho;
+      _demandas.first = demanda;
+      final metaData = _countTrabalho(event.setor);
+      emit(TrabalhoInitState(
+        _currentData,
+        _demandas,
+        metaData,
+      ));
+    } catch (e) {
+      final metaData = _countTrabalho(event.setor);
+      emit(TrabalhoErrorState(
+        _currentData,
+        _demandas,
+        metaData,
+        "Erro ao começar trabalho - $e",
       ));
     }
   }
@@ -199,18 +231,12 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
     if (response.isNotEmpty) {
       final demanda = response.first;
-      final data = DateFormat(timeFormat).format(DateTime.now());
       final trabalho = {
         'demanda_id': demanda['id'],
         'usuario_email': email,
-        'data_inicio': data,
       };
 
       await _supabase.from('trabalho').insert(trabalho);
-      await _supabase.from('demandas').update({
-        'status_$setor': 1,
-        'status': "Em fabricação",
-      }).eq('id', demanda['id']);
       _currentData.add(trabalho);
       _demandas.add(demanda);
     }

@@ -1,11 +1,10 @@
-import "dart:io";
-
-import "package:catavento/bloc/auth/auth_bloc.dart";
-import "package:catavento/bloc/produto/produto_bloc.dart";
-import "package:catavento/bloc/trabalho/trabalho_bloc.dart";
-import "package:catavento/shared/widgets/bloc_snackbar.dart";
+import 'package:catavento/bloc/auth/auth_bloc.dart';
+import 'package:catavento/bloc/produto/produto_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import "package:flutter_bloc/flutter_bloc.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 import "../../shared/widgets/menuBar.dart";
 import "./components/cardDemandaFuncionario.dart";
 
@@ -34,6 +33,30 @@ final List<Map<String, String>> tasks = [
     "codigo": "Código: T4",
     "foto": "https://via.placeholder.com/150"
   },
+  {
+    "nome": "Tarefa 5",
+    "descricao": "Descrição da tarefa 5",
+    "codigo": "Código: T5",
+    "foto": "https://via.placeholder.com/150"
+  },
+  {
+    "nome": "Tarefa 6",
+    "descricao": "Descrição da tarefa 6",
+    "codigo": "Código: T6",
+    "foto": "https://via.placeholder.com/150"
+  },
+  {
+    "nome": "Tarefa 7",
+    "descricao": "Descrição da tarefa 7",
+    "codigo": "Código: T7",
+    "foto": "https://via.placeholder.com/150"
+  },
+  {
+    "nome": "Tarefa 8",
+    "descricao": "Descrição da tarefa 8",
+    "codigo": "Código: T8",
+    "foto": "https://via.placeholder.com/150"
+  },
 ];
 
 class DashBoardFuncionario extends StatefulWidget {
@@ -45,6 +68,12 @@ class DashBoardFuncionario extends StatefulWidget {
 
 class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
   List<Map<String, String>> currentTasks = List.from(tasks);
+
+  void _removeTask(int index) {
+    setState(() {
+      currentTasks.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +103,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                 } else if (state is TrabalhoFinishState) {
                   final email = context.read<AuthBloc>().email;
                   final setor = context.read<AuthBloc>().setor!.toLowerCase();
-                  context.read<TrabalhoBloc>().add(TrabalhoInit(
+                  context.read<TrabalhoBloc>().add(TrabalhoGet(
                         email: email!,
                         setor: setor,
                       ));
@@ -82,6 +111,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
               },
               builder: (context, state) {
                 final demandas = state.demandas;
+                final setor = context.read<AuthBloc>().setor!.toLowerCase();
                 List<String?> imagens = [];
                 for (var demanda in demandas) {
                   final imagem = context
@@ -90,7 +120,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                   imagens.add(imagem);
                 }
                 return Center(
-                  child: demandas.isNotEmpty
+                  child: currentTasks.isNotEmpty
                       ? Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: screenWidth / 5, vertical: 50),
@@ -99,7 +129,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: demandas
-                                  .take(5) // Limita a 5 cards no máximo
+                                  .take(5)
                                   .toList()
                                   .asMap()
                                   .entries
@@ -108,6 +138,8 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                     Map<String, dynamic> task = entry.value;
 
                                     return AnimatedPositioned(
+                                      key: ValueKey(
+                                          "${task["produto_id"] ?? "Null"} ${task["status_$setor"]}"),
                                       duration: Duration(milliseconds: 500),
                                       top: index * 20.0,
                                       left: index * 20.0,
@@ -117,14 +149,14 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                         child: Transform.scale(
                                           scale: 1 - (index * 0.05),
                                           child: CardDemanda(
-                                            title: task["nome_demanda"] ??
-                                                "Sem nome",
+                                            title: task["nome_demanda"]!,
                                             width: screenWidth * 0.27,
                                             height: screenHeight * 0.8,
-                                            description: task["descricao"] ??
-                                                "Sem descrição",
+                                            description: task["descricao"]!,
                                             codigo: task["produto_id"] ??
                                                 "Sem código",
+                                            imagem: imagens[index],
+                                            status: task["status_$setor"],
                                             backgroundColor: Color.lerp(
                                                   const Color.fromARGB(
                                                       255, 235, 235, 235),
@@ -136,12 +168,10 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                                     255, 235, 235, 235),
                                             shadowColor: Colors.black
                                                 .withOpacity(0.2 + index * 0.1),
-                                            onFinish: () {
-                                              setState(() {
-                                                demandas.removeAt(index);
-                                              });
+                                            onCronometroFinalizado:
+                                                (int duration) {
+                                              _removeTask(index);
                                             },
-                                            imagem: imagens[index],
                                           ),
                                         ),
                                       ),

@@ -1,21 +1,20 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import './buttonCard.dart';
 
-class CardDemanda extends StatelessWidget {
+class CardDemanda extends StatefulWidget {
   final String title;
   final String description;
   final String codigo;
   final Color backgroundColor;
   final Color shadowColor;
-  final VoidCallback onFinish;
   final double width;
   final double height;
   final String? imagem;
+  final int status;
+  final void Function(int duration)? onCronometroFinalizado;
 
   const CardDemanda({
     Key? key,
@@ -24,22 +23,80 @@ class CardDemanda extends StatelessWidget {
     required this.codigo,
     required this.backgroundColor,
     required this.shadowColor,
-    required this.onFinish,
     required this.width,
     required this.height,
     required this.imagem,
+    required this.status,
+    this.onCronometroFinalizado,
   }) : super(key: key);
 
   @override
+  _CardDemandaState createState() => _CardDemandaState();
+}
+
+class _CardDemandaState extends State<CardDemanda> {
+  String _buttonText = "Iniciar Bolo";
+  bool _isCronometroRunning = false;
+  int _cronometroStart = 0; // Timestamp do início
+  int _cronometroEnd = 0; // Timestamp do fim
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.status == 0) {
+      _buttonText = "Iniciar Bolo";
+    } else if (widget.status == 1) {
+      _buttonText = "Finalizar Bolo";
+    }
+  }
+
+  void _handleButtonPress() {
+    if (_buttonText == "Iniciar Bolo") {
+      final email = context.read<AuthBloc>().email;
+      final setor = context.read<AuthBloc>().setor!.toLowerCase();
+      context.read<TrabalhoBloc>().add(TrabalhoInit(
+            email: email!,
+            setor: setor,
+          ));
+    } else if (_buttonText == "Finalizar Bolo") {
+      final email = context.read<AuthBloc>().email;
+      final setor = context.read<AuthBloc>().setor!.toLowerCase();
+      context.read<TrabalhoBloc>().add(TrabalhoFinish(
+            email: email!,
+            setor: setor,
+          ));
+    }
+    setState(() {
+      if (_buttonText == "Iniciar Bolo") {
+        _isCronometroRunning = true;
+        _cronometroStart = DateTime.now().millisecondsSinceEpoch;
+        _buttonText = "Finalizar Bolo";
+      } else if (_buttonText == "Finalizar Bolo") {
+        _isCronometroRunning = false;
+        _cronometroEnd = DateTime.now().millisecondsSinceEpoch;
+        final duration =
+            (_cronometroEnd - _cronometroStart) ~/ 1000; // Em segundos
+
+        // Enviar os dados para outro lugar
+        if (widget.onCronometroFinalizado != null) {
+          widget.onCronometroFinalizado!(duration);
+        }
+
+        _buttonText = "Bolo Concluído";
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double cardWidth = width;
-    double cardHeight = height;
+    double cardWidth = widget.width;
+    double cardHeight = widget.height;
     return SizedBox(
       width: cardWidth,
       height: cardHeight,
       child: Card(
-        color: backgroundColor,
-        shadowColor: shadowColor,
+        color: widget.backgroundColor,
+        shadowColor: widget.shadowColor,
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -51,25 +108,23 @@ class CardDemanda extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    title,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'FredokaOne',
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.gradientDarkBlue),
+                    widget.title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-
+              const SizedBox(height: 10),
+              // Imagem
               Row(children: [
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: imagem == null
+                    child: widget.imagem == null
                         ? Image.asset(
                             'assets/images/photo.jpg',
                             width: 100,
@@ -77,16 +132,16 @@ class CardDemanda extends StatelessWidget {
                             fit: BoxFit.cover,
                           )
                         : Image.network(
-                            imagem!,
+                            widget.imagem!,
                             width: 100,
-                            height: 150,
+                            height: 100,
                             fit: BoxFit.cover,
                           ),
                   ),
                 )
               ]),
-
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
+              // Descrição e código
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -97,7 +152,7 @@ class CardDemanda extends StatelessWidget {
                       BoxShadow(
                         color: Colors.black12,
                         blurRadius: 4,
-                        offset: Offset(2, 2),
+                        offset: const Offset(2, 2),
                       ),
                     ],
                   ),
@@ -106,64 +161,38 @@ class CardDemanda extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.search,
-                              size: 24,
-                              color: AppColors.gradientDarkBlue,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Texto ao lado do ícone',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'FredokaOne',
-                                  color: AppColors.gradientDarkBlue),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               "Código: ",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.gradientDarkBlue),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(height: 10),
                             Text(
-                              codigo,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: AppColors.gradientDarkBlue),
+                              widget.codigo,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               "Descrição: ",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.gradientDarkBlue,
                               ),
                             ),
-                            SizedBox(height: 10),
                             Text(
-                              description, // Texto longo que pode ter rolagem
-                              style: TextStyle(
+                              widget.description,
+                              style: const TextStyle(
                                 fontSize: 16,
-                                color: AppColors.gradientDarkBlue,
                               ),
                             ),
                           ],
@@ -173,57 +202,43 @@ class CardDemanda extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              // Botão de finalizar tarefa
+              const SizedBox(height: 10),
+              // Botão com estados
               Align(
                 alignment: Alignment.center,
                 child: Container(
                   width: 300,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.gradientDarkBlue,
-                        AppColors.gradientLightBlue,
-                      ],
+                    gradient: const LinearGradient(
+                      colors: [Colors.blue, Colors.lightBlueAccent],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
                     borderRadius: BorderRadius.circular(22),
                   ),
-                  child:
-
-                      /* ElevatedButton(
-                    onPressed: onFinish,
+                  child: ElevatedButton(
+                    onPressed: (_buttonText == "Bolo Concluído")
+                        ? null
+                        : _handleButtonPress,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: (_buttonText == "Iniciar Bolo")
+                          ? AppColors.gradientLightBlue
+                          : Colors.green,
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
-                    child: const Text(
-                      "Concluir Bolo",
-                      style: TextStyle(
+                    child: Text(
+                      _buttonText,
+                      style: const TextStyle(
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),*/
-                      ButtonCard(
-                          title: Text(
-                            "Concluir Bolo",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            final email = context.read<AuthBloc>().email;
-                            final setor =
-                                context.read<AuthBloc>().setor!.toLowerCase();
-                            context.read<TrabalhoBloc>().add(
-                                TrabalhoFinish(email: email!, setor: setor));
-                            onFinish;
-                          },
-                          isCompleted: false),
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),
