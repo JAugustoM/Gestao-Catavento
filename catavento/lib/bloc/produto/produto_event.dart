@@ -13,18 +13,20 @@ class ProdutoFilter extends ProdutoEvent {
 
 class ProdutoCreate extends ProdutoEvent {
   final String nomeProduto;
+  final String codigo;
   final String descricaoPadrao;
   final File? imagemProduto;
 
-  const ProdutoCreate(
-    this.nomeProduto,
-    this.descricaoPadrao,
-    this.imagemProduto,
-  );
+  const ProdutoCreate({
+    required this.nomeProduto,
+    required this.codigo,
+    required this.descricaoPadrao,
+    required this.imagemProduto,
+  });
 }
 
 class ProdutoDelete extends ProdutoEvent {
-  final int id;
+  final String id;
 
   const ProdutoDelete(
     this.id,
@@ -32,17 +34,17 @@ class ProdutoDelete extends ProdutoEvent {
 }
 
 class ProdutoUpdate extends ProdutoEvent {
-  final int id;
   final String nomeProduto;
+  final String codigo;
   final String descricaoProduto;
   final File? imagemProduto;
 
-  const ProdutoUpdate(
-    this.id,
-    this.nomeProduto,
-    this.descricaoProduto,
-    this.imagemProduto,
-  );
+  const ProdutoUpdate({
+    required this.nomeProduto,
+    required this.codigo,
+    required this.descricaoProduto,
+    required this.imagemProduto,
+  });
 }
 
 class ProdutoLoading extends ProdutoEvent {}

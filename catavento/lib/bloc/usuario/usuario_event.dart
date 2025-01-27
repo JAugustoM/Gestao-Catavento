@@ -39,6 +39,7 @@ class UsuarioUpdate extends UsuarioEvent {
   final String tipo;
   final String email;
   final String usuario;
+  final String senha;
 
   const UsuarioUpdate(
     this.nome,
@@ -47,7 +48,10 @@ class UsuarioUpdate extends UsuarioEvent {
     this.email,
     this.usuario,
     this.id,
+    this.senha,
   );
 }
 
 class UsuarioLoading extends UsuarioEvent {}
+
+class UsuerioError extends UsuarioEvent {}

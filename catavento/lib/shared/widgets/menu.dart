@@ -1,12 +1,16 @@
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userData = context.read<AuthBloc>().userData;
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -34,9 +38,9 @@ class Navbar extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'João das Couves',
+                      userData['usuario'],
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -44,7 +48,7 @@ class Navbar extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Administrador',
+                      userData['tipo'] == 'admin' ? 'Administrador' : 'Gerente',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,
@@ -69,7 +73,9 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, homeRoute);
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushNamed(context, homeRoute);
+              });
             },
           ),
           ListTile(
@@ -85,7 +91,9 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, crudFuncionariosRoute);
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushNamed(context, crudFuncionariosRoute);
+              });
             },
           ),
           ListTile(
@@ -101,7 +109,9 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, produtosRoute);
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushNamed(context, produtosRoute);
+              });
             },
           ),
           ListTile(
@@ -117,7 +127,9 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, desempenhoAdminRoute);
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushNamed(context, desempenhoAdminRoute);
+              });
             },
           ),
           ListTile(
@@ -132,7 +144,10 @@ class Navbar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(context, loginRoute);
+              context.read<AuthBloc>().add(SignOutEvent());
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushNamed(context, loginRoute);
+              });
             },
           ),
         ],

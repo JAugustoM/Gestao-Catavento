@@ -56,7 +56,7 @@ class GraficinfoState<B extends BlocBase<S>, S>
                       Text(
                         "${metaData[widget.dataKey] ?? '--'}",
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: MediaQuery.of(context).size.height * 0.03,
                           fontFamily: 'FredokaOne',
                           color: AppColors.gradientDarkBlue,
                         ),
@@ -65,7 +65,8 @@ class GraficinfoState<B extends BlocBase<S>, S>
                       Text(
                         widget.info,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: MediaQuery.of(context).size.height * 0.016,
+                            fontFamily: "FredokaOne",
                             fontWeight: FontWeight.bold,
                             color: AppColors.gradientDarkBlue),
                       ),

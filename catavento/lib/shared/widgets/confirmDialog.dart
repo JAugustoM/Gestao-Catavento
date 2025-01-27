@@ -14,19 +14,24 @@ class ConfirmDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return AlertDialog(
       title: Text(
         title,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 16,
+          fontFamily: "FredokaOne",
+          fontSize: screenHeight * 0.016,
           fontWeight: FontWeight.bold,
         ),
       ),
       content: Text(
         contente,
         style: TextStyle(
-          fontSize: 16,
+          fontFamily: "FredokaOne",
+          fontSize: screenHeight * 0.016,
           color: Colors.black,
         ),
       ),
@@ -35,8 +40,8 @@ class ConfirmDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 100,
-              height: 30,
+              width: screenWidth * 0.1,
+              height: screenHeight * 0.03,
               child: ElevatedButton(
                 onPressed: onConfirm,
                 style: ElevatedButton.styleFrom(
@@ -48,16 +53,17 @@ class ConfirmDialog extends StatelessWidget {
                 child: Text(
                   "Sim",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontFamily: "FredokaOne",
+                    fontSize: screenHeight * 0.016,
                     color: Colors.white,
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 40),
+            SizedBox(width: screenWidth * 0.04),
             SizedBox(
-              width: 100,
-              height: 30,
+              width: screenWidth * 0.1,
+              height: screenHeight * 0.03,
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -71,7 +77,8 @@ class ConfirmDialog extends StatelessWidget {
                 child: Text(
                   "Não",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontFamily: "FredokaOne",
+                    fontSize: screenHeight * 0.016,
                     color: Colors.white,
                   ),
                 ),

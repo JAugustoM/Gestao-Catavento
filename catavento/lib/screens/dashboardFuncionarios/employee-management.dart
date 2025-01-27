@@ -1,10 +1,12 @@
+import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
+import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/ativAndamentoCard.dart';
-import 'package:catavento/shared/widgets/input.dart';
 
 import 'package:flutter/material.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/checkBox.dart';
@@ -28,23 +30,6 @@ class EmployeeManagement extends StatelessWidget {
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
     {'nome': 'nomeFuncionario', 'demanda': 'nomeDemanda'},
   ];
-
-  final List<Map<String, String>> funcionarios = [
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-    {'nome': 'nomeFuncionario', 'setor': 'nomeCargo', 'status': 'Ativo'},
-  ];
-
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _setorController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usuarioController = TextEditingController();
-  final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _tipoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +122,8 @@ class EmployeeManagement extends StatelessWidget {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(22),
+          borderRadius:
+              BorderRadius.circular(MediaQuery.of(context).size.height * 0.022),
         ),
         child: ElevatedButton(
           onPressed: () {
@@ -147,12 +133,15 @@ class EmployeeManagement extends StatelessWidget {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22),
+              borderRadius: BorderRadius.circular(
+                  MediaQuery.of(context).size.height * 0.022),
             ),
           ),
-          child: const Text(
+          child: Text(
             "Novo Funcionário",
             style: TextStyle(
+              fontFamily: "FredokaOne",
+              fontSize: size.height * 0.016,
               color: Colors.white,
             ),
           ),
@@ -171,10 +160,10 @@ class EmployeeManagement extends StatelessWidget {
       height: blockHeight,
       width: blockWidth,
       color: AppColors.lightGray,
-      borderRadius: 26,
+      borderRadius: MediaQuery.of(context).size.height * 0.026,
       child: Center(
         child: Graficinfo<UsuarioBloc, UsuarioState>(
-          size: 40,
+          size: size.width * 0.04,
           icons: Icons.group_add,
           colorIcons: Color(0xFF015C98),
           info: 'Funcionários',
@@ -196,10 +185,10 @@ class EmployeeManagement extends StatelessWidget {
       height: blockHeight,
       width: blockWidth,
       color: AppColors.lightGray,
-      borderRadius: 26,
+      borderRadius: MediaQuery.of(context).size.height * 0.026,
       child: Center(
           child: Graficinfo<UsuarioBloc, UsuarioState>(
-        size: 40,
+        size: size.width * 0.04,
         icons: Icons.verified,
         colorIcons: Colors.green,
         info: 'Funcionários presentes',
@@ -214,16 +203,32 @@ class EmployeeManagement extends StatelessWidget {
         title: "Todos os funcionários",
         titleColor: AppColors.gradientDarkBlue,
         color: AppColors.lightGray,
-        borderRadius: 26,
+        borderRadius: MediaQuery.of(context).size.height * 0.026,
         child: LayoutBuilder(builder: (context, contraints) {
           double height = contraints.maxHeight * 0.85;
           double listWidth = contraints.maxWidth * 0.9;
           return SizedBox(
             width: listWidth,
             height: height,
-            child: BlocBuilder<UsuarioBloc, UsuarioState>(
+            child: BlocConsumer<UsuarioBloc, UsuarioState>(
+              listener: (context, state) {
+                switch (state) {
+                  case UsuarioCreateState():
+                    showBlocSnackbar(context, "Usuário criado com sucesso!");
+                  case UsuarioDeleteState():
+                    showBlocSnackbar(context, "Usuário removido com sucesso!");
+                  case UsuarioUpdateState():
+                    showBlocSnackbar(
+                        context, "Usuário atualizado com sucesso!");
+                  case UsuarioLoadingState():
+                    break;
+                  case UsuarioErrorState():
+                    showBlocSnackbar(context, state.message);
+                }
+              },
               builder: (context, state) {
                 final data = state.databaseResponse;
+
                 return ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
@@ -249,7 +254,7 @@ class EmployeeManagement extends StatelessWidget {
       title: "Atividades em andamento",
       titleColor: AppColors.gradientDarkBlue,
       color: AppColors.lightGray,
-      borderRadius: 26,
+      borderRadius: MediaQuery.of(context).size.height * 0.026,
       child: LayoutBuilder(builder: (context, contraints) {
         double height = contraints.maxHeight * 0.85;
         double listWidth = contraints.maxWidth * 0.9;
@@ -273,38 +278,49 @@ class EmployeeManagement extends StatelessWidget {
   }
 
   Widget _buildAtividadeSetor(String setor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          setor,
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppColors.blue,
-            fontWeight: FontWeight.bold,
+    return LayoutBuilder(builder: (context, contraints) {
+      final screenHeight = MediaQuery.of(context).size.height;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            setor,
+            style: TextStyle(
+              fontSize: screenHeight * 0.016,
+              color: AppColors.gradientLightBlue,
+              fontFamily: "FredokaOne",
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        ListView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: ativAndamento.length,
-          itemBuilder: (context, index) {
-            final atividade = ativAndamento[index];
-            return AtivAndamentoCard(
-              nomeFuncionario: atividade['nome']!,
-              nomeDemanda: atividade['demanda']!,
-            );
-          },
-        ),
-      ],
-    );
+          ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: ativAndamento.length,
+            itemBuilder: (context, index) {
+              final atividade = ativAndamento[index];
+              return AtivAndamentoCard(
+                nomeFuncionario: atividade['nome']!,
+                nomeDemanda: atividade['demanda']!,
+              );
+            },
+          ),
+        ],
+      );
+    });
   }
 
   void _showNewEmployeeDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
+        final TextEditingController nomeController = TextEditingController();
+        final TextEditingController setorController = TextEditingController();
+        final TextEditingController emailController = TextEditingController();
+        final TextEditingController usuarioController = TextEditingController();
+        final TextEditingController senhaController = TextEditingController();
+        final TextEditingController tipoController = TextEditingController();
         return ReusableDialog(
           backgroundColor: AppColors.lightGray,
           title: "Novo Funcionário",
@@ -317,22 +333,50 @@ class EmployeeManagement extends StatelessWidget {
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.height * 0.012),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Inputs(
-                        text: "Nome",
-                        controller: _nomeController,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Nome",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: "Digite o nome...",
+                            controller: nomeController,
+                          ))
+                        ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Tipo de Acesso',
                             style: TextStyle(
+                                fontFamily: "FredokaOne",
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.016,
                                 color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -340,11 +384,19 @@ class EmployeeManagement extends StatelessWidget {
                             children: [
                               CheckBox(
                                 tipo: 'gerente',
-                                controller: _tipoController,
+                                controller: tipoController,
                               ),
-                              const Text(
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.01,
+                              ),
+                              Text(
                                 'Gerente',
-                                style: TextStyle(color: AppColors.blue),
+                                style: TextStyle(
+                                    color: AppColors.blue,
+                                    fontFamily: "FredokaOne",
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016),
                               ),
                             ],
                           ),
@@ -352,50 +404,136 @@ class EmployeeManagement extends StatelessWidget {
                             children: [
                               CheckBox(
                                 tipo: 'padrao',
-                                controller: _tipoController,
+                                controller: tipoController,
                               ),
-                              const Text(
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.01,
+                              ),
+                              Text(
                                 'Funcionário',
-                                style: TextStyle(color: AppColors.blue),
+                                style: TextStyle(
+                                    color: AppColors.blue,
+                                    fontFamily: "FredokaOne",
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
                       Row(
                         children: [
                           Text(
                             "Setor*",
                             style: TextStyle(
-                                fontSize: 15,
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.016,
+                                fontFamily: "FredokaOne",
                                 color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                          ),
                           Dropdownbutton(
-                            controller: _setorController,
+                            controller: setorController,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      Inputs(
-                        text: "Email",
-                        controller: _emailController,
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Email",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: "Digite o email...",
+                            controller: emailController,
+                          ))
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Inputs(
-                        text: "Nome de Usuário",
-                        controller: _usuarioController,
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Nome de Usuário",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: "Digite o nome de usuário...",
+                            controller: usuarioController,
+                          ))
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Inputs(
-                        text: "Senha",
-                        controller: _senhaController,
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Senha",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: "Digite a senha...",
+                            controller: senhaController,
+                          ))
+                        ],
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.024),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -406,30 +544,48 @@ class EmployeeManagement extends StatelessWidget {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
-                    borderRadius: BorderRadius.circular(22),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.height * 0.022),
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<UsuarioBloc>().add(UsuarioCreate(
-                            _nomeController.text,
-                            _usuarioController.text,
-                            _setorController.text,
-                            _emailController.text,
-                            _tipoController.text,
-                            _senhaController.text,
-                          ));
-                      Navigator.pop(context);
+                      if (nomeController.text.isNotEmpty &&
+                          usuarioController.text.isNotEmpty &&
+                          setorController.text.isNotEmpty &&
+                          emailController.text.isNotEmpty &&
+                          tipoController.text.isNotEmpty &&
+                          senhaController.text.isNotEmpty) {
+                        context.read<UsuarioBloc>().add(UsuarioCreate(
+                              nomeController.text,
+                              usuarioController.text,
+                              setorController.text,
+                              emailController.text,
+                              tipoController.text,
+                              senhaController.text,
+                            ));
+                        context.read<AuthBloc>().add(AuthReauthenticateEvent());
+                        Navigator.pop(context);
+                      } else {
+                        showBlocSnackbar(
+                          context,
+                          "Por favor, preencha todos os campos antes de prosseguir",
+                          postFrameCallBack: false,
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(
+                            MediaQuery.of(context).size.height * 0.022),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Concluir",
                       style: TextStyle(
+                        fontFamily: "FredokaOne",
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
                         color: Colors.white,
                       ),
                     ),

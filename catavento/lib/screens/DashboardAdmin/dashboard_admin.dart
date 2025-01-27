@@ -1,9 +1,8 @@
-import 'dart:io';
+import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 
 // BACKEND
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
@@ -50,7 +49,10 @@ class DashBoardAdmin extends StatelessWidget {
         onPressed: () async {
           final filePath = await tablePicker();
           if (filePath != null) {
-            await importExcelToSupabase(filePath);
+            final message = await importExcelToSupabase(filePath);
+            if (context.mounted) {
+              showBlocSnackbar(context, message, postFrameCallBack: false);
+            }
           }
         },
         child: Icon(Icons.upload_file, color: Colors.white),
@@ -197,7 +199,23 @@ class ListDemandaState extends State<ListDemanda> {
       child: Column(
         children: [
           Expanded(
-            child: BlocBuilder<DemandaBloc, DemandaState>(
+            child: BlocConsumer<DemandaBloc, DemandaState>(
+              listener: (context, state) {
+                switch (state) {
+                  case DemandaCreateState():
+                    showBlocSnackbar(context, "Bolo adicionado com sucesso");
+                  case DemandaDeleteState():
+                    showBlocSnackbar(context, "Bolo removido com sucesso!");
+                  case DemandaUpdateState():
+                    showBlocSnackbar(context, "Bolo atualizado com sucesso!");
+                  case DemandaLoadingState():
+                    break;
+                  case DemandaFilterState():
+                    break;
+                  case DemandaErrorState():
+                    showBlocSnackbar(context, state.message);
+                }
+              },
               builder: (context, state) {
                 List<dynamic> filteredList = [];
 
@@ -223,19 +241,27 @@ class ListDemandaState extends State<ListDemanda> {
                   itemCount: filteredList.length,
                   itemBuilder: (context, index) {
                     final demanda = filteredList[index];
+                    String? imageUrl;
+                    if (demanda['produto_id'] != null) {
+                      imageUrl = context
+                          .read<ProdutoBloc>()
+                          .getImageUrl(demanda['produto_id']);
+                    }
                     return DemandCard(
                       nomeDemanda:
                           demanda['nome_demanda'] ?? 'Nome não disponível',
                       status: demanda['status'] ?? 'Status não disponível',
+                      statusAplique: demanda['status_aplique'] ?? 1,
+                      statusCobertura: demanda['status_cobertura'] ?? 1,
+                      statusMontagem: demanda['status_montagem'] ?? 1,
                       codigo: demanda['produto_id'] ?? 'Sem código',
                       descricao: demanda['descricao'] ?? 'Sem descrição',
                       dataAdicao: demanda['data_adicao'],
                       prazo: demanda['prazo'] ?? demanda['data_adicao'],
                       id: demanda['id'],
-                      imagemUrl: demanda['imagem_url'] ?? '',
+                      imagemUrl: imageUrl ?? '',
                       order: index,
                       plataforma: demanda['loja'] ?? 'Sem plataforma',
-                      bloc: context.read<DemandaBloc>(), // BACKEND
                     );
                   },
                 );
@@ -257,30 +283,6 @@ class ButtonAddDemanda extends StatelessWidget {
     super.key,
     required this.bloc, // BACKEND
   });
-
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _codigoController = TextEditingController();
-  final TextEditingController _descricaoController = TextEditingController();
-  final TextEditingController _dataController = TextEditingController();
-  final TextEditingController _prazoController = TextEditingController();
-  File? fotoSelecionada;
-
-  Future<void> _selecionarFoto(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? imagemSelecionada = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 800,
-      maxWidth: 800,
-      imageQuality: 85,
-    );
-
-    if (imagemSelecionada != null) {
-      fotoSelecionada = File(imagemSelecionada.path);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Foto selecionada com sucesso!')),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -321,6 +323,14 @@ class ButtonAddDemanda extends StatelessWidget {
   Future<void> addInfoDemand(BuildContext context) => showDialog(
         context: context,
         builder: (BuildContext context) {
+          final TextEditingController _nomeController = TextEditingController();
+          final TextEditingController _codigoController =
+              TextEditingController();
+          final TextEditingController _descricaoController =
+              TextEditingController();
+          final TextEditingController _dataController = TextEditingController();
+          final TextEditingController _prazoController =
+              TextEditingController();
           return ReusableDialog(
             backgroundColor: AppColors.lightGray,
             title: "Adicionar Demanda",
@@ -474,37 +484,6 @@ class ButtonAddDemanda extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          _selecionarFoto(context);
-                        },
-                        icon: const Icon(
-                          Icons.camera_alt,
-                          size: 18, // Ícone de câmera
-                          color: Colors.white, // Cor do ícone (branco)
-                        ),
-                        label: const Text(
-                          "Selecionar Foto",
-                          style: TextStyle(
-                            fontFamily: 'FredokaOne',
-                            color: Colors.white, // Cor do texto (branca)
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              AppColors.gradientDarkBlue, // Cor de fundo
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                22), // Bordas arredondadas
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () async {
                       if (_codigoController.text.isNotEmpty ||
@@ -513,17 +492,15 @@ class ButtonAddDemanda extends StatelessWidget {
                           nomeDemanda: _nomeController.text,
                           codigo: _codigoController.text,
                           descricao: _descricaoController.text,
-                          foto: fotoSelecionada,
                           data: _dataController.text,
                           prazo: _prazoController.text,
                         ));
                         Navigator.pop(context);
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                "Por favor, preencha pelo menos o código ou nome do bolo"),
-                          ),
+                        showBlocSnackbar(
+                          context,
+                          "Por favor, preencha pelo menos o código ou nome do bolo",
+                          postFrameCallBack: false,
                         );
                       }
                     },

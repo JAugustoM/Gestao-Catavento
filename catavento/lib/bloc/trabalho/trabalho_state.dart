@@ -12,6 +12,14 @@ sealed class TrabalhoState {
   );
 }
 
+class TrabalhoGetState extends TrabalhoState {
+  TrabalhoGetState(
+    super.trabalho,
+    super.demandas,
+    super.metaData,
+  );
+}
+
 class TrabalhoInitState extends TrabalhoState {
   TrabalhoInitState(
     super.trabalho,
@@ -33,5 +41,24 @@ class TrabalhoLoadingState extends TrabalhoState {
     super.trabalho,
     super.demandas,
     super.metaData,
+  );
+}
+
+class TrabalhoEmptyState extends TrabalhoState {
+  TrabalhoEmptyState(
+    super.trabalho,
+    super.demandas,
+    super.metaData,
+  );
+}
+
+class TrabalhoErrorState extends TrabalhoState {
+  final String message;
+
+  TrabalhoErrorState(
+    super.trabalho,
+    super.demandas,
+    super.metaData,
+    this.message,
   );
 }

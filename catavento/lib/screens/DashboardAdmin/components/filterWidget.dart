@@ -23,7 +23,7 @@ class _FilterWidgetState extends State<FilterWidget> {
       child: Card(
         color: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(size.height * 0.012),
         ),
         elevation: 0,
         margin: const EdgeInsets.all(0),
@@ -49,14 +49,15 @@ class _FilterWidgetState extends State<FilterWidget> {
               alignment: Alignment.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.filter_alt, color: Colors.white),
+                children: [
+                  Icon(Icons.filter_alt, color: Colors.white, size: size.width * 0.014,),
                   SizedBox(width: 8),
                   Text(
                     'Filtros',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: size.height * 0.016,
+                      fontFamily: "FredokaOne",
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -64,10 +65,10 @@ class _FilterWidgetState extends State<FilterWidget> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.lightGray,
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(12.0),
+                  bottom: Radius.circular(size.height * 0.012),
                 ),
               ),
               padding: const EdgeInsets.all(10),
@@ -75,12 +76,12 @@ class _FilterWidgetState extends State<FilterWidget> {
                 children: [
                   DropdownButton<String>(
                     value: 'Filtro por loja',
-                    icon: const Icon(Icons.arrow_drop_down),
+                    icon: Icon(Icons.arrow_drop_down, size: size.width * 0.014,),
                     underline: const SizedBox(),
                     items: ['Filtro por loja']
                         .map((value) => DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(value, style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                             ))
                         .toList(),
                     onChanged: (value) {},
@@ -97,7 +98,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Atualiza o filtro no widget pai
                         },
-                        title: const Text("Todos"),
+                        title: Text("Todos", style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                         activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
@@ -110,7 +111,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Atualiza o filtro no widget pai
                         },
-                        title: const Text('Elo7'),
+                        title: Text('Elo7', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                         activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
@@ -123,7 +124,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: const Text('Magalu'),
+                        title: Text('Magalu', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                         activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
@@ -136,7 +137,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: const Text('Mercado Livre'),
+                        title: Text('Mercado Livre', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                         activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
@@ -149,7 +150,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: const Text('Site'),
+                        title: Text('Site', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                         activeColor: AppColors.gradientDarkBlue,
                       ),
                       RadioListTile<String>(
@@ -162,7 +163,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: const Text('Shopee'),
+                        title: Text('Shopee', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
                         activeColor: AppColors.gradientDarkBlue,
                       ),
                     ],

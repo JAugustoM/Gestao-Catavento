@@ -30,13 +30,17 @@ class BolosdesempenhocardState extends State<Bolosdesempenhocard> {
 
   @override
   Widget build(BuildContext context) {
+    
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Card(
       child: Row(
         children: [
-          SizedBox(width: MediaQuery.of(context).size.height * 0.03,),
+          SizedBox(width: screenWidth * 0.03,),
           Container(
-            height: MediaQuery.of(context).size.height * 0.08,
-            width: MediaQuery.of(context).size.width * 0.05,
+            height: screenHeight * 0.08,
+            width: screenWidth * 0.05,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
@@ -46,24 +50,25 @@ class BolosdesempenhocardState extends State<Bolosdesempenhocard> {
               ),
             ),
           ),
-          SizedBox(width: MediaQuery.of(context).size.height * 0.08,),
+          SizedBox(width: screenWidth * 0.08,),
           Column(
             children: [
               Center(
                 child: Text(
                   widget.nomeDemanda,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: screenHeight * 0.016,
+                    fontFamily: "FredokaOne",
                     color: AppColors.blue,
                     fontWeight: FontWeight.bold
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+              SizedBox(height: screenHeight * 0.02,),
               Row(
                 children: [
                   Info(texto: 'Inicio: ', info: widget.inicio),
-                  SizedBox(width: MediaQuery.of(context).size.height * 0.02,),
+                  SizedBox(width: screenWidth * 0.02,),
                   Info(texto: 'Fim: ', info: widget.fim)
                 ],
               ),
@@ -87,6 +92,8 @@ class Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +102,8 @@ class Info extends StatelessWidget {
         Text(
           texto,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: screenHeight * 0.014,
+            fontFamily: "FredokaOne",
             color: AppColors.blue,
             fontWeight: FontWeight.bold
           ),
@@ -103,7 +111,8 @@ class Info extends StatelessWidget {
         Text(
           info,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: screenHeight * 0.014,
+            fontFamily: "FredokaOne",
             color: AppColors.blue,
           )
         )

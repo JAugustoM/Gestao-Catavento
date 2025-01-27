@@ -4,6 +4,13 @@ sealed class TrabalhoEvent {
   const TrabalhoEvent();
 }
 
+class TrabalhoGet extends TrabalhoEvent {
+  final String email;
+  final String setor;
+
+  const TrabalhoGet({required this.email, required this.setor});
+}
+
 class TrabalhoInit extends TrabalhoEvent {
   final String email;
   final String setor;
@@ -20,6 +27,7 @@ class TrabalhoFinish extends TrabalhoEvent {
 
 class TrabalhoLoading extends TrabalhoEvent {
   final String email;
+  final String setor;
 
-  const TrabalhoLoading({required this.email});
+  const TrabalhoLoading({required this.email, required this.setor});
 }

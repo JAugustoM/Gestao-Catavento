@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class ButtonCard extends StatefulWidget {
   final Widget title;
-  final Icon icon;
   final bool isCompleted;
 
   final Function() onPressed;
@@ -10,7 +9,6 @@ class ButtonCard extends StatefulWidget {
   const ButtonCard(
       {super.key,
         required this.title,
-        required this.icon,
         required this.onPressed,
         required this.isCompleted});
 
@@ -51,7 +49,7 @@ class _ButtonCardState extends State<ButtonCard> {
                   ),),
                   SizedBox(width: 10,),
                   Icon(Icons.check , color: Colors.white,)
-                  
+
                 ],
               )
                   : Row(
@@ -59,7 +57,6 @@ class _ButtonCardState extends State<ButtonCard> {
 
                 children: [widget.title,
                   SizedBox(width: 10,),
-                  widget.icon,
                 ],
               ))),
     );

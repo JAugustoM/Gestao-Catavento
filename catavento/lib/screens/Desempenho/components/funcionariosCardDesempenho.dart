@@ -35,6 +35,9 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -42,13 +45,13 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
       color: AppColors.lightGray,
       child: Row(
         children: [
-          SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
+          SizedBox(width: screenWidth * 0.01,),
           Icon(
             Icons.person,
             color: AppColors.blue,
-            size: 45,
+            size: screenWidth * 0.045,
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
+          SizedBox(width: screenWidth * 0.01,),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +60,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                 Text(
                   widget.nomeFuncionario,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: screenHeight * 0.016,
+                    fontFamily: "FredokaOne",
                     fontWeight: FontWeight.bold,
                     color: AppColors.blue
                   ),
@@ -65,7 +69,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                 Text(
                   'Setor: ${widget.setor}',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: screenHeight * 0.014,
+                    fontFamily: "FredokaOne",
                     color: AppColors.blue
                   ),
                 )
@@ -73,7 +78,7 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
             ),
           ),
           IconButton(
-            icon: Icon(Icons.info, color: AppColors.blue,),
+            icon: Icon(Icons.info, color: AppColors.blue, size: screenWidth * 0.018,),
             onPressed: () {
               _showInfoDialog(context, nome, setor, mediaDesempenho);
             },
@@ -108,25 +113,22 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.person, color: AppColors.blue,),
+                          Icon(Icons.person, color: AppColors.blue, size: MediaQuery.of(context).size.width * 0.016,),
                           Text(
                             'Dados',
                             style: TextStyle(
                               color: AppColors.blue,
-                              fontSize: 16
+                              fontSize: MediaQuery.of(context).size.height * 0.016,
+                              fontFamily: "FredokaOne",
                             ),
                           )
                         ],
                       ),
                       Center(
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.17,
-                          width: MediaQuery.of(context).size.width * 0.1,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(70),
-                            color: AppColors.lightGray
-                          ),
-                          child: Icon(Icons.person, color: AppColors.blue, size: 70,),
+                        child: CircleAvatar(
+                          radius: MediaQuery.of(context).size.height * 0.07,
+                          backgroundColor: Colors.grey.shade200,
+                          child: Icon(Icons.person, color: AppColors.blue, size: MediaQuery.of(context).size.width * 0.07,),
                         )
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
@@ -138,7 +140,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   'Nome: ',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontFamily: "FredokaOne",
                                     color: AppColors.blue,
                                     fontWeight: FontWeight.bold
                                   ),
@@ -146,7 +149,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   nome,
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontFamily: "FredokaOne",
                                     color: AppColors.blue
                                   ),
                                 )
@@ -158,7 +162,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   'Setor: ',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontFamily: "FredokaOne",
                                     color: AppColors.blue,
                                     fontWeight: FontWeight.bold
                                   ),
@@ -166,7 +171,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   setor,
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontFamily: "FredokaOne",
                                     color: AppColors.blue
                                   ),
                                 )
@@ -182,7 +188,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                   child: Text(
                                   'Desempenho: ',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontFamily: "FredokaOne",
                                     color: AppColors.blue,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
@@ -197,7 +204,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                   child: Text(
                                   mediaDesempenho,
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontFamily: "FredokaOne",
                                     color: AppColors.blue,
                                     decoration: TextDecoration.underline
                                   ),

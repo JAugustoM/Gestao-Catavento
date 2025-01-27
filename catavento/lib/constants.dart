@@ -15,6 +15,8 @@ const desempenhoAdminRoute = "/dashboardDesempenhoAdmin";
 
 const supabaseUrl = 'https://gfxmrqhwjqekfzrlurqr.supabase.co';
 const supabaseKey = String.fromEnvironment('ANON_KEY');
+const boloPadrao =
+    'https://gfxmrqhwjqekfzrlurqr.supabase.co/storage/v1/object/public/imagens/cake.png';
 
 // Formatters
 
