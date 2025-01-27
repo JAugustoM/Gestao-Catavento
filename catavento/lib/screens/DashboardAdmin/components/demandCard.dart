@@ -170,6 +170,8 @@ class DemandCard extends StatelessWidget {
                         nomeDemanda,
                         codigo,
                         descricao,
+                        dataAdicao,
+                        prazo,
                       );
                     },
                   ),
@@ -486,16 +488,30 @@ class DemandCard extends StatelessWidget {
   }
 
   void _showEditDialog(
-      BuildContext context, String nome, String codigo, String descricao) {
+    BuildContext context,
+    String nome,
+    String codigo,
+    String descricao,
+    String data,
+    String prazo,
+  ) {
     final TextEditingController nomeController = TextEditingController();
     final TextEditingController codigoController = TextEditingController();
     final TextEditingController descricaoController = TextEditingController();
     final TextEditingController dataController = TextEditingController();
     final TextEditingController prazoController = TextEditingController();
 
+    final dataSplit = dataAdicao.substring(0, 10).split('-');
+    final dataString = "${dataSplit[2]}/${dataSplit[1]}/${dataSplit[0]}";
+
+    final prazoSplit = prazo.substring(0, 10).split('-');
+    final prazoString = "${prazoSplit[2]}/${prazoSplit[1]}/${prazoSplit[0]}";
+
     nomeController.text = nome;
     codigoController.text = codigo;
     descricaoController.text = descricao;
+    dataController.text = dataString;
+    prazoController.text = prazoString;
 
     showDialog(
       context: context,

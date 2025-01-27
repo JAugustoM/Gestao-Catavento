@@ -13,52 +13,58 @@ class Dadosfuncionario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Row(
-        children: [
-          Container(
-            width: 300,
-            color: Colors.transparent,
-            child: Navbar(),
+      drawer: Navbar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: () => {
+              Scaffold.of(context).openDrawer(),
+            },
+            icon: Icon(Icons.tune, color: Colors.black),
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
           ),
-          Expanded(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      Map<String, dynamic> userData = {};
-                      if (state is AuthAuthenticated) {
-                        userData = context.read<AuthBloc>().userData;
-                      }
-                      return WidgetDadosFuncionario(
-                        nome: userData['nome'] ?? "Nome",
-                        nickname: userData['usuario'] ?? "Usuario",
-                        email: userData['email'] ?? "Email",
-                        setor: userData['setor'] ?? "Setor",
-                      );
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  BlocBuilder<TrabalhoBloc, TrabalhoState>(
-                    builder: (context, state) {
-                      final metaData = state.metaData;
-                      return Widgetdesempenho(
-                        data: DateFormat('dd/MM/yyyy').format(DateTime.now()),
-                        goal: 12,
-                        isCompleted: metaData['completo'] ?? 0,
-                        isMissing: 11,
-                      );
-                    },
-                  ),
-                ],
-              ),
+        ),
+      ),
+      body: Container(
+        color: Colors.white,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                Map<String, dynamic> userData = {};
+                if (state is AuthAuthenticated) {
+                  userData = context.read<AuthBloc>().userData;
+                }
+                return WidgetDadosFuncionario(
+                  nome: userData['nome'] ?? "Nome",
+                  nickname: userData['usuario'] ?? "Usuario",
+                  email: userData['email'] ?? "Email",
+                  setor: userData['setor'] ?? "Setor",
+                );
+              },
             ),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            BlocBuilder<TrabalhoBloc, TrabalhoState>(
+              builder: (context, state) {
+                final metaData = state.metaData;
+                return Widgetdesempenho(
+                  data: DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                  goal: metaData['total'] ?? 0,
+                  isCompleted: metaData['completo'] ?? 0,
+                  isMissing: metaData['faltam'] ?? 0,
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }

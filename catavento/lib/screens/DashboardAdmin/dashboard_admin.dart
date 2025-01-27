@@ -1,7 +1,6 @@
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
-import 'package:catavento/shared/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -33,7 +32,7 @@ class DashBoardAdmin extends StatelessWidget {
       drawer: Navbar(),
       appBar: CustomHeader(
         title: 'Demandas atuais $formattedDate',
-        historyButton: true,
+        historyButton: false,
       ),
       body: Stack(
         children: [
@@ -52,7 +51,7 @@ class DashBoardAdmin extends StatelessWidget {
           if (filePath != null) {
             final message = await importExcelToSupabase(filePath);
             if (context.mounted) {
-              showSnackbar(context, message);
+              showBlocSnackbar(context, message, postFrameCallBack: false);
             }
           }
         },
@@ -285,12 +284,6 @@ class ButtonAddDemanda extends StatelessWidget {
     required this.bloc, // BACKEND
   });
 
-  final TextEditingController _nomeController = TextEditingController();
-  final TextEditingController _codigoController = TextEditingController();
-  final TextEditingController _descricaoController = TextEditingController();
-  final TextEditingController _dataController = TextEditingController();
-  final TextEditingController _prazoController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -330,6 +323,14 @@ class ButtonAddDemanda extends StatelessWidget {
   Future<void> addInfoDemand(BuildContext context) => showDialog(
         context: context,
         builder: (BuildContext context) {
+          final TextEditingController _nomeController = TextEditingController();
+          final TextEditingController _codigoController =
+              TextEditingController();
+          final TextEditingController _descricaoController =
+              TextEditingController();
+          final TextEditingController _dataController = TextEditingController();
+          final TextEditingController _prazoController =
+              TextEditingController();
           return ReusableDialog(
             backgroundColor: AppColors.lightGray,
             title: "Adicionar Demanda",
@@ -496,9 +497,10 @@ class ButtonAddDemanda extends StatelessWidget {
                         ));
                         Navigator.pop(context);
                       } else {
-                        showSnackbar(
+                        showBlocSnackbar(
                           context,
                           "Por favor, preencha pelo menos o código ou nome do bolo",
+                          postFrameCallBack: false,
                         );
                       }
                     },

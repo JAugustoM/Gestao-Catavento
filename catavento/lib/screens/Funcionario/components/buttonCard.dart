@@ -43,14 +43,13 @@ class _ButtonCardState extends State<ButtonCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Bolo Concluído", style: TextStyle(
-                    fontFamily: 'FredokaOne',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
 
                   ),),
                   SizedBox(width: 10,),
                   Icon(Icons.check , color: Colors.white,)
-                  
+
                 ],
               )
                   : Row(

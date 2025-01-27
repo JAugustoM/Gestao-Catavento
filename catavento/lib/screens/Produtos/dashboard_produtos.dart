@@ -105,15 +105,29 @@ class DashboardProdutos extends StatelessWidget {
   }
 
   Widget _buildButtonAdicionar(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: MediaQuery.of(context).size.height * 0.05,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius:
+            BorderRadius.circular(MediaQuery.of(context).size.height * 0.022),
+      ),
       child: ElevatedButton(
         onPressed: () {
           _showAdicionarDialog(context);
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.gradientDarkBlue,
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                MediaQuery.of(context).size.height * 0.03),
+          ),
         ),
         child: Text(
           "Adicionar Produto",
@@ -149,7 +163,8 @@ class DashboardProdutos extends StatelessWidget {
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(
+                              MediaQuery.of(context).size.height * 0.016),
                         ),
                         child: Column(
                           children: [
@@ -241,6 +256,7 @@ class DashboardProdutos extends StatelessWidget {
                                   "Adicionar Imagem",
                                   style: TextStyle(
                                       color: AppColors.gradientDarkBlue,
+                                      fontFamily: "FredokaOne",
                                       fontSize:
                                           MediaQuery.of(context).size.height *
                                               0.016,
@@ -312,6 +328,7 @@ class DashboardProdutos extends StatelessWidget {
                                     controller: descricaoController,
                                   ),
                                 ),
+                                const SizedBox(height: 16),
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -358,6 +375,27 @@ class DashboardProdutos extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ///
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.gradientDarkBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: const Text(
+                      "Salvar",
+                      style: TextStyle(
+                        fontFamily: "FredokaOne",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

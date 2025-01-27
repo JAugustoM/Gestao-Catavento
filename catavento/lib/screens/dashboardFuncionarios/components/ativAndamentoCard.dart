@@ -19,11 +19,11 @@ class AtivAndamentoCard extends StatelessWidget {
       child: ListTile(
         title: Text(
           nomeFuncionario,
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.blue),
+          style: TextStyle(color: AppColors.blue, fontFamily: "FredokaOne", fontSize: MediaQuery.of(context).size.height * 0.014),
         ),
         subtitle: Text(
           'Em andamento: $nomeDemanda',
-          style: TextStyle(color: AppColors.blue),
+          style: TextStyle(color: AppColors.blue, fontFamily: "FredokaOne", fontSize: MediaQuery.of(context).size.height * 0.012),
         ),
       ),
     );
