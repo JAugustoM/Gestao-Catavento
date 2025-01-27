@@ -98,8 +98,16 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
       (test) => test['id'] == event.id,
       orElse: () => {},
     );
-    final imagemUrl = produto['image_url'] as String;
-    final imagem = imagemUrl.split('/').last;
+
+    late final String? imagem;
+
+    if (produto['image_url'] != null) {
+      final imagemUrl = produto['image_url'];
+      imagem = imagemUrl.split('/').last;
+    } else {
+      imagem = null;
+    }
+
     if (produto.isNotEmpty) {
       try {
         final response = await _supabase
@@ -110,7 +118,9 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
 
         if (response.isNotEmpty) {
           _currentData.removeWhere((produto) => produto['id'] == event.id);
-          await _supabase.storage.from('imagens').remove([imagem]);
+          if (imagem != null) {
+            await _supabase.storage.from('imagens').remove([imagem]);
+          }
           final metaData = _countProdutos();
           emit(ProdutoDeleteState(_currentData, metaData));
         } else {

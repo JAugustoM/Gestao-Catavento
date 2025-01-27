@@ -126,18 +126,28 @@ class ProdutosCardState extends State<ProdutosCard> {
   }
 
   Widget _buildButtonEditar(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: screenHeight * 0.03,
       width: screenWidth * 0.132,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight),
+        borderRadius:
+            BorderRadius.circular(MediaQuery.of(context).size.height * 0.03),
+      ),
       child: ElevatedButton(
         onPressed: () {
           _showEditDialog(
               context, nomeController, codigoController, descricaoController);
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30))),
+                borderRadius: BorderRadius.circular(
+                    MediaQuery.of(context).size.height * 0.03))),
         child: Text(
           "Editar",
           style: TextStyle(
@@ -150,9 +160,17 @@ class ProdutosCardState extends State<ProdutosCard> {
   }
 
   Widget _buildButtonDeletar(BuildContext context, String codigoProduto) {
-    return SizedBox(
+    return Container(
       height: screenHeight * 0.03,
       width: screenWidth * 0.066,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight),
+        borderRadius:
+            BorderRadius.circular(MediaQuery.of(context).size.height * 0.03),
+      ),
       child: ElevatedButton(
         onPressed: () {
           showDialog(
@@ -171,9 +189,11 @@ class ProdutosCardState extends State<ProdutosCard> {
           );
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30))),
+                borderRadius: BorderRadius.circular(
+                    MediaQuery.of(context).size.height * 0.03))),
         child: Text(
           "Deletar",
           style: TextStyle(
@@ -186,9 +206,17 @@ class ProdutosCardState extends State<ProdutosCard> {
   }
 
   Widget _buildButtonInfo(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: MediaQuery.of(context).size.height * 0.03,
       width: MediaQuery.of(context).size.width * 0.066,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight),
+        borderRadius:
+            BorderRadius.circular(MediaQuery.of(context).size.height * 0.03),
+      ),
       child: ElevatedButton(
         onPressed: () {
           _showInfoDialog(
@@ -200,9 +228,11 @@ class ProdutosCardState extends State<ProdutosCard> {
           );
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.gradientDarkBlue,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30))),
+                borderRadius: BorderRadius.circular(
+                    MediaQuery.of(context).size.height * 0.03))),
         child: Text(
           "Info",
           style: TextStyle(
@@ -447,6 +477,27 @@ class ProdutosCardState extends State<ProdutosCard> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ///
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.gradientDarkBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: const Text(
+                      "Salvar",
+                      style: TextStyle(
+                        fontFamily: "FredokaOne",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

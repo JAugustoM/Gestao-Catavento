@@ -43,7 +43,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
               _demandas.add(response.first);
             }
           }
-          final metaData = _countTrabalho(event.setor);
+          final metaData = await _countTrabalho(event.setor, event.email);
           emit(TrabalhoLoadingState(
             _currentData,
             _demandas,
@@ -51,7 +51,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           ));
         } else {
           await _iniciarTrabalho(event.email, event.setor);
-          final metaData = _countTrabalho(event.setor);
+          final metaData = await _countTrabalho(event.setor, event.email);
           if (_demandas.isNotEmpty) {
             emit(TrabalhoInitState(
               _currentData,
@@ -68,7 +68,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           }
         }
       } catch (e) {
-        final metaData = _countTrabalho(event.setor);
+        final metaData = await _countTrabalho(event.setor, event.email);
         emit(TrabalhoErrorState(
           _currentData,
           _demandas,
@@ -112,14 +112,14 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         await _supabase.from('trabalho').insert(trabalho);
         _currentData.add(trabalho);
         _demandas.add(demanda);
-        final metaData = _countTrabalho(event.setor);
+        final metaData = await _countTrabalho(event.setor, event.email);
         emit(TrabalhoGetState(
           _currentData,
           _demandas,
           metaData,
         ));
       } catch (e) {
-        final metaData = _countTrabalho(event.setor);
+        final metaData = await _countTrabalho(event.setor, event.email);
         emit(TrabalhoErrorState(
           _currentData,
           _demandas,
@@ -156,14 +156,14 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
       }).eq('id', demanda['id']);
       _currentData.first = trabalho;
       _demandas.first = demanda;
-      final metaData = _countTrabalho(event.setor);
+      final metaData = await _countTrabalho(event.setor, event.email);
       emit(TrabalhoInitState(
         _currentData,
         _demandas,
         metaData,
       ));
     } catch (e) {
-      final metaData = _countTrabalho(event.setor);
+      final metaData = await _countTrabalho(event.setor, event.email);
       emit(TrabalhoErrorState(
         _currentData,
         _demandas,
@@ -195,11 +195,11 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           {'data_finalizacao': dataFinal}).eq('demanda_id', demanda['id']);
       _currentData.removeAt(0);
 
-      final metaData = _countTrabalho(event.setor);
+      final metaData = await _countTrabalho(event.setor, event.email);
 
       emit(TrabalhoFinishState(_currentData, _demandas, metaData));
     } catch (e) {
-      final metaData = _countTrabalho(event.setor);
+      final metaData = await _countTrabalho(event.setor, event.email);
       emit(TrabalhoErrorState(
         _currentData,
         _demandas,
@@ -242,18 +242,35 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     }
   }
 
-  Map<String, int> _countTrabalho(String setor) {
+  Future<Map<String, int>> _countTrabalho(String setor, String email) async {
     var total = 0;
     var completo = 0;
+    var faltam = 0;
 
-    for (var trabalho in _currentData) {
-      if (trabalho['status_$setor'] == 1) {
-        total++;
-      } else {
-        completo++;
+    try {
+      final trabalho = await _supabase
+          .from('trabalho')
+          .select()
+          .eq('usuario_email', email)
+          .not('data_finalizacao', 'is', null)
+          .count();
+      completo = trabalho.count;
+
+      final demandas =
+          await _supabase.from('demandas').select('status_$setor').count();
+
+      total = demandas.count;
+      faltam = total;
+
+      for (var demanda in demandas.data) {
+        if (demanda['status_$setor'] == 2) {
+          faltam--;
+        }
       }
+    } catch (e) {
+      print(e);
     }
 
-    return {'total': total, 'completo': completo};
+    return {'total': total, 'completo': completo, 'faltam': faltam};
   }
 }

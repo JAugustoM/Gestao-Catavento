@@ -59,7 +59,7 @@ class Widgetdesempenho extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Meta: $goal",
+                                  "Total $goal",
                                   style: TextStyle(
                                       color: Color(0xFF015C98),
                                       fontWeight: FontWeight.bold,

@@ -17,27 +17,32 @@ class CheckBoxState extends State<CheckBox> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Theme(
       data: Theme.of(context).copyWith(
         checkboxTheme: CheckboxThemeData(
           side: BorderSide(color: AppColors.mediumPink),
         ),
       ),
-      child: Checkbox(
-        value: isChecked,
-        onChanged: (bool? value) {
-          if (widget.controller.text == '' ||
-              widget.controller.text == widget.tipo) {
-            if (value!) {
-              widget.controller.text = widget.tipo;
-            } else {
-              widget.controller.text = '';
+      child: Transform.scale(
+        scale: screenHeight * 0.0012,
+        child: Checkbox(
+          value: isChecked,
+          onChanged: (bool? value) {
+            if (widget.controller.text == '' ||
+                widget.controller.text == widget.tipo) {
+              if (value!) {
+                widget.controller.text = widget.tipo;
+              } else {
+                widget.controller.text = '';
+              }
+              setState(() {
+                isChecked = value;
+              });
             }
-            setState(() {
-              isChecked = value;
-            });
-          }
-        },
+          },
+        ),
       ),
     );
   }

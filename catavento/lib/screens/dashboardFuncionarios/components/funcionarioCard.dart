@@ -1,8 +1,8 @@
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/infoFuncionarios.dart';
+import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../shared/widgets/input.dart';
 import 'package:catavento/shared/widgets/confirmDialog.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'DropDownButton.dart';
@@ -39,11 +39,18 @@ class FuncionarioCardState extends State<FuncionarioCard> {
       child: ListTile(
         title: Text(
           widget.nomeFuncionario,
-          style: TextStyle(color: AppColors.blue, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: AppColors.blue,
+              fontFamily: "FredokaOne",
+              fontSize: MediaQuery.of(context).size.height * 0.018,
+              fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
           'Setor: ${widget.setor}\nStatus: ${widget.status}',
-          style: TextStyle(color: AppColors.gradientDarkBlue),
+          style: TextStyle(
+              color: AppColors.gradientDarkBlue,
+              fontFamily: "FredokaOne",
+              fontSize: MediaQuery.of(context).size.height * 0.016),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -51,6 +58,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
             IconButton(
               icon: Icon(Icons.info),
               color: AppColors.blue,
+              iconSize: MediaQuery.of(context).size.width * 0.014,
               onPressed: () {
                 //Lógica ao clicar
                 _showInfoEmployeeDialog(user, context);
@@ -60,6 +68,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
             IconButton(
               icon: Icon(Icons.edit),
               color: AppColors.blue,
+              iconSize: MediaQuery.of(context).size.width * 0.014,
               onPressed: () {
                 //  editar a demanda
                 _showEditEmployeeDialog(context, user);
@@ -69,6 +78,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
             IconButton(
                 icon: Icon(Icons.delete),
                 color: AppColors.blue,
+                iconSize: MediaQuery.of(context).size.width * 0.014,
                 onPressed: () async {
                   showDialog(
                     context: context,
@@ -100,17 +110,16 @@ class FuncionarioCardState extends State<FuncionarioCard> {
     showDialog(
       context: context,
       builder: (context) {
-        final TextEditingController _nomeController = TextEditingController();
-        final TextEditingController _setorController = TextEditingController();
-        final TextEditingController _emailController = TextEditingController();
-        final TextEditingController _usuarioController =
-            TextEditingController();
-        final TextEditingController _senhaController = TextEditingController();
-        final TextEditingController _tipoController = TextEditingController();
+        final TextEditingController nomeController = TextEditingController();
+        final TextEditingController setorController = TextEditingController();
+        final TextEditingController emailController = TextEditingController();
+        final TextEditingController usuarioController = TextEditingController();
+        final TextEditingController senhaController = TextEditingController();
+        final TextEditingController tipoController = TextEditingController();
 
-        _nomeController.text = user['nome'];
-        _emailController.text = user['email'];
-        _usuarioController.text = user['usuario'];
+        nomeController.text = user['nome'];
+        emailController.text = user['email'];
+        usuarioController.text = user['usuario'];
 
         return ReusableDialog(
           title: "Editar Funcionário",
@@ -123,35 +132,70 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.height * 0.012),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Inputs(
-                        text: "Nome",
-                        controller: _nomeController,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Nome",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: user['nome'],
+                            controller: nomeController,
+                          ))
+                        ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Tipo de Acesso',
                             style: TextStyle(
-                                color: AppColors.gradientDarkBlue,
+                                fontFamily: "FredokaOne",
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.016,
+                                color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
                           Row(
                             children: [
                               CheckBox(
                                 tipo: 'gerente',
-                                controller: _tipoController,
+                                controller: tipoController,
                               ),
-                              const Text(
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.01,
+                              ),
+                              Text(
                                 'Gerente',
                                 style: TextStyle(
-                                    color: AppColors.gradientDarkBlue),
+                                    color: AppColors.blue,
+                                    fontFamily: "FredokaOne",
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016),
                               ),
                             ],
                           ),
@@ -159,82 +203,177 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             children: [
                               CheckBox(
                                 tipo: 'padrao',
-                                controller: _tipoController,
+                                controller: tipoController,
                               ),
-                              const Text(
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.01,
+                              ),
+                              Text(
                                 'Funcionário',
                                 style: TextStyle(
-                                    color: AppColors.gradientDarkBlue),
+                                    color: AppColors.blue,
+                                    fontFamily: "FredokaOne",
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.016),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
                       Row(
                         children: [
                           Text(
                             "Setor*",
                             style: TextStyle(
-                                fontSize: 15,
-                                color: AppColors.gradientDarkBlue,
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.016,
+                                fontFamily: "FredokaOne",
+                                color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                          ),
                           Dropdownbutton(
-                            controller: _setorController,
-                          )
+                            controller: setorController,
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      Inputs(
-                        text: "Email",
-                        controller: _emailController,
-                        hint: user['email'],
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Email",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: user['email'],
+                            controller: emailController,
+                          ))
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Inputs(
-                        text: "Nome de Usuário",
-                        controller: _usuarioController,
-                        hint: user['usuario'],
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Nome de Usuário",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: user['usuario'],
+                            controller: usuarioController,
+                          ))
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Inputs(
-                        text: "Senha",
-                        controller: _senhaController,
-                        hint: "Digite uma nova senha",
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.016),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.02),
+                            child: Text(
+                              "Senha",
+                              style: TextStyle(
+                                  fontFamily: "FredokaOne",
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.016,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blue),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Expanded(
+                              child: InputTextField(
+                            labelText: '',
+                            hintText: "",
+                            controller: senhaController,
+                          ))
+                        ],
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<UsuarioBloc>().add(UsuarioUpdate(
-                          _nomeController.text,
-                          _setorController.text,
-                          _tipoController.text,
-                          _emailController.text.isEmpty
-                              ? user['email']
-                              : _emailController.text.isEmpty,
-                          _usuarioController.text,
-                          user['id'],
-                          _senhaController.text,
-                        ));
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.gradientDarkBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(22),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.024),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      AppColors.gradientDarkBlue,
+                      AppColors.gradientLightBlue
+                    ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.height * 0.022),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.read<UsuarioBloc>().add(UsuarioUpdate(
+                            nomeController.text,
+                            setorController.text,
+                            tipoController.text,
+                            emailController.text.isEmpty
+                                ? user['email']
+                                : emailController.text,
+                            usuarioController.text,
+                            user['id'],
+                            senhaController.text,
+                          ));
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            MediaQuery.of(context).size.height * 0.022),
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
+                    child: Text(
+                      "Concluir",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "FredokaOne",
+                          fontSize: MediaQuery.of(context).size.height * 0.02),
+                    ),
                   ),
-                  child: const Text(
-                    "Concluir",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
+                )
               ],
             ),
           ),
@@ -258,7 +397,8 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.height * 0.012),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -66,14 +66,14 @@ class ChartContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 150,
+      height: MediaQuery.of(context).size.height * 0.15,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
-            blurRadius: 8,
+            blurRadius: MediaQuery.of(context).size.height * 0.008,
             offset: Offset(0, 4),
           ),
         ],
@@ -90,17 +90,17 @@ class ChartContainer extends StatelessWidget {
                 children: [
                   Text(
                     "Completas: $completas",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.016, fontFamily: "FredokaOne", color: Colors.black),
                   ),
                   SizedBox(height: 5),
                   Text(
                     "Restantes: $restantes",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.016, fontFamily: "FredokaOne", color: Colors.black),
                   ),
                   SizedBox(height: 10),
                   Text(
                     "Total: ${completas + restantes}",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.018, fontFamily: "FredokaOne", fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
