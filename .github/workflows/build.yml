@@ -14,6 +14,10 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       # The analysis requires to retrieve dependencies and build successfully
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.27.3
       - name: Build
         run: flutter run
       - name: SonarQube Scan
