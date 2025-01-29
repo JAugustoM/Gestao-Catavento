@@ -6,6 +6,7 @@ class CheckBox extends StatefulWidget {
   final String tipo;
 
   const CheckBox({super.key, required this.controller, required this.tipo});
+
   @override
   State<CheckBox> createState() {
     return CheckBoxState();
@@ -22,7 +23,15 @@ class CheckBoxState extends State<CheckBox> {
     return Theme(
       data: Theme.of(context).copyWith(
         checkboxTheme: CheckboxThemeData(
-          side: BorderSide(color: AppColors.mediumPink),
+          side: BorderSide(color: AppColors.mediumPink), // Cor da borda
+          checkColor: MaterialStateProperty.all(
+              Colors.white), // Cor do tique (marcado), branco
+          fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+            if (states.contains(MaterialState.selected)) {
+              return AppColors.pink; // Cor rosa quando marcada
+            }
+            return Colors.transparent; // Transparente quando desmarcada
+          }),
         ),
       ),
       child: Transform.scale(
