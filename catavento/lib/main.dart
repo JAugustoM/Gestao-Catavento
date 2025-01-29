@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/Funcionario/dashboardfuncionario.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:catavento/shared/theme/colors.dart';
 
 void main() {
   setupDependencies();
@@ -107,8 +108,32 @@ class LoadView extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is auth_bloc.AuthLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.gradientDarkBlue,
+                        AppColors.gradientLightBlue
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: const Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(
+                          strokeWidth: 6,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
+
               return const Login();
             },
           );
