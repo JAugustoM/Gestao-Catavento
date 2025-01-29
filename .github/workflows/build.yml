@@ -19,7 +19,7 @@ jobs:
         with:
           flutter-version: 3.27.3
       - name: Build
-        run: flutter run
+        run: cd catavento && flutter run
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
