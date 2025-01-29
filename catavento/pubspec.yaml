@@ -51,6 +51,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   syncfusion_flutter_charts: ^28.1.41
+  flutter_native_splash: ^2.4.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -84,6 +85,7 @@ flutter:
     - assets/images/photo.jpg
     - assets/images/cake.png
     - assets/images/bolo_fake.jpg
+    - assets/images/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
