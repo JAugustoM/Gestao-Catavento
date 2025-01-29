@@ -1,8 +1,5 @@
-import 'package:catavento/bloc/auth/auth_bloc.dart';
-import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardDemanda extends StatefulWidget {
   final String title;
@@ -12,8 +9,6 @@ class CardDemanda extends StatefulWidget {
   final Color shadowColor;
   final double width;
   final double height;
-  final String? imagem;
-  final int status;
   final void Function(int duration)? onCronometroFinalizado;
 
   const CardDemanda({
@@ -25,8 +20,6 @@ class CardDemanda extends StatefulWidget {
     required this.shadowColor,
     required this.width,
     required this.height,
-    required this.imagem,
-    required this.status,
     this.onCronometroFinalizado,
   }) : super(key: key);
 
@@ -43,29 +36,11 @@ class _CardDemandaState extends State<CardDemanda> {
   @override
   void initState() {
     super.initState();
-    if (widget.status == 0) {
-      _buttonText = "Iniciar Bolo";
-    } else if (widget.status == 1) {
-      _buttonText = "Finalizar Bolo";
-    }
+    _buttonText =
+        "Iniciar Bolo"; // Garante que o estado do botão seja sempre "Iniciar Bolo"
   }
 
   void _handleButtonPress() {
-    if (_buttonText == "Iniciar Bolo") {
-      final email = context.read<AuthBloc>().email;
-      final setor = context.read<AuthBloc>().setor!.toLowerCase();
-      context.read<TrabalhoBloc>().add(TrabalhoInit(
-            email: email!,
-            setor: setor,
-          ));
-    } else if (_buttonText == "Finalizar Bolo") {
-      final email = context.read<AuthBloc>().email;
-      final setor = context.read<AuthBloc>().setor!.toLowerCase();
-      context.read<TrabalhoBloc>().add(TrabalhoFinish(
-            email: email!,
-            setor: setor,
-          ));
-    }
     setState(() {
       if (_buttonText == "Iniciar Bolo") {
         _isCronometroRunning = true;
@@ -124,19 +99,12 @@ class _CardDemandaState extends State<CardDemanda> {
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: widget.imagem == null
-                        ? Image.asset(
-                            'assets/images/photo.jpg',
-                            width: 100,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(
-                            widget.imagem!,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+                    child: Image.asset(
+                      'assets/images/photo.jpg',
+                      width: 100,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 )
               ]),

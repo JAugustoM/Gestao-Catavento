@@ -1,10 +1,5 @@
-import 'package:catavento/bloc/auth/auth_bloc.dart';
-import 'package:catavento/bloc/produto/produto_bloc.dart';
-import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
-import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import "../../shared/widgets/menuBar.dart";
 import "./components/cardDemandaFuncionario.dart";
 
@@ -89,107 +84,74 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
             child: Navbar(),
           ),
           Expanded(
-            child: BlocConsumer<TrabalhoBloc, TrabalhoState>(
-              listener: (context, state) {
-                if (state is TrabalhoEmptyState) {
-                  final email = context.read<AuthBloc>().email;
-                  final setor = context.read<AuthBloc>().setor!.toLowerCase();
-                  context.read<TrabalhoBloc>().add(TrabalhoLoading(
-                        email: email!,
-                        setor: setor,
-                      ));
-                } else if (state is TrabalhoErrorState) {
-                  showBlocSnackbar(context, state.message);
-                } else if (state is TrabalhoFinishState) {
-                  final email = context.read<AuthBloc>().email;
-                  final setor = context.read<AuthBloc>().setor!.toLowerCase();
-                  context.read<TrabalhoBloc>().add(TrabalhoGet(
-                        email: email!,
-                        setor: setor,
-                      ));
-                }
-              },
-              builder: (context, state) {
-                final demandas = state.demandas;
-                final setor = context.read<AuthBloc>().setor!.toLowerCase();
-                List<String?> imagens = [];
-                for (var demanda in demandas) {
-                  final imagem = context
-                      .read<ProdutoBloc>()
-                      .getImageUrl(demanda['produto_id']);
-                  imagens.add(imagem);
-                }
-                return Center(
-                  child: currentTasks.isNotEmpty
-                      ? Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: screenWidth / 5, vertical: 50),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: demandas
-                                  .take(5)
-                                  .toList()
-                                  .asMap()
-                                  .entries
-                                  .map((entry) {
-                                    int index = entry.key;
-                                    Map<String, dynamic> task = entry.value;
+            child: Center(
+              child: currentTasks.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: screenWidth / 5, vertical: 50),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: currentTasks
+                              .take(5)
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map((entry) {
+                                int index = entry.key;
+                                Map<String, String> task = entry.value;
 
-                                    return AnimatedPositioned(
-                                      key: ValueKey(
-                                          "${task["produto_id"] ?? "Null"} ${task["status_$setor"]}"),
-                                      duration: Duration(milliseconds: 500),
-                                      top: index * 20.0,
-                                      left: index * 20.0,
-                                      child: AnimatedOpacity(
-                                        duration: Duration(milliseconds: 300),
-                                        opacity: 1,
-                                        child: Transform.scale(
-                                          scale: 1 - (index * 0.05),
-                                          child: CardDemanda(
-                                            title: task["nome_demanda"]!,
-                                            width: screenWidth * 0.27,
-                                            height: screenHeight * 0.8,
-                                            description: task["descricao"]!,
-                                            codigo: task["produto_id"] ??
-                                                "Sem código",
-                                            imagem: imagens[index],
-                                            status: task["status_$setor"],
-                                            backgroundColor: Color.lerp(
-                                                  const Color.fromARGB(
-                                                      255, 235, 235, 235),
-                                                  const Color.fromARGB(
-                                                      255, 168, 168, 168),
-                                                  index / 5,
-                                                ) ??
-                                                const Color.fromARGB(
-                                                    255, 235, 235, 235),
-                                            shadowColor: Colors.black
-                                                .withOpacity(0.2 + index * 0.1),
-                                            onCronometroFinalizado:
-                                                (int duration) {
-                                              _removeTask(index);
-                                            },
-                                          ),
-                                        ),
+                                return AnimatedPositioned(
+                                  key: ValueKey(task["codigo"]),
+                                  duration: Duration(milliseconds: 500),
+                                  top: index * 20.0,
+                                  left: index * 20.0,
+                                  child: AnimatedOpacity(
+                                    duration: Duration(milliseconds: 300),
+                                    opacity: 1,
+                                    child: Transform.scale(
+                                      scale: 1 - (index * 0.05),
+                                      child: CardDemanda(
+                                        title: task["nome"]!,
+                                        width: screenWidth * 0.27,
+                                        height: screenHeight * 0.8,
+                                        description: task["descricao"]!,
+                                        codigo: task["codigo"]!,
+                                        backgroundColor: Color.lerp(
+                                              const Color.fromARGB(
+                                                  255, 235, 235, 235),
+                                              const Color.fromARGB(
+                                                  255, 168, 168, 168),
+                                              index / 5,
+                                            ) ??
+                                            const Color.fromARGB(
+                                                255, 235, 235, 235),
+                                        shadowColor: Colors.black
+                                            .withOpacity(0.2 + index * 0.1),
+                                        onCronometroFinalizado: (int duration) {
+                                          // duration é basicamente o tempo que o funcionário levou pra concluir o bolo
+                                          // levar esse dado para o banco de dados
+                                          print(
+                                              "Tempo finalizado: $duration segundos");
+                                          _removeTask(index);
+                                        },
                                       ),
-                                    );
-                                  })
-                                  .toList()
-                                  .reversed
-                                  .toList(),
-                            ),
-                          ),
-                        )
-                      : Text(
-                          "Todas as tarefas foram concluídas!",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                );
+                              })
+                              .toList()
+                              .reversed
+                              .toList(),
                         ),
-                );
-              },
+                      ),
+                    )
+                  : Text(
+                      "Todas as tarefas foram concluídas!",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
             ),
           ),
         ],
