@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PurpleTextField extends StatelessWidget {
+
   final String label;
   final Icon icon;
-  const PurpleTextField({super.key, required this.label , required this.icon});
+  final bool isSecurepassword ;
+  const PurpleTextField({super.key, required this.label , required this.icon , required this.isSecurepassword });
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class PurpleTextField extends StatelessWidget {
       width: 324,
       height: 68 ,
       child: TextField(
-
+        obscureText: isSecurepassword,
         decoration: InputDecoration(
 
             border: OutlineInputBorder(
@@ -29,6 +31,7 @@ class PurpleTextField extends StatelessWidget {
             filled: true,
             fillColor: Color(0xFFDEE1FF),
             labelText: label,
+
             labelStyle: TextStyle(
                 color: Color(0xCCACACAC),
                 fontSize: 16.0,
@@ -38,4 +41,12 @@ class PurpleTextField extends StatelessWidget {
       ),
     );
   }
+
+
+  Widget togglePassword(){
+    return IconButton(onPressed: ()=>{
+
+    }, icon: isSecurepassword ?Icon( Icons.visibility) : Icon(Icons.visibility_off));
+  }
 }
+

@@ -11,6 +11,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +53,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                     children: [
                       PurpleTextField(
+                        isSecurepassword: false,
                         label: "Digite o nome do seu usuário",
                         icon: Icon(
                           Icons.person_outline,
@@ -62,6 +64,7 @@ class _LoginState extends State<Login> {
                         height: 20,
                       ),
                       PurpleTextField(
+                        isSecurepassword: true,
                         label: "Digite a sua senha",
                         icon: Icon(
                           Icons.lock_outline,
