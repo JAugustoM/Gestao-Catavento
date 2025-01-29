@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 
-class PurpleTextField extends StatefulWidget {
+class PurpleTextFieldEmail extends StatefulWidget {
   final String label;
   final Icon icon;
-  final bool isSecurepassword;
 
-  const PurpleTextField({
+
+  const PurpleTextFieldEmail({
     super.key,
     required this.label,
     required this.icon,
-    required this.isSecurepassword,
+
   });
 
   @override
-  _PurpleTextFieldState createState() => _PurpleTextFieldState();
+  _PurpleTextFieldEmailState createState() => _PurpleTextFieldEmailState();
 }
 
-class _PurpleTextFieldState extends State<PurpleTextField> {
-  late bool _securePasswordState;
+class _PurpleTextFieldEmailState extends State<PurpleTextFieldEmail> {
+
 
   @override
   void initState() {
     super.initState();
     // Inicializa o estado da visibilidade da senha com o valor recebido no construtor.
-    _securePasswordState = widget.isSecurepassword;
+
   }
 
   @override
@@ -32,7 +32,7 @@ class _PurpleTextFieldState extends State<PurpleTextField> {
       width: 324,
       height: 68,
       child: TextField(
-        obscureText: _securePasswordState,
+
         decoration: InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(width: 2),
@@ -45,7 +45,7 @@ class _PurpleTextFieldState extends State<PurpleTextField> {
           filled: true,
           fillColor: Color(0xFFDEE1FF),
           labelText: widget.label,
-          suffixIcon: togglePassword() ,
+
           labelStyle: TextStyle(
               color: Color(0xCCACACAC),
               fontSize: 16.0,
@@ -56,16 +56,5 @@ class _PurpleTextFieldState extends State<PurpleTextField> {
   }
 
   // Função para alternar a visibilidade da senha
-  Widget togglePassword() {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          _securePasswordState = !_securePasswordState;
-        });
-      },
-      icon: _securePasswordState
-          ? Icon(Icons.visibility , color: Color(0xFFACACAC),)
-          : Icon(Icons.visibility_off,  color: Color(0xFFACACAC),) ,
-    );
-  }
+
 }

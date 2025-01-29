@@ -1,3 +1,4 @@
+import 'package:catavento/screens/Login/components/input_purple_email.dart';
 import 'package:flutter/material.dart';
 import 'components/input_purple.dart';
 import 'components/button_singIn.dart';
@@ -52,8 +53,8 @@ class _LoginState extends State<Login> {
                   Form(
                       child: Column(
                     children: [
-                      PurpleTextField(
-                        isSecurepassword: false,
+                      PurpleTextFieldEmail(
+
                         label: "Digite o nome do seu usuário",
                         icon: Icon(
                           Icons.person_outline,
