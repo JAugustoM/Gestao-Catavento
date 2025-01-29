@@ -8,7 +8,7 @@ on:
 jobs:
   sonarqube:
     name: SonarQube
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,8 +18,14 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.27.3
+
+      - name: Instalar Dependências
+        run: |
+          cd catavento
+          flutter pub get
+          flutter pub upgrade
       - name: Build
-        run: cd catavento && flutter run
+        run: cd catavento && flutter build windows
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
