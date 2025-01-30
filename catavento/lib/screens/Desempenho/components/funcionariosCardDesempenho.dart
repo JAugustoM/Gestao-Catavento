@@ -1,7 +1,11 @@
-import 'package:catavento/screens/Desempenho/components/bolosDesempenhoCard.dart';
+import 'package:catavento/screens/Desempenho/components/listaDiario.dart';
+import 'package:catavento/screens/Desempenho/components/listaMensal.dart';
+import 'package:catavento/screens/Desempenho/components/listaSemanal.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
+import 'package:catavento/shared/widgets/dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class FuncionariosCardDesempenho extends StatefulWidget {
   final String nomeFuncionario;
@@ -22,7 +26,6 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
   //Dados temporarios
   final String nome = '{nomeFuncionario}';
   final String setor = '{setor}';
-  final String mediaDesempenho = '00:00';
 
     final List<Map<String, String>> bolos = [
     {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
@@ -80,7 +83,7 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
           IconButton(
             icon: Icon(Icons.info, color: AppColors.blue, size: screenWidth * 0.018,),
             onPressed: () {
-              _showInfoDialog(context, nome, setor, mediaDesempenho);
+              _showInfoDialog(context, nome, setor);
             },
           )
         ],
@@ -88,8 +91,7 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
     );
   }
 
-  void _showInfoDialog(BuildContext context, String nome, String setor,
-      String mediaDesempenho) {
+  void _showInfoDialog(BuildContext context, String nome, String setor,) {
     showDialog(
       context: context,
       builder: (context) {
@@ -131,16 +133,17 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                           child: Icon(Icons.person, color: AppColors.blue, size: MediaQuery.of(context).size.width * 0.07,),
                         )
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
                       Center(
                         child: Column(
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   'Nome: ',
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontSize: MediaQuery.of(context).size.height * 0.026,
                                     fontFamily: "FredokaOne",
                                     color: AppColors.blue,
                                     fontWeight: FontWeight.bold
@@ -149,20 +152,21 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   nome,
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontSize: MediaQuery.of(context).size.height * 0.026,
                                     fontFamily: "FredokaOne",
                                     color: AppColors.blue
                                   ),
                                 )
                               ],
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   'Setor: ',
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontSize: MediaQuery.of(context).size.height * 0.026,
                                     fontFamily: "FredokaOne",
                                     color: AppColors.blue,
                                     fontWeight: FontWeight.bold
@@ -171,48 +175,47 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   setor,
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.024,
+                                    fontSize: MediaQuery.of(context).size.height * 0.026,
                                     fontFamily: "FredokaOne",
                                     color: AppColors.blue
                                   ),
                                 )
                               ],
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    _showDesempenhoDialog(context, nome, setor, mediaDesempenho);
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              height: MediaQuery.of(context).size.height * 0.047,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(22),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _showDesempenhoDialog(context);
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(22),
+                                    ),
+                                  ),
                                   child: Text(
-                                  'Desempenho: ',
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.024,
-                                    fontFamily: "FredokaOne",
-                                    color: AppColors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
+                                    "Adicionar Demanda",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: MediaQuery.of(context).size.height * 0.020
+                                    ),
                                   ),
                                 ),
-                                ),
-
-                                InkWell(
-                                  onTap: () {
-                                    _showDesempenhoDialog(context, nome, setor, mediaDesempenho);
-                                  },
-                                  child: Text(
-                                  mediaDesempenho,
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.024,
-                                    fontFamily: "FredokaOne",
-                                    color: AppColors.blue,
-                                    decoration: TextDecoration.underline
-                                  ),
-                                ),
-                                )
-                              ],
-                            ),
+                              ),
+                            )
                           ],
                         ),
                       )
@@ -227,51 +230,42 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
     );
   }
 
-  void _showDesempenhoDialog(BuildContext context, String nome, String setor,
-      String mediaDesempenho) {
+  void _showDesempenhoDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
-        return ReusableDialog(
-          backgroundColor: AppColors.lightGray,
-          title: 'Desempenhos',
-          body: SingleChildScrollView(
-            // Adicionando SingleChildScrollView para evitar overflow
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: AppColors.gradientDarkBlue),
-                    borderRadius:
-                        BorderRadius.circular(16), // Bordas arredondadas
-                  ),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: bolos.length,
-                      itemBuilder: (context, index) {
-                        final bolo = bolos[index];
-                        return Bolosdesempenhocard(
-                          nomeDemanda: bolo['nomeDemanda']!,
-                          inicio: bolo['inicio']!,
-                          fim: bolo['fim']!,
-                          duracao: bolo['duracao']!,
-                          image: bolo['image']!,
-                        );
-                      }
+        // Variável para controlar qual lista será exibida
+        String selectedValue = 'hoje';
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return ReusableDialog(
+              backgroundColor: AppColors.lightGray,
+              title: 'Desempenhos',
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomDropdownDesempenho(
+                      initialValue: selectedValue,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value; // Atualiza o valor selecionado
+                        });
+                      },
                     ),
-                  )
+                    // Exibe a lista correspondente ao valor selecionado
+                    if (selectedValue == 'hoje') Listadiario(),
+                    if (selectedValue == 'semanal') Listasemanal(),
+                    if (selectedValue == 'mensal') Listamensal(),  // Sua lista mensal aqui
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
   }
+
 }

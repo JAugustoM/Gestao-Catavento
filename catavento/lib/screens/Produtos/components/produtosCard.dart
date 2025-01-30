@@ -433,45 +433,6 @@ class ProdutosCardState extends State<ProdutosCard> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColors.gradientDarkBlue,
-                                    AppColors.gradientLightBlue
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(22),
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  context.read<ProdutoBloc>().add(ProdutoUpdate(
-                                        nomeProduto: nomeController.text,
-                                        codigo: codigoController.text,
-                                        descricaoProduto:
-                                            descricaoController.text,
-                                        imagemProduto: image,
-                                      ));
-                                  Navigator.pop(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
-                                ),
-                                child: const Text(
-                                  "Concluir",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -480,21 +441,41 @@ class ProdutosCardState extends State<ProdutosCard> {
                 ),
                 const SizedBox(height: 20),
                 Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      ///
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.gradientDarkBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.gradientDarkBlue,
+                          AppColors.gradientLightBlue
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
+                      borderRadius: BorderRadius.circular(22),
                     ),
-                    child: const Text(
-                      "Salvar",
-                      style: TextStyle(
-                        fontFamily: "FredokaOne",
-                        color: Colors.white,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<ProdutoBloc>().add(ProdutoUpdate(
+                              nomeProduto: nomeController.text,
+                              codigo: codigoController.text,
+                              descricaoProduto:
+                                  descricaoController.text,
+                              imagemProduto: image,
+                            ));
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      child: const Text(
+                        "Salvar",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -522,23 +503,21 @@ class ProdutosCardState extends State<ProdutosCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Imagem com altura e largura definidas
-                Container(
-                  width: double
-                      .infinity, // A imagem ocupará toda a largura disponível
-                  height: screenHeight *
-                      0.3, // Altura fixada para evitar que a imagem ocupe um tamanho indefinido
+                SizedBox(
+                  width: double.infinity, // A imagem ocupará toda a largura disponível
+                  height: screenHeight * 0.6, // Altura fixada para evitar que a imagem ocupe um tamanho indefinido
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: imageUrl != ''
-                          ? Image.network(
-                              imageUrl,
-                              fit: BoxFit
-                                  .cover, // Garante que a imagem cubra a área
-                            )
-                          : Image.file(
-                              File('../catavento/assets/images/cake.png'),
-                              fit: BoxFit.cover,
-                            )),
+                        ? Image.network(
+                            imageUrl,
+                            fit: BoxFit
+                                .cover, // Garante que a imagem cubra a área
+                          )
+                        : Image.file(
+                            File('../catavento/assets/images/cake.png'),
+                            fit: BoxFit.cover,
+                          )),
                 ),
                 const SizedBox(height: 20),
 
@@ -569,7 +548,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                           Flexible(
                             child: Text(
                               codigo,
-                              style: TextStyle(
+                              style:  TextStyle(
                                 fontSize: screenHeight * 0.016,
                                 fontFamily: 'FredokaOne',
                                 color: AppColors.gradientDarkBlue,
@@ -581,10 +560,10 @@ class ProdutosCardState extends State<ProdutosCard> {
                       const SizedBox(height: 10),
 
                       // Descrição
-                      Row(
+                       Row(
                         children: [
                           Text(
-                            "Descrição: ",
+                            "Descrição:",
                             style: TextStyle(
                               fontSize: screenHeight * 0.016,
                               fontFamily: 'FredokaOne',
@@ -594,16 +573,17 @@ class ProdutosCardState extends State<ProdutosCard> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            descricao,
-                            style: TextStyle(
-                              fontSize: screenHeight * 0.016,
-                              fontFamily: "FredokaOne",
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.gradientDarkBlue,
-                            ),
+                          descricao,
+                          style: TextStyle(
+                            fontSize: screenHeight * 0.016,
+                            fontFamily: "FredokaOne",
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.gradientDarkBlue,
                           ),
+                        ),
                         ],
                       ),
+                      
                     ],
                   ),
                 ),
@@ -614,4 +594,5 @@ class ProdutosCardState extends State<ProdutosCard> {
       },
     );
   }
+
 }
