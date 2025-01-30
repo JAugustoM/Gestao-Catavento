@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
@@ -67,14 +69,41 @@ class DashBoardFuncionario extends StatefulWidget {
 }
 
 class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
-  List<Map<String, String>> currentTasks = List.from(tasks);
-
-  void _removeTask(int index) {
-    setState(() {
-      currentTasks.removeAt(index);
-    });
-  }
-
+  List<Map<String, dynamic>> demandas = [];
+  final List<Map<String, dynamic>> _demandasFalsas = [
+    {
+      "nome_demanda": "Carregando",
+      "produto_id": "Carregando",
+      "descricao": "Carregando",
+      "status_aplique": 0,
+      "status_cobertura": 0,
+      "status_montagem": 0,
+    },
+    {
+      "nome_demanda": "Carregando",
+      "produto_id": "Carregando",
+      "descricao": "Carregando",
+      "status_aplique": 0,
+      "status_cobertura": 0,
+      "status_montagem": 0,
+    },
+    {
+      "nome_demanda": "Carregando",
+      "produto_id": "Carregando",
+      "descricao": "Carregando",
+      "status_aplique": 0,
+      "status_cobertura": 0,
+      "status_montagem": 0,
+    },
+    {
+      "nome_demanda": "Carregando",
+      "produto_id": "Carregando",
+      "descricao": "Carregando",
+      "status_aplique": 0,
+      "status_cobertura": 0,
+      "status_montagem": 0,
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -110,7 +139,20 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                 }
               },
               builder: (context, state) {
-                final demandas = state.demandas;
+                if (state is TrabalhoGetState ||
+                    state is TrabalhoLoadingState) {
+                  final metaData = state.metaData;
+                  final faltam = min(metaData["faltam"] ?? 0, 5);
+
+                  if (state.demandas.isNotEmpty) {
+                    demandas.insert(0, state.demandas.first);
+                    if (demandas.length < faltam) {
+                      demandas.addAll(
+                          _demandasFalsas.take(faltam - demandas.length));
+                    }
+                  }
+                }
+
                 final setor = context.read<AuthBloc>().setor!.toLowerCase();
                 List<String?> imagens = [];
                 for (var demanda in demandas) {
@@ -120,7 +162,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                   imagens.add(imagem);
                 }
                 return Center(
-                  child: currentTasks.isNotEmpty
+                  child: demandas.isNotEmpty
                       ? Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: screenWidth / 5, vertical: 50),
@@ -138,8 +180,6 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                     Map<String, dynamic> task = entry.value;
 
                                     return AnimatedPositioned(
-                                      key: ValueKey(
-                                          "${task["produto_id"] ?? "Null"} ${task["status_$setor"]}"),
                                       duration: Duration(milliseconds: 500),
                                       top: index * 20.0,
                                       left: index * 20.0,
@@ -156,7 +196,7 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                             codigo: task["produto_id"] ??
                                                 "Sem código",
                                             imagem: imagens[index],
-                                            status: task["status_$setor"],
+                                            status: task["status_$setor"] ?? 0,
                                             backgroundColor: Color.lerp(
                                                   const Color.fromARGB(
                                                       255, 235, 235, 235),
@@ -168,9 +208,8 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
                                                     255, 235, 235, 235),
                                             shadowColor: Colors.black
                                                 .withOpacity(0.2 + index * 0.1),
-                                            onCronometroFinalizado:
-                                                (int duration) {
-                                              _removeTask(index);
+                                            onCronometroFinalizado: () {
+                                              demandas.removeAt(index);
                                             },
                                           ),
                                         ),

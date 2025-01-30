@@ -10,7 +10,7 @@ part 'trabalho_state.dart';
 class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
-  DatabaseResponse _demandas = [];
+  final DatabaseResponse _demandas = [];
 
   TrabalhoEvent get initialState => TrabalhoLoading(email: '', setor: '');
 
@@ -96,6 +96,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           .from('demandas')
           .select()
           .eq('status_${event.setor}', 0)
+          .eq('status', "Pendente")
           .order('data_adicao', ascending: true)
           .order('status_aplique')
           .order('status_cobertura');
@@ -118,14 +119,16 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           _demandas,
           metaData,
         ));
-      } catch (e) {
+      } on PostgrestException catch (e) {
         final metaData = await _countTrabalho(event.setor, event.email);
-        emit(TrabalhoErrorState(
-          _currentData,
-          _demandas,
-          metaData,
-          "Erro ao importar bolo do banco de dados - $e",
-        ));
+        if (e.code != "23505") {
+          emit(TrabalhoErrorState(
+            _currentData,
+            _demandas,
+            metaData,
+            "Erro ao importar bolo do banco de dados - $e",
+          ));
+        }
       }
     } else {
       emit(TrabalhoErrorState(
