@@ -22,7 +22,8 @@ class DropdownbuttonState extends State<Dropdownbutton> {
         padding: EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
             border: Border.all(color: AppColors.pink),
-            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * 0.02)),
+            borderRadius: BorderRadius.circular(
+                MediaQuery.of(context).size.height * 0.02)),
         child: DropdownButton(
             isExpanded: true,
             icon: Icon(
@@ -31,7 +32,11 @@ class DropdownbuttonState extends State<Dropdownbutton> {
               color: AppColors.blue,
             ),
             underline: SizedBox(),
-            style: TextStyle(color: AppColors.blue, fontSize: MediaQuery.of(context).size.height * 0.016),
+            style: TextStyle(
+                color: AppColors.blue,
+                fontFamily: "Fredoka",
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.height * 0.016),
             value: selectedOption,
             items: <String>['Cobertura', 'Aplique', 'Montagem']
                 .map((String value) {

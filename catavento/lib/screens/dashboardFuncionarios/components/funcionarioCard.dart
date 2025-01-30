@@ -45,12 +45,57 @@ class FuncionarioCardState extends State<FuncionarioCard> {
               fontSize: MediaQuery.of(context).size.height * 0.018,
               fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(
-          'Setor: ${widget.setor}\nStatus: ${widget.status}',
-          style: TextStyle(
-              color: AppColors.gradientDarkBlue,
-              fontFamily: "FredokaOne",
-              fontSize: MediaQuery.of(context).size.height * 0.016),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Setor: ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "FredokaOne",
+                    color: AppColors.gradientLightBlue,
+                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                  ),
+                ),
+                SizedBox(height: 3),
+                Text(
+                  widget.setor,
+                  style: TextStyle(
+                    fontFamily: "Fredoka",
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.gradientLightBlue,
+                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 3),
+            Row(
+              children: [
+                Text(
+                  'Status: ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "FredokaOne",
+                    color: AppColors.gradientLightBlue,
+                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                  ),
+                ),
+                SizedBox(height: 3),
+                Text(
+                  widget.status,
+                  style: TextStyle(
+                    fontFamily: "Fredoka",
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.gradientLightBlue,
+                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
