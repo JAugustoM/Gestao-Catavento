@@ -141,7 +141,7 @@ class EmployeeManagement extends StatelessWidget {
             "Novo Funcionário",
             style: TextStyle(
               fontFamily: "FredokaOne",
-              fontSize: size.height * 0.016,
+              fontSize: size.height * 0.02,
               color: Colors.white,
             ),
           ),
@@ -287,7 +287,7 @@ class EmployeeManagement extends StatelessWidget {
           Text(
             setor,
             style: TextStyle(
-              fontSize: screenHeight * 0.016,
+              fontSize: screenHeight * 0.018,
               color: AppColors.gradientLightBlue,
               fontFamily: "FredokaOne",
               fontWeight: FontWeight.bold,
@@ -350,7 +350,7 @@ class EmployeeManagement extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.blue),
                             ),

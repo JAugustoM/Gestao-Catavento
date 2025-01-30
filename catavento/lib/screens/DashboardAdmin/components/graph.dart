@@ -29,13 +29,13 @@ class PizzaChart extends StatelessWidget {
               sections: [
                 PieChartSectionData(
                   value: completasPercent * 100,
-                  title: '${(completasPercent * 100).toStringAsFixed(1)}%',
+                  title: '', // Remover título (porcentagem)
                   color: colors[0],
                   radius: constraints.maxWidth * 0.3,
                 ),
                 PieChartSectionData(
                   value: restantesPercent * 100,
-                  title: '${(restantesPercent * 100).toStringAsFixed(1)}%',
+                  title: '', // Remover título (porcentagem)
                   color: colors[1],
                   radius: constraints.maxWidth * 0.3,
                 ),
@@ -90,17 +90,26 @@ class ChartContainer extends StatelessWidget {
                 children: [
                   Text(
                     "Completas: $completas",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.016, fontFamily: "FredokaOne", color: Colors.black),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.016,
+                        fontFamily: "FredokaOne",
+                        color: Colors.black),
                   ),
                   SizedBox(height: 5),
                   Text(
                     "Restantes: $restantes",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.016, fontFamily: "FredokaOne", color: Colors.black),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.016,
+                        fontFamily: "FredokaOne",
+                        color: Colors.black),
                   ),
                   SizedBox(height: 10),
                   Text(
                     "Total: ${completas + restantes}",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.018, fontFamily: "FredokaOne", fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.018,
+                        fontFamily: "FredokaOne",
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
