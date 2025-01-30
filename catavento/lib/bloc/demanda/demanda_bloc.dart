@@ -91,6 +91,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       'status': 'Pendente',
       'status_cobertura': 0,
       'status_aplique': 0,
+      'status_montagem': 0,
       'loja': 'Não especificada',
     };
 
@@ -147,6 +148,10 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
           await _supabase.from('demandas').insert(demanda).select();
       if (response.isNotEmpty) {
         _currentData.add(response[0]);
+
+        final metaData = _countDemandas();
+
+        emit(DemandaCreateState(_currentData, metaData));
       } else {
         final metaData = _countDemandas();
         emit(DemandaErrorState(
@@ -163,10 +168,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         "Erro ao adicionar demanda - $e",
       ));
     }
-
-    final metaData = _countDemandas();
-
-    emit(DemandaCreateState(_currentData, metaData));
   }
 
   void _onDelete(DemandaDelete event, Emitter<DemandaState> emit) async {
