@@ -62,10 +62,47 @@ class _CardDemandaState extends State<CardDemanda> {
     });
   }
 
+  void _showImagePopup(String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Fecha o diálogo
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double cardWidth = widget.width;
     double cardHeight = widget.height;
+
     return SizedBox(
       width: cardWidth,
       height: cardHeight,
@@ -94,20 +131,28 @@ class _CardDemandaState extends State<CardDemanda> {
                 ],
               ),
               const SizedBox(height: 10),
-              // Imagem
-              Row(children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      'assets/images/photo.jpg',
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
+              // Imagem com clique
+              GestureDetector(
+                onTap: () => _showImagePopup('assets/images/photo.jpg'),
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            'assets/images/photo.jpg',
+                            width: 100,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              ]),
+                ),
+              ),
               const SizedBox(height: 10),
               // Descrição e código
               Expanded(
