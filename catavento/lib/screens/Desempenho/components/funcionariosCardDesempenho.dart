@@ -289,7 +289,7 @@ class FuncionariosCardDesempenhoState
                                     ),
                                   ),
                                   child: Text(
-                                    "Ver Desempenho",
+                                    "Ver Desempenhos",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize:

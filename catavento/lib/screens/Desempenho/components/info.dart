@@ -10,7 +10,7 @@ class Info extends StatefulWidget {
   });
 
   @override
-  State<Info> createState(){
+  State<Info> createState() {
     return InfoState();
   }
 }
@@ -27,14 +27,16 @@ class InfoState extends State<Info> {
             fontFamily: "FredokaOne",
             fontSize: MediaQuery.of(context).size.height * 0.02,
             color: Colors.white,
-            fontWeight: FontWeight.bold
           ),
         ),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.002,),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.002,
+        ),
         Text(
           widget.info,
           style: TextStyle(
-            fontFamily: "FredokaOne",
+            fontFamily: "Fredoka",
+            fontWeight: FontWeight.bold,
             fontSize: MediaQuery.of(context).size.height * 0.02,
             color: Colors.white,
           ),

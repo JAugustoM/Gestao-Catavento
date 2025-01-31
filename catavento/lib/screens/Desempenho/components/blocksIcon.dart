@@ -40,7 +40,8 @@ class BlocksState extends State<BlocksIcon> {
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
               color: widget.color,
-              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.height * widget.borderRadius)),
+              borderRadius: BorderRadius.circular(
+                  MediaQuery.of(context).size.height * widget.borderRadius)),
         ),
         if (widget.title != null)
           Positioned(
@@ -48,23 +49,27 @@ class BlocksState extends State<BlocksIcon> {
             left: 0,
             right: 0,
             child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(widget.icon, size: MediaQuery.of(context).size.width * 0.018, color: AppColors.blue,),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.005,),
-                  Text(
-                    widget.title!,
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height * 0.024,
-                        color: AppColors.gradientDarkBlue,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'FredokaOne'),
-                  ),
-                ],
-              )
-               
-            ),
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  widget.icon,
+                  size: MediaQuery.of(context).size.width * 0.018,
+                  color: AppColors.blue,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.005,
+                ),
+                Text(
+                  widget.title!,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.024,
+                      color: AppColors.gradientDarkBlue,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'FredokaOne'),
+                ),
+              ],
+            )),
           ),
         Positioned.fill(
           child: Align(

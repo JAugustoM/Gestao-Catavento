@@ -93,7 +93,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
         Container(
           height: height,
           width: width,
-          padding: EdgeInsets.only(left: 65, right: 65),
+          padding: EdgeInsets.only(left: 65, right: 65, top: 40, bottom: 40),
           decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(30),
