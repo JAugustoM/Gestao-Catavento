@@ -75,8 +75,6 @@ class SemanalState extends State<Semanal> {
                   Info(text: "Data: ", info: "10/01/2025"), //Mudar os infos para as informações reais (backend)
                   SizedBox(height: size.height * 0.002,),
                   Info(text: "Quantidade de vendas: ", info: "10"),
-                  SizedBox(height: size.height * 0.002,),
-                  Info(text: "Faturamento: ", info: "R\$ 100.00")
                 ],
               ),
             ),
@@ -96,8 +94,6 @@ class SemanalState extends State<Semanal> {
                   Info(text: "Data: ", info: "12/01/2025"), //Mudar os infos para as informações reais (backend)
                   SizedBox(height: size.height * 0.002,),
                   Info(text: "Quantidade de vendas: ", info: "0"),
-                  SizedBox(height: size.height * 0.002,),
-                  Info(text: "Faturamento: ", info: "R\$ 00.00")
                 ],
               ),
             ),

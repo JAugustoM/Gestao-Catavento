@@ -286,9 +286,11 @@ class ButtonAddDemanda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SizedBox(
-      width: 189,
-      height: 47,
+      width: size.width * 0.189,
+      height: size.height * 0.047,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -325,6 +327,8 @@ class ButtonAddDemanda extends StatelessWidget {
   Future<void> addInfoDemand(BuildContext context) => showDialog(
         context: context,
         builder: (BuildContext context) {
+          final size = MediaQuery.of(context).size;
+
           final TextEditingController _nomeController = TextEditingController();
           final TextEditingController _codigoController =
               TextEditingController();
@@ -357,13 +361,13 @@ class ButtonAddDemanda extends StatelessWidget {
                             Icon(
                               Icons.receipt_long_rounded,
                               color: AppColors.gradientDarkBlue,
-                              size: 20,
+                              size: size.width * 0.02,
                             ),
                             const SizedBox(width: 8),
-                            const Text(
+                            Text(
                               "Informações Gerais",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: size.height * 0.016,
                                 fontFamily: 'FredokaOne',
                                 color: AppColors.gradientDarkBlue,
                               ),
@@ -376,7 +380,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               "Código",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
-                                  fontSize: 16,
+                                  fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
                             Expanded(
@@ -394,7 +398,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               "Nome",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
-                                  fontSize: 16,
+                                  fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 10),
@@ -415,7 +419,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               "Data do pedido",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
-                                  fontSize: 16,
+                                  fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 10),
@@ -432,7 +436,7 @@ class ButtonAddDemanda extends StatelessWidget {
                               "Prazo",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
-                                  fontSize: 16,
+                                  fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 10),
@@ -462,7 +466,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             Icon(
                               Icons.search,
                               color: AppColors.gradientDarkBlue,
-                              size: 20,
+                              size: size.width * 0.02,
                             ),
                             const SizedBox(width: 8),
                             const Text(

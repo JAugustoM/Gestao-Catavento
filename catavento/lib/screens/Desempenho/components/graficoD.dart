@@ -52,7 +52,7 @@ class BarGraficDState extends State<BarGraficD> {
 
   List<LojasData> getLojasData(){
     final List<LojasData> chartData = [
-      LojasData('Elo7', 260),       //Mudar os numeros para as quantidades de vendas(backend)
+      LojasData('Elo7', 500),       //Mudar os numeros para as quantidades de vendas(backend)
       LojasData('M. Livre', 100),
       LojasData('Magalu', 467),
       LojasData('Shopee', 50),

@@ -13,7 +13,7 @@ class Listasemanal extends StatefulWidget {
 
 class ListasemanalState extends State<Listasemanal> {
   final String media = "--:--";
-  final String qtde = "100";
+  final String qtde = "-";
   final List<Map<String, String>> bolos = [
     {'nomeDemanda': '{nomeDemanda}', 'inicio': '--:--', 'fim' : '--:--', 'duracao' : '--:--', 'image' : '../catavento/assets/images/cake.png'},
     {'nomeDemanda': '{nomeDemanda}', 'inicio': '--:--', 'fim' : '--:--', 'duracao' : '--:--', 'image' : '../catavento/assets/images/cake.png'},
@@ -128,7 +128,7 @@ class ListasemanalState extends State<Listasemanal> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                _buildListBolos()
+                bolos.isEmpty ? _buildBlockWarning() : _buildListBolos()
               ],
             )
           )
@@ -153,6 +153,28 @@ class ListasemanalState extends State<Listasemanal> {
           image: bolo['image']!,
         );
       }
+    );
+  }
+
+  Widget _buildBlockWarning(){
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      width: size.width * 0.09,
+      height: size.height * 0.15,
+      decoration: BoxDecoration(
+        color: AppColors.mediumPink,
+        borderRadius: BorderRadius.circular(size.height * 0.025)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("A visualização de todos os bolos feitos", style: TextStyle(fontSize: size.height * 0.018, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "FredokaOne"),),
+          Text("não esta disponível no desempenho", style: TextStyle(fontSize: size.height * 0.018, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "FredokaOne"),),
+          Text("semanal.", style: TextStyle(fontSize: size.height * 0.018, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "FredokaOne"),),
+        ],
+      )
+       
     );
   }
 }

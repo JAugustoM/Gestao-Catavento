@@ -15,12 +15,12 @@ class ListadiarioState extends State<Listadiario> {
   final String media = "08:00";
   final String qtde = "55";
   final List<Map<String, String>> bolos = [
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '12:00', 'fim' : '13:00', 'duracao' : '01:00', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '12:00', 'fim' : '13:00', 'duracao' : '01:00', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '12:00', 'fim' : '13:00', 'duracao' : '01:00', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '12:00', 'fim' : '13:00', 'duracao' : '01:00', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '12:00', 'fim' : '13:00', 'duracao' : '01:00', 'image' : '../catavento/assets/images/cake.png'},
+    {'nomeDemanda': '{nomeDemanda}', 'inicio': '12:00', 'fim' : '13:00', 'duracao' : '01:00', 'image' : '../catavento/assets/images/cake.png'},
   ];
 
   @override
@@ -128,7 +128,7 @@ class ListadiarioState extends State<Listadiario> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                _buildListBolos()
+                bolos.isEmpty ? _buildBlockWarning() : _buildListBolos()
               ],
             )
           )
@@ -153,6 +153,28 @@ class ListadiarioState extends State<Listadiario> {
           image: bolo['image']!,
         );
       }
+    );
+  }
+
+  Widget _buildBlockWarning(){
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      width: size.width * 0.09,
+      height: size.height * 0.15,
+      decoration: BoxDecoration(
+        color: AppColors.mediumPink,
+        borderRadius: BorderRadius.circular(size.height * 0.025)
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("A visualização de todos os bolos feitos", style: TextStyle(fontSize: size.height * 0.018, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "FredokaOne"),),
+          Text("não esta disponível no desempenho", style: TextStyle(fontSize: size.height * 0.018, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "FredokaOne"),),
+          Text("diário.", style: TextStyle(fontSize: size.height * 0.018, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "FredokaOne"),),
+        ],
+      )
+       
     );
   }
 }

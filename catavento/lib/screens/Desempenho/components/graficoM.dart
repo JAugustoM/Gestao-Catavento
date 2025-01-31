@@ -52,11 +52,11 @@ class BarGraficMState extends State<BarGraficM> {
 
   List<LojasData> getLojasData(){
     final List<LojasData> chartData = [
-      LojasData('Elo7', 323),       //Mudar os numeros para as quantidades de vendas(backend)
-      LojasData('M. Livre', 12),
-      LojasData('Magalu', 76),
-      LojasData('Shopee', 34),
-      LojasData('Site', 12)
+      LojasData('Elo7', 5136),       //Mudar os numeros para as quantidades de vendas(backend)
+      LojasData('M. Livre', 4782),
+      LojasData('Magalu', 3548),
+      LojasData('Shopee', 2366),
+      LojasData('Site', 3578)
     ];
     return chartData;
   }
