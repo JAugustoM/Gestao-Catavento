@@ -50,15 +50,18 @@ class _FilterWidgetState extends State<FilterWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.filter_alt, color: Colors.white, size: size.width * 0.014,),
+                  Icon(
+                    Icons.filter_alt,
+                    color: Colors.white,
+                    size: size.width * 0.014,
+                  ),
                   SizedBox(width: 8),
                   Text(
                     'Filtros',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: size.height * 0.016,
+                      fontSize: size.height * 0.02,
                       fontFamily: "FredokaOne",
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -76,12 +79,21 @@ class _FilterWidgetState extends State<FilterWidget> {
                 children: [
                   DropdownButton<String>(
                     value: 'Filtro por loja',
-                    icon: Icon(Icons.arrow_drop_down, size: size.width * 0.014,),
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      size: size.width * 0.014,
+                    ),
                     underline: const SizedBox(),
                     items: ['Filtro por loja']
                         .map((value) => DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value, style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                    fontSize: size.height * 0.02,
+                                    color: AppColors.gradientLightBlue,
+                                    fontFamily: "FredokaOne"),
+                              ),
                             ))
                         .toList(),
                     onChanged: (value) {},
@@ -98,8 +110,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Atualiza o filtro no widget pai
                         },
-                        title: Text("Todos", style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
-                        activeColor: AppColors.gradientDarkBlue,
+                        title: Text(
+                          "Todos",
+                          style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              color: AppColors.gradientLightBlue,
+                              fontFamily: "FredokaOne"),
+                        ),
+                        activeColor: AppColors.gradientLightBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Elo7',
@@ -111,8 +129,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Atualiza o filtro no widget pai
                         },
-                        title: Text('Elo7', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
-                        activeColor: AppColors.gradientDarkBlue,
+                        title: Text(
+                          'Elo7',
+                          style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              color: AppColors.gradientLightBlue,
+                              fontFamily: "FredokaOne"),
+                        ),
+                        activeColor: AppColors.gradientLightBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Magalu',
@@ -124,8 +148,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: Text('Magalu', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
-                        activeColor: AppColors.gradientDarkBlue,
+                        title: Text(
+                          'Magalu',
+                          style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              color: AppColors.gradientLightBlue,
+                              fontFamily: "FredokaOne"),
+                        ),
+                        activeColor: AppColors.gradientLightBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Mercado Livre',
@@ -137,8 +167,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: Text('Mercado Livre', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
-                        activeColor: AppColors.gradientDarkBlue,
+                        title: Text(
+                          'Mercado Livre',
+                          style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              color: AppColors.gradientLightBlue,
+                              fontFamily: "FredokaOne"),
+                        ),
+                        activeColor: AppColors.gradientLightBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Site',
@@ -150,8 +186,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: Text('Site', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
-                        activeColor: AppColors.gradientDarkBlue,
+                        title: Text(
+                          'Site',
+                          style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              color: AppColors.gradientLightBlue,
+                              fontFamily: "FredokaOne"),
+                        ),
+                        activeColor: AppColors.gradientLightBlue,
                       ),
                       RadioListTile<String>(
                         value: 'Shopee',
@@ -163,8 +205,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                           widget.onFilterChanged(
                               value); // Passa o valor para o widget pai
                         },
-                        title: Text('Shopee', style: TextStyle(fontSize: size.height * 0.016, fontFamily: "FredokaOne"),),
-                        activeColor: AppColors.gradientDarkBlue,
+                        title: Text(
+                          'Shopee',
+                          style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              color: AppColors.gradientLightBlue,
+                              fontFamily: "FredokaOne"),
+                        ),
+                        activeColor: AppColors.gradientLightBlue,
                       ),
                     ],
                   ),

@@ -313,6 +313,8 @@ class ButtonAddDemanda extends StatelessWidget {
             "Adicionar Demanda",
             style: TextStyle(
               color: Colors.white,
+              fontFamily: "Fredoka",
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
