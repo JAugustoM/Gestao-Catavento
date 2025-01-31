@@ -201,7 +201,7 @@ class EmployeeManagement extends StatelessWidget {
   Widget _buildFuncionariosBlock(BuildContext context) {
     return Blocks(
         title: "Todos os funcionários",
-        titleColor: AppColors.gradientDarkBlue,
+        titleColor: AppColors.gradientLightBlue,
         color: AppColors.lightGray,
         borderRadius: MediaQuery.of(context).size.height * 0.026,
         child: LayoutBuilder(builder: (context, contraints) {
@@ -252,7 +252,7 @@ class EmployeeManagement extends StatelessWidget {
   Widget _buildAtividadesBlock(BuildContext context) {
     return Blocks(
       title: "Atividades em andamento",
-      titleColor: AppColors.gradientDarkBlue,
+      titleColor: AppColors.gradientLightBlue,
       color: AppColors.lightGray,
       borderRadius: MediaQuery.of(context).size.height * 0.026,
       child: LayoutBuilder(builder: (context, contraints) {
@@ -352,7 +352,7 @@ class EmployeeManagement extends StatelessWidget {
                                   fontSize: MediaQuery.of(context).size.height *
                                       0.018,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -367,7 +367,7 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -376,8 +376,8 @@ class EmployeeManagement extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "FredokaOne",
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.016,
-                                color: AppColors.blue,
+                                    MediaQuery.of(context).size.height * 0.018,
+                                color: AppColors.gradientDarkBlue,
                                 fontWeight: FontWeight.bold),
                           ),
                           Row(
@@ -392,11 +392,11 @@ class EmployeeManagement extends StatelessWidget {
                               Text(
                                 'Gerente',
                                 style: TextStyle(
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                     fontFamily: "FredokaOne",
                                     fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.016),
+                                            0.018),
                               ),
                             ],
                           ),
@@ -412,27 +412,27 @@ class EmployeeManagement extends StatelessWidget {
                               Text(
                                 'Funcionário',
                                 style: TextStyle(
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                     fontFamily: "FredokaOne",
                                     fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.016),
+                                            0.018),
                               ),
                             ],
                           ),
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         children: [
                           Text(
                             "Setor*",
                             style: TextStyle(
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.016,
+                                    MediaQuery.of(context).size.height * 0.018,
                                 fontFamily: "FredokaOne",
-                                color: AppColors.blue,
+                                color: AppColors.gradientDarkBlue,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -444,7 +444,7 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -456,9 +456,9 @@ class EmployeeManagement extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -473,7 +473,7 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -485,9 +485,9 @@ class EmployeeManagement extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -502,7 +502,7 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -514,9 +514,9 @@ class EmployeeManagement extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(

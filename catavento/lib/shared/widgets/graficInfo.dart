@@ -58,17 +58,18 @@ class GraficinfoState<B extends BlocBase<S>, S>
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * 0.03,
                           fontFamily: 'FredokaOne',
-                          color: AppColors.gradientDarkBlue,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.gradientLightBlue,
                         ),
                       ),
                       SizedBox(height: 2),
                       Text(
                         widget.info,
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height * 0.016,
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.018,
                             fontFamily: "FredokaOne",
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.gradientDarkBlue),
+                            color: AppColors.gradientLightBlue),
                       ),
                     ],
                   ),
