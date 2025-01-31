@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

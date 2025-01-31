@@ -1,6 +1,6 @@
 part of 'trabalho_bloc.dart';
 
-sealed class TrabalhoState {
+sealed class TrabalhoState extends Equatable {
   final DatabaseResponse trabalho;
   final DatabaseResponse demandas;
   final Map<String, int> metaData;
@@ -13,52 +13,70 @@ sealed class TrabalhoState {
 }
 
 class TrabalhoGetState extends TrabalhoState {
-  TrabalhoGetState(
+  const TrabalhoGetState(
     super.trabalho,
     super.demandas,
     super.metaData,
   );
+
+  @override
+  List<Object?> get props => [demandas, metaData];
 }
 
 class TrabalhoInitState extends TrabalhoState {
-  TrabalhoInitState(
+  const TrabalhoInitState(
     super.trabalho,
     super.demandas,
     super.metaData,
   );
+
+  @override
+  List<Object?> get props => [demandas, metaData];
 }
 
 class TrabalhoFinishState extends TrabalhoState {
-  TrabalhoFinishState(
+  const TrabalhoFinishState(
     super.trabalho,
     super.demandas,
     super.metaData,
   );
+
+  @override
+  List<Object?> get props => [demandas, metaData];
 }
 
 class TrabalhoLoadingState extends TrabalhoState {
-  TrabalhoLoadingState(
+  const TrabalhoLoadingState(
     super.trabalho,
     super.demandas,
     super.metaData,
   );
+
+  @override
+  List<Object?> get props => [demandas, metaData];
 }
 
 class TrabalhoEmptyState extends TrabalhoState {
-  TrabalhoEmptyState(
+  const TrabalhoEmptyState(
     super.trabalho,
     super.demandas,
     super.metaData,
   );
+
+  @override
+  List<Object?> get props => [demandas, metaData];
 }
 
 class TrabalhoErrorState extends TrabalhoState {
   final String message;
 
-  TrabalhoErrorState(
+  const TrabalhoErrorState(
     super.trabalho,
     super.demandas,
     super.metaData,
     this.message,
   );
+
+  @override
+  List<Object?> get props => [demandas, metaData, message];
 }
