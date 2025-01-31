@@ -114,7 +114,7 @@ class CustomDropdownDesempenho extends StatelessWidget {
               onChanged(value);
             }
           },
-          menuMaxHeight: MediaQuery.of(context).size.height * 0.15,
+          menuMaxHeight: MediaQuery.of(context).size.height * 0.25,
         ),
       ),
     );
