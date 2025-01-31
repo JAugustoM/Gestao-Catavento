@@ -24,7 +24,7 @@ class ConfirmDialog extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: "FredokaOne",
-          fontSize: screenHeight * 0.018,
+          fontSize: screenHeight * 0.02,
           fontWeight: FontWeight.bold,
           color: AppColors.gradientDarkBlue,
         ),
@@ -34,7 +34,7 @@ class ConfirmDialog extends StatelessWidget {
         style: TextStyle(
           fontFamily: "Fredoka",
           fontWeight: FontWeight.bold,
-          fontSize: screenHeight * 0.018,
+          fontSize: screenHeight * 0.02,
           color: AppColors.gradientDarkBlue,
         ),
       ),
@@ -57,7 +57,7 @@ class ConfirmDialog extends StatelessWidget {
                   "Sim",
                   style: TextStyle(
                     fontFamily: "FredokaOne",
-                    fontSize: screenHeight * 0.018,
+                    fontSize: screenHeight * 0.02,
                     color: Colors.white,
                   ),
                 ),
@@ -81,7 +81,7 @@ class ConfirmDialog extends StatelessWidget {
                   "Não",
                   style: TextStyle(
                     fontFamily: "FredokaOne",
-                    fontSize: screenHeight * 0.018,
+                    fontSize: screenHeight * 0.02,
                     color: Colors.white,
                   ),
                 ),
