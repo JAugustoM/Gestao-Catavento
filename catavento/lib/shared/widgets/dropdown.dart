@@ -33,14 +33,14 @@ class CustomDropdown extends StatelessWidget {
           icon: Icon(
             Icons.arrow_drop_down,
             color: Colors.white,
-            size: MediaQuery.of(context).size.width * 0.014,
+            size: MediaQuery.of(context).size.width * 0.02,
           ),
           elevation: 16,
           dropdownColor: AppColors.gradientDarkBlue,
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'FredokaOne',
-            fontSize: MediaQuery.of(context).size.height * 0.014,
+            fontSize: MediaQuery.of(context).size.height * 0.02,
           ),
           items: [
             DropdownMenuItem(
@@ -48,16 +48,20 @@ class CustomDropdown extends StatelessWidget {
               child: Text(
                 'Desempenho dos Funcionários',
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.014,
-                    fontFamily: "FredokaOne"),
+                  fontSize: MediaQuery.of(context).size.height * 0.02,
+                  fontFamily: "Fredoka",
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             DropdownMenuItem(
               value: 'loja',
               child: Text('Desempenho da Loja',
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * 0.014,
-                      fontFamily: "FredokaOne")),
+                    fontSize: MediaQuery.of(context).size.height * 0.02,
+                    fontFamily: "Fredoka",
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
           ],
           onChanged: (value) {
@@ -65,7 +69,7 @@ class CustomDropdown extends StatelessWidget {
               onChanged(value);
             }
           },
-          menuMaxHeight: MediaQuery.of(context).size.height * 0.15,
+          menuMaxHeight: MediaQuery.of(context).size.height * 0.2,
         ),
       ),
     );

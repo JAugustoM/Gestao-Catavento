@@ -107,10 +107,13 @@ class ReusableDialog extends StatelessWidget {
                   color: AppColors.gradientDarkBlue,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: screenHeight * 0.022,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: screenHeight * 0.022,
+                  ),
                 ),
               ),
             ),
