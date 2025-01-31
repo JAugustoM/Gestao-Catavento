@@ -42,7 +42,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
           style: TextStyle(
               color: AppColors.blue,
               fontFamily: "FredokaOne",
-              fontSize: MediaQuery.of(context).size.height * 0.018,
+              fontSize: MediaQuery.of(context).size.height * 0.02,
               fontWeight: FontWeight.bold),
         ),
         subtitle: Column(
@@ -56,7 +56,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                     fontWeight: FontWeight.bold,
                     fontFamily: "FredokaOne",
                     color: AppColors.gradientLightBlue,
-                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
                   ),
                 ),
                 SizedBox(height: 3),
@@ -66,7 +66,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                     fontFamily: "Fredoka",
                     fontWeight: FontWeight.bold,
                     color: AppColors.gradientLightBlue,
-                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
                   ),
                 ),
               ],
@@ -80,7 +80,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                     fontWeight: FontWeight.bold,
                     fontFamily: "FredokaOne",
                     color: AppColors.gradientLightBlue,
-                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
                   ),
                 ),
                 SizedBox(height: 3),
@@ -90,7 +90,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                     fontFamily: "Fredoka",
                     fontWeight: FontWeight.bold,
                     color: AppColors.gradientLightBlue,
-                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
                   ),
                 ),
               ],
@@ -178,7 +178,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.012),
+                        MediaQuery.of(context).size.height * 0.02),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,13 +188,14 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.018),
                             child: Text(
                               "Nome",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.blue),
                             ),
@@ -211,7 +212,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -220,7 +221,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             style: TextStyle(
                                 fontFamily: "FredokaOne",
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.016,
+                                    MediaQuery.of(context).size.height * 0.018,
                                 color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -240,7 +241,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                                     fontFamily: "FredokaOne",
                                     fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.016),
+                                            0.018),
                               ),
                             ],
                           ),
@@ -260,21 +261,21 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                                     fontFamily: "FredokaOne",
                                     fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.016),
+                                            0.018),
                               ),
                             ],
                           ),
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         children: [
                           Text(
                             "Setor*",
                             style: TextStyle(
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.016,
+                                    MediaQuery.of(context).size.height * 0.018,
                                 fontFamily: "FredokaOne",
                                 color: AppColors.blue,
                                 fontWeight: FontWeight.bold),
@@ -288,19 +289,20 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.018),
                             child: Text(
                               "Email",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.blue),
                             ),
@@ -317,19 +319,20 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.018),
                             child: Text(
                               "Nome de Usuário",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.blue),
                             ),
@@ -346,19 +349,20 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.018),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.018),
                             child: Text(
                               "Senha",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.018,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.blue),
                             ),
@@ -377,7 +381,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.024),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.0184),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
@@ -385,7 +389,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                       AppColors.gradientLightBlue
                     ], begin: Alignment.centerLeft, end: Alignment.centerRight),
                     borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.022),
+                        MediaQuery.of(context).size.height * 0.0182),
                   ),
                   child: ElevatedButton(
                     onPressed: () {
@@ -407,7 +411,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            MediaQuery.of(context).size.height * 0.022),
+                            MediaQuery.of(context).size.height * 0.0182),
                       ),
                     ),
                     child: Text(
@@ -415,7 +419,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: "FredokaOne",
-                          fontSize: MediaQuery.of(context).size.height * 0.02),
+                          fontSize: MediaQuery.of(context).size.height * 0.018),
                     ),
                   ),
                 )
@@ -443,7 +447,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.012),
+                        MediaQuery.of(context).size.height * 0.02),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

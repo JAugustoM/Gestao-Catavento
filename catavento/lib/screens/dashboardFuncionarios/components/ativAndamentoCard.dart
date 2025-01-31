@@ -22,14 +22,14 @@ class AtivAndamentoCard extends StatelessWidget {
             style: TextStyle(
                 color: AppColors.gradientLightBlue,
                 fontFamily: "FredokaOne",
-                fontSize: MediaQuery.of(context).size.height * 0.018),
+                fontSize: MediaQuery.of(context).size.height * 0.02),
           ),
           subtitle: RichText(
             text: TextSpan(
               style: TextStyle(
                 color: AppColors.gradientLightBlue,
                 fontFamily: "Fredoka",
-                fontSize: MediaQuery.of(context).size.height * 0.016,
+                fontSize: MediaQuery.of(context).size.height * 0.018,
               ),
               children: <TextSpan>[
                 TextSpan(

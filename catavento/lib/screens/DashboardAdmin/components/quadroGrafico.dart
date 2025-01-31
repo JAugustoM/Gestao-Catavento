@@ -67,14 +67,14 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                                 children: [
                                   Text("Completas: ",
                                       style: TextStyle(
-                                        fontSize: size.height * 0.018,
+                                        fontSize: size.height * 0.02,
                                         fontFamily: "FredokaOne",
                                         color: AppColors.gradientLightBlue,
                                       )),
                                   Text(
                                     "${metaData['completo']}",
                                     style: TextStyle(
-                                      fontSize: size.height * 0.018,
+                                      fontSize: size.height * 0.02,
                                       fontFamily: "Fredoka",
                                       color: AppColors.gradientLightBlue,
                                       fontWeight: FontWeight.bold,
@@ -101,14 +101,14 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                                 children: [
                                   Text("Restantes: ",
                                       style: TextStyle(
-                                        fontSize: size.height * 0.018,
+                                        fontSize: size.height * 0.02,
                                         fontFamily: "FredokaOne",
                                         color: AppColors.gradientLightBlue,
                                       )),
                                   Text(
                                     "${metaData['restantes']}",
                                     style: TextStyle(
-                                      fontSize: size.height * 0.018,
+                                      fontSize: size.height * 0.02,
                                       fontFamily: "Fredoka",
                                       color: AppColors.gradientLightBlue,
                                       fontWeight: FontWeight.bold,
@@ -125,14 +125,14 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                               Text(
                                 "Total: ",
                                 style: TextStyle(
-                                    fontSize: size.height * 0.018,
+                                    fontSize: size.height * 0.02,
                                     color: AppColors.gradientLightBlue,
                                     fontFamily: 'FredokaOne'),
                               ),
                               Text(
                                 "${metaData['total']}",
                                 style: TextStyle(
-                                  fontSize: size.height * 0.018,
+                                  fontSize: size.height * 0.02,
                                   fontFamily: "Fredoka",
                                   color: AppColors.gradientLightBlue,
                                   fontWeight: FontWeight.bold,
@@ -196,7 +196,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           Text(
                             "Em fabricação",
                             style: TextStyle(
-                                fontSize: size.height * 0.018,
+                                fontSize: size.height * 0.02,
                                 fontFamily: "Fredoka",
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.gradientLightBlue),
@@ -257,7 +257,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           Text(
                             "Em espera",
                             style: TextStyle(
-                                fontSize: size.height * 0.018,
+                                fontSize: size.height * 0.02,
                                 fontFamily: "Fredoka",
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.gradientLightBlue),

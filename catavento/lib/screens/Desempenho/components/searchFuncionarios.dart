@@ -23,7 +23,8 @@ class SearchFuncionariosState extends State<SearchFuncionarios> {
       child: TextField(
         controller: _nomeProduto,
         cursorHeight: screenHeight * 0.014,
-        style: TextStyle(fontFamily: "FredokaOne", fontSize: screenHeight * 0.014),
+        style:
+            TextStyle(fontFamily: "FredokaOne", fontSize: screenHeight * 0.014),
         decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search,
@@ -34,10 +35,13 @@ class SearchFuncionariosState extends State<SearchFuncionarios> {
 
             hintText: "Insira o nome do funcionário para iniciar uma busca",
             hintStyle: TextStyle(
-                fontSize: screenHeight * 0.014,
-                fontFamily: "FredokaOne",
-                color: AppColors.blue.withOpacity(0.5) //Opacidade do texto
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Fredoka',
+                fontSize: screenHeight * 0.017,
+                color: Colors.black
+                    .withOpacity(0.5) //Opacidade do texto //Opacidade do texto
                 ),
+            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
             filled: true,
             fillColor: AppColors.lightGray,
             border: OutlineInputBorder(
@@ -51,8 +55,7 @@ class SearchFuncionariosState extends State<SearchFuncionarios> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
               borderRadius: BorderRadius.circular(10),
-            )
-          ),
+            )),
       ),
     );
   }

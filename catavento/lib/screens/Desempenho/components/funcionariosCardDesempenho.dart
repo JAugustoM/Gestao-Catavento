@@ -22,18 +22,55 @@ class FuncionariosCardDesempenho extends StatefulWidget {
   }
 }
 
-class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> {
+class FuncionariosCardDesempenhoState
+    extends State<FuncionariosCardDesempenho> {
   //Dados temporarios
   final String nome = '{nomeFuncionario}';
   final String setor = '{setor}';
 
-    final List<Map<String, String>> bolos = [
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
-    {'nomeDemanda': '{nomeDemanda}', 'inicio': '10:50', 'fim' : '11:40', 'duracao' : '00:50', 'image' : '../catavento/assets/images/cake.png'},
+  final List<Map<String, String>> bolos = [
+    {
+      'nomeDemanda': '{nomeDemanda}',
+      'inicio': '10:50',
+      'fim': '11:40',
+      'duracao': '00:50',
+      'image': '../catavento/assets/images/cake.png'
+    },
+    {
+      'nomeDemanda': '{nomeDemanda}',
+      'inicio': '10:50',
+      'fim': '11:40',
+      'duracao': '00:50',
+      'image': '../catavento/assets/images/cake.png'
+    },
+    {
+      'nomeDemanda': '{nomeDemanda}',
+      'inicio': '10:50',
+      'fim': '11:40',
+      'duracao': '00:50',
+      'image': '../catavento/assets/images/cake.png'
+    },
+    {
+      'nomeDemanda': '{nomeDemanda}',
+      'inicio': '10:50',
+      'fim': '11:40',
+      'duracao': '00:50',
+      'image': '../catavento/assets/images/cake.png'
+    },
+    {
+      'nomeDemanda': '{nomeDemanda}',
+      'inicio': '10:50',
+      'fim': '11:40',
+      'duracao': '00:50',
+      'image': '../catavento/assets/images/cake.png'
+    },
+    {
+      'nomeDemanda': '{nomeDemanda}',
+      'inicio': '10:50',
+      'fim': '11:40',
+      'duracao': '00:50',
+      'image': '../catavento/assets/images/cake.png'
+    },
   ];
 
   @override
@@ -48,13 +85,17 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
       color: AppColors.lightGray,
       child: Row(
         children: [
-          SizedBox(width: screenWidth * 0.01,),
+          SizedBox(
+            width: screenWidth * 0.01,
+          ),
           Icon(
             Icons.person,
-            color: AppColors.blue,
+            color: AppColors.gradientLightBlue,
             size: screenWidth * 0.045,
           ),
-          SizedBox(width: screenWidth * 0.01,),
+          SizedBox(
+            width: screenWidth * 0.01,
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,25 +104,37 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                 Text(
                   widget.nomeFuncionario,
                   style: TextStyle(
-                    fontSize: screenHeight * 0.016,
-                    fontFamily: "FredokaOne",
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.blue
-                  ),
+                      fontSize: screenHeight * 0.018,
+                      fontFamily: "FredokaOne",
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.gradientLightBlue),
                 ),
-                Text(
-                  'Setor: ${widget.setor}',
-                  style: TextStyle(
-                    fontSize: screenHeight * 0.014,
-                    fontFamily: "FredokaOne",
-                    color: AppColors.blue
+                Row(children: [
+                  Text(
+                    'Setor: ',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.018,
+                      fontFamily: "FredokaOne",
+                      color: AppColors.gradientLightBlue,
+                    ),
                   ),
-                )
+                  Text(widget.setor,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.018,
+                        fontFamily: "Fredoka",
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.gradientLightBlue,
+                      ))
+                ]),
               ],
             ),
           ),
           IconButton(
-            icon: Icon(Icons.info, color: AppColors.blue, size: screenWidth * 0.018,),
+            icon: Icon(
+              Icons.info,
+              color: AppColors.gradientLightBlue,
+              size: screenWidth * 0.018,
+            ),
             onPressed: () {
               _showInfoDialog(context, nome, setor);
             },
@@ -91,7 +144,11 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
     );
   }
 
-  void _showInfoDialog(BuildContext context, String nome, String setor,) {
+  void _showInfoDialog(
+    BuildContext context,
+    String nome,
+    String setor,
+  ) {
     showDialog(
       context: context,
       builder: (context) {
@@ -115,25 +172,36 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.person, color: AppColors.blue, size: MediaQuery.of(context).size.width * 0.016,),
+                          Icon(
+                            Icons.person,
+                            color: AppColors.gradientDarkBlue,
+                            size: MediaQuery.of(context).size.width * 0.016,
+                          ),
+                          SizedBox(width: 10),
                           Text(
                             'Dados',
                             style: TextStyle(
-                              color: AppColors.blue,
-                              fontSize: MediaQuery.of(context).size.height * 0.016,
+                              color: AppColors.gradientDarkBlue,
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.024,
                               fontFamily: "FredokaOne",
                             ),
                           )
                         ],
                       ),
                       Center(
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.height * 0.07,
-                          backgroundColor: Colors.grey.shade200,
-                          child: Icon(Icons.person, color: AppColors.blue, size: MediaQuery.of(context).size.width * 0.07,),
-                        )
+                          child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.height * 0.07,
+                        backgroundColor: Colors.grey.shade200,
+                        child: Icon(
+                          Icons.person,
+                          color: AppColors.gradientDarkBlue,
+                          size: MediaQuery.of(context).size.width * 0.07,
+                        ),
+                      )),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
                       Center(
                         child: Column(
                           children: [
@@ -143,53 +211,67 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                 Text(
                                   'Nome: ',
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.026,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.026,
                                     fontFamily: "FredokaOne",
-                                    color: AppColors.blue,
-                                    fontWeight: FontWeight.bold
+                                    color: AppColors.gradientDarkBlue,
                                   ),
                                 ),
                                 Text(
                                   nome,
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.026,
-                                    fontFamily: "FredokaOne",
-                                    color: AppColors.blue
-                                  ),
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.026,
+                                      fontFamily: "Fredoka",
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.gradientDarkBlue),
                                 )
                               ],
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   'Setor: ',
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.026,
-                                    fontFamily: "FredokaOne",
-                                    color: AppColors.blue,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.026,
+                                      fontFamily: "FredokaOne",
+                                      color: AppColors.gradientDarkBlue,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   setor,
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height * 0.026,
-                                    fontFamily: "FredokaOne",
-                                    color: AppColors.blue
-                                  ),
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.026,
+                                      fontFamily: "Fredoka",
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.gradientDarkBlue),
                                 )
                               ],
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.2,
-                              height: MediaQuery.of(context).size.height * 0.047,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.047,
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [AppColors.gradientDarkBlue, AppColors.gradientLightBlue],
+                                    colors: [
+                                      AppColors.gradientDarkBlue,
+                                      AppColors.gradientLightBlue
+                                    ],
                                     begin: Alignment.centerLeft,
                                     end: Alignment.centerRight,
                                   ),
@@ -207,11 +289,12 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                                     ),
                                   ),
                                   child: Text(
-                                    "Adicionar Demanda",
+                                    "Ver Desempenho",
                                     style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: MediaQuery.of(context).size.height * 0.020
-                                    ),
+                                        color: Colors.white,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.022),
                                   ),
                                 ),
                               ),
@@ -257,7 +340,8 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
                     // Exibe a lista correspondente ao valor selecionado
                     if (selectedValue == 'hoje') Listadiario(),
                     if (selectedValue == 'semanal') Listasemanal(),
-                    if (selectedValue == 'mensal') Listamensal(),  // Sua lista mensal aqui
+                    if (selectedValue == 'mensal')
+                      Listamensal(), // Sua lista mensal aqui
                   ],
                 ),
               ),
@@ -267,5 +351,4 @@ class FuncionariosCardDesempenhoState extends State<FuncionariosCardDesempenho> 
       },
     );
   }
-
 }

@@ -31,12 +31,13 @@ class SearchproductsState extends State<Searchproducts> {
               color: Color(0xFF015C98),
             ),
             //Icon de pesquisa
-
+            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
             hintText: "Insira o nome do produto para iniciar uma busca",
             hintStyle: TextStyle(
-                fontFamily: 'FredokaOne',
-                fontSize: height * 0.014,
-                color: AppColors.blue.withOpacity(0.5) //Opacidade do texto
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Fredoka',
+                fontSize: height * 0.017,
+                color: Colors.black.withOpacity(0.5) //Opacidade do texto
                 ),
             filled: true,
             fillColor: AppColors.lightGray,
@@ -51,8 +52,7 @@ class SearchproductsState extends State<Searchproducts> {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
               borderRadius: BorderRadius.circular(height * 0.016),
-            )
-          ),
+            )),
       ),
     );
   }
