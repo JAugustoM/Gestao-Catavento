@@ -1,7 +1,7 @@
 
-# Documentação de Testes Manuais - Operações CRUD e Filtragem
+# Documentação de Testes Manuais - Operações CRUD e Filtragem da tela de demandas 
 
-## Objetivo do Teste Unitário:
+## Objetivo do Teste Manual:
 
 O objetivo deste teste é garantir que as operações básicas de manipulação de demandas na aplicação funcionem corretamente. As operações cobertas pelo teste incluem **Criação (Create)**, **Leitura (Read)**, **Atualização (Update)**, **Exclusão (Delete)** e **Filtragem (Filter)**. Cada uma dessas operações deve ser realizada com sucesso, sem erros ou falhas de dados.
 
@@ -62,7 +62,14 @@ O objetivo deste teste é garantir que as operações básicas de manipulação 
 ### 5. Filtragem (Filter):
 - **Objetivo:** Garantir que as demandas possam ser filtradas corretamente com base em um critério específico.
 - **Resultado Esperado:** O sistema retornará apenas as demandas que atendem ao critério de filtragem (por exemplo, filtrando pela loja "Site"), e o estado será atualizado com a lista filtrada de demandas.
-- **Resultado Obtido:** A funcionalidade do filtro foi testado com sucesso. Quando o filtro foi aplicado para selecionar a loja "Site", o teste confirmou que o sistema retornou corretamente as demandas associadas à loja "Site", e a lista filtrada foi atualizada com sucesso.
+- **Resultado Obtido:** 
+        [Sem erros] Funcionalidade de filtragem funcionando corretamente
+         Descrição:
+            A funcionalidade de filtro foi testada com sucesso, e o sistema retornou corretamente as demandas associadas à loja "Site" quando o filtro foi aplicado.
+        Comportamento observado:
+            - O filtro foi aplicado corretamente, e as demandas associadas à loja "Site" foram exibidas;
+            - A lista filtrada foi atualizada com sucesso, mostrando apenas as demandas da loja "Site".
+
 
 ## Resumo dos Resultados Obtidos:
 
