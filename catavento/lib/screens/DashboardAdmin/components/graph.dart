@@ -15,7 +15,9 @@ class PizzaChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total = completas + restantes;
+    final total = (completas + restantes)
+        .clamp(1, double.infinity); // Evita divisão por zero //alteração aqui
+    // final total = completas + restantes;
     final completasPercent = completas / total;
     final restantesPercent = restantes / total;
 
@@ -26,20 +28,43 @@ class PizzaChart extends StatelessWidget {
           height: constraints.maxHeight * 0.4,
           child: PieChart(
             PieChartData(
+              //alteração aqui
               sections: [
                 PieChartSectionData(
-                  value: completasPercent * 100,
-                  title: '${(completasPercent * 100).toStringAsFixed(1)}%',
+                  value: (completasPercent * 100).isNaN
+                      ? 0
+                      : completasPercent * 100,
+                  title: completas > 0
+                      ? '${(completasPercent * 100).toStringAsFixed(1)}%'
+                      : '',
                   color: colors[0],
                   radius: constraints.maxWidth * 0.3,
                 ),
                 PieChartSectionData(
-                  value: restantesPercent * 100,
-                  title: '${(restantesPercent * 100).toStringAsFixed(1)}%',
+                  value: (restantesPercent * 100).isNaN
+                      ? 0
+                      : restantesPercent * 100,
+                  title: restantes > 0
+                      ? '${(restantesPercent * 100).toStringAsFixed(1)}%'
+                      : '',
                   color: colors[1],
                   radius: constraints.maxWidth * 0.3,
                 ),
               ],
+              // sections: [
+              //   PieChartSectionData(
+              //     value: completasPercent * 100,
+              //     title: '${(completasPercent * 100).toStringAsFixed(1)}%',
+              //     color: colors[0],
+              //     radius: constraints.maxWidth * 0.3,
+              //   ),
+              //   PieChartSectionData(
+              //     value: restantesPercent * 100,
+              //     title: '${(restantesPercent * 100).toStringAsFixed(1)}%',
+              //     color: colors[1],
+              //     radius: constraints.maxWidth * 0.3,
+              //   ),
+              // ],
               centerSpaceRadius:
                   constraints.maxWidth * 0.15, // Espaço no centro
             ),
@@ -64,6 +89,11 @@ class ChartContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Garante que sempre haverá pelo menos duas cores //alteração aqui
+    final safeColors = colors.length >= 2
+        ? colors
+        : [Colors.blue, Colors.grey]; // Cores padrão caso faltem cores
+
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.15,
@@ -90,17 +120,26 @@ class ChartContainer extends StatelessWidget {
                 children: [
                   Text(
                     "Completas: $completas",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.016, fontFamily: "FredokaOne", color: Colors.black),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.016,
+                        fontFamily: "FredokaOne",
+                        color: Colors.black),
                   ),
                   SizedBox(height: 5),
                   Text(
                     "Restantes: $restantes",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.016, fontFamily: "FredokaOne", color: Colors.black),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.016,
+                        fontFamily: "FredokaOne",
+                        color: Colors.black),
                   ),
                   SizedBox(height: 10),
                   Text(
                     "Total: ${completas + restantes}",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.018, fontFamily: "FredokaOne", fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.018,
+                        fontFamily: "FredokaOne",
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -111,7 +150,7 @@ class ChartContainer extends StatelessWidget {
               child: PizzaChart(
                 completas: completas,
                 restantes: restantes,
-                colors: colors,
+                colors: safeColors, //alterações aqui
               ),
             ),
           ],
