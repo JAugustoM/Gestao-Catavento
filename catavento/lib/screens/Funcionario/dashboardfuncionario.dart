@@ -120,14 +120,15 @@ class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
           Expanded(
             child: BlocConsumer<TrabalhoBloc, TrabalhoState>(
               listener: (context, state) {
-                if (state is TrabalhoEmptyState) {
+                if (demandas.isEmpty) {
                   final email = context.read<AuthBloc>().email;
-                  final setor = context.read<AuthBloc>().setor!.toLowerCase();
+                  final setor = context.read<AuthBloc>().setor;
                   context.read<TrabalhoBloc>().add(TrabalhoLoading(
                         email: email!,
-                        setor: setor,
+                        setor: setor!.toLowerCase(),
                       ));
-                } else if (state is TrabalhoErrorState) {
+                }
+                if (state is TrabalhoErrorState) {
                   showBlocSnackbar(context, state.message);
                 } else if (state is TrabalhoFinishState) {
                   final email = context.read<AuthBloc>().email;

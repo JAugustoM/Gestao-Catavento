@@ -84,7 +84,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
   void _onGet(TrabalhoGet event, Emitter<TrabalhoState> emit) async {
     late final DatabaseResponse response;
-    if (event.setor == "montagem") {
+    if (event.setor.toLowerCase() == "montagem") {
       response = await _supabase
           .from('demandas')
           .select()
@@ -260,8 +260,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           .count();
       completo = trabalho.count;
 
-      final demandas =
-          await _supabase.from('demandas').select('status_$setor').count();
+      final demandas = await _supabase.from('demandas').select().count();
 
       total = demandas.count;
       faltam = total;

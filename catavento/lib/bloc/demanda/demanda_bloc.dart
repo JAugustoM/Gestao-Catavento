@@ -74,10 +74,11 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   }
 
   void _onLoading(DemandaLoading event, Emitter<DemandaState> emit) async {
-    final response = await _supabase.from('demandas').select().order(
-          'data_adicao',
-          ascending: true,
-        );
+    final response = await _supabase
+        .from('demandas')
+        .select()
+        .order('data_adicao', ascending: true)
+        .order('id', ascending: true);
     _currentData = response;
 
     final metaData = _countDemandas();
