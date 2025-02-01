@@ -1,4 +1,4 @@
-# Documentação de Testes Manuais - Operações CRUD da página de Funcionários
+# Documentação de Testes Manuais - Operações CRUD da tela de Funcionários
 
 ## Objetivo do Teste Manuais:
 
