@@ -1,16 +1,6 @@
-// import 'dart:io';
-
-// import 'package:catavento/bloc/demanda_bloc.dart';
-// import 'package:catavento/constants.dart';
-// import 'package:catavento/bloc/demanda_bloc.dart';
 import 'package:catavento/typedefs.dart';
 import 'package:equatable/equatable.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:http/http.dart';
-// import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'usuario_event.dart';
@@ -73,6 +63,10 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
             ));
           }
         }
+
+        final metaData = _countUsuarios();
+
+        emit(UsuarioCreateState(_currentData, metaData));
       } catch (e) {
         final metaData = _countUsuarios();
         emit(UsuarioErrorState(
@@ -82,10 +76,6 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
         ));
       }
     }
-
-    final metaData = _countUsuarios();
-
-    emit(UsuarioCreateState(_currentData, metaData));
   }
 
   void _onDelete(UsuarioDelete event, Emitter<UsuarioState> emit) async {
@@ -98,6 +88,10 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
       if (response.isNotEmpty) {
         _currentData.removeAt(event.order);
       }
+
+      final metaData = _countUsuarios();
+
+      emit(UsuarioDeleteState(_currentData, metaData));
     } catch (e) {
       final metaData = _countUsuarios();
       emit(UsuarioErrorState(
@@ -106,10 +100,6 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
         "Erro ao remover usuário - $e",
       ));
     }
-
-    final metaData = _countUsuarios();
-
-    emit(UsuarioDeleteState(_currentData, metaData));
   }
 
   void _onUpdate(UsuarioUpdate event, Emitter<UsuarioState> emit) async {

@@ -86,12 +86,24 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
 
           emit(ProdutoCreateState(_currentData, metaData));
         } else {
-          throw Exception("Erro ao adicionar produto");
+          final metaData = _countProdutos();
+
+          emit(ProdutoErrorState(
+            _currentData,
+            metaData,
+            "Erro ao adicionar produto",
+          ));
         }
-      } catch (_) {
-        throw Exception("Erro ao adicionar produto");
+      } catch (e) {
+        final metaData = _countProdutos();
+
+        emit(ProdutoErrorState(
+          _currentData,
+          metaData,
+          "Erro ao adicionar produto - $e",
+        ));
       }
-    } else {}
+    }
   }
 
   void _onDelete(ProdutoDelete event, Emitter<ProdutoState> emit) async {
@@ -125,10 +137,22 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
           final metaData = _countProdutos();
           emit(ProdutoDeleteState(_currentData, metaData));
         } else {
-          throw Exception("Produto não encontrado");
+          final metaData = _countProdutos();
+
+          emit(ProdutoErrorState(
+            _currentData,
+            metaData,
+            "Produto não encontrado",
+          ));
         }
-      } catch (_) {
-        throw Exception("Erro ao deletar produto");
+      } catch (e) {
+        final metaData = _countProdutos();
+
+        emit(ProdutoErrorState(
+          _currentData,
+          metaData,
+          "Erro ao deletar produto - $e",
+        ));
       }
     }
   }
@@ -167,10 +191,22 @@ class ProdutoBloc extends Bloc<ProdutoEvent, ProdutoState> {
         final metaData = _countProdutos();
         emit(ProdutoUpdateState(_currentData, metaData));
       } else {
-        throw Exception("Erro ao atualizar produto");
+        final metaData = _countProdutos();
+
+        emit(ProdutoErrorState(
+          _currentData,
+          metaData,
+          "Erro ao atualizar produto",
+        ));
       }
     } catch (e) {
-      throw Exception(e);
+      final metaData = _countProdutos();
+
+      emit(ProdutoErrorState(
+        _currentData,
+        metaData,
+        "Erro ao atualizar produto - $e",
+      ));
     }
   }
 
