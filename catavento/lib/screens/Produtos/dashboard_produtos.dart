@@ -332,44 +332,6 @@ class DashboardProdutos extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColors.gradientDarkBlue,
-                                    AppColors.gradientLightBlue
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(22),
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  context.read<ProdutoBloc>().add(ProdutoCreate(
-                                        nomeProduto: nomeController.text,
-                                        codigo: codigoController.text,
-                                        descricaoPadrao:
-                                            descricaoController.text,
-                                        imagemProduto: image,
-                                      ));
-                                  Navigator.pop(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
-                                ),
-                                child: const Text(
-                                  "Concluir",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -380,19 +342,26 @@ class DashboardProdutos extends StatelessWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      ///
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.gradientDarkBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
+                      context.read<ProdutoBloc>().add(ProdutoCreate(
+                            nomeProduto: nomeController.text,
+                            codigo: codigoController.text,
+                            descricaoPadrao:
+                                descricaoController.text,
+                            imagemProduto: image,
+                          ));
+                      Navigator.pop(context);                    },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.gradientDarkBlue,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
                       ),
                     ),
                     child: const Text(
-                      "Salvar",
+                      "Concluir",
                       style: TextStyle(
                         fontFamily: "FredokaOne",
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),
