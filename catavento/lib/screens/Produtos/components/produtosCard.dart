@@ -465,15 +465,16 @@ class ProdutosCardState extends State<ProdutosCard> {
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
+                        backgroundColor: AppColors.gradientDarkBlue,
                         shadowColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
                       child: const Text(
-                        "Salvar",
+                        "Concluir",
                         style: TextStyle(
+                          fontFamily: "FredokaOne",
                           color: Colors.white,
                         ),
                       ),
