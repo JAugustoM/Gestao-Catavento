@@ -57,11 +57,9 @@ class TrabalhoLoadingState extends TrabalhoState {
 }
 
 class TrabalhoAdminState extends TrabalhoState {
-  final DatabaseResponse funcionarios;
   const TrabalhoAdminState(
     super.trabalho,
     super.demandas,
-    this.funcionarios,
     super.metaData,
   );
 

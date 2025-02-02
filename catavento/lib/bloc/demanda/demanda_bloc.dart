@@ -281,4 +281,12 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
     return metaData;
   }
+
+  Map<String, dynamic>? getDemanda(int id) {
+    final demanda = _currentData.firstWhere(
+      (test) => test['id'] == id,
+      orElse: () => {},
+    );
+    return demanda;
+  }
 }

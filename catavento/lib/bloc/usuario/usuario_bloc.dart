@@ -227,4 +227,9 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
     return user;
   }
+
+  DatabaseResponse getUsers(String setor) {
+    final users = _currentData.where((test) => test['setor'] == setor);
+    return users.toList();
+  }
 }

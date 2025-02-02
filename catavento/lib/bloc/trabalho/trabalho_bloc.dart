@@ -30,10 +30,12 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   void _onAdmin(TrabalhoAdmin event, Emitter<TrabalhoState> emit) async {
     try {
       final dataFinal = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
       final trabalhos = await _supabase
           .from('trabalho')
           .select()
-          .like('data_inicio', dataFinal);
+          .gte('data_inicio', '${dataFinal}T00:00:00')
+          .order('data_inicio', ascending: true);
       final funcionarios =
           await _supabase.from('usuarios').select().eq('tipo', 'padrao');
 
@@ -52,7 +54,6 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
         TrabalhoAdminState(
           trabalhos,
           [],
-          funcionarios,
           {"presentes": presentes},
         ),
       );
