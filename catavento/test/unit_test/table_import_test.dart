@@ -20,6 +20,13 @@ void main() {
     );
   });
 
+  tearDown(() async {
+    httpClient.reset();
+  });
+  tearDownAll(() {
+    httpClient.close();
+  });
+
   test('importExcelToSupabase', () async {
     final filePath = 'test/mocks/mock_demanda_bloc/mock_table_import.dart';
     final result = await importExcelToSupabase(filePath, supabase);
