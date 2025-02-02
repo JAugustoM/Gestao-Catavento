@@ -31,25 +31,49 @@ Para o desenvolvimento do projeto, serão empregadas as seguintes tecnologias:
 
 # Como Executar o Projeto
 
-O projeto pode ser executado seja utilizando os binários compilados pela equipe, disponíveis na aba Releases, ou compilando o projeto como orientado abaixo.
+O projeto pode ser executado seja utilizando os binários compilados pela equipe, disponíveis na aba [Releases](https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu/releases), ou compilando o projeto como orientado abaixo.
 
 ## Pré-requisitos
 
 Para executar o projeto é necessário ter instalado o Flutter, seja para desenvolvimento Android ou para Windows. Informações de como instalar o Flutter podem ser vistos na [documentação](https://docs.flutter.dev/get-started/install) do mesmo.
 
-Além disso, para compilar o projeto para Android é necessário a utilização do Java JDK 17 especificamente, para especificar o caminho da JDK pode ser utilizado o seguinte comando `flutter config --jdk-dir <path_to_jdk>`.
+Além disso, para compilar o projeto para Android é necessário a utilização do Java JDK 17 especificamente, para especificar o caminho da JDK pode ser utilizado o seguinte comando: 
+
+```bash
+flutter config --jdk-dir <path_to_jdk>
+```
 
 ## Clonar o Repositório
 
-Para compilar o projeto clone o repositório em sua máquina pessoal utilizando o comando `git clone https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu.git`.
+Para compilar o projeto clone o repositório em sua máquina pessoal utilizando o comando:
+
+```bash
+git clone https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu.git
+```
 
 ## Instalar Dependências
 
-Já dentro da pasta do projeto, utilize `cd catavento` para entrar na pasta com os arquivos do flutter e execute os comandos `flutter pub get` e `flutter pub upgrade` para instalar as bibliotecas utilizadas no projeto. 
+Já dentro da pasta do projeto, utilize os comandos a seguir para entrar na pasta com os arquivos do flutter, instalar as dependências do projeto e atualizar essas dependências, respectivamente:
+
+```bash
+cd catavento
+```
+
+```bash
+flutter pub get
+```
+
+```bash
+flutter pub upgrade
+```
 
 ## Rodando o Projeto
 
-Tendo executado todos os passos anteriores basta executar o comando `flutter run` para executar o projeto localmente.
+Tendo executado todos os passos anteriores basta executar o comando a seguir para executar o projeto localmente.
+
+```bash
+flutter run
+```
 
 # Autores
 
