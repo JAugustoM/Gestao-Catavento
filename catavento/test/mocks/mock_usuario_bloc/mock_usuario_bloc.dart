@@ -18,7 +18,7 @@ part 'mock_usuario_state.dart';
 
 class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   final SupabaseClient supabase;
-  DatabaseResponse _currentData = [];
+  DatabaseResponse currentData = [];
   UsuarioEvent get initialState => UsuarioLoading();
 
   UsuarioBloc(this.supabase) : super(UsuarioLoadingState([], {})) {
@@ -32,51 +32,33 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   }
 
   void _onCreate(UsuarioCreate event, Emitter<UsuarioState> emit) async {
-    final usuario = {
+    final Map<String, dynamic> usuario = {
       'nome': event.nome,
       'usuario': event.usuario,
       'email': event.email,
       'setor': event.setor,
-      'tipo': event.tipo
+      'tipo': event.tipo,
+      'id': 0
     };
 
     if (usuario['email'] != null && usuario['email']!.isNotEmpty) {
       try {
-        final user = supabase.auth.currentUser;
-        final userData = await supabase
-            .from('usuarios')
-            .select('tipo')
-            .eq('email', user!.email!);
-        final userTipo = userData.first['tipo'] as String;
-
-        if (userTipo != 'admin' && event.tipo == 'gerente') {
+        final response =
+            await supabase.from('usuarios').insert([usuario]).select();
+        if (response.isNotEmpty) {
+          currentData.add(response[0]);
+        } else {
           final metaData = _countUsuarios();
-          emit(UsuarioErrorState(_currentData, metaData,
-              'Apenas o admin pode cadastrar gerentes'));
-        }
-
-        final authResponse = await supabase.auth.signUp(
-          email: event.email,
-          password: event.senha,
-        );
-        if (authResponse.user != null) {
-          final response =
-              await supabase.from('usuarios').insert(usuario).select();
-          if (response.isNotEmpty) {
-            _currentData.add(response[0]);
-          } else {
-            final metaData = _countUsuarios();
-            emit(UsuarioErrorState(
-              _currentData,
-              metaData,
-              "Erro ao criar usuário",
-            ));
-          }
+          emit(UsuarioErrorState(
+            currentData,
+            metaData,
+            "Erro ao criar usuário",
+          ));
         }
       } catch (e) {
         final metaData = _countUsuarios();
         emit(UsuarioErrorState(
-          _currentData,
+          currentData,
           metaData,
           "Erro ao criar novo usuário - $e",
         ));
@@ -85,23 +67,16 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
     final metaData = _countUsuarios();
 
-    emit(UsuarioCreateState(_currentData, metaData));
+    emit(UsuarioCreateState(currentData, metaData));
   }
 
   void _onDelete(UsuarioDelete event, Emitter<UsuarioState> emit) async {
     try {
-      final response = await supabase
-          .from('usuarios')
-          .delete()
-          .eq('email', event.email)
-          .select();
-      if (response.isNotEmpty) {
-        _currentData.removeAt(event.order);
-      }
+      currentData.removeAt(event.order);
     } catch (e) {
       final metaData = _countUsuarios();
       emit(UsuarioErrorState(
-        _currentData,
+        currentData,
         metaData,
         "Erro ao remover usuário - $e",
       ));
@@ -109,7 +84,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
 
     final metaData = _countUsuarios();
 
-    emit(UsuarioDeleteState(_currentData, metaData));
+    emit(UsuarioDeleteState(currentData, metaData));
   }
 
   void _onUpdate(UsuarioUpdate event, Emitter<UsuarioState> emit) async {
@@ -120,25 +95,6 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
       final setor = event.setor;
       final email = event.email;
       final id = event.id;
-
-      try {
-        final user = supabase.auth.currentUser;
-        final userData = await supabase
-            .from('usuarios')
-            .select('tipo')
-            .eq('email', user!.email!);
-        final userTipo = userData.first['tipo'] as String;
-
-        if (userTipo != 'admin' && tipo == 'gerente') {
-          final metaData = _countUsuarios();
-          emit(UsuarioErrorState(_currentData, metaData,
-              'Apenas o admin pode cadastrar gerentes'));
-        }
-      } catch (e) {
-        final metaData = _countUsuarios();
-        emit(UsuarioErrorState(
-            _currentData, metaData, 'Erro ao acessar o banco de dados - $e'));
-      }
 
       Map<String, dynamic> atualizado = {};
 
@@ -172,16 +128,16 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
       // verificar se pode usar o id
 
       for (var key in atualizado.keys) {
-        _currentData[id][key] = atualizado[key];
+        currentData[id][key] = atualizado[key];
       }
 
       final metaData = _countUsuarios();
 
-      emit(UsuarioUpdateState(_currentData, metaData));
+      emit(UsuarioUpdateState(currentData, metaData));
     } catch (e) {
       final metaData = _countUsuarios();
       emit(UsuarioErrorState(
-        _currentData,
+        currentData,
         metaData,
         "Erro ao atualizar usuário - $e",
       ));
@@ -192,15 +148,15 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     try {
       final response =
           await supabase.from('usuarios').select().neq('tipo', 'admin');
-      _currentData = response;
+      currentData = response;
 
       final metaData = _countUsuarios();
 
-      emit(UsuarioLoadingState(_currentData, metaData));
+      emit(UsuarioLoadingState(currentData, metaData));
     } catch (e) {
       final metaData = _countUsuarios();
       emit(UsuarioErrorState(
-        _currentData,
+        currentData,
         metaData,
         "Erro ao acessar o banco de dados - $e",
       ));
@@ -210,7 +166,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   Map<String, int> _countUsuarios() {
     int numUsuarios = 0;
 
-    for (var usuario in _currentData) {
+    for (var usuario in currentData) {
       if (usuario["tipo"] != "admin") {
         numUsuarios++;
       }
@@ -223,7 +179,7 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     Map<String, dynamic>? user;
     int id = 0;
 
-    for (var data in _currentData) {
+    for (var data in currentData) {
       if (data['email'] == email) {
         user = data;
         break;
