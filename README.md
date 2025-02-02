@@ -24,10 +24,56 @@ Para o desenvolvimento do projeto, serão empregadas as seguintes tecnologias:
 
 1. Supabase: Um serviço de backend que oferece diversas ferramentas, incluindo comunicação com um banco de dados PostgreSQL e autenticação de usuários com diferentes níveis de acesso, entre outros recursos. 
 
-# Principais recursos
+# Principais Recursos
 - Integração de um sistema de transferência de informação de uma planilha excel para o aplicativo visando fácil adição das demandas.
 - Gerenciamento e acompanhamento demandas por um menu com quadro de prioridade, demandas completas, restantes, em fabricação e em espera.
 - Gerenciamento de funcionários e metas.
+
+# Como Executar o Projeto
+
+O projeto pode ser executado seja utilizando os binários compilados pela equipe, disponíveis na aba [Releases](https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu/releases), ou compilando o projeto como orientado abaixo.
+
+## Pré-requisitos
+
+Para executar o projeto é necessário ter instalado o Flutter, seja para desenvolvimento Android ou para Windows. Informações de como instalar o Flutter podem ser vistos na [documentação](https://docs.flutter.dev/get-started/install) do mesmo.
+
+Além disso, para compilar o projeto para Android é necessário a utilização do Java JDK 17 especificamente, para especificar o caminho da JDK pode ser utilizado o seguinte comando: 
+
+```bash
+flutter config --jdk-dir <path_to_jdk>
+```
+
+## Clonar o Repositório
+
+Para compilar o projeto clone o repositório em sua máquina pessoal utilizando o comando:
+
+```bash
+git clone https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu.git
+```
+
+## Instalar Dependências
+
+Já dentro da pasta do projeto, utilize os comandos a seguir para entrar na pasta com os arquivos do flutter, instalar as dependências do projeto e atualizar essas dependências, respectivamente:
+
+```bash
+cd catavento
+```
+
+```bash
+flutter pub get
+```
+
+```bash
+flutter pub upgrade
+```
+
+## Rodando o Projeto
+
+Tendo executado todos os passos anteriores basta executar o comando a seguir para executar o projeto localmente.
+
+```bash
+flutter run
+```
 
 # Autores
 
