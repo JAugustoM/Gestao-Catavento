@@ -56,6 +56,19 @@ class TrabalhoLoadingState extends TrabalhoState {
   List<Object?> get props => [demandas, metaData];
 }
 
+class TrabalhoAdminState extends TrabalhoState {
+  final DatabaseResponse funcionarios;
+  const TrabalhoAdminState(
+    super.trabalho,
+    super.demandas,
+    this.funcionarios,
+    super.metaData,
+  );
+
+  @override
+  List<Object?> get props => [demandas, metaData];
+}
+
 class TrabalhoEmptyState extends TrabalhoState {
   const TrabalhoEmptyState(
     super.trabalho,

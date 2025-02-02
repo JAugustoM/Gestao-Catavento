@@ -31,3 +31,5 @@ class TrabalhoLoading extends TrabalhoEvent {
 
   const TrabalhoLoading({required this.email, required this.setor});
 }
+
+class TrabalhoAdmin extends TrabalhoEvent {}

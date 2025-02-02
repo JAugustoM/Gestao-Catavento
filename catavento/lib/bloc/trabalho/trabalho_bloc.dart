@@ -23,6 +23,42 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     on<TrabalhoInit>(_onInit);
 
     on<TrabalhoFinish>(_onFinish);
+
+    on<TrabalhoAdmin>(_onAdmin);
+  }
+
+  void _onAdmin(TrabalhoAdmin event, Emitter<TrabalhoState> emit) async {
+    try {
+      final dataFinal = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      final trabalhos = await _supabase
+          .from('trabalho')
+          .select()
+          .like('data_inicio', dataFinal);
+      final funcionarios =
+          await _supabase.from('usuarios').select().eq('tipo', 'padrao');
+
+      var presentes = 0;
+
+      for (var funcionario in funcionarios) {
+        for (var trabalho in trabalhos) {
+          if (trabalho['usuario_email'] == funcionario['email']) {
+            presentes++;
+            break;
+          }
+        }
+      }
+
+      emit(
+        TrabalhoAdminState(
+          trabalhos,
+          [],
+          funcionarios,
+          {"presentes": presentes},
+        ),
+      );
+    } catch (e) {
+      emit(TrabalhoErrorState([], [], {}, "Erro ao carregar o banco de dados"));
+    }
   }
 
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {
