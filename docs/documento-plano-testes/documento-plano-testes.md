@@ -53,7 +53,7 @@ Os testes de integração serão realizados para verificar a comunicação entre
 
 **Tela Desempenho Loja (Admin)**:
 
-  - Validar Funcionalidades Gerais Página
+  - Validar Funcionalidades Gerais Página - [(docs/documento-plano-testes/testes_manuais/tela_desemp_loja_adm/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/tela_desemp_loja_adm/funcionalidades_gerais.md)
 
 **Tela Demanda (Funcionário)**:
 
@@ -225,14 +225,19 @@ As documentações dos testes foram divididas dentro da pasta docs, branch docs.
 # 9 Riscos e Mitigações
 
 ## Risco 1: Atraso nos Testes de Integração e Unitários
+
 **Mitigação**:
+
 - Planejar e alocar tempo adequado para os testes de integração e unitários para a execução do projeto.
 - Automatizar testes sempre que possível para acelerar a execução e garantir a cobertura necessária.
 
 ## Risco 2: Dificuldades com a Integração e Configuração do Supabase
+
 **Mitigação**:
+
 - Realizar testes incrementais de integração para detectar problemas rapidamente.
 - Manter uma comunicação constante com a equipe de backend para resolver questões relacionadas ao Supabase.
+
 
 # 10 Tabela de Versionamento
 
