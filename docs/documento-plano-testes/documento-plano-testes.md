@@ -32,84 +32,106 @@ Os testes de integração serão realizados para verificar a comunicação entre
 #### TESTES MANUAIS: 
 
 **TELA DEMANDA (ADMIN)**:
-- Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)
-- Validar importação da planilha excel - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)
-- Validar Funcionalidades Gerais Página
+
+  - Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)
+  - Validar importação da planilha excel - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)
+  - Validar Funcionalidades Gerais Página
 
 **TELA FUNCIONÁRIO (ADMIN)**:
-- Validar Funcionalidades Gerais Página
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)
+
+  - Validar Funcionalidades Gerais Página
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)
 
 **TELA PRODUTO (ADMIN)**:
-- Validar Funcionalidades Gerais Página
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)
+
+  - Validar Funcionalidades Gerais Página
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)
 
 **TELA DESEMPENHO FUNCIONÁRIO (ADMIN)**:
-- Validar Funcionalidades Gerais Página
+
+  - Validar Funcionalidades Gerais Página
 
 **TELA DESEMPENHO LOJA (ADMIN)**:
-- Validar Funcionalidades Gerais Página
+
+  - Validar Funcionalidades Gerais Página
 
 **TELA DEMANDAS (FUNCIONÁRIO)**:
-- Validar Funcionalidades Gerais Página
+
+  - Validar Funcionalidades Gerais Página
 
 **TELA DESEMPENHO (FUNCIONÁRIO)**:
-- Validar Funcionalidades Gerais Página
+
+  - Validar Funcionalidades Gerais Página
 
 **MENU DE NAVEGAÇÃO**:
-- Validar Menu de Navegação - [(docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)
+
+  - Validar Menu de Navegação - [(docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)
 
 **TELA DE LOGIN E LOGOUT**:
-- Validar tela Login e Logout - [(docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)
+
+  - Validar tela Login e Logout - [(docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)
 
 #### TESTES UNITÁRIOS: 
 
 **TELA DEMANDA (ADMIN)**:
-- Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)
-- Validar importação da planilha excel - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)
+
+  - Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)
+  - Validar importação da planilha excel - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)
 
 **TELA FUNCIONÁRIO (ADMIN)**:
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)
+
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)
 
 **TELA PRODUTO (ADMIN)**:
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)
+
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)
 
 **TELA DESEMPENHO FUNCIONÁRIO (ADMIN)**:
-- Validar Filtragem
-- Validar Campo de Busca
+
+  - Validar Filtragem
+  - Validar Campo de Busca
 
 **TELA DESEMPENHO LOJA (ADMIN)**:
-- Validar Filtragem
-- Validar Campo de Busca
+
+  - Validar Filtragem
+  - Validar Campo de Busca
 
 **TELA DEMANDAS (FUNCIONÁRIO)**:
-- Validar Funcionalidade backend funcionário
+
+  - Validar Funcionalidade backend funcionário
 
 **TELA DESEMPENHO (FUNCIONÁRIO)**:
-- Validar Funcionalidade backend funcionário
+
+  - Validar Funcionalidade backend funcionário
 
 #### TESTES DE INTEGRAÇÃO: 
 
 **TELA DEMANDA (ADMIN)**:
-- Validar integração de formulário - [docs/documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md](docs/documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md)
+
+  - Validar integração de formulário - [docs/documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md](docs/documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md)
 
 **TELA FUNCIONÁRIO (ADMIN)**:
-- Validar integração de formulário
+
+  - Validar integração de formulário
 
 **TELA PRODUTO (ADMIN)**:
-- Validar integração de formulário
+
+  - Validar integração de formulário
 
 **TELA DEMANDAS (FUNCIONÁRIO)**:
-- -
+
+  - -
 
 **TELA DESEMPENHO (FUNCIONÁRIO)**:
-- -
+  - -
 
 **MENU DE NAVEGAÇÃO**:
-- Validar Menu de Navegação
+
+  - Validar Menu de Navegação
 
 **TELA DE LOGIN E LOGOUT**:
-- Validar tela Login e Logout
+
+  - Validar tela Login e Logout
 
 > **OBS**: Testes que não estão com link da documentação ainda estão em andamento para testagem.
 
