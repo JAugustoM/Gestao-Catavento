@@ -56,3 +56,5 @@ class DemandaUpdate extends DemandaEvent {
 }
 
 class DemandaLoading extends DemandaEvent {}
+
+class DemandaFetch extends DemandaEvent {}

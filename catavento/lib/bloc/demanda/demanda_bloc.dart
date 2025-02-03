@@ -26,6 +26,8 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     on<DemandaDelete>(_onDelete);
 
     on<DemandaUpdate>(_onUpdate);
+
+    on<DemandaFetch>(_onFetch);
   }
 
   @override
@@ -246,6 +248,21 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         metaData,
         "Erro ao atualizar demanda - $e",
       ));
+    }
+  }
+
+  void _onFetch(DemandaFetch event, Emitter<DemandaState> emit) {
+    emit(DemandaLoadingState(_currentData, {}));
+    try {
+      final metaData = _countDemandas();
+      print("Producao: $metaData");
+      emit(DemandaLoadedState(_currentData, {},
+          producao: metaData));
+    } catch (e) {
+      final metaData = _countDemandas();
+      print("MetaData: $metaData");
+      emit(DemandaErrorState(
+          _currentData, metaData, "Erro ao obter dados - $e"));
     }
   }
 

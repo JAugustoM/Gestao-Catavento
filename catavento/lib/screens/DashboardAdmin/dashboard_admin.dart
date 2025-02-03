@@ -210,10 +210,13 @@ class ListDemandaState extends State<ListDemanda> {
                     showBlocSnackbar(context, "Bolo atualizado com sucesso!");
                   case DemandaLoadingState():
                     break;
+                  case DemandaLoadedState():
+                    break;
                   case DemandaFilterState():
                     break;
                   case DemandaErrorState():
                     showBlocSnackbar(context, state.message);
+                    
                 }
               },
               builder: (context, state) {

@@ -32,3 +32,10 @@ class DemandaErrorState extends DemandaState {
 
   DemandaErrorState(super.databaseResponse, super.metaData, this.message);
 }
+
+class DemandaLoadedState extends DemandaState {
+  final Map<String, int> producao;
+
+  DemandaLoadedState(super.databaseResponse, super.metaData, {required this.producao});
+}
+
