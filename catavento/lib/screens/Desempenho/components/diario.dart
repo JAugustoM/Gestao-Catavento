@@ -1,8 +1,12 @@
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
 import 'package:catavento/screens/Desempenho/components/graficoD.dart';
 import 'package:catavento/screens/Desempenho/components/info.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
+import 'package:catavento/screens/Desempenho/components/desempenhoGeral.dart';
 
 class Diario extends StatefulWidget {
   @override
@@ -16,14 +20,14 @@ class DiarioState extends State<Diario> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
+    return BlocBuilder<TrabalhoBloc, TrabalhoState>(
+      builder: (context, state) {
         return SingleChildScrollView(
             child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: _desempenhoGeral(context)),
+            Flexible(flex: 2, child: DesempenhoGeralWidget()),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -42,55 +46,54 @@ class DiarioState extends State<Diario> {
     );
   }
 
-  Widget _desempenhoGeral(context) {
-    final size = MediaQuery.of(context).size;
-
-    return BlocksIcon(
-        width: size.width * 0.29,
-        height: size.height * 0.28,
-        borderRadius: 0.02,
-        icon: Icons.payments_outlined,
-        title: "Desempenho geral",
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.only(top: size.height * 0.050),
-          child: Container(
-            width: size.width * 0.2,
-            height: size.height * 0.19,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(size.height * 0.025),
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.gradientDarkBlue,
-                  AppColors.gradientLightBlue,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.height * 0.002,
-                ),
-                Info(
-                    text: "Total de Pedidos: ",
-                    info:
-                        "300"), //Mudar os infos para as informações reais (backend)
-                SizedBox(
-                  height: size.height * 0.002,
-                ),
-                Info(text: "Quantidade Produzida: ", info: "200"),
-                SizedBox(
-                  height: size.height * 0.002,
-                ),
-                Info(text: "Pendente: ", info: "100")
-              ],
-            ),
-          ),
-        ));
-  }
+  // Widget _desempenhoGeral(context) {  
+  //   final size = MediaQuery.of(context).size;
+  //       child: BlocksIcon(
+  //           width: size.width * 0.29,
+  //           height: size.height * 0.28,
+  //           borderRadius: 0.02,
+  //           icon: Icons.payments_outlined,
+  //           title: "Desempenho geral",
+  //           color: Colors.white,
+  //           child: Padding(
+  //             padding: EdgeInsets.only(top: size.height * 0.050),
+  //             child: Container(
+  //               width: size.width * 0.2,
+  //               height: size.height * 0.19,
+  //               decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.circular(size.height * 0.025),
+  //                 gradient: LinearGradient(
+  //                   colors: [
+  //                     AppColors.gradientDarkBlue,
+  //                     AppColors.gradientLightBlue,
+  //                   ],
+  //                   begin: Alignment.topLeft,
+  //                   end: Alignment.bottomRight,
+  //                 ),
+  //               ),
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   SizedBox(
+  //                     height: size.height * 0.002,
+  //                   ),
+  //                   Info(
+  //                       text: "Total de Pedidos: ",
+  //                       info: producao['completo'], //Mudar os infos para as informações reais (backend)
+  //                   SizedBox(
+  //                     height: size.height * 0.002,
+                    
+  //                   )
+  //                   Info(text: "Quantidade Produzida: ", info: "200"),
+  //                   SizedBox(
+  //                     height: size.height * 0.002,
+  //                   ),
+  //                   Info(text: "Pendente: ", info: "100")
+  //                 ],
+  //               ),
+  //             ),
+  //           )));
+  // }
 
   Widget _desempenhoLoja(context) {
     final size = MediaQuery.of(context).size;

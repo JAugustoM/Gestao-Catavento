@@ -2,7 +2,7 @@ name: catavento
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -56,7 +56,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  injectable_generator:  
+  injectable_generator:
   build_runner:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -70,7 +70,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -99,14 +98,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Fredoka
-       fonts:
-         - asset: assets/fonts/fredoka.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-     - family: FredokaOne
-       fonts:
-         - asset: assets/fonts/fredokaOne.ttf
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/fredoka.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    - family: FredokaOne
+      fonts:
+        - asset: assets/fonts/fredokaOne.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

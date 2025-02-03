@@ -1,5 +1,6 @@
 import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
+import 'package:catavento/data/models/relatorio_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,6 +23,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     on<TrabalhoInit>(_onInit);
 
     on<TrabalhoFinish>(_onFinish);
+
   }
 
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {
@@ -272,5 +274,21 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     }
 
     return {'total': total, 'completo': completo, 'faltam': faltam};
+  }
+
+  Future<List<RelatorioItem>> gerarRelatorioDiario(DateTime data) async {
+    final response = await _supabase
+        .rpc('gerar_relatorio_diario', params: {'data': data.toString()});
+
+    if (response.error != null) {
+      throw response.error!;
+    }
+
+    return response.data
+        .map<RelatorioItem>((item) => RelatorioItem(
+              loja: item['loja'],
+              quantidade: item['count'],
+            ))
+        .toList();
   }
 }

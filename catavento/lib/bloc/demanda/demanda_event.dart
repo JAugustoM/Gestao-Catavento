@@ -56,3 +56,9 @@ class DemandaUpdate extends DemandaEvent {
 }
 
 class DemandaLoading extends DemandaEvent {}
+
+class DemandaFetch extends DemandaEvent {
+  final String periodo;
+
+  const DemandaFetch({required this.periodo});
+}
