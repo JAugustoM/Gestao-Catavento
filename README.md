@@ -31,7 +31,7 @@ Para o desenvolvimento do projeto, serão empregadas as seguintes tecnologias:
 
 # Como Executar o Projeto
 
-O projeto pode ser executado seja utilizando os binários compilados pela equipe, disponíveis na aba [Releases](https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu/releases), ou compilando o projeto como orientado abaixo.
+O projeto pode ser executado seja utilizando os [binários](https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu/releases/tag/v0.9.0-beta) compilados pela equipe, disponíveis na aba [Releases](https://github.com/FGA0138-MDS-Ajax/2024.2-Fehu/releases), ou compilando o projeto como orientado abaixo.
 
 ## Pré-requisitos
 
