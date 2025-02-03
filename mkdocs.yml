@@ -6,7 +6,6 @@ nav:
   - Documento de Requisitos: "documento-requisitos/documento-requisitos.md"
   - Documento de Arquitetura: "documento-arquitetura/documento-arquitetura.md"
   - Testes:
-    - Testes de Integração:
     - Testes Manuais:
       - Tela de Login:
           - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md"
@@ -21,7 +20,6 @@ nav:
         - Funcionalidades Gerais: "documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md"
       - Tela de Produtos:
         - Funcionalidades Gerais: "documento-plano-testes/testes_manuais/tela_produto_adm/crud.md"
-      - Tela de Desempenho do Funcionário:
     - Testes Unitários:
       - Tela de Login:
           - Funcionalidade Gerais: "documento-plano-testes/testes_unitarios/tela_de_login/funcionalidades_gerais.md"
