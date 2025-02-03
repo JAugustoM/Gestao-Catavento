@@ -5,7 +5,7 @@ nav:
   - Documento de Visão: "documento-visao/documento-visao.md"
   - Documento de Requisitos: "documento-requisitos/documento-requisitos.md"
   - Documento de Arquitetura: "documento-arquitetura/documento-arquitetura.md"
-  - Testes:
+  - Testes: "documento-plano-testes/documento-plano-testes.md"
     - Testes Manuais:
       - Tela de Login:
           - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md"
