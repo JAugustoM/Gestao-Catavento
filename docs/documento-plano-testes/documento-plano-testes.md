@@ -29,87 +29,109 @@ Os testes de integração serão realizados para verificar a comunicação entre
 
 ### 5.1 O que será Testado:
 
-#### TESTES MANUAIS: 
+### TESTES MANUAIS: 
 
-**TELA DEMANDA (ADMIN)**:
-- Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)
-- Validar importação da planilha excel - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)
-- Validar Funcionalidades Gerais Página
+**Tela Demanda (admin)**:
 
-**TELA FUNCIONÁRIO (ADMIN)**:
-- Validar Funcionalidades Gerais Página
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)
+  - Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md)
+  - Validar importação da planilha excel - [(docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)](docs/documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md)
+  - Validar Funcionalidades Gerais Página
 
-**TELA PRODUTO (ADMIN)**:
-- Validar Funcionalidades Gerais Página
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)
+**Tela Funcionário (admin)**:
 
-**TELA DESEMPENHO FUNCIONÁRIO (ADMIN)**:
-- Validar Funcionalidades Gerais Página
+  - Validar Funcionalidades Gerais Página
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md)
 
-**TELA DESEMPENHO LOJA (ADMIN)**:
-- Validar Funcionalidades Gerais Página
+**Tela Produto (admin)**:
 
-**TELA DEMANDAS (FUNCIONÁRIO)**:
-- Validar Funcionalidades Gerais Página
+  - Validar Funcionalidades Gerais Página
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_manuais/tela_produto_adm/crud.md)
 
-**TELA DESEMPENHO (FUNCIONÁRIO)**:
-- Validar Funcionalidades Gerais Página
+**Tela Desempenho Funcionário (admin)**:
 
-**MENU DE NAVEGAÇÃO**:
-- Validar Menu de Navegação - [(docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)
+  - Validar Funcionalidades Gerais Página
 
-**TELA DE LOGIN E LOGOUT**:
-- Validar tela Login e Logout - [(docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)
+**Tela Desempenho Loja (Admin)**:
 
-#### TESTES UNITÁRIOS: 
+  - Validar Funcionalidades Gerais Página - [(docs/documento-plano-testes/testes_manuais/tela_desemp_loja_adm/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/tela_desemp_loja_adm/funcionalidades_gerais.md)
 
-**TELA DEMANDA (ADMIN)**:
-- Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)
-- Validar importação da planilha excel - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)
+**Tela Demanda (Funcionário)**:
 
-**TELA FUNCIONÁRIO (ADMIN)**:
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)
+  - Validar Funcionalidades Gerais Página
 
-**TELA PRODUTO (ADMIN)**:
-- Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)
+**Tela Desempenho (Funcionário)**:
 
-**TELA DESEMPENHO FUNCIONÁRIO (ADMIN)**:
-- Validar Filtragem
-- Validar Campo de Busca
+  - Validar Funcionalidades Gerais Página
 
-**TELA DESEMPENHO LOJA (ADMIN)**:
-- Validar Filtragem
-- Validar Campo de Busca
+**Menu Navegação**:
 
-**TELA DEMANDAS (FUNCIONÁRIO)**:
-- Validar Funcionalidade backend funcionário
+  - Validar Menu de Navegação - [(docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md)
 
-**TELA DESEMPENHO (FUNCIONÁRIO)**:
-- Validar Funcionalidade backend funcionário
+**Tela Login e Logout**:
 
-#### TESTES DE INTEGRAÇÃO: 
+  - Validar tela Login e Logout - [(docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)](docs/documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md)
 
-**TELA DEMANDA (ADMIN)**:
-- Validar integração de formulário - [link-documentação](link-documentação)
+### TESTES UNITÁRIOS: 
 
-**TELA FUNCIONÁRIO (ADMIN)**:
-- Validar integração de formulário
+**Tela Demanda (admin)**:
 
-**TELA PRODUTO (ADMIN)**:
-- Validar integração de formulário
+  - Validar CRUD página de demanda (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md)
+  - Validar importação da planilha excel - [(docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)](docs/documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md)
 
-**TELA DEMANDAS (FUNCIONÁRIO)**:
-- -
+**Tela Funcionário (admin)**:
 
-**TELA DESEMPENHO (FUNCIONÁRIO)**:
-- -
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md)
 
-**MENU DE NAVEGAÇÃO**:
-- Validar Menu de Navegação
+**Tela Produto (admin)**:
 
-**TELA DE LOGIN E LOGOUT**:
-- Validar tela Login e Logout
+  - Validar CRUD página de Funcionário (admin) - [(docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)](docs/documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md)
+
+**Tela Desempenho Funcionário (admin)**:
+
+  - Validar Filtragem
+  - Validar Campo de Busca
+
+**Tela Desempenho Loja (Admin)**:
+
+  - Validar Filtragem
+  - Validar Campo de Busca
+
+**Tela Demanda (Funcionário)**:
+
+  - Validar Funcionalidade backend funcionário
+
+**Tela Desempenho (Funcionário)**:
+
+  - Validar Funcionalidade backend funcionário
+
+### TESTES DE INTEGRAÇÃO: 
+
+**Tela Demanda (admin)**:
+
+  - Validar integração de formulário - [docs/documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md](docs/documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md)
+
+**Tela Funcionário (admin)**:
+
+  - Validar integração de formulário
+
+**Tela Produto (admin)**:
+
+  - Validar integração de formulário
+
+**Tela Demanda (Funcionário)**:
+
+  - -
+
+**Tela Desempenho (Funcionário)**:
+  - -
+
+**Menu Navegação**:
+
+  - Validar Menu de Navegação
+
+**Tela de Login e Logout**:
+
+  - Validar tela Login e Logout
 
 > **OBS**: Testes que não estão com link da documentação ainda estão em andamento para testagem.
 
@@ -167,16 +189,16 @@ As documentações dos testes foram divididas dentro da pasta docs, branch docs.
 
 # 7 Ambiente de Teste
 
-## 1. Ambiente de Desenvolvimento
+## 7.1. Ambiente de Desenvolvimento
 **IDE**: VS Code;  
 **Sistema Operacional**: Windows, Linux.  
 **Dependências do Projeto**: flutter_bloc (^9.0.0), http (^1.2.2), supabase_flutter (^2.8.1), injectable (^2.1.2), get_it (^8.0.3), equatable (^2.0.5), fl_chart (^0.70.2), file_picker (^8.1.4), flutter_test (sdk: flutter), mockito (^5.1.0), bloc_test (^10.0.0), test (^1.25.8).
 
-## 2. Ambiente de Execução dos Testes
+## 7.2. Ambiente de Execução dos Testes
 **Framework de Testes**: Flutter;  
 **Ambiente de Banco de Dados**: Supabase;  
 
-## 3. Ambiente de Teste Físico (se aplicável)
+## 7.3. Ambiente de Teste Físico (se aplicável)
 **Dispositivos para Testes**: Dispositivos Desktop, e Tablet;  
 **Emuladores/Sistemas Operacionais Virtuais**: Windows 11;
 
@@ -200,19 +222,24 @@ As documentações dos testes foram divididas dentro da pasta docs, branch docs.
 - O fluxo de dados entre os módulos deve ser testado e validado.
 - Todos os dados integrados entre sistemas devem ser consistentes e corretos.
 
-# 8 Riscos e Mitigações
+# 9 Riscos e Mitigações
 
 ## Risco 1: Atraso nos Testes de Integração e Unitários
+
 **Mitigação**:
+
 - Planejar e alocar tempo adequado para os testes de integração e unitários para a execução do projeto.
 - Automatizar testes sempre que possível para acelerar a execução e garantir a cobertura necessária.
 
 ## Risco 2: Dificuldades com a Integração e Configuração do Supabase
+
 **Mitigação**:
+
 - Realizar testes incrementais de integração para detectar problemas rapidamente.
 - Manter uma comunicação constante com a equipe de backend para resolver questões relacionadas ao Supabase.
 
-# 9 Tabela de Versionamento
+
+# 10 Tabela de Versionamento
 
 | Nome                  | Cargo                        | Data       |
 |-----------------------|------------------------------|------------|
