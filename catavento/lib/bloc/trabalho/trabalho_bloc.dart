@@ -23,7 +23,6 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     on<TrabalhoInit>(_onInit);
 
     on<TrabalhoFinish>(_onFinish);
-
   }
 
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {

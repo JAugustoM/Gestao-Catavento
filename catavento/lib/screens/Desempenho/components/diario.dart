@@ -46,7 +46,7 @@ class DiarioState extends State<Diario> {
     );
   }
 
-  // Widget _desempenhoGeral(context) {  
+  // Widget _desempenhoGeral(context) {
   //   final size = MediaQuery.of(context).size;
   //       child: BlocksIcon(
   //           width: size.width * 0.29,
@@ -82,7 +82,7 @@ class DiarioState extends State<Diario> {
   //                       info: producao['completo'], //Mudar os infos para as informações reais (backend)
   //                   SizedBox(
   //                     height: size.height * 0.002,
-                    
+
   //                   )
   //                   Info(text: "Quantidade Produzida: ", info: "200"),
   //                   SizedBox(

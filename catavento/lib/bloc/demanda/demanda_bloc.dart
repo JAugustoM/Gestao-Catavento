@@ -28,8 +28,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     on<DemandaUpdate>(_onUpdate);
 
     on<DemandaFetch>(_onFetch);
-
-   
   }
 
   @override
@@ -263,8 +261,120 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     } catch (e) {
       final metaData = _countDemandas();
       print("MetaData: $metaData");
-      emit(DemandaErrorState(_currentData, metaData, "Erro ao obter dados - $e"));
+      emit(DemandaErrorState(
+          _currentData, metaData, "Erro ao obter dados - $e"));
     }
+  }
+
+  Future<List<Map<String, int>>> _gerarRelatorio() async {
+    final hoje = DateTime.now();
+
+    final List<Map<String, int>> relatorio = [
+      {
+        "MAGALU": 0,
+        "MERCADO LIVRE": 0,
+        "SITE": 0,
+        "ELO 7": 0,
+        "SHOPEE": 0,
+      },
+      {
+        "MAGALU": 0,
+        "MERCADO LIVRE": 0,
+        "SITE": 0,
+        "ELO 7": 0,
+        "SHOPEE": 0,
+      },
+      {
+        "MAGALU": 0,
+        "MERCADO LIVRE": 0,
+        "SITE": 0,
+        "ELO 7": 0,
+        "SHOPEE": 0,
+      },
+    ];
+
+    var dataFormatada = DateFormat(dateFormat).format(hoje);
+    final demandasDiarias = await _supabase
+        .from('demandas')
+        .select()
+        .gte('data_inicio', '${dataFormatada}T00:00:00');
+
+    var duration = Duration(days: hoje.weekday - 1);
+    var dataInicial = hoje.subtract(duration);
+    var dataInicialFormatada = DateFormat(dateFormat).format(dataInicial);
+
+    duration = Duration(days: (DateTime.daysPerWeek - hoje.weekday));
+    var dataFinal = hoje.add(duration);
+    var dataFinalFormatada = DateFormat(dateFormat).format(dataFinal);
+    final demandasSemanais = await _supabase
+        .from('demandas')
+        .select()
+        .gte('data_inicio', '${dataInicialFormatada}T00:00:00')
+        .lte('data_inicio', '${dataFinalFormatada}T23:59:59');
+
+    dataInicial = DateTime(hoje.year, hoje.month);
+    dataInicialFormatada = DateFormat(dateFormat).format(dataInicial);
+
+    dataFinal = DateTime(hoje.year, hoje.month + 1, 0);
+    dataFinalFormatada = DateFormat(dateFormat).format(dataFinal);
+    final demandasMensais = await _supabase
+        .from('demandas')
+        .select()
+        .gte('data_inicio', '${dataInicialFormatada}T00:00:00')
+        .lte('data_inicio', '${dataFinalFormatada}T23:59:59');
+
+    if (demandasDiarias.isNotEmpty) {
+      for (var demanda in demandasDiarias) {
+        switch (demanda['loja']) {
+          case "MAGALU":
+            relatorio[0]["MAGALU"] = relatorio[0]["MAGALU"]! + 1;
+          case "MERCADO LIVRE":
+            relatorio[0]["MERCADO LIVRE"] = relatorio[0]["MERCADO LIVRE"]! + 1;
+          case "SITE":
+            relatorio[0]["SITE"] = relatorio[0]["SITE"]! + 1;
+          case "ELO 7":
+            relatorio[0]["ELO 7"] = relatorio[0]["ELO 7"]! + 1;
+          case "SHOPEE":
+            relatorio[0]["SHOPEE"] = relatorio[0]["SHOPEE"]! + 1;
+        }
+      }
+    }
+
+    if (demandasSemanais.isNotEmpty) {
+      for (var demanda in demandasDiarias) {
+        switch (demanda['loja']) {
+          case "MAGALU":
+            relatorio[1]["MAGALU"] = relatorio[1]["MAGALU"]! + 1;
+          case "MERCADO LIVRE":
+            relatorio[1]["MERCADO LIVRE"] = relatorio[1]["MERCADO LIVRE"]! + 1;
+          case "SITE":
+            relatorio[1]["SITE"] = relatorio[1]["SITE"]! + 1;
+          case "ELO 7":
+            relatorio[1]["ELO 7"] = relatorio[1]["ELO 7"]! + 1;
+          case "SHOPEE":
+            relatorio[1]["SHOPEE"] = relatorio[1]["SHOPEE"]! + 1;
+        }
+      }
+    }
+
+    if (demandasMensais.isNotEmpty) {
+      for (var demanda in demandasDiarias) {
+        switch (demanda['loja']) {
+          case "MAGALU":
+            relatorio[2]["MAGALU"] = relatorio[2]["MAGALU"]! + 1;
+          case "MERCADO LIVRE":
+            relatorio[2]["MERCADO LIVRE"] = relatorio[2]["MERCADO LIVRE"]! + 1;
+          case "SITE":
+            relatorio[2]["SITE"] = relatorio[2]["SITE"]! + 1;
+          case "ELO 7":
+            relatorio[2]["ELO 7"] = relatorio[2]["ELO 7"]! + 1;
+          case "SHOPEE":
+            relatorio[2]["SHOPEE"] = relatorio[2]["SHOPEE"]! + 1;
+        }
+      }
+    }
+
+    return relatorio;
   }
 
   Map<String, int> _countDemandas() {

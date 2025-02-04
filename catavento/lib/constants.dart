@@ -21,8 +21,9 @@ const boloPadrao =
 // Formatters
 
 const timeFormat = 'yyyy-MM-dd HH:mm:ss';
-final dateInputFormat = MaskTextInputFormatter(
-  mask: "##/##/##",
+const dateFormat = 'yyyy-MM-dd';
+InputFormatter(
+finalk: "##/##/##",
   filter: {
     "#": RegExp(r'\d+|-|/'),
   },
