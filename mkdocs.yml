@@ -7,6 +7,9 @@ nav:
   - Documento de Arquitetura: "documento-arquitetura/documento-arquitetura.md"
   - Testes: 
     - Plano de Testes: "documento-plano-testes/documento-plano-testes.md"
+    - Testes de Integração:
+      - Tela de Demandas do Admin:
+        - Integração dos Formulários: "documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md"
     - Testes Manuais:
       - Tela de Login:
           - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md"
