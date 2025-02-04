@@ -162,6 +162,7 @@ class DemandCard extends StatelessWidget {
                   ),
                   // botão de Editar.
                   IconButton(
+                    key: Key('editarDemandaButton'),
                     icon: Icon(Icons.edit, color: AppColors.blue),
                     onPressed: () {
                       //  editar a demanda
@@ -569,6 +570,7 @@ class DemandCard extends StatelessWidget {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('codigoDemandaInput'),
                                     hintText: "Código da demanda",
                                     controller: codigoController,
                                     labelText: '',
@@ -589,6 +591,7 @@ class DemandCard extends StatelessWidget {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('nomeDemandaInput'),
                                     hintText: "Nome do bolo",
                                     controller: nomeController,
                                     labelText: '',
@@ -609,6 +612,7 @@ class DemandCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
+                                  key: Key('dataPedidoInput'),
                                   child: inputDate(dataController),
                                 ),
                               ],
@@ -626,6 +630,7 @@ class DemandCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
+                                  key: Key('prazoInput'),
                                   child: inputDate(prazoController),
                                 ),
                               ],
@@ -675,6 +680,7 @@ class DemandCard extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('descricaoDemandaInput'),
                                     hintText: "Descrição da demanda",
                                     controller: descricaoController,
                                     labelText: 'Descrição',
@@ -694,6 +700,7 @@ class DemandCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
+                      key: Key('concluirButtonEdicao'),
                       onPressed: () {
                         // Conexão com o Backend
                         context.read<DemandaBloc>().add(DemandaUpdate(
@@ -704,11 +711,6 @@ class DemandCard extends StatelessWidget {
                               data: dataController.text,
                               prazo: prazoController.text,
                             ));
-                        nomeController.dispose();
-                        codigoController.dispose();
-                        descricaoController.dispose();
-                        dataController.dispose();
-                        prazoController.dispose();
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

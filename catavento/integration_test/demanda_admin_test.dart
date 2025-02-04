@@ -18,20 +18,10 @@ void main() async {
     anonKey: supabaseKey,
   );
 
-  print('Supabase inicializado com sucesso');
-
-  group('validação do cadastro de demanda', () {
-    testWidgets('deve cadastrar uma demanda com sucesso',
+  group('validação dos formularios de demanda', () {
+    testWidgets('Cadastro e edição de uma demanda',
         (WidgetTester tester) async {
-      await Supabase.instance.client.auth.signInWithPassword(
-        email: 'equipe.runa.fehu@gmail.com',
-        password: '12345678',
-      );
-
-      expect(Supabase.instance.client.auth.currentSession, isNotNull);
-      expect(Supabase.instance.client.auth.currentUser, isNotNull);
-
-      // Envolvendo o widget apenas com o DemandaBloc
+      // Envolvendo o widget com BlocProvider
       await tester.pumpWidget(
         BlocProvider(
           create: (context) => DemandaBloc()..add(DemandaLoading()),
@@ -41,13 +31,13 @@ void main() async {
         ),
       );
 
+      // Maximizar a janela
+      await windowManager.maximize();
+
       // Aguarda a renderização inicial
       await tester.pumpAndSettle();
 
-      // Comando para maximizar a janela
-      await windowManager.maximize();
-
-      // Clica no botão de adicionar demanda
+      // Adição de uma demanda - Clica no botão de adicionar demanda
       expect(find.byKey(Key('adicionarDemandaButton')), findsOneWidget);
       await tester.tap(find.byKey(Key('adicionarDemandaButton')));
       await tester.pumpAndSettle();
@@ -56,7 +46,7 @@ void main() async {
       await tester.enterText(
           find.byKey(Key('codigoDemandaInput')), 'codigo 123');
       await tester.enterText(
-          find.byKey(Key('nomeDemandaInput')), 'demanda teste automatizado');
+          find.byKey(Key('nomeDemandaInput')), 'demanda teste ');
       await tester.enterText(find.byKey(Key('dataPedidoInput')), '130124');
       await tester.enterText(find.byKey(Key('prazoInput')), '140124');
       await tester.pump(const Duration(milliseconds: 500));
@@ -65,23 +55,47 @@ void main() async {
 
       await tester.pumpAndSettle();
 
+      // Confirma se o botão "Concluir" foi encontrado e clica nele
       final buttonConcluirFinder = find.byKey(Key('concluirButton'));
-
-      await tester.pumpAndSettle();
-
-      // Confirma se o botão foi encontrado
       expect(buttonConcluirFinder, findsOneWidget);
-
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byKey(Key('concluirButton')));
+      await tester.tap(buttonConcluirFinder);
 
       await Future.delayed(Duration(seconds: 5));
-
       await tester.pumpAndSettle();
 
       // Verifique se a mensagem de sucesso é exibida
       expect(find.text('Bolo adicionado com sucesso'), findsOneWidget);
+
+      // // Edição de uma demanda - Clica no ícone de editar demanda
+      final editarIcon = find.byKey(Key('editarDemandaButton')).first;
+      expect(editarIcon, findsOneWidget);
+      await tester.tap(editarIcon);
+      await tester.pumpAndSettle();
+
+      // Preenche os campos do formulário com novos valores
+      await tester.enterText(
+          find.byKey(Key('codigoDemandaInput')), 'codigo 456');
+      await tester.enterText(
+          find.byKey(Key('nomeDemandaInput')), 'demanda teste atualizada');
+      await tester.enterText(find.byKey(Key('dataPedidoInput')), '150124');
+      await tester.enterText(find.byKey(Key('prazoInput')), '160124');
+      await tester.enterText(find.byKey(Key('descricaoDemandaInput')),
+          'descrição teste atualizada');
+
+      await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 5));
+
+      // Confirma se o botão "Concluir" foi encontrado e clica nele
+
+      final buttonConcluirEdicao = find.byKey(Key('concluirButtonEdicao'));
+      expect(buttonConcluirEdicao, findsOneWidget);
+      await tester.tap(buttonConcluirEdicao);
+
+      await Future.delayed(Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      // Verifique se a mensagem de sucesso é exibida
+      expect(find.text('Bolo atualizado com sucesso!'), findsOneWidget);
     });
   });
 }
