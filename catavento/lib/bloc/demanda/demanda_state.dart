@@ -28,7 +28,8 @@ class DemandaLoadedState extends DemandaState {
   @override
   final Map<String, int> producao;
 
-  DemandaLoadedState(super.databaseResponse, super.metaData, {required this.producao});
+  DemandaLoadedState(super.databaseResponse, super.metaData,
+      {required this.producao});
 }
 
 class DemandaFilterState extends DemandaState {

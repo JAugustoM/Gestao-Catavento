@@ -211,13 +211,15 @@ class ListDemandaState extends State<ListDemanda> {
                   case DemandaLoadingState():
                     break;
                   case DemandaLoadedState():
-                    break;  
+                    break;
                   case DemandaFilterState():
                     break;
                   case DemandaFetchState():
                     break;
                   case DemandaErrorState():
                     showBlocSnackbar(context, state.message);
+                  default:
+                    break;
                 }
               },
               builder: (context, state) {
