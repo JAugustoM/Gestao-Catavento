@@ -1,5 +1,4 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
-import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

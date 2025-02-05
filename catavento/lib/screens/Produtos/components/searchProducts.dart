@@ -1,5 +1,7 @@
+import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Searchproducts extends StatefulWidget {
   const Searchproducts({super.key});
@@ -53,6 +55,12 @@ class SearchproductsState extends State<Searchproducts> {
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
               borderRadius: BorderRadius.circular(height * 0.016),
             )),
+        onEditingComplete: () {
+          context.read<ProdutoBloc>().add(ProdutoFilter(
+                'nome_produto',
+                _nomeProduto.text,
+              ));
+        },
       ),
     );
   }

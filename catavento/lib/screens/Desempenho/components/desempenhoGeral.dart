@@ -1,53 +1,44 @@
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
 import 'package:catavento/screens/Desempenho/components/info.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 
 class DesempenhoGeralWidget extends StatefulWidget {
+  final int periodo;
+
+  const DesempenhoGeralWidget({super.key, required this.periodo});
   @override
   _DesempenhoGeralWidgetState createState() => _DesempenhoGeralWidgetState();
 }
 
 class _DesempenhoGeralWidgetState extends State<DesempenhoGeralWidget> {
   @override
-  void initState() {
-    super.initState();
-    context.read<DemandaBloc>().add(DemandaFetch(periodo: ''));
-  }
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return BlocListener<DemandaBloc, DemandaState>(
+    return BlocConsumer<RelatorioBloc, RelatorioState>(
       listener: (context, state) {
-        if (state is DemandaErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Erro ao carregar dados")),
-          );
+        if (state is RelatorioErrorState) {
+          showBlocSnackbar(context, state.message);
         }
       },
-      child: BlocBuilder<DemandaBloc, DemandaState>(
-        builder: (context, state) {
-          if (state is DemandaLoadingState) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is DemandaLoadedState) {
-            return _buildDesempenhoGeral(context, size, state.producao);
-          }
-          // Dispara o evento apenas se o estado não for Loading ou Loaded
-          context.read<DemandaBloc>().add(DemandaFetch(periodo: ''));
+      builder: (context, state) {
+        if (state.loja.isEmpty) {
           return Center(child: CircularProgressIndicator());
-        },
-      ),
+        } else {
+          return _buildDesempenhoGeral(
+              context, size, state.dadosGerais[widget.periodo]);
+        }
+      },
     );
   }
 
   Widget _buildDesempenhoGeral(
       BuildContext context, Size size, Map<String, dynamic> producao) {
-    if (producao == null) {
+    if (producao.isEmpty) {
       return Center(child: Text("Dados indisponíveis"));
     }
     return BlocksIcon(
@@ -79,13 +70,13 @@ class _DesempenhoGeralWidgetState extends State<DesempenhoGeralWidget> {
               SizedBox(height: size.height * 0.002),
               Info(
                   text: "Total de Pedidos: ",
-                  info: producao['completo'].toString()),
+                  info: producao['total'].toString()),
               SizedBox(height: size.height * 0.002),
               Info(
                   text: "Quantidade Produzida: ",
-                  info: producao['total'].toString()),
+                  info: producao['produzidos'].toString()),
               SizedBox(height: size.height * 0.002),
-              Info(text: "Pendente: ", info: producao['fabricacao'].toString()),
+              Info(text: "Pendente: ", info: producao['pendentes'].toString()),
             ],
           ),
         ),

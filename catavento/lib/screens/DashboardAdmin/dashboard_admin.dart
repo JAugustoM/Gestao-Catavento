@@ -307,6 +307,7 @@ class ButtonAddDemanda extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
         ),
         child: ElevatedButton(
+          key: Key('adicionarDemandaButton'),
           onPressed: () {
             addInfoDemand(context);
           },
@@ -348,6 +349,7 @@ class ButtonAddDemanda extends StatelessWidget {
             title: "Adicionar Demanda",
             confirmBeforeClose: true,
             body: SingleChildScrollView(
+              key: Key('addDemandScrollView'),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -391,6 +393,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             Expanded(
                               child: InputTextField(
+                                key: Key('codigoDemandaInput'),
                                 labelText: "",
                                 hintText: "Código da demanda",
                                 controller: _codigoController,
@@ -410,6 +413,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             const SizedBox(width: 10),
                             Expanded(
                               child: InputTextField(
+                                key: Key('nomeDemandaInput'),
                                 hintText: "Nome da demanda",
                                 controller: _nomeController,
                                 labelText: '',
@@ -430,6 +434,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
+                              key: Key('dataPedidoInput'),
                               child: inputDate(_dataController),
                             ),
                           ],
@@ -447,6 +452,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
+                              key: Key('prazoInput'),
                               child: inputDate(_prazoController),
                             ),
                           ],
@@ -487,6 +493,7 @@ class ButtonAddDemanda extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         InputTextField(
+                          key: Key('descricaoDemandaInput'),
                           labelText: "Descrição",
                           hintText: "Digite a descrição",
                           controller: _descricaoController,
@@ -497,6 +504,7 @@ class ButtonAddDemanda extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
+                    key: Key('concluirButton'),
                     onPressed: () async {
                       if (_codigoController.text.isNotEmpty ||
                           _nomeController.text.isNotEmpty) {

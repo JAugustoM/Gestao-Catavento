@@ -1,6 +1,6 @@
 part of 'produto_bloc.dart';
 
-sealed class ProdutoState {
+sealed class ProdutoState extends Equatable {
   final DatabaseResponse databaseResponse;
   final Map<String, int> metaData;
 
@@ -8,21 +8,45 @@ sealed class ProdutoState {
 }
 
 class ProdutoCreateState extends ProdutoState {
-  ProdutoCreateState(super.databaseResponse, super.metaData);
+  const ProdutoCreateState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class ProdutoDeleteState extends ProdutoState {
-  ProdutoDeleteState(super.databaseResponse, super.metaData);
+  const ProdutoDeleteState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class ProdutoUpdateState extends ProdutoState {
-  ProdutoUpdateState(super.databaseResponse, super.metaData);
+  const ProdutoUpdateState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class ProdutoLoadingState extends ProdutoState {
-  ProdutoLoadingState(super.databaseResponse, super.metaData);
+  const ProdutoLoadingState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class ProdutoFilterState extends ProdutoState {
-  ProdutoFilterState(super.databaseResponse, super.metaData);
+  const ProdutoFilterState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
+}
+
+class ProdutoErrorState extends ProdutoState {
+  final String message;
+
+  const ProdutoErrorState(super.databaseResponse, super.metaData, this.message);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData, message];
 }

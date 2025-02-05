@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -75,10 +76,11 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   }
 
   void _onLoading(DemandaLoading event, Emitter<DemandaState> emit) async {
-    final response = await _supabase.from('demandas').select().order(
-          'data_adicao',
-          ascending: true,
-        );
+    final response = await _supabase
+        .from('demandas')
+        .select()
+        .order('data_adicao', ascending: true)
+        .order('id', ascending: true);
     _currentData = response;
 
     final metaData = _countDemandas();
@@ -93,6 +95,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       'status': 'Pendente',
       'status_cobertura': 0,
       'status_aplique': 0,
+      'status_montagem': 0,
       'loja': 'Não especificada',
     };
 
@@ -149,6 +152,10 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
           await _supabase.from('demandas').insert(demanda).select();
       if (response.isNotEmpty) {
         _currentData.add(response[0]);
+
+        final metaData = _countDemandas();
+
+        emit(DemandaCreateState(_currentData, metaData));
       } else {
         final metaData = _countDemandas();
         emit(DemandaErrorState(
@@ -165,10 +172,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         "Erro ao adicionar demanda - $e",
       ));
     }
-
-    final metaData = _countDemandas();
-
-    emit(DemandaCreateState(_currentData, metaData));
   }
 
   void _onDelete(DemandaDelete event, Emitter<DemandaState> emit) async {
@@ -241,7 +244,6 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
 
       emit(DemandaUpdateState(_currentData, metaData));
     } catch (e) {
-      print(e);
       final metaData = _countDemandas();
       emit(DemandaErrorState(
         _currentData,
@@ -291,5 +293,13 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     };
 
     return metaData;
+  }
+
+  Map<String, dynamic>? getDemanda(int id) {
+    final demanda = _currentData.firstWhere(
+      (test) => test['id'] == id,
+      orElse: () => {},
+    );
+    return demanda;
   }
 }

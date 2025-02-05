@@ -6,6 +6,7 @@ import 'package:catavento/screens/Produtos/components/searchProducts.dart';
 import 'package:catavento/services/image_picker/image_picker.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/background.dart';
+import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
@@ -79,7 +80,23 @@ class DashboardProdutos extends StatelessWidget {
   }
 
   Widget _buildListProdutos(BuildContext context) {
-    return BlocBuilder<ProdutoBloc, ProdutoState>(
+    return BlocConsumer<ProdutoBloc, ProdutoState>(
+      listener: (context, state) {
+        switch (state) {
+          case ProdutoCreateState():
+            showBlocSnackbar(context, "Produto adicionado com sucesso");
+          case ProdutoDeleteState():
+            showBlocSnackbar(context, "Produto delatado com sucesso");
+          case ProdutoUpdateState():
+            showBlocSnackbar(context, "Produto atualizado com sucesso");
+          case ProdutoLoadingState():
+            break;
+          case ProdutoFilterState():
+            break;
+          case ProdutoErrorState():
+            showBlocSnackbar(context, state.message);
+        }
+      },
       builder: (context, state) {
         final produtos = state.databaseResponse;
         return GridView.builder(
