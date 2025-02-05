@@ -1,4 +1,6 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
@@ -188,12 +190,12 @@ class EmployeeManagement extends StatelessWidget {
       color: AppColors.lightGray,
       borderRadius: MediaQuery.of(context).size.height * 0.026,
       child: Center(
-          child: Graficinfo<UsuarioBloc, UsuarioState>(
+          child: Graficinfo<TrabalhoBloc, TrabalhoState>(
         size: size.width * 0.04,
         icons: Icons.verified,
         colorIcons: Colors.green,
         info: 'Funcionários presentes',
-        dataKey: 'funcionarios',
+        dataKey: 'presentes',
         buildWhen: (previous, current) => previous.metaData != current.metaData,
       )),
     );
@@ -294,16 +296,44 @@ class EmployeeManagement extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: ativAndamento.length,
-            itemBuilder: (context, index) {
-              final atividade = ativAndamento[index];
-              return AtivAndamentoCard(
-                nomeFuncionario: atividade['nome']!,
-                nomeDemanda: atividade['demanda']!,
+          BlocBuilder<TrabalhoBloc, TrabalhoState>(
+            builder: (context, state) {
+              if (state is TrabalhoEmptyState) {
+                context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+              }
+
+              final setorString = setor.substring(9);
+              final List<String> trabalhos = [];
+
+              final users = context.read<UsuarioBloc>().getUsers(setorString);
+
+              for (var user in users) {
+                final atividades = state.trabalho
+                    .where((test) => test['usuario_email'] == user['email']);
+                if (atividades.isNotEmpty) {
+                  final trabalho = atividades.last;
+                  final demanda = context
+                      .read<DemandaBloc>()
+                      .getDemanda(trabalho['demanda_id']);
+                  trabalhos.add(demanda!['nome_demanda']);
+                } else {
+                  trabalhos.add("Nenhum bolo em andamento");
+                }
+              }
+
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  final atividade = trabalhos[index];
+                  final user = users[index];
+                  return AtivAndamentoCard(
+                    nomeFuncionario: user['usuario']!,
+                    nomeDemanda: atividade,
+                  );
+                },
               );
             },
           ),

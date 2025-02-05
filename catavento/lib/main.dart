@@ -85,12 +85,17 @@ class LoadView extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, loginRoute);
               }
               if (state is auth_bloc.AuthAuthenticated) {
-                final tipo =
-                    context.read<auth_bloc.AuthBloc>().userData['tipo'];
-                if (tipo == 'padrao') {
+                final dados = context.read<auth_bloc.AuthBloc>().userData;
+                if (dados['tipo'] == 'padrao') {
+                  context.read<TrabalhoBloc>().add(TrabalhoLoading(
+                        email: dados['email']!,
+                        setor: dados['setor']!.toLowerCase(),
+                      ));
                   Navigator.pushReplacementNamed(
                       context, atividadesFuncionarioRoute);
                 } else {
+                  context.read<DemandaBloc>().add(DemandaLoading());
+                  context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   Navigator.pushReplacementNamed(context, homeRoute);
                 }
               }

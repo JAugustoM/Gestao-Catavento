@@ -1,5 +1,6 @@
 import 'package:catavento/constants.dart';
 import 'package:catavento/typedefs.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,7 +11,7 @@ part 'trabalho_state.dart';
 class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
-  DatabaseResponse _demandas = [];
+  final DatabaseResponse _demandas = [];
 
   TrabalhoEvent get initialState => TrabalhoLoading(email: '', setor: '');
 
@@ -22,6 +23,43 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     on<TrabalhoInit>(_onInit);
 
     on<TrabalhoFinish>(_onFinish);
+
+    on<TrabalhoAdmin>(_onAdmin);
+  }
+
+  void _onAdmin(TrabalhoAdmin event, Emitter<TrabalhoState> emit) async {
+    try {
+      final dataFinal = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+      final trabalhos = await _supabase
+          .from('trabalho')
+          .select()
+          .gte('data_inicio', '${dataFinal}T00:00:00')
+          .order('data_inicio', ascending: true);
+      final funcionarios =
+          await _supabase.from('usuarios').select().eq('tipo', 'padrao');
+
+      var presentes = 0;
+
+      for (var funcionario in funcionarios) {
+        for (var trabalho in trabalhos) {
+          if (trabalho['usuario_email'] == funcionario['email']) {
+            presentes++;
+            break;
+          }
+        }
+      }
+
+      emit(
+        TrabalhoAdminState(
+          trabalhos,
+          [],
+          {"presentes": presentes},
+        ),
+      );
+    } catch (e) {
+      emit(TrabalhoErrorState([], [], {}, "Erro ao carregar o banco de dados"));
+    }
   }
 
   void _onLoading(TrabalhoLoading event, Emitter<TrabalhoState> emit) async {
@@ -83,7 +121,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
   void _onGet(TrabalhoGet event, Emitter<TrabalhoState> emit) async {
     late final DatabaseResponse response;
-    if (event.setor == "montagem") {
+    if (event.setor.toLowerCase() == "montagem") {
       response = await _supabase
           .from('demandas')
           .select()
@@ -96,6 +134,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           .from('demandas')
           .select()
           .eq('status_${event.setor}', 0)
+          .eq('status', "Pendente")
           .order('data_adicao', ascending: true)
           .order('status_aplique')
           .order('status_cobertura');
@@ -118,14 +157,16 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           _demandas,
           metaData,
         ));
-      } catch (e) {
+      } on PostgrestException catch (e) {
         final metaData = await _countTrabalho(event.setor, event.email);
-        emit(TrabalhoErrorState(
-          _currentData,
-          _demandas,
-          metaData,
-          "Erro ao importar bolo do banco de dados - $e",
-        ));
+        if (e.code != "23505") {
+          emit(TrabalhoErrorState(
+            _currentData,
+            _demandas,
+            metaData,
+            "Erro ao importar bolo do banco de dados - $e",
+          ));
+        }
       }
     } else {
       emit(TrabalhoErrorState(
@@ -256,8 +297,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
           .count();
       completo = trabalho.count;
 
-      final demandas =
-          await _supabase.from('demandas').select('status_$setor').count();
+      final demandas = await _supabase.from('demandas').select().count();
 
       total = demandas.count;
       faltam = total;
