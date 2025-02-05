@@ -1,8 +1,10 @@
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
 import 'package:catavento/screens/Desempenho/components/graficoS.dart';
 import 'package:catavento/screens/Desempenho/components/info.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Semanal extends StatefulWidget {
   @override
@@ -16,6 +18,10 @@ class SemanalState extends State<Semanal> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    final diario = context.read<RelatorioBloc>().diario();
+    final menos = diario.keys.last;
+    final mais = diario.keys.first;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
@@ -27,7 +33,7 @@ class SemanalState extends State<Semanal> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(flex: 3, child: _desempenhoLoja(context)),
+            Flexible(flex: 3, child: _desempenhoLoja(context, menos, mais)),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -125,7 +131,7 @@ class SemanalState extends State<Semanal> {
             )));
   }
 
-  Widget _desempenhoLoja(context) {
+  Widget _desempenhoLoja(context, String menos, String mais) {
     final size = MediaQuery.of(context).size;
 
     return BlocksIcon(
@@ -182,14 +188,11 @@ class SemanalState extends State<Semanal> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Info(
-                      text: "Melhor Desempenho ",
-                      info:
-                          "Elo7"), //Mudar os infos para as informações reais (backend)
+                  Info(text: "Melhor Desempenho ", info: mais),
                   SizedBox(
                     height: size.height * 0.002,
                   ),
-                  Info(text: "Pior Desempenho: ", info: "Shopee"),
+                  Info(text: "Pior Desempenho: ", info: menos),
                 ],
               ),
             ),

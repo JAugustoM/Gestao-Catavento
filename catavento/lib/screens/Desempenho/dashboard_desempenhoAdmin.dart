@@ -1,3 +1,4 @@
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/filtroSetor.dart';
 import 'package:catavento/screens/Desempenho/components/funcionariosCardDesempenho.dart';
 import 'package:catavento/screens/Desempenho/components/searchFuncionarios.dart';
@@ -8,6 +9,7 @@ import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardDesempenhoAdmin extends StatelessWidget {
   final TextEditingController _setorcontroller = TextEditingController();
@@ -23,63 +25,71 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Navbar(),
-      appBar: CustomHeader(title: "Desempenho", historyButton: false),
-      body: Stack(
-        children: [
-          BackgroundPage(backgroundColor: Colors.white, children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(right: 10, left: 10),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04),
-                      CustomDropdown(
-                        initialValue: 'funcionarios',
-                        onChanged: (value) {
-                          if (value == 'loja') {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DashboardDesempenhoLoja(),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04),
-                      Padding(
-                        padding: EdgeInsets.zero,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SearchFuncionarios(),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02,
-                            ),
-                            Filtrosetor(controller: _setorcontroller)
-                          ],
+    return BlocListener<RelatorioBloc, RelatorioState>(
+      listener: (context, state) {
+        if (state is! RelatorioCompleteState) {
+          context.read<RelatorioBloc>().add(RelatorioLoad());
+        }
+      },
+      child: Scaffold(
+        drawer: Navbar(),
+        appBar: CustomHeader(title: "Desempenho", historyButton: false),
+        body: Stack(
+          children: [
+            BackgroundPage(backgroundColor: Colors.white, children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10, left: 10),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.04),
+                        CustomDropdown(
+                          initialValue: 'funcionarios',
+                          onChanged: (value) {
+                            if (value == 'loja') {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DashboardDesempenhoLoja(),
+                                ),
+                              );
+                            }
+                          },
                         ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04),
-                      Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: _buildBlockListFuncionarios(context)),
-                    ],
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.04),
+                        Padding(
+                          padding: EdgeInsets.zero,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SearchFuncionarios(),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              Filtrosetor(controller: _setorcontroller)
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.04),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0),
+                            child: _buildBlockListFuncionarios(context)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ])
-        ],
+              )
+            ])
+          ],
+        ),
       ),
     );
   }

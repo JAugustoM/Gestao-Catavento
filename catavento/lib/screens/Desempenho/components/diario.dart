@@ -1,4 +1,4 @@
-import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
 import 'package:catavento/screens/Desempenho/components/graficoD.dart';
 import 'package:catavento/screens/Desempenho/components/info.dart';
@@ -20,6 +20,10 @@ class DiarioState extends State<Diario> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    final diario = context.read<RelatorioBloc>().diario();
+    final menos = diario.keys.last;
+    final mais = diario.keys.first;
+
     return BlocBuilder<TrabalhoBloc, TrabalhoState>(
       builder: (context, state) {
         return SingleChildScrollView(
@@ -31,7 +35,7 @@ class DiarioState extends State<Diario> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(flex: 3, child: _desempenhoLoja(context)),
+            Flexible(flex: 3, child: _desempenhoLoja(context, menos, mais)),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -95,7 +99,7 @@ class DiarioState extends State<Diario> {
   //           )));
   // }
 
-  Widget _desempenhoLoja(context) {
+  Widget _desempenhoLoja(context, String menos, String mais) {
     final size = MediaQuery.of(context).size;
 
     return BlocksIcon(
@@ -152,14 +156,11 @@ class DiarioState extends State<Diario> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Info(
-                      text: "Melhor Desempenho ",
-                      info:
-                          "Elo7"), //Mudar os infos para as informações reais (backend)
+                  Info(text: "Melhor Desempenho ", info: mais),
                   SizedBox(
                     height: size.height * 0.002,
                   ),
-                  Info(text: "Pior Desempenho: ", info: "Shopee"),
+                  Info(text: "Pior Desempenho: ", info: menos),
                 ],
               ),
             ),

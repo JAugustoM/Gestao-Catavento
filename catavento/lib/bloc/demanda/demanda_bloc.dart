@@ -255,11 +255,9 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
     emit(DemandaLoadingState(_currentData, {}));
     try {
       final metaData = _countDemandas();
-      print("Producao: $metaData");
       emit(DemandaLoadedState(_currentData, {}, producao: metaData));
     } catch (e) {
       final metaData = _countDemandas();
-      print("MetaData: $metaData");
       emit(DemandaErrorState(
           _currentData, metaData, "Erro ao obter dados - $e"));
     }

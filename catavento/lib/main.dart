@@ -1,6 +1,7 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart' as auth_bloc;
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/bloc/produto/produto_bloc.dart';
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
@@ -43,6 +44,7 @@ void main() {
                 email: '',
                 setor: '',
               ))),
+        BlocProvider(create: (context) => RelatorioBloc()),
       ],
       child: MaterialApp(
         title: "Gestão Catavento",
@@ -102,6 +104,7 @@ class LoadView extends StatelessWidget {
                   Navigator.pushReplacementNamed(
                       context, atividadesFuncionarioRoute);
                 } else {
+                  context.read<RelatorioBloc>().add(RelatorioLoad());
                   Navigator.pushReplacementNamed(context, homeRoute);
                 }
               }
