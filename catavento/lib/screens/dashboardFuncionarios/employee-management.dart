@@ -126,6 +126,7 @@ class EmployeeManagement extends StatelessWidget {
               BorderRadius.circular(MediaQuery.of(context).size.height * 0.022),
         ),
         child: ElevatedButton(
+          key: Key('AdicionarFuncionarioButton'),
           onPressed: () {
             _showNewEmployeeDialog(context);
           },
@@ -360,6 +361,7 @@ class EmployeeManagement extends StatelessWidget {
                           ),
                           Expanded(
                               child: InputTextField(
+                            key: Key('NomeFuncionarioInput'),
                             labelText: '',
                             hintText: "Digite o nome...",
                             controller: nomeController,
@@ -383,6 +385,7 @@ class EmployeeManagement extends StatelessWidget {
                           Row(
                             children: [
                               CheckBox(
+                                key: Key('GerenteCkeckBox'),
                                 tipo: 'gerente',
                                 controller: tipoController,
                               ),
@@ -403,6 +406,7 @@ class EmployeeManagement extends StatelessWidget {
                           Row(
                             children: [
                               CheckBox(
+                                key: Key('FuncionarioCkeckBox'),
                                 tipo: 'padrao',
                                 controller: tipoController,
                               ),
@@ -439,6 +443,7 @@ class EmployeeManagement extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.01,
                           ),
                           Dropdownbutton(
+                            key: Key('setorDropdown'),
                             controller: setorController,
                           ),
                         ],
@@ -466,6 +471,7 @@ class EmployeeManagement extends StatelessWidget {
                           ),
                           Expanded(
                               child: InputTextField(
+                            key: Key('EmailFuncionarioInput'),
                             labelText: '',
                             hintText: "Digite o email...",
                             controller: emailController,
@@ -495,6 +501,7 @@ class EmployeeManagement extends StatelessWidget {
                           ),
                           Expanded(
                               child: InputTextField(
+                            key: Key('NomeUsuarioInput'),
                             labelText: '',
                             hintText: "Digite o nome de usuário...",
                             controller: usuarioController,
@@ -524,6 +531,7 @@ class EmployeeManagement extends StatelessWidget {
                           ),
                           Expanded(
                               child: InputTextField(
+                            key: Key('SenhaFuncionarioInput'),
                             labelText: '',
                             hintText: "Digite a senha...",
                             controller: senhaController,
@@ -548,6 +556,7 @@ class EmployeeManagement extends StatelessWidget {
                         MediaQuery.of(context).size.height * 0.022),
                   ),
                   child: ElevatedButton(
+                    key: Key('ConcluirButton'),
                     onPressed: () {
                       if (nomeController.text.isNotEmpty &&
                           usuarioController.text.isNotEmpty &&
