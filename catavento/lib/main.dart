@@ -96,6 +96,7 @@ class LoadView extends StatelessWidget {
                 } else {
                   context.read<DemandaBloc>().add(DemandaLoading());
                   context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+                  context.read<UsuarioBloc>().add(UsuarioLoading());
                   Navigator.pushReplacementNamed(context, homeRoute);
                 }
               }

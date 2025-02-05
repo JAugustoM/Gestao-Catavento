@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_controller.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,20 @@ class DashBoardFuncionario extends StatefulWidget {
 }
 
 class _DashBoardFuncionarioState extends State<DashBoardFuncionario> {
+  late TrabalhoController _trabalhoController;
+
+  @override
+  initState() {
+    super.initState();
+    _trabalhoController.initialize();
+  }
+
+  @override
+  dispose() {
+    _trabalhoController.finalize();
+    super.dispose();
+  }
+
   List<Map<String, dynamic>> demandas = [];
   final List<Map<String, dynamic>> _demandasFalsas = [
     {
