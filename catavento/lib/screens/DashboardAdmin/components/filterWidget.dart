@@ -90,9 +90,10 @@ class _FilterWidgetState extends State<FilterWidget> {
                               child: Text(
                                 value,
                                 style: TextStyle(
-                                    fontSize: size.height * 0.02,
-                                    color: AppColors.gradientLightBlue,
-                                    fontFamily: "FredokaOne"),
+                                  fontSize: size.height * 0.02,
+                                  color: AppColors.gradientLightBlue,
+                                  fontFamily: "FredokaOne",
+                                ),
                               ),
                             ))
                         .toList(),
@@ -115,7 +116,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           style: TextStyle(
                               fontSize: size.height * 0.02,
                               color: AppColors.gradientLightBlue,
-                              fontFamily: "FredokaOne"),
+                              fontFamily: "Fredoka",
+                              fontWeight: FontWeight.bold),
                         ),
                         activeColor: AppColors.gradientLightBlue,
                       ),
@@ -134,7 +136,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           style: TextStyle(
                               fontSize: size.height * 0.02,
                               color: AppColors.gradientLightBlue,
-                              fontFamily: "FredokaOne"),
+                              fontFamily: "Fredoka",
+                              fontWeight: FontWeight.bold),
                         ),
                         activeColor: AppColors.gradientLightBlue,
                       ),
@@ -153,7 +156,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           style: TextStyle(
                               fontSize: size.height * 0.02,
                               color: AppColors.gradientLightBlue,
-                              fontFamily: "FredokaOne"),
+                              fontFamily: "Fredoka",
+                              fontWeight: FontWeight.bold),
                         ),
                         activeColor: AppColors.gradientLightBlue,
                       ),
@@ -172,7 +176,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           style: TextStyle(
                               fontSize: size.height * 0.02,
                               color: AppColors.gradientLightBlue,
-                              fontFamily: "FredokaOne"),
+                              fontFamily: "Fredoka",
+                              fontWeight: FontWeight.bold),
                         ),
                         activeColor: AppColors.gradientLightBlue,
                       ),
@@ -191,7 +196,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           style: TextStyle(
                               fontSize: size.height * 0.02,
                               color: AppColors.gradientLightBlue,
-                              fontFamily: "FredokaOne"),
+                              fontFamily: "Fredoka",
+                              fontWeight: FontWeight.bold),
                         ),
                         activeColor: AppColors.gradientLightBlue,
                       ),
@@ -210,7 +216,8 @@ class _FilterWidgetState extends State<FilterWidget> {
                           style: TextStyle(
                               fontSize: size.height * 0.02,
                               color: AppColors.gradientLightBlue,
-                              fontFamily: "FredokaOne"),
+                              fontFamily: "Fredoka",
+                              fontWeight: FontWeight.bold),
                         ),
                         activeColor: AppColors.gradientLightBlue,
                       ),

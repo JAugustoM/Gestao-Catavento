@@ -19,10 +19,7 @@ class QuadroGrafico extends StatefulWidget {
 }
 
 class QuadroGraficoState extends State<QuadroGrafico> {
-  final List<Color> colors = [
-    AppColors.gradientLightBlue,
-    AppColors.mediumPink
-  ];
+  final List<Color> colors = [AppColors.gradientDarkBlue, AppColors.mediumPink];
 
   @override
   Widget build(BuildContext context) {
