@@ -1,5 +1,7 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart' as auth_bloc;
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/core/di/dependency_injection.dart';
 import 'package:catavento/data/repositories/authentication_repository.dart';
@@ -11,6 +13,7 @@ import 'package:get_it/get_it.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:window_manager/window_manager.dart';
+import 'dart:math';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -39,10 +42,18 @@ void main() async {
         MultiBlocProvider(
           providers: [
             BlocProvider(
+                create: (context) => DemandaBloc()..add(DemandaLoading())),
+            BlocProvider(
                 create: (context) => UsuarioBloc()..add(UsuarioLoading())),
             BlocProvider(
                 create: (context) => getIt<auth_bloc.AuthBloc>()
                   ..add(auth_bloc.CheckAuthEvent())),
+            BlocProvider(create: (context) => TrabalhoBloc()
+                // ..add(TrabalhoLoading(
+                //   email: 'default@email.com',
+                //   setor: 'defaultSetor',
+                // ))
+                ),
           ],
           child: MaterialApp(
             home: EmployeeManagement(),
@@ -62,8 +73,8 @@ void main() async {
       await tester.pumpAndSettle();
 
       // Preenche os campos do formulário
-      await tester.enterText(find.byKey(Key('NomeFuncionarioInput')),
-          'Funcionario Teste Integracao');
+      await tester.enterText(
+          find.byKey(Key('NomeFuncionarioInput')), gerarStringAleatoria(8));
       await tester.pumpAndSettle();
 
       // Encontra o checkBox pelo key, certifica de que esta visível
@@ -84,11 +95,11 @@ void main() async {
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byKey(Key('EmailFuncionarioInput')),
-          'funcionarioteste1@gmail.com');
+          '${gerarStringAleatoria(8)}@gmail.com');
       await tester.enterText(
-          find.byKey(Key('NomeUsuarioInput')), 'func_teste_int123');
+          find.byKey(Key('NomeUsuarioInput')), gerarStringAleatoria(8));
       await tester.enterText(
-          find.byKey(Key('SenhaFuncionarioInput')), '123456');
+          find.byKey(Key('SenhaFuncionarioInput')), gerarStringAleatoria(8));
 
       await tester.pumpAndSettle();
 
@@ -102,6 +113,57 @@ void main() async {
 
       // Verifique se a mensagem de sucesso é exibida
       expect(find.text('Usuário criado com sucesso!'), findsOneWidget);
+
+      // Edição de um funcionario - Clica no botão de editar funcionário
+      expect(find.byKey(Key('EditarFuncionarioButton')).first, findsOneWidget);
+      await tester.tap(find.byKey(Key('EditarFuncionarioButton')).first);
+      await tester.pumpAndSettle();
+
+      // Preenche os campos do formulário
+      await tester.enterText(
+          find.byKey(Key('NomeFuncionarioInput')), gerarStringAleatoria(8));
+      await tester.pumpAndSettle();
+
+      // Encontra o checkBox pelo key, certifica de que esta visível
+      await tester.ensureVisible(checkboxFinder);
+      await tester.pumpAndSettle();
+      expect(checkboxFinder, findsOneWidget);
+      await tester.tap(checkboxFinder, warnIfMissed: false);
+      await tester.pumpAndSettle();
+
+      // Seleciona o DropDown
+      expect(dropdownFinder, findsOneWidget);
+      await tester.tap(dropdownFinder);
+      await tester.pumpAndSettle();
+      final itemFinderCobertura = find.text('Cobertura').last;
+      await tester.tap(itemFinderCobertura);
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byKey(Key('EmailFuncionarioInput')),
+          '${gerarStringAleatoria(8)}@gmail.com');
+      await tester.enterText(
+          find.byKey(Key('NomeUsuarioInput')), gerarStringAleatoria(8));
+      await tester.enterText(
+          find.byKey(Key('SenhaFuncionarioInput')), gerarStringAleatoria(8));
+
+      await tester.pumpAndSettle();
+
+      // Confirma se o botão "Concluir" foi encontrado e clica nele
+      expect(buttonConcluirFinder, findsOneWidget);
+      await tester.tap(buttonConcluirFinder);
+
+      await Future.delayed(Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      // Verifique se a mensagem de sucesso é exibida
+      expect(find.text('Usuário atualizado com sucesso!'), findsOneWidget);
     });
   });
+}
+
+String gerarStringAleatoria(int tamanho) {
+  const caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  final random = Random();
+  return List.generate(
+      tamanho, (index) => caracteres[random.nextInt(caracteres.length)]).join();
 }
