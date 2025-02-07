@@ -4,6 +4,7 @@ import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/screens/dashboardFuncionarios/components/aviso.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -320,7 +321,10 @@ class EmployeeManagement extends StatelessWidget {
                 }
               }
 
-              return ListView.builder(
+              return trabalhos.isEmpty
+                ? Aviso()
+
+                : ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
