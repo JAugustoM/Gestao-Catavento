@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 
 class Dropdownbutton extends StatefulWidget {
-  //final TextEditingController controller;   (decomentar depois backend)
+  final TextEditingController controller;
 
-  //const Dropdownbutton({super.key, required this.controller});    (descomentar depois backend)
+  const Dropdownbutton({
+    super.key,
+    required this.controller,
+  });
   @override
   State<Dropdownbutton> createState() {
     return DropdownbuttonState();
@@ -49,7 +52,7 @@ class DropdownbuttonState extends State<Dropdownbutton> {
               );
             }).toList(),
             onChanged: (newValue) {
-              //widget.controller.text = newValue!;   (descomentar depois backend)
+              widget.controller.text = newValue!;
               setState(() {
                 selectedOption = newValue;
               });

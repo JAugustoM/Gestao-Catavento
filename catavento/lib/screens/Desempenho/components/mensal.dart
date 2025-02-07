@@ -30,7 +30,7 @@ class MensalState extends State<Mensal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 0)),
+            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 2)),
             SizedBox(
               width: size.width * 0.02,
             ),

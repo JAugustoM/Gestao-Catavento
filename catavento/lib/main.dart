@@ -1,8 +1,11 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart' as auth_bloc;
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/demanda/demanda_controller.dart';
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
+import 'package:catavento/bloc/relatorio/relatorio_controller.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_controller.dart';
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/constants.dart';
 import 'package:catavento/screens/DadosFuncionario/dadosFuncionario.dart';
@@ -93,24 +96,39 @@ class LoadView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return BlocConsumer<auth_bloc.AuthBloc, auth_bloc.AuthState>(
-            listener: (context, state) {
-              if (state is auth_bloc.AuthError) {
-                Navigator.pushReplacementNamed(context, loginRoute);
-              }
-              if (state is auth_bloc.AuthAuthenticated) {
-                final dados = context.read<auth_bloc.AuthBloc>().userData;
-                if (dados['tipo'] == 'padrao') {
-                  context.read<TrabalhoBloc>().add(TrabalhoLoading(
-                        email: dados['email']!,
-                        setor: dados['setor']!.toLowerCase(),
-                      ));
-                  Navigator.pushReplacementNamed(
-                      context, atividadesFuncionarioRoute);
-                } else {
-                  context.read<RelatorioBloc>().add(RelatorioLoad());
-                  context.read<DemandaBloc>().add(DemandaLoading());
-                  context.read<TrabalhoBloc>().add(TrabalhoAdmin());
-                  Navigator.pushReplacementNamed(context, homeRoute);
+            listener: (context, state) async {
+              final supabase = Supabase.instance.client;
+              await supabase.removeAllChannels();
+              if (context.mounted) {
+                final demandaController =
+                    DemandaController(context.read<DemandaBloc>());
+                final trabalhoController =
+                    TrabalhoController(context.read<TrabalhoBloc>());
+                final relatorioController =
+                    RelatorioController(context.read<RelatorioBloc>());
+                if (state is auth_bloc.AuthError) {
+                  Navigator.pushReplacementNamed(context, loginRoute);
+                }
+                if (state is auth_bloc.AuthAuthenticated) {
+                  final dados = context.read<auth_bloc.AuthBloc>().userData;
+                  if (dados['tipo'] == 'padrao') {
+                    context.read<TrabalhoBloc>().add(TrabalhoLoading(
+                          email: dados['email']!,
+                          setor: dados['setor']!.toLowerCase(),
+                        ));
+                    Navigator.pushReplacementNamed(
+                        context, atividadesFuncionarioRoute);
+                  } else {
+                    context.read<RelatorioBloc>().add(RelatorioLoad());
+                    context.read<DemandaBloc>().add(DemandaLoading());
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+
+                    demandaController.initialize();
+                    trabalhoController.initialize();
+                    relatorioController.initialize();
+
+                    Navigator.pushReplacementNamed(context, homeRoute);
+                  }
                 }
               }
             },

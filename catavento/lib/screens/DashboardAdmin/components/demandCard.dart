@@ -501,6 +501,7 @@ class DemandCard extends StatelessWidget {
     final TextEditingController descricaoController = TextEditingController();
     final TextEditingController dataController = TextEditingController();
     final TextEditingController prazoController = TextEditingController();
+    final TextEditingController lojaController = TextEditingController();
 
     final dataSplit = dataAdicao.substring(0, 10).split('-');
     final dataString = "${dataSplit[2]}/${dataSplit[1]}/${dataSplit[0]}";
@@ -561,13 +562,17 @@ class DemandCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.022),
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.022),
                                   child: Text(
-                                  "Código",
-                                  style: TextStyle(
-                                      color: AppColors.gradientDarkBlue,
-                                      fontSize: MediaQuery.of(context).size.height * 0.016,
-                                      fontWeight: FontWeight.bold),
+                                    "Código",
+                                    style: TextStyle(
+                                        color: AppColors.gradientDarkBlue,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.016,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -584,13 +589,17 @@ class DemandCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.022),
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.022),
                                   child: Text(
-                                  "Nome",
-                                  style: TextStyle(
-                                      color: AppColors.gradientDarkBlue,
-                                      fontSize: MediaQuery.of(context).size.height * 0.016,
-                                      fontWeight: FontWeight.bold),
+                                    "Nome",
+                                    style: TextStyle(
+                                        color: AppColors.gradientDarkBlue,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.016,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -609,16 +618,18 @@ class DemandCard extends StatelessWidget {
                                 Text(
                                   "Loja*",
                                   style: TextStyle(
-                                    color: AppColors.gradientDarkBlue,
-                                    fontSize: MediaQuery.of(context).size.height * 0.016,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                      color: AppColors.gradientDarkBlue,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.016,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.01,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.01,
                                 ),
                                 Dropdownbutton(
-                                  //controller: lojaController,   (descomentar depois backend)
+                                  controller: lojaController,
                                 ),
                               ],
                             ),
@@ -727,6 +738,7 @@ class DemandCard extends StatelessWidget {
                               nomeDemanda: nomeController.text,
                               codigo: codigoController.text,
                               descricao: descricaoController.text,
+                              loja: lojaController.text,
                               data: dataController.text,
                               prazo: prazoController.text,
                             ));
@@ -735,6 +747,7 @@ class DemandCard extends StatelessWidget {
                         descricaoController.dispose();
                         dataController.dispose();
                         prazoController.dispose();
+                        lojaController.dispose();
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
