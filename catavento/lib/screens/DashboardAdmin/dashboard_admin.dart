@@ -29,6 +29,8 @@ class DashBoardAdmin extends StatelessWidget {
   build(BuildContext context) {
     String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
+    context.read<DemandaBloc>().add(DemandaLoading());
+
     return Scaffold(
       drawer: Navbar(),
       appBar: CustomHeader(
@@ -173,6 +175,21 @@ class ListDemanda extends StatefulWidget {
 }
 
 class ListDemandaState extends State<ListDemanda> {
+  late final DemandaController demandaController;
+
+  @override
+  void initState() {
+    super.initState();
+    demandaController = DemandaController(context.read<DemandaBloc>());
+    demandaController.initialize();
+  }
+
+  @override
+  void dispose() {
+    demandaController.finalize();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size; // Tamanho da tela

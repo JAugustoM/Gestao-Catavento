@@ -29,3 +29,7 @@ final dateInputFormat = MaskTextInputFormatter(
     "#": RegExp(r'\d+|-|/'),
   },
 );
+
+// Outros
+
+const reloadTime = Duration(minutes: 1);

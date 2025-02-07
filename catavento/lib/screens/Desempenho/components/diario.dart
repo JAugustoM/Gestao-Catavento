@@ -24,6 +24,10 @@ class DiarioState extends State<Diario> {
     final menos = diario.keys.last;
     final mais = diario.keys.first;
 
+    final bolosDiario = context.read<RelatorioBloc>().bolosDiario();
+    final boloMenos = bolosDiario.keys.last;
+    final boloMais = bolosDiario.keys.first;
+
     return BlocBuilder<TrabalhoBloc, TrabalhoState>(
       builder: (context, state) {
         return SingleChildScrollView(
@@ -39,11 +43,7 @@ class DiarioState extends State<Diario> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(
-                flex: 2,
-                child: _vendidos(context, "Roblox", "BR123", "Hello Kitty",
-                    "BH835") //Trocar o nome e o código (backend)
-                ),
+            Flexible(flex: 2, child: _vendidos(context, boloMais, boloMenos)),
           ],
         ));
       },
@@ -168,8 +168,7 @@ class DiarioState extends State<Diario> {
         ));
   }
 
-  Widget _vendidos(context, String nomeBoloMais, String codigoMais,
-      String nomeBoloMenos, String codigoMenos) {
+  Widget _vendidos(context, String nomeBoloMais, String nomeBoloMenos) {
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -193,7 +192,7 @@ class DiarioState extends State<Diario> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMais ($codigoMais)",
+                      nomeBoloMais,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.018,
@@ -222,7 +221,7 @@ class DiarioState extends State<Diario> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMenos ($codigoMenos)",
+                      nomeBoloMenos,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.020,

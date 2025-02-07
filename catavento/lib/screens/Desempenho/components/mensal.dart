@@ -23,6 +23,10 @@ class MensalState extends State<Mensal> {
     final menos = mensal.keys.last;
     final mais = mensal.keys.first;
 
+    final bolosMensal = context.read<RelatorioBloc>().bolosMensal();
+    final boloMenos = bolosMensal.keys.last;
+    final boloMais = bolosMensal.keys.first;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
@@ -38,11 +42,7 @@ class MensalState extends State<Mensal> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(
-                flex: 2,
-                child: _vendidos(context, "Roblox", "BR123", "Hello Kitty",
-                    "BH835") //Trocar o nome e o código (backend)
-                ),
+            Flexible(flex: 2, child: _vendidos(context, boloMais, boloMenos)),
           ],
         ));
       },
@@ -201,8 +201,7 @@ class MensalState extends State<Mensal> {
         ));
   }
 
-  Widget _vendidos(context, String nomeBoloMais, String codigoMais,
-      String nomeBoloMenos, String codigoMenos) {
+  Widget _vendidos(context, String nomeBoloMais, String nomeBoloMenos) {
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -226,7 +225,7 @@ class MensalState extends State<Mensal> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMais ($codigoMais)",
+                      nomeBoloMais,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.018,
@@ -255,7 +254,7 @@ class MensalState extends State<Mensal> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMenos ($codigoMenos)",
+                      nomeBoloMenos,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.020,

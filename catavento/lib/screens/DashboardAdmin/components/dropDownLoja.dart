@@ -41,8 +41,13 @@ class DropdownbuttonState extends State<Dropdownbutton> {
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.height * 0.016),
             value: selectedOption,
-            items: <String>['Elo7', 'Magalu', 'Mercado Livre', 'Site', 'Shopee']
-                .map((String value) {
+            items: <String>[
+              'Elo 7',
+              'Magalu',
+              'Mercado Livre',
+              'Site',
+              'Shopee'
+            ].map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(

@@ -23,6 +23,12 @@ class _DashboardDesempenhoLojaState extends State<DashboardDesempenhoLoja> {
   String _selectedOption = 'Diário';
 
   @override
+  void initState() {
+    super.initState();
+    context.read<RelatorioBloc>().add(RelatorioLoad());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<RelatorioBloc, RelatorioState>(
       listener: (context, state) {

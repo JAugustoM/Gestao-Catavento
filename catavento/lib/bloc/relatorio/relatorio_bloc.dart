@@ -13,6 +13,7 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
   DatabaseResponse _funcionarios = [];
   DatabaseResponse _loja = [];
   DatabaseResponse _dadosGerais = [];
+  DatabaseResponse _bolos = [];
   List<DatabaseResponse> _demandas = [];
 
   RelatorioBloc() : super(RelatorioCompleteState([], [], [])) {
@@ -24,6 +25,7 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
       final relatorio = await _gerarRelatorioLoja();
       _loja = relatorio[0];
       _dadosGerais = relatorio[1];
+      _bolos = relatorio[2];
 
       emit(RelatorioCompleteState(_funcionarios, _loja, _dadosGerais));
     } catch (e) {
@@ -121,9 +123,13 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
         'pendentes': 0,
       };
 
+      final Map<String, int> bolosD = {};
+      final Map<String, int> bolosS = {};
+      final Map<String, int> bolosM = {};
+
       if (demandas[0].isNotEmpty) {
         for (var demanda in demandas[0]) {
-          switch (demanda['loja']) {
+          switch (demanda['loja'].toString().toUpperCase()) {
             case "MAGALU":
               vendasLojas[0]["MAGALU"] = vendasLojas[0]["MAGALU"]! + 1;
             case "MERCADO LIVRE":
@@ -142,13 +148,17 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
           } else {
             dadosGeraisD['pendentes'] = dadosGeraisD['pendentes']! + 1;
           }
+          final nomeDemanda =
+              "${demanda['nome_demanda']} (${demanda['produto_id'] ?? "*"})";
+
+          bolosD[nomeDemanda] = (bolosD[nomeDemanda] ?? 0) + 1;
         }
         dadosGeraisD['total'] =
             dadosGeraisD['produzidos']! + dadosGeraisD['pendentes']!;
       }
       if (demandas[1].isNotEmpty) {
         for (var demanda in demandas[1]) {
-          switch (demanda['loja']) {
+          switch (demanda['loja'].toString().toUpperCase()) {
             case "MAGALU":
               vendasLojas[1]["MAGALU"] = vendasLojas[1]["MAGALU"]! + 1;
             case "MERCADO LIVRE":
@@ -166,13 +176,18 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
           } else {
             dadosGeraisS['pendentes'] = dadosGeraisS['pendentes']! + 1;
           }
+
+          final nomeDemanda =
+              "${demanda['nome_demanda']} (${demanda['produto_id'] ?? "*"})";
+
+          bolosS[nomeDemanda] = (bolosS[nomeDemanda] ?? 0) + 1;
         }
         dadosGeraisS['total'] =
             dadosGeraisS['produzidos']! + dadosGeraisS['pendentes']!;
       }
       if (demandas[2].isNotEmpty) {
         for (var demanda in demandas[2]) {
-          switch (demanda['loja']) {
+          switch (demanda['loja'].toString().toUpperCase()) {
             case "MAGALU":
               vendasLojas[2]["MAGALU"] = vendasLojas[2]["MAGALU"]! + 1;
             case "MERCADO LIVRE":
@@ -191,14 +206,20 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
           } else {
             dadosGeraisM['pendentes'] = dadosGeraisM['pendentes']! + 1;
           }
+
+          final nomeDemanda =
+              "${demanda['nome_demanda']} (${demanda['produto_id'] ?? "*"})";
+
+          bolosM[nomeDemanda] = (bolosM[nomeDemanda] ?? 0) + 1;
         }
         dadosGeraisM['total'] =
             dadosGeraisM['produzidos']! + dadosGeraisM['pendentes']!;
       }
 
       final dadosGerais = [dadosGeraisD, dadosGeraisS, dadosGeraisM];
+      final bolos = [bolosD, bolosS, bolosM];
 
-      return [vendasLojas, dadosGerais];
+      return [vendasLojas, dadosGerais, bolos];
     } catch (e) {
       return [];
     }
@@ -207,6 +228,29 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
   Map<String, dynamic> diario() {
     if (_loja.isNotEmpty) {
       final diario = _loja[0];
+      final sortedDiarioList = diario.entries.toList()
+        ..sort((entry1, entry2) {
+          final aValue = entry1.value as int;
+          final bValue = entry2.value as int;
+
+          return bValue.compareTo(aValue);
+        });
+
+      final Map<String, dynamic> sortedDiario = {};
+
+      for (var entry in sortedDiarioList) {
+        sortedDiario[entry.key] = entry.value;
+      }
+
+      return sortedDiario;
+    } else {
+      return {};
+    }
+  }
+
+  Map<String, dynamic> bolosDiario() {
+    if (_bolos.isNotEmpty) {
+      final diario = _bolos[0];
       final sortedDiarioList = diario.entries.toList()
         ..sort((entry1, entry2) {
           final aValue = entry1.value as int;
@@ -250,9 +294,55 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
     }
   }
 
+  Map<String, dynamic> bolosSemanal() {
+    if (_bolos.isNotEmpty) {
+      final semanal = _bolos[1];
+      final sortedSemanalList = semanal.entries.toList()
+        ..sort((entry1, entry2) {
+          final aValue = entry1.value as int;
+          final bValue = entry2.value as int;
+
+          return bValue.compareTo(aValue);
+        });
+
+      final Map<String, dynamic> sortedSemanal = {};
+
+      for (var entry in sortedSemanalList) {
+        sortedSemanal[entry.key] = entry.value;
+      }
+
+      return sortedSemanal;
+    } else {
+      return {};
+    }
+  }
+
   Map<String, dynamic> mensal() {
     if (_loja.isNotEmpty) {
       final mensal = _loja[2];
+      final sortedMensalList = mensal.entries.toList()
+        ..sort((entry1, entry2) {
+          final aValue = entry1.value as int;
+          final bValue = entry2.value as int;
+
+          return bValue.compareTo(aValue);
+        });
+
+      final Map<String, dynamic> sortedMensal = {};
+
+      for (var entry in sortedMensalList) {
+        sortedMensal[entry.key] = entry.value;
+      }
+
+      return sortedMensal;
+    } else {
+      return {};
+    }
+  }
+
+  Map<String, dynamic> bolosMensal() {
+    if (_bolos.isNotEmpty) {
+      final mensal = _bolos[2];
       final sortedMensalList = mensal.entries.toList()
         ..sort((entry1, entry2) {
           final aValue = entry1.value as int;

@@ -36,6 +36,8 @@ class EmployeeManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+    context.read<UsuarioBloc>().add(UsuarioLoading());
     return Scaffold(
       drawer: Navbar(),
       appBar: CustomHeader(
@@ -322,22 +324,21 @@ class EmployeeManagement extends StatelessWidget {
               }
 
               return trabalhos.isEmpty
-                ? Aviso()
-
-                : ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final atividade = trabalhos[index];
-                  final user = users[index];
-                  return AtivAndamentoCard(
-                    nomeFuncionario: user['usuario']!,
-                    nomeDemanda: atividade,
-                  );
-                },
-              );
+                  ? Aviso()
+                  : ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final atividade = trabalhos[index];
+                        final user = users[index];
+                        return AtivAndamentoCard(
+                          nomeFuncionario: user['usuario']!,
+                          nomeDemanda: atividade,
+                        );
+                      },
+                    );
             },
           ),
         ],
