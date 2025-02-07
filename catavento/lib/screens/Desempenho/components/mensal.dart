@@ -1,4 +1,5 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
+import 'package:catavento/screens/Desempenho/components/desempenhoGeral.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
 import 'package:catavento/screens/Desempenho/components/graficoM.dart';
@@ -29,7 +30,7 @@ class MensalState extends State<Mensal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: _desempenhoGeral(context)),
+            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 0)),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -48,7 +49,7 @@ class MensalState extends State<Mensal> {
     );
   }
 
-  Widget _desempenhoGeral(context) {
+  /*Widget _desempenhoGeral(context) {
     final size = MediaQuery.of(context).size;
 
     return BlocksIcon(
@@ -129,7 +130,7 @@ class MensalState extends State<Mensal> {
                 ),
               ],
             )));
-  }
+  }*/
 
   Widget _desempenhoLoja(context, String menos, String mais) {
     final size = MediaQuery.of(context).size;

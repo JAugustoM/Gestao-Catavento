@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
+import 'package:catavento/screens/Desempenho/components/desempenhoGeral.dart';
 import 'package:catavento/screens/Desempenho/components/graficoS.dart';
 import 'package:catavento/screens/Desempenho/components/info.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class SemanalState extends State<Semanal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: _desempenhoGeral(context)),
+            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 0)),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -48,7 +49,7 @@ class SemanalState extends State<Semanal> {
     );
   }
 
-  Widget _desempenhoGeral(context) {
+  /*Widget _desempenhoGeral(context) {
     final size = MediaQuery.of(context).size;
 
     return BlocksIcon(
@@ -129,7 +130,7 @@ class SemanalState extends State<Semanal> {
                 ),
               ],
             )));
-  }
+  }*/
 
   Widget _desempenhoLoja(context, String menos, String mais) {
     final size = MediaQuery.of(context).size;
