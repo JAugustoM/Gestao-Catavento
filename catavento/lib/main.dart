@@ -122,6 +122,7 @@ class LoadView extends StatelessWidget {
                     context.read<RelatorioBloc>().add(RelatorioLoad());
                     context.read<DemandaBloc>().add(DemandaLoading());
                     context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+                    context.read<UsuarioBloc>().add(UsuarioLoading());
 
                     demandaController.initialize();
                     trabalhoController.initialize();
