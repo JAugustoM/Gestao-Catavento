@@ -144,12 +144,14 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
     final data = DateFormat(timeFormat).format(DateTime.now());
     trabalho['data_inicio'] = data;
+    trabalho['funcionario_${event.setor}_email'] = event.email;
     demanda['status_${event.setor}'] = 1;
     demanda['status'] = "Em fabricação";
 
     try {
       await _supabase.from('trabalho').update({
         'data_inicio': data,
+        'funcionario_${event.setor}_email': event.email,
       }).eq('demanda_id', trabalho['demanda_id']);
       await _supabase.from('demandas').update({
         'status_${event.setor}': 1,
