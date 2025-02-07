@@ -1,3 +1,4 @@
+import 'package:catavento/screens/DashboardAdmin/components/dropDownLoja.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/bloc/demanda/demanda_bloc.dart';
@@ -559,12 +560,15 @@ class DemandCard extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.022),
+                                  child: Text(
                                   "Código",
                                   style: TextStyle(
                                       color: AppColors.gradientDarkBlue,
-                                      fontSize: 16,
+                                      fontSize: MediaQuery.of(context).size.height * 0.016,
                                       fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
@@ -579,12 +583,15 @@ class DemandCard extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
+                                Padding(
+                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.022),
+                                  child: Text(
                                   "Nome",
                                   style: TextStyle(
                                       color: AppColors.gradientDarkBlue,
-                                      fontSize: 16,
+                                      fontSize: MediaQuery.of(context).size.height * 0.016,
                                       fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
@@ -593,6 +600,25 @@ class DemandCard extends StatelessWidget {
                                     controller: nomeController,
                                     labelText: '',
                                   ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Loja*",
+                                  style: TextStyle(
+                                    color: AppColors.gradientDarkBlue,
+                                    fontSize: MediaQuery.of(context).size.height * 0.016,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.01,
+                                ),
+                                Dropdownbutton(
+                                  //controller: lojaController,   (descomentar depois backend)
                                 ),
                               ],
                             ),

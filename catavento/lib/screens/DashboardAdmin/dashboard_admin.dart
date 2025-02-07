@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
+import 'package:catavento/screens/DashboardAdmin/components/dropDownLoja.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -384,13 +385,17 @@ class ButtonAddDemanda extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.022),
+                              child: Text(
                               "Código",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
                                   fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
+                            ),
+                            SizedBox(width: size.width * 0.01,),
                             Expanded(
                               child: InputTextField(
                                 key: Key('codigoDemandaInput'),
@@ -403,14 +408,17 @@ class ButtonAddDemanda extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.022),
+                              child: Text(
                               "Nome",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
                                   fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(width: 10),
+                            ),
+                            SizedBox(width: size.width * 0.01,),
                             Expanded(
                               child: InputTextField(
                                 key: Key('nomeDemandaInput'),
@@ -418,6 +426,25 @@ class ButtonAddDemanda extends StatelessWidget {
                                 controller: _nomeController,
                                 labelText: '',
                               ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Text(
+                              "Loja*",
+                              style: TextStyle(
+                                color: AppColors.gradientDarkBlue,
+                                fontSize: size.height * 0.016,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.01,
+                            ),
+                            Dropdownbutton(
+                              //controller: lojaController,   (descomentar depois backend)
                             ),
                           ],
                         ),
