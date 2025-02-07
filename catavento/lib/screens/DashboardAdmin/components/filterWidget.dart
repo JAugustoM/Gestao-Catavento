@@ -77,27 +77,19 @@ class _FilterWidgetState extends State<FilterWidget> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  DropdownButton<String>(
-                    value: 'Filtro por loja',
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      size: size.width * 0.014,
-                    ),
-                    underline: const SizedBox(),
-                    items: ['Filtro por loja']
-                        .map((value) => DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  fontSize: size.height * 0.02,
-                                  color: AppColors.gradientLightBlue,
-                                  fontFamily: "FredokaOne",
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (value) {},
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Filtro por loja",
+                        style: TextStyle(
+                          fontSize: size.height * 0.02,
+                          color: AppColors.gradientLightBlue,
+                          fontFamily: "FredokaOne",
+                        ),
+                      ),
+                      Icon(Icons.arrow_drop_down, size: size.width * 0.014, color: AppColors.gradientLightBlue,)
+                    ],
                   ),
                   Column(
                     children: [
