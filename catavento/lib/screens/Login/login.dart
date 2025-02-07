@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/main.dart';
+import 'package:catavento/screens/Login/components/input_purple_email.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isLoading = false;
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
@@ -76,26 +78,25 @@ class _LoginState extends State<Login> {
                     Form(
                         child: Column(
                       children: [
-                        PurpleTextField(
-                          controller: _emailController,
+                        PurpleTextFieldEmail(
                           label: "Digite o seu email",
                           icon: Icon(
                             Icons.person_outline,
                             color: Color(0xCCACACAC),
                           ),
-                          isPassword: false,
+                          controller: _emailController,
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         PurpleTextField(
                           controller: _senhaController,
+                          isSecurepassword: true,
                           label: "Digite a sua senha",
                           icon: Icon(
                             Icons.lock_outline,
                             color: Color(0xCCACACAC),
                           ),
-                          isPassword: true,
                         ),
                       ],
                     )),
@@ -114,7 +115,7 @@ class _LoginState extends State<Login> {
                               Icons.keyboard_arrow_right_rounded,
                               color: Colors.white,
                             ),
-                            onPressed: () async {
+                            onPressed: () {
                               setState(() {
                                 isLoading = !isLoading;
                               });

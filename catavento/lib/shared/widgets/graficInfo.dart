@@ -66,7 +66,8 @@ class GraficinfoState<B extends BlocBase<S>, S>
                       Text(
                         widget.info,
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height * 0.02,
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.016,
                             fontFamily: "FredokaOne",
                             color: AppColors.gradientLightBlue),
                       ),

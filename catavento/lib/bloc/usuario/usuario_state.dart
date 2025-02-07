@@ -1,6 +1,6 @@
 part of 'usuario_bloc.dart';
 
-sealed class UsuarioState {
+sealed class UsuarioState extends Equatable {
   final DatabaseResponse databaseResponse;
   final Map<String, int> metaData;
 
@@ -8,23 +8,38 @@ sealed class UsuarioState {
 }
 
 class UsuarioCreateState extends UsuarioState {
-  UsuarioCreateState(super.databaseResponse, super.metaData);
+  const UsuarioCreateState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class UsuarioDeleteState extends UsuarioState {
-  UsuarioDeleteState(super.databaseResponse, super.metaData);
+  const UsuarioDeleteState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class UsuarioUpdateState extends UsuarioState {
-  UsuarioUpdateState(super.databaseResponse, super.metaData);
+  const UsuarioUpdateState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class UsuarioLoadingState extends UsuarioState {
-  UsuarioLoadingState(super.databaseResponse, super.metaData);
+  const UsuarioLoadingState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }
 
 class UsuarioErrorState extends UsuarioState {
   final String message;
 
-  UsuarioErrorState(super.databaseResponse, super.metaData, this.message);
+  const UsuarioErrorState(super.databaseResponse, super.metaData, this.message);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData, message];
 }

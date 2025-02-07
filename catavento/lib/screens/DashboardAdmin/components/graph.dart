@@ -15,7 +15,9 @@ class PizzaChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total = completas + restantes;
+    final total = (completas + restantes)
+        .clamp(1, double.infinity); // Evita divisão por zero //alteração aqui
+    // final total = completas + restantes;
     final completasPercent = completas / total;
     final restantesPercent = restantes / total;
 
@@ -26,20 +28,39 @@ class PizzaChart extends StatelessWidget {
           height: constraints.maxHeight * 0.4,
           child: PieChart(
             PieChartData(
+              //alteração aqui
               sections: [
                 PieChartSectionData(
-                  value: completasPercent * 100,
-                  title: '', // Remover título (porcentagem)
+                  value: (completasPercent * 100).isNaN
+                      ? 0
+                      : completasPercent * 100,
+                  title: '',
                   color: colors[0],
                   radius: constraints.maxWidth * 0.3,
                 ),
                 PieChartSectionData(
-                  value: restantesPercent * 100,
-                  title: '', // Remover título (porcentagem)
+                  value: (restantesPercent * 100).isNaN
+                      ? 0
+                      : restantesPercent * 100,
+                  title: '',
                   color: colors[1],
                   radius: constraints.maxWidth * 0.3,
                 ),
               ],
+              // sections: [
+              //   PieChartSectionData(
+              //     value: completasPercent * 100,
+              //     title: '${(completasPercent * 100).toStringAsFixed(1)}%',
+              //     color: colors[0],
+              //     radius: constraints.maxWidth * 0.3,
+              //   ),
+              //   PieChartSectionData(
+              //     value: restantesPercent * 100,
+              //     title: '${(restantesPercent * 100).toStringAsFixed(1)}%',
+              //     color: colors[1],
+              //     radius: constraints.maxWidth * 0.3,
+              //   ),
+              // ],
               centerSpaceRadius:
                   constraints.maxWidth * 0.15, // Espaço no centro
             ),
@@ -64,6 +85,11 @@ class ChartContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Garante que sempre haverá pelo menos duas cores //alteração aqui
+    final safeColors = colors.length >= 2
+        ? colors
+        : [Colors.blue, Colors.grey]; // Cores padrão caso faltem cores
+
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.15,
@@ -120,7 +146,7 @@ class ChartContainer extends StatelessWidget {
               child: PizzaChart(
                 completas: completas,
                 restantes: restantes,
-                colors: colors,
+                colors: safeColors, //alterações aqui
               ),
             ),
           ],

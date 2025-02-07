@@ -12,48 +12,30 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _funcionarios = [];
   DatabaseResponse _loja = [];
+  DatabaseResponse _dadosGerais = [];
+  List<DatabaseResponse> _demandas = [];
 
-  RelatorioBloc() : super(RelatorioCompleteState([], [])) {
+  RelatorioBloc() : super(RelatorioCompleteState([], [], [])) {
     on<RelatorioLoad>(_onLoad);
   }
 
   void _onLoad(RelatorioLoad event, Emitter<RelatorioState> emit) async {
     try {
-      _loja = await _gerarRelatorio();
+      final relatorio = await _gerarRelatorioLoja();
+      _loja = relatorio[0];
+      _dadosGerais = relatorio[1];
 
-      emit(RelatorioCompleteState(_funcionarios, _loja));
+      emit(RelatorioCompleteState(_funcionarios, _loja, _dadosGerais));
     } catch (e) {
-      emit(RelatorioErrorState(
-          _funcionarios, _loja, "Erro ao gerar o relatório - $e"));
+      emit(RelatorioErrorState(_funcionarios, _loja, _dadosGerais,
+          "Erro ao gerar o relatório - $e"));
     }
   }
 
-  Future<List<Map<String, int>>> _gerarRelatorio() async {
+  Future<List<DatabaseResponse>> _getDemandas() async {
     try {
       final hoje = DateTime.now();
-      final List<Map<String, int>> relatorio = [
-        {
-          "MAGALU": 0,
-          "MERCADO LIVRE": 0,
-          "SITE": 0,
-          "ELO 7": 0,
-          "SHOPEE": 0,
-        },
-        {
-          "MAGALU": 0,
-          "MERCADO LIVRE": 0,
-          "SITE": 0,
-          "ELO 7": 0,
-          "SHOPEE": 0,
-        },
-        {
-          "MAGALU": 0,
-          "MERCADO LIVRE": 0,
-          "SITE": 0,
-          "ELO 7": 0,
-          "SHOPEE": 0,
-        },
-      ];
+
       var dataFormatada = DateFormat(dateFormat).format(hoje);
       final demandasDiarias = await _supabase
           .from('demandas')
@@ -82,59 +64,141 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
           .gte('data_adicao', '${dataInicialFormatada}T00:00:00')
           .lte('data_adicao', '${dataFinalFormatada}T23:59:59');
 
-      if (demandasDiarias.isNotEmpty) {
-        for (var demanda in demandasDiarias) {
-          switch (demanda['loja']) {
-            case "MAGALU":
-              relatorio[0]["MAGALU"] = relatorio[0]["MAGALU"]! + 1;
-            case "MERCADO LIVRE":
-              relatorio[0]["MERCADO LIVRE"] =
-                  relatorio[0]["MERCADO LIVRE"]! + 1;
-            case "SITE":
-              relatorio[0]["SITE"] = relatorio[0]["SITE"]! + 1;
-            case "ELO 7":
-              relatorio[0]["ELO 7"] = relatorio[0]["ELO 7"]! + 1;
-            case "SHOPEE":
-              relatorio[0]["SHOPEE"] = relatorio[0]["SHOPEE"]! + 1;
-          }
-        }
+      _demandas = [demandasDiarias, demandasSemanais, demandasMensais];
+      return _demandas;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<DatabaseResponse>> _gerarRelatorioLoja() async {
+    try {
+      late final List<DatabaseResponse> demandas;
+      if (_demandas.isEmpty) {
+        demandas = await _getDemandas();
+      } else {
+        demandas = _demandas;
       }
-      if (demandasSemanais.isNotEmpty) {
-        for (var demanda in demandasSemanais) {
+      final List<Map<String, int>> vendasLojas = [
+        {
+          "MAGALU": 0,
+          "MERCADO LIVRE": 0,
+          "SITE": 0,
+          "ELO 7": 0,
+          "SHOPEE": 0,
+        },
+        {
+          "MAGALU": 0,
+          "MERCADO LIVRE": 0,
+          "SITE": 0,
+          "ELO 7": 0,
+          "SHOPEE": 0,
+        },
+        {
+          "MAGALU": 0,
+          "MERCADO LIVRE": 0,
+          "SITE": 0,
+          "ELO 7": 0,
+          "SHOPEE": 0,
+        },
+      ];
+
+      final dadosGeraisD = {
+        'total': 0,
+        'produzidos': 0,
+        'pendentes': 0,
+      };
+
+      final dadosGeraisS = {
+        'total': 0,
+        'produzidos': 0,
+        'pendentes': 0,
+      };
+
+      final dadosGeraisM = {
+        'total': 0,
+        'produzidos': 0,
+        'pendentes': 0,
+      };
+
+      if (demandas[0].isNotEmpty) {
+        for (var demanda in demandas[0]) {
           switch (demanda['loja']) {
             case "MAGALU":
-              relatorio[1]["MAGALU"] = relatorio[1]["MAGALU"]! + 1;
+              vendasLojas[0]["MAGALU"] = vendasLojas[0]["MAGALU"]! + 1;
             case "MERCADO LIVRE":
-              relatorio[1]["MERCADO LIVRE"] =
-                  relatorio[1]["MERCADO LIVRE"]! + 1;
+              vendasLojas[0]["MERCADO LIVRE"] =
+                  vendasLojas[0]["MERCADO LIVRE"]! + 1;
             case "SITE":
-              relatorio[1]["SITE"] = relatorio[1]["SITE"]! + 1;
+              vendasLojas[0]["SITE"] = vendasLojas[0]["SITE"]! + 1;
             case "ELO 7":
-              relatorio[1]["ELO 7"] = relatorio[1]["ELO 7"]! + 1;
+              vendasLojas[0]["ELO 7"] = vendasLojas[0]["ELO 7"]! + 1;
             case "SHOPEE":
-              relatorio[1]["SHOPEE"] = relatorio[1]["SHOPEE"]! + 1;
+              vendasLojas[0]["SHOPEE"] = vendasLojas[0]["SHOPEE"]! + 1;
+          }
+
+          if (demanda['status'] == 'Finalizado') {
+            dadosGeraisD['produzidos'] = dadosGeraisD['produzidos']! + 1;
+          } else {
+            dadosGeraisD['pendentes'] = dadosGeraisD['pendentes']! + 1;
           }
         }
+        dadosGeraisD['total'] =
+            dadosGeraisD['produzidos']! + dadosGeraisD['pendentes']!;
       }
-      if (demandasMensais.isNotEmpty) {
-        for (var demanda in demandasMensais) {
+      if (demandas[1].isNotEmpty) {
+        for (var demanda in demandas[1]) {
           switch (demanda['loja']) {
             case "MAGALU":
-              relatorio[2]["MAGALU"] = relatorio[2]["MAGALU"]! + 1;
+              vendasLojas[1]["MAGALU"] = vendasLojas[1]["MAGALU"]! + 1;
             case "MERCADO LIVRE":
-              relatorio[2]["MERCADO LIVRE"] =
-                  relatorio[2]["MERCADO LIVRE"]! + 1;
+              vendasLojas[1]["MERCADO LIVRE"] =
+                  vendasLojas[1]["MERCADO LIVRE"]! + 1;
             case "SITE":
-              relatorio[2]["SITE"] = relatorio[2]["SITE"]! + 1;
+              vendasLojas[1]["SITE"] = vendasLojas[1]["SITE"]! + 1;
             case "ELO 7":
-              relatorio[2]["ELO 7"] = relatorio[2]["ELO 7"]! + 1;
+              vendasLojas[1]["ELO 7"] = vendasLojas[1]["ELO 7"]! + 1;
             case "SHOPEE":
-              relatorio[2]["SHOPEE"] = relatorio[2]["SHOPEE"]! + 1;
+              vendasLojas[1]["SHOPEE"] = vendasLojas[1]["SHOPEE"]! + 1;
+          }
+          if (demanda['status'] == 'Finalizado') {
+            dadosGeraisS['produzidos'] = dadosGeraisS['produzidos']! + 1;
+          } else {
+            dadosGeraisS['pendentes'] = dadosGeraisS['pendentes']! + 1;
           }
         }
+        dadosGeraisS['total'] =
+            dadosGeraisS['produzidos']! + dadosGeraisS['pendentes']!;
+      }
+      if (demandas[2].isNotEmpty) {
+        for (var demanda in demandas[2]) {
+          switch (demanda['loja']) {
+            case "MAGALU":
+              vendasLojas[2]["MAGALU"] = vendasLojas[2]["MAGALU"]! + 1;
+            case "MERCADO LIVRE":
+              vendasLojas[2]["MERCADO LIVRE"] =
+                  vendasLojas[2]["MERCADO LIVRE"]! + 1;
+            case "SITE":
+              vendasLojas[2]["SITE"] = vendasLojas[2]["SITE"]! + 1;
+            case "ELO 7":
+              vendasLojas[2]["ELO 7"] = vendasLojas[2]["ELO 7"]! + 1;
+            case "SHOPEE":
+              vendasLojas[2]["SHOPEE"] = vendasLojas[2]["SHOPEE"]! + 1;
+          }
+
+          if (demanda['status'] == 'Finalizado') {
+            dadosGeraisM['produzidos'] = dadosGeraisM['produzidos']! + 1;
+          } else {
+            dadosGeraisM['pendentes'] = dadosGeraisM['pendentes']! + 1;
+          }
+        }
+        dadosGeraisM['total'] =
+            dadosGeraisM['produzidos']! + dadosGeraisM['pendentes']!;
       }
 
-      return relatorio;
+      final dadosGerais = [dadosGeraisD, dadosGeraisS, dadosGeraisM];
+
+      return [vendasLojas, dadosGerais];
     } catch (e) {
       return [];
     }
@@ -196,8 +260,6 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
 
           return bValue.compareTo(aValue);
         });
-
-      print(sortedMensalList);
 
       final Map<String, dynamic> sortedMensal = {};
 

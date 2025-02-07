@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/screens/DashboardAdmin/components/demandCard.dart';
+import 'package:catavento/screens/DashboardAdmin/components/dropDownLoja.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -307,6 +308,7 @@ class ButtonAddDemanda extends StatelessWidget {
           borderRadius: BorderRadius.circular(22),
         ),
         child: ElevatedButton(
+          key: Key('adicionarDemandaButton'),
           onPressed: () {
             addInfoDemand(context);
           },
@@ -348,6 +350,7 @@ class ButtonAddDemanda extends StatelessWidget {
             title: "Adicionar Demanda",
             confirmBeforeClose: true,
             body: SingleChildScrollView(
+              key: Key('addDemandScrollView'),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -382,15 +385,20 @@ class ButtonAddDemanda extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.022),
+                              child: Text(
                               "Código",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
                                   fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
+                            ),
+                            SizedBox(width: size.width * 0.01,),
                             Expanded(
                               child: InputTextField(
+                                key: Key('codigoDemandaInput'),
                                 labelText: "",
                                 hintText: "Código da demanda",
                                 controller: _codigoController,
@@ -400,20 +408,43 @@ class ButtonAddDemanda extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.022),
+                              child: Text(
                               "Nome",
                               style: TextStyle(
                                   color: AppColors.gradientDarkBlue,
                                   fontSize: size.height * 0.016,
                                   fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(width: 10),
+                            ),
+                            SizedBox(width: size.width * 0.01,),
                             Expanded(
                               child: InputTextField(
+                                key: Key('nomeDemandaInput'),
                                 hintText: "Nome da demanda",
                                 controller: _nomeController,
                                 labelText: '',
                               ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Text(
+                              "Loja*",
+                              style: TextStyle(
+                                color: AppColors.gradientDarkBlue,
+                                fontSize: size.height * 0.016,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.01,
+                            ),
+                            Dropdownbutton(
+                              //controller: lojaController,   (descomentar depois backend)
                             ),
                           ],
                         ),
@@ -430,6 +461,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
+                              key: Key('dataPedidoInput'),
                               child: inputDate(_dataController),
                             ),
                           ],
@@ -447,6 +479,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
+                              key: Key('prazoInput'),
                               child: inputDate(_prazoController),
                             ),
                           ],
@@ -487,6 +520,7 @@ class ButtonAddDemanda extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         InputTextField(
+                          key: Key('descricaoDemandaInput'),
                           labelText: "Descrição",
                           hintText: "Digite a descrição",
                           controller: _descricaoController,
@@ -497,6 +531,7 @@ class ButtonAddDemanda extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
+                    key: Key('concluirButton'),
                     onPressed: () async {
                       if (_codigoController.text.isNotEmpty ||
                           _nomeController.text.isNotEmpty) {

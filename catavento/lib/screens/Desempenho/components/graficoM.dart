@@ -1,5 +1,4 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
-import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -52,7 +51,6 @@ class BarGraficMState extends State<BarGraficM> {
 
   List<LojasData> getLojasData() {
     final mensal = context.read<RelatorioBloc>().mensal();
-    print(mensal);
     final List<LojasData> chartData = [
       LojasData('Elo7', mensal['ELO 7'] ?? 0),
       LojasData('M. Livre', mensal['MERCADO LIVRE'] ?? 0),

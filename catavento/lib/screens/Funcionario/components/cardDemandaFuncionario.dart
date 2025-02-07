@@ -1,5 +1,9 @@
+import 'package:catavento/bloc/auth/auth_bloc.dart';
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardDemanda extends StatefulWidget {
   final String title;
@@ -9,7 +13,9 @@ class CardDemanda extends StatefulWidget {
   final Color shadowColor;
   final double width;
   final double height;
-  final void Function(int duration)? onCronometroFinalizado;
+  final String? imagem;
+  final int status;
+  final void Function()? onCronometroFinalizado;
 
   const CardDemanda({
     Key? key,
@@ -20,6 +26,8 @@ class CardDemanda extends StatefulWidget {
     required this.shadowColor,
     required this.width,
     required this.height,
+    required this.imagem,
+    required this.status,
     this.onCronometroFinalizado,
   }) : super(key: key);
 
@@ -29,37 +37,51 @@ class CardDemanda extends StatefulWidget {
 
 class _CardDemandaState extends State<CardDemanda> {
   String _buttonText = "Iniciar Bolo";
-  bool _isCronometroRunning = false;
-  int _cronometroStart = 0; // Timestamp do início
-  int _cronometroEnd = 0; // Timestamp do fim
 
   @override
   void initState() {
     super.initState();
-    _buttonText =
-        "Iniciar Bolo"; // Garante que o estado do botão seja sempre "Iniciar Bolo"
-  }
-
-  void _handleButtonPress() {
-    setState(() {
-      if (_buttonText == "Iniciar Bolo") {
-        _isCronometroRunning = true;
-        _cronometroStart = DateTime.now().millisecondsSinceEpoch;
+    _buttonText = "Iniciar Bolo";
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (widget.title == "Carregando") {
+        _buttonText = "Carregando";
+      } else if (widget.status == 0) {
+        _buttonText = "Iniciar Bolo";
+      } else if (widget.status == 1) {
         _buttonText = "Finalizar Bolo";
-      } else if (_buttonText == "Finalizar Bolo") {
-        _isCronometroRunning = false;
-        _cronometroEnd = DateTime.now().millisecondsSinceEpoch;
-        final duration =
-            (_cronometroEnd - _cronometroStart) ~/ 1000; // Em segundos
-
-        // Enviar os dados para outro lugar
-        if (widget.onCronometroFinalizado != null) {
-          widget.onCronometroFinalizado!(duration);
-        }
-
-        _buttonText = "Bolo Concluído";
       }
     });
+  }
+
+  void _handleButtonPress() async {
+    if (_buttonText == "Iniciar Bolo") {
+      setState(() {
+        _buttonText = "Finalizar Bolo";
+      });
+
+      final email = context.read<AuthBloc>().email;
+      final setor = context.read<AuthBloc>().setor!.toLowerCase();
+      context.read<TrabalhoBloc>().add(TrabalhoInit(
+            email: email!,
+            setor: setor,
+          ));
+    } else if (_buttonText == "Finalizar Bolo") {
+      setState(() {
+        _buttonText = "Bolo Concluído";
+      });
+
+      if (widget.onCronometroFinalizado != null) {
+        widget.onCronometroFinalizado!();
+      }
+
+      final email = context.read<AuthBloc>().email;
+      final setor = context.read<AuthBloc>().setor!.toLowerCase();
+
+      context.read<TrabalhoBloc>().add(TrabalhoFinish(
+            email: email!,
+            setor: setor,
+          ));
+    }
   }
 
   void _showImagePopup(String imagePath) {

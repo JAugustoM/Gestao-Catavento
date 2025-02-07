@@ -31,7 +31,7 @@ class DiarioState extends State<Diario> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: DesempenhoGeralWidget()),
+            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 0)),
             SizedBox(
               width: size.width * 0.02,
             ),
