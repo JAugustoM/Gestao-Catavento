@@ -21,8 +21,14 @@ class DiarioState extends State<Diario> {
     final size = MediaQuery.of(context).size;
 
     final diario = context.read<RelatorioBloc>().diario();
-    final menos = diario.keys.last;
-    final mais = diario.keys.first;
+    final menos = diario.isNotEmpty ? diario.keys.last : "Nenhum bolo vendido";
+    final mais = diario.isNotEmpty ? diario.keys.first : "Nenhum bolo vendido";
+
+    final bolosDiario = context.read<RelatorioBloc>().bolosDiario();
+    final boloMenos =
+        bolosDiario.isNotEmpty ? bolosDiario.keys.last : "Nenhum bolo vendido";
+    final boloMais =
+        bolosDiario.isNotEmpty ? bolosDiario.keys.first : "Nenhum bolo vendido";
 
     return BlocBuilder<TrabalhoBloc, TrabalhoState>(
       builder: (context, state) {
@@ -39,11 +45,7 @@ class DiarioState extends State<Diario> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(
-                flex: 2,
-                child: _vendidos(context, "Roblox", "BR123", "Hello Kitty",
-                    "BH835") //Trocar o nome e o código (backend)
-                ),
+            Flexible(flex: 2, child: _vendidos(context, boloMais, boloMenos)),
           ],
         ));
       },
@@ -168,8 +170,7 @@ class DiarioState extends State<Diario> {
         ));
   }
 
-  Widget _vendidos(context, String nomeBoloMais, String codigoMais,
-      String nomeBoloMenos, String codigoMenos) {
+  Widget _vendidos(context, String nomeBoloMais, String nomeBoloMenos) {
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -193,7 +194,7 @@ class DiarioState extends State<Diario> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMais ($codigoMais)",
+                      nomeBoloMais,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.018,
@@ -222,7 +223,7 @@ class DiarioState extends State<Diario> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMenos ($codigoMenos)",
+                      nomeBoloMenos,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.020,

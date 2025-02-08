@@ -26,8 +26,10 @@ class DashBoardAdmin extends StatelessWidget {
   const DashBoardAdmin({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
     String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+
+    context.read<DemandaBloc>().add(DemandaLoading());
 
     return Scaffold(
       drawer: Navbar(),
@@ -73,15 +75,11 @@ class AddDemandPageAdmin extends StatefulWidget {
 }
 
 class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
-  late final DemandaController demandaController;
-
   String? selectedFilter;
 
   @override
   void initState() {
     super.initState();
-    demandaController = DemandaController(context.read<DemandaBloc>());
-    demandaController.initialize();
   }
 
   // Função chamada quando o filtro é alterado
@@ -164,7 +162,6 @@ class AddDemandPageAdminState extends State<AddDemandPageAdmin> {
   @override
   void dispose() {
     super.dispose();
-    demandaController.finalize();
   }
 }
 
@@ -178,6 +175,21 @@ class ListDemanda extends StatefulWidget {
 }
 
 class ListDemandaState extends State<ListDemanda> {
+  late final DemandaController demandaController;
+
+  @override
+  void initState() {
+    super.initState();
+    demandaController = DemandaController(context.read<DemandaBloc>());
+    demandaController.initialize();
+  }
+
+  @override
+  void dispose() {
+    demandaController.finalize();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size; // Tamanho da tela
@@ -219,8 +231,6 @@ class ListDemandaState extends State<ListDemanda> {
                     break;
                   case DemandaErrorState():
                     showBlocSnackbar(context, state.message);
-                  default:
-                    break;
                 }
               },
               builder: (context, state) {
@@ -337,14 +347,14 @@ class ButtonAddDemanda extends StatelessWidget {
         builder: (BuildContext context) {
           final size = MediaQuery.of(context).size;
 
-          final TextEditingController _nomeController = TextEditingController();
-          final TextEditingController _codigoController =
+          final TextEditingController nomeController = TextEditingController();
+          final TextEditingController codigoController =
               TextEditingController();
-          final TextEditingController _descricaoController =
+          final TextEditingController descricaoController =
               TextEditingController();
-          final TextEditingController _dataController = TextEditingController();
-          final TextEditingController _prazoController =
-              TextEditingController();
+          final TextEditingController dataController = TextEditingController();
+          final TextEditingController prazoController = TextEditingController();
+          final TextEditingController lojaController = TextEditingController();
           return ReusableDialog(
             backgroundColor: AppColors.lightGray,
             title: "Adicionar Demanda",
@@ -386,22 +396,25 @@ class ButtonAddDemanda extends StatelessWidget {
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.022),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.022),
                               child: Text(
-                              "Código",
-                              style: TextStyle(
-                                  color: AppColors.gradientDarkBlue,
-                                  fontSize: size.height * 0.016,
-                                  fontWeight: FontWeight.bold),
+                                "Código",
+                                style: TextStyle(
+                                    color: AppColors.gradientDarkBlue,
+                                    fontSize: size.height * 0.016,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
+                            SizedBox(
+                              width: size.width * 0.01,
                             ),
-                            SizedBox(width: size.width * 0.01,),
                             Expanded(
                               child: InputTextField(
                                 key: Key('codigoDemandaInput'),
                                 labelText: "",
                                 hintText: "Código da demanda",
-                                controller: _codigoController,
+                                controller: codigoController,
                               ),
                             ),
                           ],
@@ -409,21 +422,24 @@ class ButtonAddDemanda extends StatelessWidget {
                         Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.022),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.022),
                               child: Text(
-                              "Nome",
-                              style: TextStyle(
-                                  color: AppColors.gradientDarkBlue,
-                                  fontSize: size.height * 0.016,
-                                  fontWeight: FontWeight.bold),
+                                "Nome",
+                                style: TextStyle(
+                                    color: AppColors.gradientDarkBlue,
+                                    fontSize: size.height * 0.016,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
+                            SizedBox(
+                              width: size.width * 0.01,
                             ),
-                            SizedBox(width: size.width * 0.01,),
                             Expanded(
                               child: InputTextField(
                                 key: Key('nomeDemandaInput'),
                                 hintText: "Nome da demanda",
-                                controller: _nomeController,
+                                controller: nomeController,
                                 labelText: '',
                               ),
                             ),
@@ -435,16 +451,15 @@ class ButtonAddDemanda extends StatelessWidget {
                             Text(
                               "Loja*",
                               style: TextStyle(
-                                color: AppColors.gradientDarkBlue,
-                                fontSize: size.height * 0.016,
-                                fontWeight: FontWeight.bold
-                              ),
+                                  color: AppColors.gradientDarkBlue,
+                                  fontSize: size.height * 0.016,
+                                  fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.01,
                             ),
                             Dropdownbutton(
-                              //controller: lojaController,   (descomentar depois backend)
+                              controller: lojaController,
                             ),
                           ],
                         ),
@@ -462,7 +477,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             const SizedBox(width: 10),
                             Expanded(
                               key: Key('dataPedidoInput'),
-                              child: inputDate(_dataController),
+                              child: inputDate(dataController),
                             ),
                           ],
                         ),
@@ -480,7 +495,7 @@ class ButtonAddDemanda extends StatelessWidget {
                             const SizedBox(width: 10),
                             Expanded(
                               key: Key('prazoInput'),
-                              child: inputDate(_prazoController),
+                              child: inputDate(prazoController),
                             ),
                           ],
                         ),
@@ -523,7 +538,7 @@ class ButtonAddDemanda extends StatelessWidget {
                           key: Key('descricaoDemandaInput'),
                           labelText: "Descrição",
                           hintText: "Digite a descrição",
-                          controller: _descricaoController,
+                          controller: descricaoController,
                           maxLines: 3,
                         ),
                       ],
@@ -533,14 +548,15 @@ class ButtonAddDemanda extends StatelessWidget {
                   ElevatedButton(
                     key: Key('concluirButton'),
                     onPressed: () async {
-                      if (_codigoController.text.isNotEmpty ||
-                          _nomeController.text.isNotEmpty) {
+                      if (codigoController.text.isNotEmpty ||
+                          nomeController.text.isNotEmpty) {
                         bloc.add(DemandaCreate(
-                          nomeDemanda: _nomeController.text,
-                          codigo: _codigoController.text,
-                          descricao: _descricaoController.text,
-                          data: _dataController.text,
-                          prazo: _prazoController.text,
+                          nomeDemanda: nomeController.text,
+                          codigo: codigoController.text,
+                          descricao: descricaoController.text,
+                          loja: lojaController.text,
+                          data: dataController.text,
+                          prazo: prazoController.text,
                         ));
                         Navigator.pop(context);
                       } else {

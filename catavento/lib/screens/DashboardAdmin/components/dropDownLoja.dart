@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
 
 class Dropdownbutton extends StatefulWidget {
-  //final TextEditingController controller;   (decomentar depois backend)
+  final TextEditingController controller;
 
-  //const Dropdownbutton({super.key, required this.controller});    (descomentar depois backend)
+  const Dropdownbutton({
+    super.key,
+    required this.controller,
+  });
   @override
   State<Dropdownbutton> createState() {
     return DropdownbuttonState();
@@ -38,8 +41,13 @@ class DropdownbuttonState extends State<Dropdownbutton> {
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.height * 0.016),
             value: selectedOption,
-            items: <String>['Elo7', 'Magalu', 'Mercado Livre', 'Site', 'Shopee']
-                .map((String value) {
+            items: <String>[
+              'Elo 7',
+              'Magalu',
+              'Mercado Livre',
+              'Site',
+              'Shopee'
+            ].map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(
@@ -49,7 +57,7 @@ class DropdownbuttonState extends State<Dropdownbutton> {
               );
             }).toList(),
             onChanged: (newValue) {
-              //widget.controller.text = newValue!;   (descomentar depois backend)
+              widget.controller.text = newValue!;
               setState(() {
                 selectedOption = newValue;
               });

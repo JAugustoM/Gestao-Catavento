@@ -1,4 +1,5 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
+import 'package:catavento/screens/Desempenho/components/desempenhoGeral.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
 import 'package:catavento/screens/Desempenho/components/graficoM.dart';
@@ -19,8 +20,14 @@ class MensalState extends State<Mensal> {
     final size = MediaQuery.of(context).size;
 
     final mensal = context.read<RelatorioBloc>().mensal();
-    final menos = mensal.keys.last;
-    final mais = mensal.keys.first;
+    final menos = mensal.isNotEmpty ? mensal.keys.last : "Nenhum bolo vendido";
+    final mais = mensal.isNotEmpty ? mensal.keys.first : "Nenhum bolo vendido";
+
+    final bolosMensal = context.read<RelatorioBloc>().bolosMensal();
+    final boloMenos =
+        bolosMensal.isNotEmpty ? bolosMensal.keys.last : "Nenhum bolo vendido";
+    final boloMais =
+        bolosMensal.isNotEmpty ? bolosMensal.keys.first : "Nenhum bolo vendido";
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -29,7 +36,7 @@ class MensalState extends State<Mensal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: _desempenhoGeral(context)),
+            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 2)),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -37,18 +44,14 @@ class MensalState extends State<Mensal> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(
-                flex: 2,
-                child: _vendidos(context, "Roblox", "BR123", "Hello Kitty",
-                    "BH835") //Trocar o nome e o código (backend)
-                ),
+            Flexible(flex: 2, child: _vendidos(context, boloMais, boloMenos)),
           ],
         ));
       },
     );
   }
 
-  Widget _desempenhoGeral(context) {
+  /*Widget _desempenhoGeral(context) {
     final size = MediaQuery.of(context).size;
 
     return BlocksIcon(
@@ -129,7 +132,7 @@ class MensalState extends State<Mensal> {
                 ),
               ],
             )));
-  }
+  }*/
 
   Widget _desempenhoLoja(context, String menos, String mais) {
     final size = MediaQuery.of(context).size;
@@ -200,8 +203,7 @@ class MensalState extends State<Mensal> {
         ));
   }
 
-  Widget _vendidos(context, String nomeBoloMais, String codigoMais,
-      String nomeBoloMenos, String codigoMenos) {
+  Widget _vendidos(context, String nomeBoloMais, String nomeBoloMenos) {
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -225,7 +227,7 @@ class MensalState extends State<Mensal> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMais ($codigoMais)",
+                      nomeBoloMais,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.018,
@@ -254,7 +256,7 @@ class MensalState extends State<Mensal> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMenos ($codigoMenos)",
+                      nomeBoloMenos,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.020,

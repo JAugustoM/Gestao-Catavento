@@ -1,5 +1,6 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/blocksIcon.dart';
+import 'package:catavento/screens/Desempenho/components/desempenhoGeral.dart';
 import 'package:catavento/screens/Desempenho/components/graficoS.dart';
 import 'package:catavento/screens/Desempenho/components/info.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,19 @@ class SemanalState extends State<Semanal> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final diario = context.read<RelatorioBloc>().diario();
-    final menos = diario.keys.last;
-    final mais = diario.keys.first;
+    final semanal = context.read<RelatorioBloc>().semanal();
+    final menos =
+        semanal.isNotEmpty ? semanal.keys.last : "Nenhum bolo vendido";
+    final mais =
+        semanal.isNotEmpty ? semanal.keys.first : "Nenhum bolo vendido";
+
+    final bolosSemanal = context.read<RelatorioBloc>().bolosSemanal();
+    final boloMenos = bolosSemanal.isNotEmpty
+        ? bolosSemanal.keys.last
+        : "Nenhum bolo vendido";
+    final boloMais = bolosSemanal.isNotEmpty
+        ? bolosSemanal.keys.first
+        : "Nenhum bolo vendido";
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -29,7 +40,7 @@ class SemanalState extends State<Semanal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(flex: 2, child: _desempenhoGeral(context)),
+            Flexible(flex: 2, child: DesempenhoGeralWidget(periodo: 1)),
             SizedBox(
               width: size.width * 0.02,
             ),
@@ -37,18 +48,14 @@ class SemanalState extends State<Semanal> {
             SizedBox(
               width: size.width * 0.02,
             ),
-            Flexible(
-                flex: 2,
-                child: _vendidos(context, "Roblox", "BR123", "Hello Kitty",
-                    "BH835") //Trocar o nome e o código (backend)
-                ),
+            Flexible(flex: 2, child: _vendidos(context, boloMais, boloMenos)),
           ],
         ));
       },
     );
   }
 
-  Widget _desempenhoGeral(context) {
+  /*Widget _desempenhoGeral(context) {
     final size = MediaQuery.of(context).size;
 
     return BlocksIcon(
@@ -129,7 +136,7 @@ class SemanalState extends State<Semanal> {
                 ),
               ],
             )));
-  }
+  }*/
 
   Widget _desempenhoLoja(context, String menos, String mais) {
     final size = MediaQuery.of(context).size;
@@ -200,8 +207,7 @@ class SemanalState extends State<Semanal> {
         ));
   }
 
-  Widget _vendidos(context, String nomeBoloMais, String codigoMais,
-      String nomeBoloMenos, String codigoMenos) {
+  Widget _vendidos(context, String nomeBoloMais, String nomeBoloMenos) {
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -225,7 +231,7 @@ class SemanalState extends State<Semanal> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMais ($codigoMais)",
+                      nomeBoloMais,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.018,
@@ -254,7 +260,7 @@ class SemanalState extends State<Semanal> {
                       border: Border.all(color: AppColors.blue, width: 10)),
                   child: Center(
                     child: Text(
-                      "$nomeBoloMenos ($codigoMenos)",
+                      nomeBoloMenos,
                       style: TextStyle(
                           fontFamily: "FredokaOne",
                           fontSize: size.height * 0.020,

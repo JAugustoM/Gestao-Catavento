@@ -96,7 +96,7 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       'status_cobertura': 0,
       'status_aplique': 0,
       'status_montagem': 0,
-      'loja': 'Não especificada',
+      'loja': event.loja,
     };
 
     try {
@@ -181,6 +181,9 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       if (response.isNotEmpty) {
         _currentData.removeWhere((test) => test['id'] == event.id);
       }
+      final metaData = _countDemandas();
+
+      emit(DemandaDeleteState(_currentData, metaData));
     } catch (e) {
       final metaData = _countDemandas();
       emit(DemandaErrorState(
@@ -189,16 +192,13 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
         "Erro ao deletar demanda - $e",
       ));
     }
-
-    final metaData = _countDemandas();
-
-    emit(DemandaDeleteState(_currentData, metaData));
   }
 
   void _onUpdate(DemandaUpdate event, Emitter<DemandaState> emit) async {
     try {
       final nomeDemanda = event.nomeDemanda;
       final descricao = event.descricao;
+      final loja = event.loja;
 
       final demanda = {};
 
@@ -212,6 +212,11 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
       if (descricao.isNotEmpty) {
         demanda["descricao"] = descricao;
         _currentData[order]['descricao'] = descricao;
+      }
+
+      if (loja.isNotEmpty) {
+        demanda["loja"] = loja;
+        _currentData[order]['loja'] = loja;
       }
 
       if (event.data!.length == 8) {

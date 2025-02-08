@@ -4,6 +4,7 @@ import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/screens/dashboardFuncionarios/components/aviso.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,8 @@ class EmployeeManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+    context.read<UsuarioBloc>().add(UsuarioLoading());
     return Scaffold(
       drawer: Navbar(),
       appBar: CustomHeader(
@@ -217,11 +220,14 @@ class EmployeeManagement extends StatelessWidget {
                 switch (state) {
                   case UsuarioCreateState():
                     showBlocSnackbar(context, "Usuário criado com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioDeleteState():
                     showBlocSnackbar(context, "Usuário removido com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioUpdateState():
                     showBlocSnackbar(
                         context, "Usuário atualizado com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioLoadingState():
                     break;
                   case UsuarioErrorState():
@@ -320,20 +326,22 @@ class EmployeeManagement extends StatelessWidget {
                 }
               }
 
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final atividade = trabalhos[index];
-                  final user = users[index];
-                  return AtivAndamentoCard(
-                    nomeFuncionario: user['usuario']!,
-                    nomeDemanda: atividade,
-                  );
-                },
-              );
+              return trabalhos.isEmpty
+                  ? Aviso()
+                  : ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final atividade = trabalhos[index];
+                        final user = users[index];
+                        return AtivAndamentoCard(
+                          nomeFuncionario: user['usuario']!,
+                          nomeDemanda: atividade,
+                        );
+                      },
+                    );
             },
           ),
         ],

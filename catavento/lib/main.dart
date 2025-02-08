@@ -37,7 +37,7 @@ void main() {
         BlocProvider(create: (context) => ProdutoBloc()..add(ProdutoLoading())),
         BlocProvider(
             create: (context) =>
-                getIt<auth_bloc.AuthBloc>()..add(auth_bloc.CheckAuthEvent())),
+                getIt<auth_bloc.AuthBloc>()..add(auth_bloc.SignOutEvent())),
         BlocProvider(
             create: (context) => TrabalhoBloc()
               ..add(TrabalhoLoading(
@@ -98,18 +98,27 @@ class LoadView extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, loginRoute);
               }
               if (state is auth_bloc.AuthAuthenticated) {
-                final dados = context.read<auth_bloc.AuthBloc>().userData;
+                final relatorioBloc = context.read<RelatorioBloc>();
+                final demandaBloc = context.read<DemandaBloc>();
+                final trabalhoBloc = context.read<TrabalhoBloc>();
+                final usuarioBloc = context.read<UsuarioBloc>();
+                final authBloc = context.read<auth_bloc.AuthBloc>();
+
+                final dados = authBloc.userData;
+
                 if (dados['tipo'] == 'padrao') {
-                  context.read<TrabalhoBloc>().add(TrabalhoLoading(
-                        email: dados['email']!,
-                        setor: dados['setor']!.toLowerCase(),
-                      ));
+                  trabalhoBloc.add(TrabalhoLoading(
+                    email: dados['email']!,
+                    setor: dados['setor']!.toLowerCase(),
+                  ));
                   Navigator.pushReplacementNamed(
                       context, atividadesFuncionarioRoute);
                 } else {
-                  context.read<RelatorioBloc>().add(RelatorioLoad());
-                  context.read<DemandaBloc>().add(DemandaLoading());
-                  context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+                  relatorioBloc.add(RelatorioLoad());
+                  demandaBloc.add(DemandaLoading());
+                  trabalhoBloc.add(TrabalhoAdmin());
+                  usuarioBloc.add(UsuarioLoading());
+
                   Navigator.pushReplacementNamed(context, homeRoute);
                 }
               }
