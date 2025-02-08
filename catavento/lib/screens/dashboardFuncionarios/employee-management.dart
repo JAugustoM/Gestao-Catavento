@@ -220,11 +220,14 @@ class EmployeeManagement extends StatelessWidget {
                 switch (state) {
                   case UsuarioCreateState():
                     showBlocSnackbar(context, "Usuário criado com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioDeleteState():
                     showBlocSnackbar(context, "Usuário removido com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioUpdateState():
                     showBlocSnackbar(
                         context, "Usuário atualizado com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioLoadingState():
                     break;
                   case UsuarioErrorState():

@@ -20,12 +20,14 @@ class MensalState extends State<Mensal> {
     final size = MediaQuery.of(context).size;
 
     final mensal = context.read<RelatorioBloc>().mensal();
-    final menos = mensal.keys.last;
-    final mais = mensal.keys.first;
+    final menos = mensal.isNotEmpty ? mensal.keys.last : "Nenhum bolo vendido";
+    final mais = mensal.isNotEmpty ? mensal.keys.first : "Nenhum bolo vendido";
 
     final bolosMensal = context.read<RelatorioBloc>().bolosMensal();
-    final boloMenos = bolosMensal.keys.last;
-    final boloMais = bolosMensal.keys.first;
+    final boloMenos =
+        bolosMensal.isNotEmpty ? bolosMensal.keys.last : "Nenhum bolo vendido";
+    final boloMais =
+        bolosMensal.isNotEmpty ? bolosMensal.keys.first : "Nenhum bolo vendido";
 
     return LayoutBuilder(
       builder: (context, constraints) {

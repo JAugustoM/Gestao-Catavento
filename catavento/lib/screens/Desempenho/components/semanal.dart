@@ -19,13 +19,19 @@ class SemanalState extends State<Semanal> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final diario = context.read<RelatorioBloc>().diario();
-    final menos = diario.keys.last;
-    final mais = diario.keys.first;
+    final semanal = context.read<RelatorioBloc>().semanal();
+    final menos =
+        semanal.isNotEmpty ? semanal.keys.last : "Nenhum bolo vendido";
+    final mais =
+        semanal.isNotEmpty ? semanal.keys.first : "Nenhum bolo vendido";
 
     final bolosSemanal = context.read<RelatorioBloc>().bolosSemanal();
-    final boloMenos = bolosSemanal.keys.last;
-    final boloMais = bolosSemanal.keys.first;
+    final boloMenos = bolosSemanal.isNotEmpty
+        ? bolosSemanal.keys.last
+        : "Nenhum bolo vendido";
+    final boloMais = bolosSemanal.isNotEmpty
+        ? bolosSemanal.keys.first
+        : "Nenhum bolo vendido";
 
     return LayoutBuilder(
       builder: (context, constraints) {

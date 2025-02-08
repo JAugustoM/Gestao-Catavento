@@ -21,12 +21,14 @@ class DiarioState extends State<Diario> {
     final size = MediaQuery.of(context).size;
 
     final diario = context.read<RelatorioBloc>().diario();
-    final menos = diario.keys.last;
-    final mais = diario.keys.first;
+    final menos = diario.isNotEmpty ? diario.keys.last : "Nenhum bolo vendido";
+    final mais = diario.isNotEmpty ? diario.keys.first : "Nenhum bolo vendido";
 
     final bolosDiario = context.read<RelatorioBloc>().bolosDiario();
-    final boloMenos = bolosDiario.keys.last;
-    final boloMais = bolosDiario.keys.first;
+    final boloMenos =
+        bolosDiario.isNotEmpty ? bolosDiario.keys.last : "Nenhum bolo vendido";
+    final boloMais =
+        bolosDiario.isNotEmpty ? bolosDiario.keys.first : "Nenhum bolo vendido";
 
     return BlocBuilder<TrabalhoBloc, TrabalhoState>(
       builder: (context, state) {
