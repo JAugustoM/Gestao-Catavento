@@ -1,9 +1,16 @@
+import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/bolosDesempenhoCard.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:catavento/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Listadiario extends StatefulWidget {
+  final String email_funcionario;
+
+  Listadiario({required this.email_funcionario});
+
   @override
   State<Listadiario> createState() {
     return ListadiarioState();
@@ -13,6 +20,14 @@ class Listadiario extends StatefulWidget {
 class ListadiarioState extends State<Listadiario> {
   final String media = "08:00";
   final String qtde = "55";
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    email = widget.email_funcionario;
+  }
+
   final List<Map<String, String>> bolos = [
     {
       'nomeDemanda': '{nomeDemanda}',
@@ -199,21 +214,32 @@ class ListadiarioState extends State<Listadiario> {
   }
 
   Widget _buildListBolos() {
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: bolos.length,
-        itemBuilder: (context, index) {
-          final bolo = bolos[index];
-          return Bolosdesempenhocard(
-            nomeDemanda: bolo['nomeDemanda']!,
-            inicio: bolo['inicio']!,
-            fim: bolo['fim']!,
-            duracao: bolo['duracao']!,
-            image: bolo['image']!,
-          );
-        });
+    DatabaseResponse bolos = [];
+
+    return BlocConsumer<TrabalhoBloc, TrabalhoState>(
+      listener: (context, state) {
+        if (bolos.isEmpty) {
+          bolos = context.read<TrabalhoBloc>().getTrabalhosFromUser(email);
+        }
+      },
+      builder: (context, state) {
+        return ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: bolos.length,
+            itemBuilder: (context, index) {
+              final bolo = bolos[index];
+              return Bolosdesempenhocard(
+                nomeDemanda: bolo['nomeDemanda']!,
+                inicio: bolo['inicio']!,
+                fim: bolo['fim']!,
+                duracao: bolo['duracao']!,
+                image: bolo['image']!,
+              );
+            });
+      },
+    );
   }
 
   Widget _buildBlockWarning() {

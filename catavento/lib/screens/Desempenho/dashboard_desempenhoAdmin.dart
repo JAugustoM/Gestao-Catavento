@@ -1,4 +1,5 @@
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/filtroSetor.dart';
 import 'package:catavento/screens/Desempenho/components/funcionariosCardDesempenho.dart';
 import 'package:catavento/screens/Desempenho/components/searchFuncionarios.dart';
@@ -8,20 +9,21 @@ import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/background.dart';
 import 'package:catavento/shared/widgets/header.dart';
 import 'package:catavento/shared/widgets/menu.dart';
+import 'package:catavento/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardDesempenhoAdmin extends StatelessWidget {
   final TextEditingController _setorcontroller = TextEditingController();
 
-  final List<Map<String, String>> funcionarios = [
-    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
-    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
-    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
-    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
-    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
-    {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
-  ];
+  // final List<Map<String, String>> funcionarios = [
+  //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+  //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+  //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+  //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+  //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+  //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -115,21 +117,33 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
   }
 
   Widget _buildListFuncionarios(BuildContext context) {
-    return GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, //numero de cards por linha
-            crossAxisSpacing: 35, //espaçamento horizontal
-            mainAxisSpacing: 25, //espaçamento vertical
-            childAspectRatio: 3.5 //Proporção entre largura e altura
-            ),
-        itemCount: funcionarios.length,
-        itemBuilder: (context, index) {
-          final funcionario = funcionarios[index];
-          return FuncionariosCardDesempenho(
-            nomeFuncionario: funcionario['nomeFuncionario']!,
-            setor: funcionario['setor']!,
-          );
-        });
+    DatabaseResponse usuarios = [];
+
+    return BlocConsumer<UsuarioBloc, UsuarioState>(
+      listener: (context, state) {
+        if (usuarios.isEmpty) {
+          usuarios = context.read<UsuarioBloc>().usuarios;
+        }
+      },
+      builder: (context, state) {
+        return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, //numero de cards por linha
+                crossAxisSpacing: 35, //espaçamento horizontal
+                mainAxisSpacing: 25, //espaçamento vertical
+                childAspectRatio: 3.5 //Proporção entre largura e altura
+                ),
+            itemCount: usuarios.length,
+            itemBuilder: (context, index) {
+              final usuario = usuarios[index];
+              return FuncionariosCardDesempenho(
+                emailFuncionario: usuario['email']!,
+                nomeFuncionario: usuario['nome']!,
+                setor: usuario['setor']!,
+              );
+            });
+      },
+    );
   }
 }

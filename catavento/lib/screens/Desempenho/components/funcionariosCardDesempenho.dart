@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class FuncionariosCardDesempenho extends StatefulWidget {
+  final String emailFuncionario;
   final String nomeFuncionario;
   final String setor;
 
   FuncionariosCardDesempenho({
+    required this.emailFuncionario,
     required this.nomeFuncionario,
     required this.setor,
   });
@@ -25,8 +27,17 @@ class FuncionariosCardDesempenho extends StatefulWidget {
 class FuncionariosCardDesempenhoState
     extends State<FuncionariosCardDesempenho> {
   //Dados temporarios
-  final String nome = '{nomeFuncionario}';
-  final String setor = '{setor}';
+  late String email;
+  late String nome;
+  late String setor;
+
+  @override
+  void initState() {
+    super.initState();
+    email = widget.emailFuncionario;
+    nome = widget.nomeFuncionario;
+    setor = widget.setor;
+  }
 
   final List<Map<String, String>> bolos = [
     {
@@ -338,7 +349,7 @@ class FuncionariosCardDesempenhoState
                       },
                     ),
                     // Exibe a lista correspondente ao valor selecionado
-                    if (selectedValue == 'hoje') Listadiario(),
+                    if (selectedValue == 'hoje') Listadiario(email_funcionario: email,),
                     if (selectedValue == 'semanal') Listasemanal(),
                     if (selectedValue == 'mensal')
                       Listamensal(), // Sua lista mensal aqui

@@ -315,4 +315,11 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
     return {'total': total, 'completo': completo, 'faltam': faltam};
   }
+
+  DatabaseResponse getTrabalhosFromUser(String email){
+    final trabalhosFromUser = _currentData.where((test) => test['email'] == email);
+    return trabalhosFromUser.toList();
+  }
+
+  DatabaseResponse get trabalhos => _currentData;
 }
