@@ -160,7 +160,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           ),
                           Expanded(
                               child: InputTextField(
-                            key: Key('NomeFuncionarioInput'),
+                            key: Key('EditarNomeFuncionarioInput'),
                             labelText: '',
                             hintText: user['nome'],
                             controller: nomeController,
@@ -184,7 +184,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           Row(
                             children: [
                               CheckBox(
-                                key: Key('GerenteCkeckBox'),
+                                key: Key('EditarGerenteCkeckBox'),
                                 tipo: 'gerente',
                                 controller: tipoController,
                               ),
@@ -205,7 +205,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           Row(
                             children: [
                               CheckBox(
-                                key: Key('FuncionarioCkeckBox'),
+                                key: Key('EditarFuncionarioCkeckBox'),
                                 tipo: 'padrao',
                                 controller: tipoController,
                               ),
@@ -242,7 +242,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                             width: MediaQuery.of(context).size.width * 0.01,
                           ),
                           Dropdownbutton(
-                            key: Key('setorDropdown'),
+                            key: Key('EditarsetorDropdown'),
                             controller: setorController,
                           ),
                         ],
@@ -270,7 +270,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           ),
                           Expanded(
                               child: InputTextField(
-                            key: Key('EmailFuncionarioInput'),
+                            key: Key('EditarEmailFuncionarioInput'),
                             labelText: '',
                             hintText: user['email'],
                             controller: emailController,
@@ -300,7 +300,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           ),
                           Expanded(
                               child: InputTextField(
-                            key: Key('NomeUsuarioInput'),
+                            key: Key('EditarNomeUsuarioInput'),
                             labelText: '',
                             hintText: user['usuario'],
                             controller: usuarioController,
@@ -330,7 +330,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                           ),
                           Expanded(
                               child: InputTextField(
-                            key: Key('SenhaFuncionarioInput'),
+                            key: Key('EditarSenhaFuncionarioInput'),
                             labelText: '',
                             hintText: "",
                             controller: senhaController,
@@ -351,7 +351,7 @@ class FuncionarioCardState extends State<FuncionarioCard> {
                         MediaQuery.of(context).size.height * 0.022),
                   ),
                   child: ElevatedButton(
-                    key: Key('ConcluirButton'),
+                    key: Key('EditarConcluirButton'),
                     onPressed: () {
                       context.read<UsuarioBloc>().add(UsuarioUpdate(
                             nomeController.text,

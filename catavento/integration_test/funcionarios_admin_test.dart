@@ -114,43 +114,45 @@ void main() async {
       // Verifique se a mensagem de sucesso é exibida
       expect(find.text('Usuário criado com sucesso!'), findsOneWidget);
 
+      await Future.delayed(Duration(seconds: 5));
+
       // Edição de um funcionario - Clica no botão de editar funcionário
-      expect(find.byKey(Key('EditarFuncionarioButton')).first, findsOneWidget);
-      await tester.tap(find.byKey(Key('EditarFuncionarioButton')).first);
+      expect(find.byKey(Key('EditarFuncionarioButton')), findsWidgets);
+      await tester.tap(find.byKey(Key('EditarFuncionarioButton')).last);
       await tester.pumpAndSettle();
 
       // Preenche os campos do formulário
-      await tester.enterText(
-          find.byKey(Key('NomeFuncionarioInput')), gerarStringAleatoria(8));
+      await tester.enterText(find.byKey(Key('EditarNomeFuncionarioInput')),
+          gerarStringAleatoria(8));
       await tester.pumpAndSettle();
 
       // Encontra o checkBox pelo key, certifica de que esta visível
-      await tester.ensureVisible(checkboxFinder);
+      final checkboxFinderEditar = find.byKey(Key('EditarFuncionarioCkeckBox'));
+      await tester.ensureVisible(checkboxFinderEditar);
       await tester.pumpAndSettle();
-      expect(checkboxFinder, findsOneWidget);
-      await tester.tap(checkboxFinder, warnIfMissed: false);
+      expect(checkboxFinderEditar, findsOneWidget);
+      await tester.tap(checkboxFinderEditar, warnIfMissed: false);
       await tester.pumpAndSettle();
 
       // Seleciona o DropDown
-      expect(dropdownFinder, findsOneWidget);
-      await tester.tap(dropdownFinder);
+      final dropdownFinderEditar = find.byKey(Key('EditarsetorDropdown'));
+      expect(dropdownFinderEditar, findsOneWidget);
+      await tester.tap(dropdownFinderEditar);
       await tester.pumpAndSettle();
       final itemFinderCobertura = find.text('Cobertura').last;
       await tester.tap(itemFinderCobertura);
       await tester.pumpAndSettle();
 
-      await tester.enterText(find.byKey(Key('EmailFuncionarioInput')),
-          '${gerarStringAleatoria(8)}@gmail.com');
       await tester.enterText(
-          find.byKey(Key('NomeUsuarioInput')), gerarStringAleatoria(8));
-      await tester.enterText(
-          find.byKey(Key('SenhaFuncionarioInput')), gerarStringAleatoria(8));
+          find.byKey(Key('EditarNomeUsuarioInput')), gerarStringAleatoria(8));
 
       await tester.pumpAndSettle();
 
       // Confirma se o botão "Concluir" foi encontrado e clica nele
-      expect(buttonConcluirFinder, findsOneWidget);
-      await tester.tap(buttonConcluirFinder);
+      final buttonConcluirFinderEditar =
+          find.byKey(Key('EditarConcluirButton'));
+      expect(buttonConcluirFinderEditar, findsOneWidget);
+      await tester.tap(buttonConcluirFinderEditar);
 
       await Future.delayed(Duration(seconds: 5));
       await tester.pumpAndSettle();

@@ -135,6 +135,7 @@ class DashboardProdutos extends StatelessWidget {
             BorderRadius.circular(MediaQuery.of(context).size.height * 0.022),
       ),
       child: ElevatedButton(
+        key: Key('adicionarProdutoButton'),
         onPressed: () {
           _showAdicionarDialog(context);
         },
@@ -230,6 +231,7 @@ class DashboardProdutos extends StatelessWidget {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('InputCodigoProduto'),
                                     hintText: "Digite o código...",
                                     labelText: '',
                                     controller: codigoController,
@@ -258,6 +260,7 @@ class DashboardProdutos extends StatelessWidget {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('InputNomeProduto'),
                                     hintText: "Digite o nome...",
                                     labelText: '',
                                     controller: nomeController,
@@ -339,6 +342,7 @@ class DashboardProdutos extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('InputDescricaoProduto'),
                                     hintText: "Digite a descrição...",
                                     labelText: 'Descrição',
                                     maxLines: 4,
@@ -396,6 +400,7 @@ class DashboardProdutos extends StatelessWidget {
                 const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
+                    key: Key('ConcluirButton'),
                     onPressed: () {
                       ///
                     },
