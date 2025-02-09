@@ -1,9 +1,17 @@
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/produto/produto_bloc.dart';
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
+import 'package:catavento/core/services/format_time.dart';
 import 'package:catavento/screens/Desempenho/components/bolosDesempenhoCard.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Listasemanal extends StatefulWidget {
+  final String emailFuncionario;
+
+  const Listasemanal({super.key, required this.emailFuncionario});
   @override
   State<Listasemanal> createState() {
     return ListasemanalState();
@@ -11,8 +19,14 @@ class Listasemanal extends StatefulWidget {
 }
 
 class ListasemanalState extends State<Listasemanal> {
-  final String media = "--:--";
-  final String qtde = "-";
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    email = widget.emailFuncionario;
+  }
+
   final List<Map<String, String>> bolos = [
     {
       'nomeDemanda': '{nomeDemanda}',
@@ -111,66 +125,92 @@ class ListasemanalState extends State<Listasemanal> {
                               MediaQuery.of(context).size.width * 0.01),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                            child: BlocBuilder<RelatorioBloc, RelatorioState>(
+                              builder: (context, state) {
+                                final bolos = state.funcionariosSemanal[email];
+                                late final int total;
+                                int media = 0;
+                                if (bolos != null && bolos.isNotEmpty) {
+                                  total = bolos.length;
+                                  for (var bolo in bolos) {
+                                    final duracao =
+                                        bolo['duracao'] as Duration?;
+                                    media +=
+                                        duracao != null ? duracao.inSeconds : 0;
+                                  }
+                                  media = (media / total).round();
+                                } else {
+                                  total = 0;
+                                }
+                                return Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "Tempo médio por bolo: ",
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Tempo médio por bolo: ",
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.018,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '$media segundos',
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.018,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      media,
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.01,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Bolos feitos: ",
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.018,
-                                      ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '$total',
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.018,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Bolos feitos: ",
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.018,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      qtde,
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.018,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                );
+                              },
                             ),
                           ),
                         )),
@@ -199,21 +239,41 @@ class ListasemanalState extends State<Listasemanal> {
   }
 
   Widget _buildListBolos() {
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: bolos.length,
-        itemBuilder: (context, index) {
-          final bolo = bolos[index];
-          return Bolosdesempenhocard(
-            nomeDemanda: bolo['nomeDemanda']!,
-            inicio: bolo['inicio']!,
-            fim: bolo['fim']!,
-            duracao: bolo['duracao']!,
-            image: bolo['image']!,
-          );
-        });
+    return BlocBuilder<RelatorioBloc, RelatorioState>(
+      builder: (context, state) {
+        final bolos = state.funcionariosSemanal[email];
+
+        return bolos != null
+            ? ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: bolos.length,
+                itemBuilder: (context, index) {
+                  final bolo = bolos[index];
+                  final demanda = context
+                      .read<DemandaBloc>()
+                      .getDemanda(bolo['demanda_id']);
+                  final imagem = context
+                      .read<ProdutoBloc>()
+                      .getImageUrl(demanda!['produto_id']);
+                  return Bolosdesempenhocard(
+                    nomeDemanda: demanda['nome_demanda'] ?? 'Nada',
+                    inicio: bolo['data_inicio'] != null
+                        ? formatTime(bolo['data_inicio'])
+                        : 'N/A',
+                    fim: bolo['data_finalizacao'] != null
+                        ? formatTime(bolo['data_finalizacao'])
+                        : 'N/A',
+                    duracao: bolo['duracao'] != null
+                        ? '${(bolo['duracao'] as Duration).inSeconds} segundos'
+                        : 'N/A',
+                    image: imagem,
+                  );
+                })
+            : _buildBlockWarning();
+      },
+    );
   }
 
   Widget _buildBlockWarning() {

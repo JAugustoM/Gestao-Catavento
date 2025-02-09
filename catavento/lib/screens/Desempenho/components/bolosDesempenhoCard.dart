@@ -51,8 +51,8 @@ class BolosdesempenhocardState extends State<Bolosdesempenhocard> {
                         widget.image!,
                         fit: BoxFit.cover,
                       )
-                    : Image.network(
-                        'https://acdn.mitiendanube.com/stores/005/051/486/products/stitch-ice-0a02b244775b600ee917268386271373-1024-1024.webp',
+                    : Image.file(
+                        File('../catavento/assets/images/cake.png'),
                         fit: BoxFit.cover,
                       ),
               ),

@@ -349,10 +349,13 @@ class FuncionariosCardDesempenhoState
                       },
                     ),
                     // Exibe a lista correspondente ao valor selecionado
-                    if (selectedValue == 'hoje') Listadiario(email_funcionario: email,),
-                    if (selectedValue == 'semanal') Listasemanal(),
+                    if (selectedValue == 'hoje')
+                      Listadiario(emailFuncionario: email),
+                    if (selectedValue == 'semanal')
+                      Listasemanal(emailFuncionario: email),
                     if (selectedValue == 'mensal')
-                      Listamensal(), // Sua lista mensal aqui
+                      Listamensal(
+                          emailFuncionario: email), // Sua lista mensal aqui
                   ],
                 ),
               ),

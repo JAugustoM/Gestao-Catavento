@@ -1,16 +1,17 @@
+import 'package:catavento/bloc/demanda/demanda_bloc.dart';
+import 'package:catavento/bloc/produto/produto_bloc.dart';
 import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
-import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
+import 'package:catavento/core/services/format_time.dart';
 import 'package:catavento/screens/Desempenho/components/bolosDesempenhoCard.dart';
 import 'package:catavento/shared/theme/colors.dart';
-import 'package:catavento/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Listadiario extends StatefulWidget {
-  final String email_funcionario;
+  final String emailFuncionario;
 
-  Listadiario({required this.email_funcionario});
+  const Listadiario({super.key, required this.emailFuncionario});
 
   @override
   State<Listadiario> createState() {
@@ -19,60 +20,13 @@ class Listadiario extends StatefulWidget {
 }
 
 class ListadiarioState extends State<Listadiario> {
-  final String media = "08:00";
-  final String qtde = "55";
   late String email;
 
   @override
   void initState() {
     super.initState();
-    email = widget.email_funcionario;
+    email = widget.emailFuncionario;
   }
-
-  // final List<Map<String, String>> bolos = [
-  //   {
-  //     'nomeDemanda': '{nomeDemanda}',
-  //     'inicio': '12:00',
-  //     'fim': '13:00',
-  //     'duracao': '01:00',
-  //     'image': '../catavento/assets/images/cake.png'
-  //   },
-  //   {
-  //     'nomeDemanda': '{nomeDemanda}',
-  //     'inicio': '12:00',
-  //     'fim': '13:00',
-  //     'duracao': '01:00',
-  //     'image': '../catavento/assets/images/cake.png'
-  //   },
-  //   {
-  //     'nomeDemanda': '{nomeDemanda}',
-  //     'inicio': '12:00',
-  //     'fim': '13:00',
-  //     'duracao': '01:00',
-  //     'image': '../catavento/assets/images/cake.png'
-  //   },
-  //   {
-  //     'nomeDemanda': '{nomeDemanda}',
-  //     'inicio': '12:00',
-  //     'fim': '13:00',
-  //     'duracao': '01:00',
-  //     'image': '../catavento/assets/images/cake.png'
-  //   },
-  //   {
-  //     'nomeDemanda': '{nomeDemanda}',
-  //     'inicio': '12:00',
-  //     'fim': '13:00',
-  //     'duracao': '01:00',
-  //     'image': '../catavento/assets/images/cake.png'
-  //   },
-  //   {
-  //     'nomeDemanda': '{nomeDemanda}',
-  //     'inicio': '12:00',
-  //     'fim': '13:00',
-  //     'duracao': '01:00',
-  //     'image': '../catavento/assets/images/cake.png'
-  //   },
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -127,66 +81,93 @@ class ListadiarioState extends State<Listadiario> {
                               MediaQuery.of(context).size.width * 0.01),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                            child: BlocBuilder<RelatorioBloc, RelatorioState>(
+                              builder: (context, state) {
+                                final bolos = state.funcionariosDiario[email];
+                                late final int total;
+                                int media = 0;
+                                if (bolos != null && bolos.isNotEmpty) {
+                                  total = bolos.length;
+                                  for (var bolo in bolos) {
+                                    final duracao =
+                                        bolo['duracao'] as Duration?;
+                                    media +=
+                                        duracao != null ? duracao.inSeconds : 0;
+                                  }
+                                  media = (media / total).round();
+                                } else {
+                                  total = 0;
+                                }
+
+                                return Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "Tempo médio por bolo: ",
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Tempo médio por bolo: ",
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.018,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '$media segundos',
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.018,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      media,
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.01,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Bolos feitos: ",
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.018,
-                                      ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '$total',
+                                          style: TextStyle(
+                                            fontFamily: "FredokaOne",
+                                            color: AppColors.gradientDarkBlue,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.018,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Bolos feitos: ",
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.018,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      qtde,
-                                      style: TextStyle(
-                                        fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.018,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                );
+                              },
                             ),
                           ),
                         )),
@@ -216,49 +197,39 @@ class ListadiarioState extends State<Listadiario> {
   }
 
   Widget _buildListBolos() {
-    DatabaseResponse bolos = [];
-
-    return BlocConsumer<RelatorioBloc, RelatorioState>(
-      listener: (context, state) async {
-        // DatabaseResponse bolos = [];
-
-        // if (bolos.isEmpty) {
-        //   context.read<TrabalhoBloc>().add(TrabalhoAdmin());
-        //   bolos = await context.read<RelatorioBloc>().getTrabalhosFromUser(email);
-        //   // bolos = state.trabalho.toList();
-        // }
-        // final DatabaseResponse bolos = await context.read<RelatorioBloc>().getTrabalhosFromUser(email);
-
-        // bolos = await context.read<RelatorioBloc>().getTrabalhosFromUser(email);
-        // print(bolos);
-      },
+    return BlocBuilder<RelatorioBloc, RelatorioState>(
       builder: (context, state) {
-        // bolos = state.trabalho.toList();
-        // bolos = context.read<TrabalhoBloc>().trabalhos;
-        // bolos = context.read<ReoBloc>().getTrabalhosFromUser(email);
+        final bolos = state.funcionariosDiario[email];
 
-        final bolos = state.funcionarios[email];
-
-        return ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: bolos!.length,
-            itemBuilder: (context, index) {
-              final bolo = bolos[index];
-              return Bolosdesempenhocard(
-                nomeDemanda: bolo['demandas(nome_demanda)'] ?? 'Nada',
-                inicio: bolo['data_inicio'] ?? 'Nada',
-                fim: bolo['data_finalizacao'] ?? 'Nada',
-                duracao: bolo['duracao'] ?? 'Nada',
-                image: bolo['image'],
-                // nomeDemanda: 'Nada',
-                // inicio: 'Nada',
-                // fim: 'Nada',
-                // duracao: 'Nada',
-                // image: 'Nada',
-              );
-            });
+        return bolos != null
+            ? ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: bolos.length,
+                itemBuilder: (context, index) {
+                  final bolo = bolos[index];
+                  final demanda = context
+                      .read<DemandaBloc>()
+                      .getDemanda(bolo['demanda_id']);
+                  final imagem = context
+                      .read<ProdutoBloc>()
+                      .getImageUrl(demanda!['produto_id']);
+                  return Bolosdesempenhocard(
+                    nomeDemanda: demanda['nome_demanda'] ?? 'Nada',
+                    inicio: bolo['data_inicio'] != null
+                        ? formatTime(bolo['data_inicio'])
+                        : 'N/A',
+                    fim: bolo['data_finalizacao'] != null
+                        ? formatTime(bolo['data_finalizacao'])
+                        : 'N/A',
+                    duracao: bolo['duracao'] != null
+                        ? '${(bolo['duracao'] as Duration).inSeconds} segundos'
+                        : 'N/A',
+                    image: imagem,
+                  );
+                })
+            : _buildBlockWarning();
       },
     );
   }
@@ -284,7 +255,7 @@ class ListadiarioState extends State<Listadiario> {
                   fontFamily: "FredokaOne"),
             ),
             Text(
-              "não esta disponível no desempenho",
+              "não esta disponível no desempenho diário.",
               style: TextStyle(
                   fontSize: size.height * 0.018,
                   color: Colors.white,
@@ -292,7 +263,15 @@ class ListadiarioState extends State<Listadiario> {
                   fontFamily: "FredokaOne"),
             ),
             Text(
-              "diário.",
+              "Isto pode ser porquê o funcionário não começou",
+              style: TextStyle(
+                  fontSize: size.height * 0.018,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "FredokaOne"),
+            ),
+            Text(
+              "a trabalhar ou por um problema no banco de dados.",
               style: TextStyle(
                   fontSize: size.height * 0.018,
                   color: Colors.white,

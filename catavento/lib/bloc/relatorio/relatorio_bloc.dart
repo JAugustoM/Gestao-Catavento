@@ -10,13 +10,15 @@ part 'relatorio_state.dart';
 
 class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
   final _supabase = Supabase.instance.client;
-  Map<String, DatabaseResponse> _funcionarios = {};
+  Map<String, DatabaseResponse> _funcionariosDiario = {};
+  Map<String, DatabaseResponse> _funcionariosSemanal = {};
+  Map<String, DatabaseResponse> _funcionariosMensal = {};
   DatabaseResponse _loja = [];
   DatabaseResponse _dadosGerais = [];
   DatabaseResponse _bolos = [];
   List<DatabaseResponse> _demandas = [];
 
-  RelatorioBloc() : super(RelatorioCompleteState({}, [], [])) {
+  RelatorioBloc() : super(RelatorioCompleteState({}, {}, {}, [], [])) {
     on<RelatorioLoad>(_onLoad);
   }
 
@@ -27,12 +29,26 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
       _dadosGerais = relatorio[1];
       _bolos = relatorio[2];
 
-      _funcionarios = await _gerarRelatorioFuncionario();
+      _funcionariosDiario = await _gerarRelatorioFuncionarioDiario();
+      _funcionariosSemanal = await _gerarRelatorioFuncionarioSemanal();
+      _funcionariosMensal = await _gerarRelatorioFuncionarioMensal();
 
-      emit(RelatorioCompleteState(_funcionarios, _loja, _dadosGerais));
+      emit(RelatorioCompleteState(
+        _funcionariosDiario,
+        _funcionariosSemanal,
+        _funcionariosMensal,
+        _loja,
+        _dadosGerais,
+      ));
     } catch (e) {
-      emit(RelatorioErrorState(_funcionarios, _loja, _dadosGerais,
-          "Erro ao gerar o relatório - $e"));
+      emit(RelatorioErrorState(
+        _funcionariosDiario,
+        _funcionariosSemanal,
+        _funcionariosMensal,
+        _loja,
+        _dadosGerais,
+        "Erro ao gerar o relatório - $e",
+      ));
     }
   }
 
@@ -365,8 +381,11 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
     }
   }
 
-  Future<Map<String, DatabaseResponse>> _gerarRelatorioFuncionario() async {
+  Future<Map<String, DatabaseResponse>>
+      _gerarRelatorioFuncionarioDiario() async {
     final Map<String, DatabaseResponse> relatorio = {};
+    final hoje = DateTime.now();
+    var dataFormatada = DateFormat(dateFormat).format(hoje);
 
     try {
       final funcionarios =
@@ -376,9 +395,116 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
         final trabalhos = await _supabase
             .from('trabalho')
             .select()
-            .eq('usuario_email', funcionario['email']);
+            .eq('usuario_email', funcionario['email'])
+            .gte('data_inicio', '${dataFormatada}T00:00:00')
+            .order('data_inicio', ascending: true);
 
-        relatorio[funcionario['email']] = trabalhos.isNotEmpty ? trabalhos : [];
+        if (trabalhos.isNotEmpty) {
+          for (var trabalho in trabalhos) {
+            if (trabalho['data_inicio'] != null &&
+                trabalho['data_finalizacao'] != null) {
+              final dataInicio = DateTime.parse(trabalho['data_inicio']);
+              final dataFinal = DateTime.parse(trabalho['data_finalizacao']);
+              Duration duracao = dataFinal.difference(dataInicio);
+
+              trabalho['duracao'] = duracao;
+            }
+          }
+
+          relatorio[funcionario['email']] = trabalhos;
+        }
+      }
+
+      return relatorio;
+    } catch (e) {
+      return relatorio;
+    }
+  }
+
+  Future<Map<String, DatabaseResponse>>
+      _gerarRelatorioFuncionarioSemanal() async {
+    final Map<String, DatabaseResponse> relatorio = {};
+    final hoje = DateTime.now();
+
+    var duration = Duration(days: hoje.weekday - 1);
+    final dataInicial = hoje.subtract(duration);
+    final dataInicialFormatada = DateFormat(dateFormat).format(dataInicial);
+    duration = Duration(days: (DateTime.daysPerWeek - hoje.weekday));
+    final dataFinal = hoje.add(duration);
+    final dataFinalFormatada = DateFormat(dateFormat).format(dataFinal);
+
+    try {
+      final funcionarios =
+          await _supabase.from('usuarios').select().eq('tipo', 'padrao');
+
+      for (var funcionario in funcionarios) {
+        final trabalhos = await _supabase
+            .from('trabalho')
+            .select()
+            .eq('usuario_email', funcionario['email'])
+            .gte('data_inicio', '${dataInicialFormatada}T00:00:00')
+            .lte('data_inicio', '${dataFinalFormatada}T23:59:59')
+            .order('data_inicio', ascending: true);
+
+        if (trabalhos.isNotEmpty) {
+          for (var trabalho in trabalhos) {
+            if (trabalho['data_inicio'] != null &&
+                trabalho['data_finalizacao'] != null) {
+              final dataInicio = DateTime.parse(trabalho['data_inicio']);
+              final dataFinal = DateTime.parse(trabalho['data_finalizacao']);
+              Duration duracao = dataFinal.difference(dataInicio);
+
+              trabalho['duracao'] = duracao;
+            }
+          }
+
+          relatorio[funcionario['email']] = trabalhos;
+        }
+      }
+
+      return relatorio;
+    } catch (e) {
+      return relatorio;
+    }
+  }
+
+  Future<Map<String, DatabaseResponse>>
+      _gerarRelatorioFuncionarioMensal() async {
+    final Map<String, DatabaseResponse> relatorio = {};
+    final hoje = DateTime.now();
+
+    final dataInicial = DateTime(hoje.year, hoje.month);
+    final dataInicialFormatada = DateFormat(dateFormat).format(dataInicial);
+    final dataFinal = DateTime(hoje.year, hoje.month + 1, 0);
+    final dataFinalFormatada = DateFormat(dateFormat).format(dataFinal);
+
+    try {
+      final funcionarios =
+          await _supabase.from('usuarios').select().eq('tipo', 'padrao');
+
+      for (var funcionario in funcionarios) {
+        final trabalhos = await _supabase
+            .from('trabalho')
+            .select()
+            .eq('usuario_email', funcionario['email'])
+            .gte('data_inicio', '${dataInicialFormatada}T00:00:00')
+            .lte('data_inicio', '${dataFinalFormatada}T23:59:59')
+            .order('data_inicio', ascending: true);
+
+        if (trabalhos.isNotEmpty) {
+          for (var trabalho in trabalhos) {
+            if (trabalho['data_inicio'] != null &&
+                trabalho['data_finalizacao'] != null) {
+              final dataInicio = DateTime.parse(trabalho['data_inicio']);
+              final dataFinal = DateTime.parse(trabalho['data_finalizacao']);
+              Duration duracao = dataFinal.difference(dataInicio);
+
+              trabalho['duracao'] = duracao;
+            }
+          }
+
+          relatorio[funcionario['email']] = trabalhos;
+        }
       }
 
       return relatorio;
@@ -393,8 +519,6 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
 
     final DatabaseResponse trabalhosFromUser =
         await _supabase.from('trabalho').select();
-
-    print(trabalhosFromUser);
     return trabalhosFromUser;
   }
 }
