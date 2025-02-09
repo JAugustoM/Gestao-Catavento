@@ -2,7 +2,6 @@ import 'package:catavento/bloc/auth/auth_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CardDemanda extends StatefulWidget {
@@ -41,9 +40,9 @@ class _CardDemandaState extends State<CardDemanda> {
   @override
   void initState() {
     super.initState();
-    _buttonText = "Iniciar Bolo";
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.title == "Carregando") {
+    setState(() {
+      _buttonText = "Iniciar Bolo";
+      if (widget.status == -1) {
         _buttonText = "Carregando";
       } else if (widget.status == 0) {
         _buttonText = "Iniciar Bolo";
@@ -55,25 +54,16 @@ class _CardDemandaState extends State<CardDemanda> {
 
   void _handleButtonPress() async {
     if (_buttonText == "Iniciar Bolo") {
-      setState(() {
-        _buttonText = "Finalizar Bolo";
-      });
-
       final email = context.read<AuthBloc>().email;
       final setor = context.read<AuthBloc>().setor!.toLowerCase();
       context.read<TrabalhoBloc>().add(TrabalhoInit(
             email: email!,
             setor: setor,
           ));
-    } else if (_buttonText == "Finalizar Bolo") {
       setState(() {
-        _buttonText = "Bolo Concluído";
+        _buttonText = "Finalizar Bolo";
       });
-
-      if (widget.onCronometroFinalizado != null) {
-        widget.onCronometroFinalizado!();
-      }
-
+    } else if (_buttonText == "Finalizar Bolo") {
       final email = context.read<AuthBloc>().email;
       final setor = context.read<AuthBloc>().setor!.toLowerCase();
 
@@ -81,10 +71,18 @@ class _CardDemandaState extends State<CardDemanda> {
             email: email!,
             setor: setor,
           ));
+
+      setState(() {
+        _buttonText = "Bolo Concluído";
+      });
+
+      if (widget.onCronometroFinalizado != null) {
+        widget.onCronometroFinalizado!();
+      }
     }
   }
 
-  void _showImagePopup(String imagePath) {
+  void _showImagePopup(String? imagePath) {
     showDialog(
       context: context,
       builder: (context) {
@@ -97,10 +95,15 @@ class _CardDemandaState extends State<CardDemanda> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.contain,
-                  ),
+                  child: imagePath != null
+                      ? Image.network(
+                          imagePath,
+                          fit: BoxFit.contain,
+                        )
+                      : Image.asset(
+                          'assets/images/photo.jpg',
+                          fit: BoxFit.contain,
+                        ),
                 ),
               ),
               Positioned(
@@ -155,7 +158,7 @@ class _CardDemandaState extends State<CardDemanda> {
               const SizedBox(height: 10),
               // Imagem com clique
               GestureDetector(
-                onTap: () => _showImagePopup('assets/images/photo.jpg'),
+                onTap: () => _showImagePopup(widget.imagem),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Row(
@@ -163,12 +166,19 @@ class _CardDemandaState extends State<CardDemanda> {
                       Expanded(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: Image.asset(
-                            'assets/images/photo.jpg',
-                            width: 100,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
+                          child: widget.imagem != null
+                              ? Image.network(
+                                  widget.imagem!,
+                                  width: 100,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/photo.jpg',
+                                  width: 100,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                     ],
