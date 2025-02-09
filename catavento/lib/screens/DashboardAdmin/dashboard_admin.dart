@@ -29,6 +29,7 @@ class DashBoardAdmin extends StatelessWidget {
     String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
     return Scaffold(
+      key: Key('DashBoardAdmin'),
       drawer: Navbar(),
       appBar: CustomHeader(
         title: 'Demandas atuais $formattedDate',

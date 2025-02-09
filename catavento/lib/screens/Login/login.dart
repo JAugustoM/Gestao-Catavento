@@ -41,6 +41,7 @@ class _LoginState extends State<Login> {
         }
       },
       child: Scaffold(
+        key: Key('Login'),
         body: Stack(
           children: [
             // Background gradient

@@ -36,6 +36,7 @@ class EmployeeManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('EmployeeManagement'),
       drawer: Navbar(),
       appBar: CustomHeader(
         title: 'Funcionários',

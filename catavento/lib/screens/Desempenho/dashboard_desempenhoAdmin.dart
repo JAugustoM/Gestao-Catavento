@@ -22,6 +22,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('DashboardDesempenhoAdmin'),
       drawer: Navbar(),
       appBar: CustomHeader(title: "Desempenho", historyButton: false),
       extendBodyBehindAppBar: true,

@@ -21,6 +21,7 @@ class DashboardProdutos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key('DashboardProdutos'),
       drawer: Navbar(),
       appBar: CustomHeader(title: "Produtos", historyButton: false),
       extendBodyBehindAppBar: true,

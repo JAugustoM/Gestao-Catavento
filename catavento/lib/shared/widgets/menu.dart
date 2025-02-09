@@ -10,8 +10,9 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userData = context.read<AuthBloc>().userData;
+    final userData = context.read<AuthBloc>().userData ?? {};
     return Drawer(
+      key: Key('drawerKey'),
       child: Column(
         children: <Widget>[
           Container(
@@ -40,7 +41,7 @@ class Navbar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userData['usuario'],
+                      userData['usuario'] ?? 'Usuário',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -61,6 +62,7 @@ class Navbar extends StatelessWidget {
           ),
           SizedBox(height: 15),
           ListTile(
+            key: Key('demandasMenuItem'),
             leading: const Icon(Icons.list_alt,
                 color: AppColors.gradientDarkBlue,
                 size: 20), // Ícone de demandas
@@ -79,6 +81,7 @@ class Navbar extends StatelessWidget {
             },
           ),
           ListTile(
+            key: Key('funcionariosMenuItem'),
             leading: const Icon(Icons.group,
                 color: AppColors.gradientDarkBlue,
                 size: 20), // Ícone de funcionários
@@ -97,6 +100,7 @@ class Navbar extends StatelessWidget {
             },
           ),
           ListTile(
+            key: Key('produtosMenuItem'),
             leading: const Icon(Icons.shopping_cart,
                 color: AppColors.gradientDarkBlue,
                 size: 20), // Ícone de produtos
@@ -115,6 +119,7 @@ class Navbar extends StatelessWidget {
             },
           ),
           ListTile(
+            key: Key('desempenhoMenuItem'),
             leading: const Icon(Icons.bar_chart,
                 color: AppColors.gradientDarkBlue,
                 size: 20), // Ícone de produtos
@@ -133,6 +138,7 @@ class Navbar extends StatelessWidget {
             },
           ),
           ListTile(
+            key: Key('logoutMenuItem'),
             leading: const Icon(Icons.logout,
                 color: AppColors.gradientDarkBlue, size: 20), // Ícone de sair
             title: const Text(
