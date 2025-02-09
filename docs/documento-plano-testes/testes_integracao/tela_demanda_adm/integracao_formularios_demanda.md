@@ -30,4 +30,4 @@ Os testes de integração para **Cadastro e Edição de Demanda** foram concluí
 Para rodar os testes de integração, utilize o seguinte comando:
 
 ```bash
-flutter test integration_test -d <PLATAFORMA> --dart-define=ANON_KEY=<SUA_CHAVE_AQUI>
+flutter test integration_test/demanda_admin_test.dart -d <PLATAFORMA> --dart-define=ANON_KEY=<SUA_CHAVE_AQUI>
