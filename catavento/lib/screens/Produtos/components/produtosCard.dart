@@ -138,6 +138,7 @@ class ProdutosCardState extends State<ProdutosCard> {
             BorderRadius.circular(MediaQuery.of(context).size.height * 0.03),
       ),
       child: ElevatedButton(
+        key: Key('EditarProdutoButton'),
         onPressed: () {
           _showEditDialog(
               context, nomeController, codigoController, descricaoController);
@@ -317,6 +318,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('InputCodigoProduto'),
                                     hintText: "Código da demanda",
                                     controller: codigoController,
                                     labelText: '',
@@ -344,6 +346,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('InputNomeProduto'),
                                     hintText: "Nome do bolo",
                                     controller: nomeController,
                                     labelText: '',
@@ -425,6 +428,7 @@ class ProdutosCardState extends State<ProdutosCard> {
                               children: [
                                 Expanded(
                                   child: InputTextField(
+                                    key: Key('InputDescricaoProduto'),
                                     hintText: "Descrição",
                                     controller: descricaoController,
                                     labelText: 'Descrição',

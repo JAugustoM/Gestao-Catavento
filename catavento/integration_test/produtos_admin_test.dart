@@ -65,6 +65,28 @@ void main() {
       await tester.pumpAndSettle();
       // Verifique se a mensagem de sucesso é exibida
       expect(find.text('Produto adicionado com sucesso'), findsOneWidget);
+
+      // Edição de um produto
+      expect(find.byKey(Key('EditarProdutoButton')), findsWidgets);
+      await tester.tap(find.byKey(Key('EditarProdutoButton')).last);
+      await tester.pumpAndSettle();
+
+      // Preenche os campos do formulário
+      await tester.enterText(
+          find.byKey(Key('InputNomeProduto')), gerarStringAleatoria(6));
+      await tester.enterText(find.byKey(Key('InputDescricaoProduto')),
+          'descrição teste automatizado');
+
+      await tester.pumpAndSettle();
+
+      // Confirma se o botão "Concluir" foi encontrado e clica nele
+      expect(buttonConcluirFinder, findsOneWidget);
+      await tester.tap(buttonConcluirFinder);
+
+      await Future.delayed(Duration(seconds: 5));
+      await tester.pumpAndSettle();
+      // Verifique se a mensagem de sucesso é exibida
+      expect(find.text('Produto atualizado com sucesso'), findsOneWidget);
     });
   });
 }
