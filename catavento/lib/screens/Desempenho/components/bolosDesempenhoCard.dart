@@ -8,7 +8,7 @@ class Bolosdesempenhocard extends StatefulWidget {
   final String inicio;
   final String fim;
   final String duracao;
-  final String image;
+  final String? image;
 
   const Bolosdesempenhocard({
     super.key,
@@ -46,10 +46,15 @@ class BolosdesempenhocardState extends State<Bolosdesempenhocard> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.file(
-                  File(widget.image),
-                  fit: BoxFit.cover,
-                ),
+                child: widget.image != null
+                    ? Image.network(
+                        widget.image!,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        'https://acdn.mitiendanube.com/stores/005/051/486/products/stitch-ice-0a02b244775b600ee917268386271373-1024-1024.webp',
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             SizedBox(

@@ -1,7 +1,7 @@
 part of 'relatorio_bloc.dart';
 
 class RelatorioState extends Equatable {
-  final DatabaseResponse funcionarios;
+  final Map<String, DatabaseResponse> funcionarios;
   final DatabaseResponse loja;
   final DatabaseResponse dadosGerais;
 

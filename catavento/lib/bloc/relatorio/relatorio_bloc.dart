@@ -10,13 +10,13 @@ part 'relatorio_state.dart';
 
 class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
   final _supabase = Supabase.instance.client;
-  DatabaseResponse _funcionarios = [];
+  Map<String, DatabaseResponse> _funcionarios = {};
   DatabaseResponse _loja = [];
   DatabaseResponse _dadosGerais = [];
   DatabaseResponse _bolos = [];
   List<DatabaseResponse> _demandas = [];
 
-  RelatorioBloc() : super(RelatorioCompleteState([], [], [])) {
+  RelatorioBloc() : super(RelatorioCompleteState({}, [], [])) {
     on<RelatorioLoad>(_onLoad);
   }
 
@@ -26,6 +26,8 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
       _loja = relatorio[0];
       _dadosGerais = relatorio[1];
       _bolos = relatorio[2];
+
+      _funcionarios = await _gerarRelatorioFuncionario();
 
       emit(RelatorioCompleteState(_funcionarios, _loja, _dadosGerais));
     } catch (e) {
@@ -361,5 +363,38 @@ class RelatorioBloc extends Bloc<RelatorioEvent, RelatorioState> {
     } else {
       return {};
     }
+  }
+
+  Future<Map<String, DatabaseResponse>> _gerarRelatorioFuncionario() async {
+    final Map<String, DatabaseResponse> relatorio = {};
+
+    try {
+      final funcionarios =
+          await _supabase.from('usuarios').select().eq('tipo', 'padrao');
+
+      for (var funcionario in funcionarios) {
+        final trabalhos = await _supabase
+            .from('trabalho')
+            .select()
+            .eq('usuario_email', funcionario['email']);
+
+        relatorio[funcionario['email']] = trabalhos.isNotEmpty ? trabalhos : [];
+      }
+
+      return relatorio;
+    } catch (e) {
+      return relatorio;
+    }
+  }
+
+  Future<DatabaseResponse> getTrabalhosFromUser(String email) async {
+    // final trabalhosFromUser =
+    //     _currentData.where((test) => test['usuario_email'] == email);
+
+    final DatabaseResponse trabalhosFromUser =
+        await _supabase.from('trabalho').select();
+
+    print(trabalhosFromUser);
+    return trabalhosFromUser;
   }
 }

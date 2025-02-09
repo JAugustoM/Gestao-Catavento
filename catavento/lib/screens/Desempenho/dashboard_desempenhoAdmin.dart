@@ -117,15 +117,12 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
   }
 
   Widget _buildListFuncionarios(BuildContext context) {
-    DatabaseResponse usuarios = [];
+    DatabaseResponse data = [];
 
-    return BlocConsumer<UsuarioBloc, UsuarioState>(
-      listener: (context, state) {
-        if (usuarios.isEmpty) {
-          usuarios = context.read<UsuarioBloc>().usuarios;
-        }
-      },
+    return BlocBuilder<UsuarioBloc, UsuarioState>(
       builder: (context, state) {
+        data = state.databaseResponse;
+
         return GridView.builder(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -134,9 +131,9 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
                 mainAxisSpacing: 25, //espaçamento vertical
                 childAspectRatio: 3.5 //Proporção entre largura e altura
                 ),
-            itemCount: usuarios.length,
+            itemCount: data.length,
             itemBuilder: (context, index) {
-              final usuario = usuarios[index];
+              final usuario = data[index];
               return FuncionariosCardDesempenho(
                 emailFuncionario: usuario['email']!,
                 nomeFuncionario: usuario['nome']!,

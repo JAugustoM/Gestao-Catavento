@@ -1,3 +1,4 @@
+import 'package:catavento/bloc/relatorio/relatorio_bloc.dart';
 import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/Desempenho/components/bolosDesempenhoCard.dart';
 import 'package:catavento/shared/theme/colors.dart';
@@ -28,50 +29,50 @@ class ListadiarioState extends State<Listadiario> {
     email = widget.email_funcionario;
   }
 
-  final List<Map<String, String>> bolos = [
-    {
-      'nomeDemanda': '{nomeDemanda}',
-      'inicio': '12:00',
-      'fim': '13:00',
-      'duracao': '01:00',
-      'image': '../catavento/assets/images/cake.png'
-    },
-    {
-      'nomeDemanda': '{nomeDemanda}',
-      'inicio': '12:00',
-      'fim': '13:00',
-      'duracao': '01:00',
-      'image': '../catavento/assets/images/cake.png'
-    },
-    {
-      'nomeDemanda': '{nomeDemanda}',
-      'inicio': '12:00',
-      'fim': '13:00',
-      'duracao': '01:00',
-      'image': '../catavento/assets/images/cake.png'
-    },
-    {
-      'nomeDemanda': '{nomeDemanda}',
-      'inicio': '12:00',
-      'fim': '13:00',
-      'duracao': '01:00',
-      'image': '../catavento/assets/images/cake.png'
-    },
-    {
-      'nomeDemanda': '{nomeDemanda}',
-      'inicio': '12:00',
-      'fim': '13:00',
-      'duracao': '01:00',
-      'image': '../catavento/assets/images/cake.png'
-    },
-    {
-      'nomeDemanda': '{nomeDemanda}',
-      'inicio': '12:00',
-      'fim': '13:00',
-      'duracao': '01:00',
-      'image': '../catavento/assets/images/cake.png'
-    },
-  ];
+  // final List<Map<String, String>> bolos = [
+  //   {
+  //     'nomeDemanda': '{nomeDemanda}',
+  //     'inicio': '12:00',
+  //     'fim': '13:00',
+  //     'duracao': '01:00',
+  //     'image': '../catavento/assets/images/cake.png'
+  //   },
+  //   {
+  //     'nomeDemanda': '{nomeDemanda}',
+  //     'inicio': '12:00',
+  //     'fim': '13:00',
+  //     'duracao': '01:00',
+  //     'image': '../catavento/assets/images/cake.png'
+  //   },
+  //   {
+  //     'nomeDemanda': '{nomeDemanda}',
+  //     'inicio': '12:00',
+  //     'fim': '13:00',
+  //     'duracao': '01:00',
+  //     'image': '../catavento/assets/images/cake.png'
+  //   },
+  //   {
+  //     'nomeDemanda': '{nomeDemanda}',
+  //     'inicio': '12:00',
+  //     'fim': '13:00',
+  //     'duracao': '01:00',
+  //     'image': '../catavento/assets/images/cake.png'
+  //   },
+  //   {
+  //     'nomeDemanda': '{nomeDemanda}',
+  //     'inicio': '12:00',
+  //     'fim': '13:00',
+  //     'duracao': '01:00',
+  //     'image': '../catavento/assets/images/cake.png'
+  //   },
+  //   {
+  //     'nomeDemanda': '{nomeDemanda}',
+  //     'inicio': '12:00',
+  //     'fim': '13:00',
+  //     'duracao': '01:00',
+  //     'image': '../catavento/assets/images/cake.png'
+  //   },
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +207,8 @@ class ListadiarioState extends State<Listadiario> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.01,
                     ),
-                    bolos.isEmpty ? _buildBlockWarning() : _buildListBolos()
+                    // bolos.isEmpty ? _buildBlockWarning() :
+                    _buildListBolos()
                   ],
                 ))),
       ],
@@ -216,26 +218,45 @@ class ListadiarioState extends State<Listadiario> {
   Widget _buildListBolos() {
     DatabaseResponse bolos = [];
 
-    return BlocConsumer<TrabalhoBloc, TrabalhoState>(
-      listener: (context, state) {
-        if (bolos.isEmpty) {
-          bolos = context.read<TrabalhoBloc>().getTrabalhosFromUser(email);
-        }
+    return BlocConsumer<RelatorioBloc, RelatorioState>(
+      listener: (context, state) async {
+        // DatabaseResponse bolos = [];
+
+        // if (bolos.isEmpty) {
+        //   context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+        //   bolos = await context.read<RelatorioBloc>().getTrabalhosFromUser(email);
+        //   // bolos = state.trabalho.toList();
+        // }
+        // final DatabaseResponse bolos = await context.read<RelatorioBloc>().getTrabalhosFromUser(email);
+
+        // bolos = await context.read<RelatorioBloc>().getTrabalhosFromUser(email);
+        // print(bolos);
       },
       builder: (context, state) {
+        // bolos = state.trabalho.toList();
+        // bolos = context.read<TrabalhoBloc>().trabalhos;
+        // bolos = context.read<ReoBloc>().getTrabalhosFromUser(email);
+
+        final bolos = state.funcionarios[email];
+
         return ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: bolos.length,
+            itemCount: bolos!.length,
             itemBuilder: (context, index) {
               final bolo = bolos[index];
               return Bolosdesempenhocard(
-                nomeDemanda: bolo['nomeDemanda']!,
-                inicio: bolo['inicio']!,
-                fim: bolo['fim']!,
-                duracao: bolo['duracao']!,
-                image: bolo['image']!,
+                nomeDemanda: bolo['demandas(nome_demanda)'] ?? 'Nada',
+                inicio: bolo['data_inicio'] ?? 'Nada',
+                fim: bolo['data_finalizacao'] ?? 'Nada',
+                duracao: bolo['duracao'] ?? 'Nada',
+                image: bolo['image'],
+                // nomeDemanda: 'Nada',
+                // inicio: 'Nada',
+                // fim: 'Nada',
+                // duracao: 'Nada',
+                // image: 'Nada',
               );
             });
       },

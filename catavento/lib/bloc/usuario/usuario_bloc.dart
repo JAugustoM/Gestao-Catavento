@@ -232,6 +232,4 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     final users = _currentData.where((test) => test['setor'] == setor);
     return users.toList();
   }
-
-  DatabaseResponse get usuarios => _currentData;
 }
