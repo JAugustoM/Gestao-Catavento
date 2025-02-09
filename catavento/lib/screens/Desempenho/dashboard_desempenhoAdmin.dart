@@ -16,6 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DashboardDesempenhoAdmin extends StatelessWidget {
   final TextEditingController _setorcontroller = TextEditingController();
 
+  DashboardDesempenhoAdmin({super.key});
+
   // final List<Map<String, String>> funcionarios = [
   //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
   //   {'nomeFuncionario': 'nomeFuncionario', 'setor': 'Montagem'},
@@ -128,7 +130,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
           data = state.databaseResponse;
         }
 
-        var funcionarios =
+        final funcionarios =
             data.where((test) => test['tipo'] == 'padrao').toList();
 
         return GridView.builder(
@@ -143,6 +145,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
             itemBuilder: (context, index) {
               final usuario = funcionarios[index];
               return FuncionariosCardDesempenho(
+                key: Key(usuario['email']),
                 emailFuncionario: usuario['email']!,
                 nomeFuncionario: usuario['nome']!,
                 setor: usuario['setor']!,
