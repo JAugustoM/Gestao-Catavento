@@ -10,7 +10,7 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userData = context.read<AuthBloc>().userData ?? {};
+    final userData = context.read<AuthBloc>().userData;
     return Drawer(
       key: Key('drawerKey'),
       child: Column(
