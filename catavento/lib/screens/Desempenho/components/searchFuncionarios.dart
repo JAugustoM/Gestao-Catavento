@@ -1,5 +1,7 @@
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:catavento/shared/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchFuncionarios extends StatefulWidget {
   const SearchFuncionarios({super.key});
@@ -56,6 +58,9 @@ class SearchFuncionariosState extends State<SearchFuncionarios> {
               borderSide: BorderSide(color: AppColors.lightGray, width: 2),
               borderRadius: BorderRadius.circular(10),
             )),
+        onEditingComplete: () => context
+            .read<UsuarioBloc>()
+            .add(UsuarioFilter('nome', _nomeProduto.text)),
       ),
     );
   }

@@ -1,5 +1,7 @@
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Filtrosetor extends StatefulWidget {
   final TextEditingController controller;
@@ -64,6 +66,7 @@ class FiltrosetorState extends State<Filtrosetor> {
             }).toList(),
             onChanged: (newValue) {
               widget.controller.text = newValue!;
+              context.read<UsuarioBloc>().add(UsuarioFilter('setor', newValue));
               setState(() {
                 selectedOption = newValue;
               });

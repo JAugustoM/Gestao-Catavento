@@ -9,6 +9,9 @@ part 'usuario_state.dart';
 class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   final _supabase = Supabase.instance.client;
   DatabaseResponse _currentData = [];
+  DatabaseResponse _filteredData = [];
+  String _setorFilter = "Todos";
+  String _nomeFilter = "";
   UsuarioEvent get initialState => UsuarioLoading();
 
   UsuarioBloc() : super(UsuarioLoadingState([], {})) {
@@ -19,6 +22,37 @@ class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
     on<UsuarioDelete>(_onDelete);
 
     on<UsuarioUpdate>(_onUpdate);
+
+    on<UsuarioFilter>(_onFilter);
+  }
+
+  void _onFilter(UsuarioFilter event, Emitter<UsuarioState> emit) {
+    _filteredData = _currentData;
+
+    if (event.campo == "nome") {
+      _nomeFilter = event.pesquisa;
+    }
+
+    if (event.campo == "setor") {
+      _setorFilter = event.pesquisa;
+    }
+
+    final metaData = _countUsuarios();
+
+    if (_setorFilter != "Todos") {
+      _filteredData =
+          _filteredData.where((test) => test['setor'] == _setorFilter).toList();
+    }
+
+    if (_nomeFilter.isNotEmpty) {
+      _filteredData = _filteredData
+          .where((test) => (test['nome'] as String)
+              .toLowerCase()
+              .contains(_nomeFilter.toLowerCase()))
+          .toList();
+    }
+
+    emit(UsuarioFilterState(_currentData, _filteredData, metaData));
   }
 
   void _onCreate(UsuarioCreate event, Emitter<UsuarioState> emit) async {

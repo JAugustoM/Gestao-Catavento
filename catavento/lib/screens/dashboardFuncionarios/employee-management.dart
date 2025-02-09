@@ -232,6 +232,8 @@ class EmployeeManagement extends StatelessWidget {
                     break;
                   case UsuarioErrorState():
                     showBlocSnackbar(context, state.message);
+                  case UsuarioFilterState():
+                    break;
                 }
               },
               builder: (context, state) {

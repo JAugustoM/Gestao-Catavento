@@ -27,6 +27,7 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _setorcontroller.text = "Todos";
     return BlocListener<RelatorioBloc, RelatorioState>(
       listener: (context, state) {
         if (state is! RelatorioCompleteState) {
@@ -121,7 +122,14 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
 
     return BlocBuilder<UsuarioBloc, UsuarioState>(
       builder: (context, state) {
-        data = state.databaseResponse;
+        if (state is UsuarioFilterState) {
+          data = state.filteredData;
+        } else {
+          data = state.databaseResponse;
+        }
+
+        var funcionarios =
+            data.where((test) => test['tipo'] == 'padrao').toList();
 
         return GridView.builder(
             shrinkWrap: true,
@@ -131,9 +139,9 @@ class DashboardDesempenhoAdmin extends StatelessWidget {
                 mainAxisSpacing: 25, //espaçamento vertical
                 childAspectRatio: 3.5 //Proporção entre largura e altura
                 ),
-            itemCount: data.length,
+            itemCount: funcionarios.length,
             itemBuilder: (context, index) {
-              final usuario = data[index];
+              final usuario = funcionarios[index];
               return FuncionariosCardDesempenho(
                 emailFuncionario: usuario['email']!,
                 nomeFuncionario: usuario['nome']!,

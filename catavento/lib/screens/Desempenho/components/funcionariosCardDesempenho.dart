@@ -5,14 +5,14 @@ import 'package:catavento/shared/theme/colors.dart';
 import 'package:catavento/shared/widgets/dialog.dart';
 import 'package:catavento/shared/widgets/dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class FuncionariosCardDesempenho extends StatefulWidget {
   final String emailFuncionario;
   final String nomeFuncionario;
   final String setor;
 
-  FuncionariosCardDesempenho({
+  const FuncionariosCardDesempenho({
+    super.key,
     required this.emailFuncionario,
     required this.nomeFuncionario,
     required this.setor,

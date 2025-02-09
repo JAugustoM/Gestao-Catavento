@@ -14,6 +14,19 @@ class UsuarioCreateState extends UsuarioState {
   List<Object?> get props => [databaseResponse, metaData];
 }
 
+class UsuarioFilterState extends UsuarioState {
+  final DatabaseResponse filteredData;
+
+  const UsuarioFilterState(
+    super.databaseResponse,
+    this.filteredData,
+    super.metaData,
+  );
+
+  @override
+  List<Object?> get props => [databaseResponse, filteredData, metaData];
+}
+
 class UsuarioDeleteState extends UsuarioState {
   const UsuarioDeleteState(super.databaseResponse, super.metaData);
 
