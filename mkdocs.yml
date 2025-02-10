@@ -8,34 +8,28 @@ nav:
   - Testes: 
     - Plano de Testes: "documento-plano-testes/documento-plano-testes.md"
     - Testes de Integração:
-      - Tela de Demandas do Admin:
-        - Integração dos Formulários: "documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios.md"
+      - Menu de Navegação: "documento-plano-testes/testes_integracao/funcionalidades_gerais/menu_navegacao.md"
+      - Tela de Demandas do Admin: "documento-plano-testes/testes_integracao/tela_demanda_adm/integracao_formularios_demanda.md"
+      - Tela de Funcionários do Admin: "documento-plano-testes/testes_integracao/tela_funcionarios_adm/integracao_formularios_funcionario.md"
+      - Tela de Produtos do Admin: "documento-plano-testes/testes_integracao/tela_produto_adm/integracao_formularios_produtos.md"
     - Testes Manuais:
-      - Tela de Login:
-          - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md"
-      - Menu de Navegação:
-        - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md"
+      - Tela de Login: "documento-plano-testes/testes_manuais/tela_de_login/funcionalidades_gerais.md"
+      - Menu de Navegação: "documento-plano-testes/testes_manuais/menu_de_naveg/funcionalidades_gerais.md"
       - Tela de Demandas do Admin:
         - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/tela_demanda_adm/crud.md"
         - Importação da Planilha: "documento-plano-testes/testes_manuais/tela_demanda_adm/importacao_planilha.md"
-      - Tela de Desempenho da Loja:
-        - Funcionalidade Gerais: "documento-plano-testes/testes_manuais/tela_desemp_loja_adm/funcionalidades_gerais.md"
-      - Tela de Funcionários do Admin:
-        - Funcionalidades Gerais: "documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md"
-      - Tela de Produtos:
-        - Funcionalidades Gerais: "documento-plano-testes/testes_manuais/tela_produto_adm/crud.md"
+      - Tela de Desempenho da Loja: "documento-plano-testes/testes_manuais/tela_desemp_loja_adm/funcionalidades_gerais.md"
+      - Tela de Funcionários do Admin: "documento-plano-testes/testes_manuais/tela_funcionarios_adm/crud.md"
+      - Tela de Produtos: "documento-plano-testes/testes_manuais/tela_produto_adm/crud.md"
     - Testes Unitários:
-      - Tela de Login:
-          - Funcionalidade Gerais: "documento-plano-testes/testes_unitarios/tela_de_login/funcionalidades_gerais.md"
+      - Tela de Login: "documento-plano-testes/testes_unitarios/tela_de_login/funcionalidades_gerais.md"
       - Tela de Demandas do Admin:
         - Funcionalidade Gerais: "documento-plano-testes/testes_unitarios/tela_demanda_adm/crud.md"
         - Importação da Planilha: "documento-plano-testes/testes_unitarios/tela_demanda_adm/planilha.md"
-      - Tela de Desempenho da Loja:
-        - Funcionalidade Gerais: "documento-plano-testes/testes_unitarios/tela_desemp_loja_adm/funcionalidades_gerais.md"
-      - Tela de Funcionários do Admin:
-        - Funcionalidades Gerais: "documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md"
-      - Tela de Produtos:
-        - Funcionalidades Gerais: "documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md"
+      - Tela de Desempenho dos Funcionários: "documento-plano-testes/testes_unitarios/tela_desemp_loja_adm/funcionalidades_gerais.md"
+      - Tela de Desempenho da Loja: "documento-plano-testes/testes_unitarios/tela_desemp_loja_adm/funcionalidades_gerais.md"
+      - Tela de Funcionários do Admin: "documento-plano-testes/testes_unitarios/tela_funcionarios_adm/crud.md"
+      - Tela de Produtos: "documento-plano-testes/testes_unitarios/tela_produto_adm/crud.md"
   - Atas de Reunião:
     - Ata 21/11: "atas-reuniao/ata-reuniao-21-11.md"
     - Ata 24/11: "atas-reuniao/ata-reuniao-24-11.md"
