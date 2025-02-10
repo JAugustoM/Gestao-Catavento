@@ -7,6 +7,19 @@ sealed class UsuarioState extends Equatable {
   const UsuarioState(this.databaseResponse, this.metaData);
 }
 
+class UsuarioFilterState extends UsuarioState {
+  final DatabaseResponse filteredData;
+
+  const UsuarioFilterState(
+    super.databaseResponse,
+    this.filteredData,
+    super.metaData,
+  );
+
+  @override
+  List<Object?> get props => [databaseResponse, filteredData, metaData];
+}
+
 class UsuarioCreateState extends UsuarioState {
   const UsuarioCreateState(super.databaseResponse, super.metaData);
 
