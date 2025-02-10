@@ -22,6 +22,13 @@ class UsuarioCreate extends UsuarioEvent {
   );
 }
 
+class UsuarioFilter extends UsuarioEvent {
+  final String campo;
+  final String pesquisa;
+
+  UsuarioFilter(this.campo, this.pesquisa);
+}
+
 class UsuarioDelete extends UsuarioEvent {
   final int order;
   final String email;
