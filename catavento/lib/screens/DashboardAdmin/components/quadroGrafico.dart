@@ -64,18 +64,17 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                                 children: [
                                   Text("Completas: ",
                                       style: TextStyle(
-                                        fontSize: size.height * 0.014,
+                                        fontSize: size.height * 0.02,
                                         fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.gradientLightBlue,
                                       )),
                                   Text(
                                     "${metaData['completo']}",
                                     style: TextStyle(
-                                      fontSize: size.height * 0.014,
-                                      fontFamily: "FredokaOne",
-                                      color: AppColors.gradientDarkBlue,
-                                      fontWeight: FontWeight.normal,
+                                      fontSize: size.height * 0.02,
+                                      fontFamily: "Fredoka",
+                                      color: AppColors.gradientLightBlue,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -99,18 +98,17 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                                 children: [
                                   Text("Restantes: ",
                                       style: TextStyle(
-                                        fontSize: size.height * 0.014,
+                                        fontSize: size.height * 0.02,
                                         fontFamily: "FredokaOne",
-                                        color: AppColors.gradientDarkBlue,
-                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.gradientLightBlue,
                                       )),
                                   Text(
                                     "${metaData['restantes']}",
                                     style: TextStyle(
-                                      fontSize: size.height * 0.014,
-                                      fontFamily: "FredokaOne",
-                                      color: AppColors.gradientDarkBlue,
-                                      fontWeight: FontWeight.normal,
+                                      fontSize: size.height * 0.02,
+                                      fontFamily: "Fredoka",
+                                      color: AppColors.gradientLightBlue,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -124,17 +122,17 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                               Text(
                                 "Total: ",
                                 style: TextStyle(
-                                    fontSize: size.height * 0.014,
-                                    color: AppColors.gradientDarkBlue,
+                                    fontSize: size.height * 0.02,
+                                    color: AppColors.gradientLightBlue,
                                     fontFamily: 'FredokaOne'),
                               ),
                               Text(
                                 "${metaData['total']}",
                                 style: TextStyle(
-                                  fontSize: size.height * 0.014,
-                                  fontFamily: "FredokaOne",
-                                  color: AppColors.gradientDarkBlue,
-                                  fontWeight: FontWeight.normal,
+                                  fontSize: size.height * 0.02,
+                                  fontFamily: "Fredoka",
+                                  color: AppColors.gradientLightBlue,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
@@ -142,8 +140,8 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                         ],
                       ),
                       SizedBox(
-                        width: size.width *  0.08,
-                        height: size.height *  0.08,
+                        width: size.width * 0.08,
+                        height: size.height * 0.08,
                         child: PizzaChart(
                           completas: metaData['completo'] ?? 0,
                           restantes: metaData['restantes'] ?? 0,
@@ -172,7 +170,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                       padding: EdgeInsets.all(0),
                       child: Icon(
                         Icons.cake_rounded,
-                        size: size.width *  0.06,
+                        size: size.width * 0.06,
                         color: AppColors.mediumPink,
                       ),
                     ),
@@ -186,18 +184,19 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           Text(
                             "${metaData['fabricacao']}",
                             style: TextStyle(
-                              fontSize: size.width *  0.02,
+                              fontSize: size.width * 0.02,
                               fontFamily: 'FredokaOne',
-                              color: AppColors.gradientDarkBlue,
+                              color: AppColors.gradientLightBlue,
                             ),
                           ),
                           SizedBox(height: 2),
                           Text(
                             "Em fabricação",
                             style: TextStyle(
-                                fontSize: size.height * 0.014,
-                                fontFamily: "FredokaOne",
-                                color: AppColors.gradientDarkBlue),
+                                fontSize: size.height * 0.02,
+                                fontFamily: "Fredoka",
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.gradientLightBlue),
                           ),
                         ],
                       ),
@@ -222,7 +221,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                         shaderCallback: (bounds) {
                           return LinearGradient(
                             colors: [
-                              AppColors.gradientDarkBlue,
+                              AppColors.gradientLightBlue,
                               AppColors.gradientLightBlue
                             ],
                             begin: Alignment.topLeft,
@@ -231,7 +230,7 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                         },
                         child: Icon(
                           Icons.layers,
-                          size: size.width *  0.06,
+                          size: size.width * 0.06,
                           color: Colors.white,
                         ),
                       ),
@@ -246,18 +245,19 @@ class QuadroGraficoState extends State<QuadroGrafico> {
                           Text(
                             "${metaData['espera']}",
                             style: TextStyle(
-                              fontSize: size.height *  0.02,
+                              fontSize: size.width * 0.02,
                               fontFamily: 'FredokaOne',
-                              color: AppColors.gradientDarkBlue,
+                              color: AppColors.gradientLightBlue,
                             ),
                           ),
                           SizedBox(height: 2),
                           Text(
                             "Em espera",
                             style: TextStyle(
-                                fontSize: size.height * 0.014,
-                                fontFamily: "FredokaOne",
-                                color: AppColors.gradientDarkBlue),
+                                fontSize: size.height * 0.02,
+                                fontFamily: "Fredoka",
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.gradientLightBlue),
                           ),
                         ],
                       ),

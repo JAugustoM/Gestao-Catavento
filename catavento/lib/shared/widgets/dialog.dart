@@ -59,14 +59,17 @@ class ReusableDialog extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      left: screenWidth * 0.05, right: screenWidth * 0.025, top: screenHeight * 0.025, bottom: screenHeight * 0.01),
+                      left: screenWidth * 0.04,
+                      right: screenWidth * 0.04,
+                      top: screenHeight * 0.04,
+                      bottom: screenHeight * 0.01),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         title,
                         style: TextStyle(
-                          fontSize: screenHeight * 0.020,
+                          fontSize: screenHeight * 0.025,
                           fontFamily: 'FredokaOne',
                           color: AppColors.gradientDarkBlue,
                           fontWeight: FontWeight.bold,
@@ -87,8 +90,8 @@ class ReusableDialog extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 28,
-            right: 25,
+            top: screenHeight * 0.04,
+            right: screenWidth * 0.01,
             child: GestureDetector(
               onTap: () {
                 if (confirmBeforeClose) {
@@ -98,16 +101,19 @@ class ReusableDialog extends StatelessWidget {
                 }
               },
               child: Container(
-                width: screenWidth * 0.025,
-                height: screenHeight * 0.025,
+                width: screenWidth * 0.030,
+                height: screenHeight * 0.030,
                 decoration: BoxDecoration(
                   color: AppColors.gradientDarkBlue,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: screenHeight * 0.022,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: screenHeight * 0.022,
+                  ),
                 ),
               ),
             ),

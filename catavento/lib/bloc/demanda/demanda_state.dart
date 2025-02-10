@@ -3,6 +3,7 @@ part of "demanda_bloc.dart";
 sealed class DemandaState extends Equatable {
   final DatabaseResponse databaseResponse;
   final Map<String, int> metaData;
+  Map<String, int> get producao => {};
 
   const DemandaState(this.databaseResponse, this.metaData);
 }
@@ -35,6 +36,20 @@ class DemandaLoadingState extends DemandaState {
   List<Object?> get props => [databaseResponse, metaData];
 }
 
+class DemandaLoadedState extends DemandaState {
+  @override
+  final Map<String, int> producao;
+
+  const DemandaLoadedState(
+    super.databaseResponse,
+    super.metaData, {
+    required this.producao,
+  });
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
+}
+
 class DemandaFilterState extends DemandaState {
   const DemandaFilterState(super.databaseResponse, super.metaData);
 
@@ -49,4 +64,11 @@ class DemandaErrorState extends DemandaState {
 
   @override
   List<Object?> get props => [databaseResponse, metaData, message];
+}
+
+class DemandaFetchState extends DemandaState {
+  const DemandaFetchState(super.databaseResponse, super.metaData);
+
+  @override
+  List<Object?> get props => [databaseResponse, metaData];
 }

@@ -53,7 +53,11 @@ class Navbar extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold)),
-                      Text(userData['setor']),
+                      Text(userData['setor'],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal)),
                     ]),
                     SizedBox(
                       height: 60,

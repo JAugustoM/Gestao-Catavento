@@ -4,6 +4,7 @@ import 'package:catavento/bloc/trabalho/trabalho_bloc.dart';
 import 'package:catavento/screens/dashboardFuncionarios/components/DropDownButton.dart';
 
 import 'package:catavento/bloc/usuario/usuario_bloc.dart';
+import 'package:catavento/screens/dashboardFuncionarios/components/aviso.dart';
 import 'package:catavento/shared/widgets/bloc_snackbar.dart';
 import 'package:catavento/shared/widgets/inputs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,8 @@ class EmployeeManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
+    context.read<UsuarioBloc>().add(UsuarioLoading());
     return Scaffold(
       drawer: Navbar(),
       appBar: CustomHeader(
@@ -124,8 +127,8 @@ class EmployeeManagement extends StatelessWidget {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius:
-              BorderRadius.circular(MediaQuery.of(context).size.height * 0.022),
+          borderRadius: BorderRadius.circular(
+              MediaQuery.of(context).size.height * 0.0222),
         ),
         child: ElevatedButton(
           onPressed: () {
@@ -136,14 +139,14 @@ class EmployeeManagement extends StatelessWidget {
             shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                  MediaQuery.of(context).size.height * 0.022),
+                  MediaQuery.of(context).size.height * 0.0222),
             ),
           ),
           child: Text(
             "Novo Funcionário",
             style: TextStyle(
               fontFamily: "FredokaOne",
-              fontSize: size.height * 0.016,
+              fontSize: size.height * 0.022,
               color: Colors.white,
             ),
           ),
@@ -162,7 +165,7 @@ class EmployeeManagement extends StatelessWidget {
       height: blockHeight,
       width: blockWidth,
       color: AppColors.lightGray,
-      borderRadius: MediaQuery.of(context).size.height * 0.026,
+      borderRadius: MediaQuery.of(context).size.height * 0.0226,
       child: Center(
         child: Graficinfo<UsuarioBloc, UsuarioState>(
           size: size.width * 0.04,
@@ -187,7 +190,7 @@ class EmployeeManagement extends StatelessWidget {
       height: blockHeight,
       width: blockWidth,
       color: AppColors.lightGray,
-      borderRadius: MediaQuery.of(context).size.height * 0.026,
+      borderRadius: MediaQuery.of(context).size.height * 0.0226,
       child: Center(
           child: Graficinfo<TrabalhoBloc, TrabalhoState>(
         size: size.width * 0.04,
@@ -203,9 +206,9 @@ class EmployeeManagement extends StatelessWidget {
   Widget _buildFuncionariosBlock(BuildContext context) {
     return Blocks(
         title: "Todos os funcionários",
-        titleColor: AppColors.gradientDarkBlue,
+        titleColor: AppColors.gradientLightBlue,
         color: AppColors.lightGray,
-        borderRadius: MediaQuery.of(context).size.height * 0.026,
+        borderRadius: MediaQuery.of(context).size.height * 0.0226,
         child: LayoutBuilder(builder: (context, contraints) {
           double height = contraints.maxHeight * 0.85;
           double listWidth = contraints.maxWidth * 0.9;
@@ -217,15 +220,20 @@ class EmployeeManagement extends StatelessWidget {
                 switch (state) {
                   case UsuarioCreateState():
                     showBlocSnackbar(context, "Usuário criado com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioDeleteState():
                     showBlocSnackbar(context, "Usuário removido com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioUpdateState():
                     showBlocSnackbar(
                         context, "Usuário atualizado com sucesso!");
+                    context.read<TrabalhoBloc>().add(TrabalhoAdmin());
                   case UsuarioLoadingState():
                     break;
                   case UsuarioErrorState():
                     showBlocSnackbar(context, state.message);
+                  case UsuarioFilterState():
+                    break;
                 }
               },
               builder: (context, state) {
@@ -254,9 +262,9 @@ class EmployeeManagement extends StatelessWidget {
   Widget _buildAtividadesBlock(BuildContext context) {
     return Blocks(
       title: "Atividades em andamento",
-      titleColor: AppColors.gradientDarkBlue,
+      titleColor: AppColors.gradientLightBlue,
       color: AppColors.lightGray,
-      borderRadius: MediaQuery.of(context).size.height * 0.026,
+      borderRadius: MediaQuery.of(context).size.height * 0.0226,
       child: LayoutBuilder(builder: (context, contraints) {
         double height = contraints.maxHeight * 0.85;
         double listWidth = contraints.maxWidth * 0.9;
@@ -289,7 +297,7 @@ class EmployeeManagement extends StatelessWidget {
           Text(
             setor,
             style: TextStyle(
-              fontSize: screenHeight * 0.016,
+              fontSize: screenHeight * 0.022,
               color: AppColors.gradientLightBlue,
               fontFamily: "FredokaOne",
               fontWeight: FontWeight.bold,
@@ -320,20 +328,22 @@ class EmployeeManagement extends StatelessWidget {
                 }
               }
 
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final atividade = trabalhos[index];
-                  final user = users[index];
-                  return AtivAndamentoCard(
-                    nomeFuncionario: user['usuario']!,
-                    nomeDemanda: atividade,
-                  );
-                },
-              );
+              return trabalhos.isEmpty
+                  ? Aviso()
+                  : ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final atividade = trabalhos[index];
+                        final user = users[index];
+                        return AtivAndamentoCard(
+                          nomeFuncionario: user['usuario']!,
+                          nomeDemanda: atividade,
+                        );
+                      },
+                    );
             },
           ),
         ],
@@ -374,15 +384,16 @@ class EmployeeManagement extends StatelessWidget {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.022),
                             child: Text(
                               "Nome",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.022,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -397,7 +408,7 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.022),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -406,8 +417,8 @@ class EmployeeManagement extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "FredokaOne",
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.016,
-                                color: AppColors.blue,
+                                    MediaQuery.of(context).size.height * 0.022,
+                                color: AppColors.gradientDarkBlue,
                                 fontWeight: FontWeight.bold),
                           ),
                           Row(
@@ -422,11 +433,11 @@ class EmployeeManagement extends StatelessWidget {
                               Text(
                                 'Gerente',
                                 style: TextStyle(
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                     fontFamily: "FredokaOne",
                                     fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.016),
+                                            0.022),
                               ),
                             ],
                           ),
@@ -442,27 +453,27 @@ class EmployeeManagement extends StatelessWidget {
                               Text(
                                 'Funcionário',
                                 style: TextStyle(
-                                    color: AppColors.blue,
+                                    color: AppColors.gradientDarkBlue,
                                     fontFamily: "FredokaOne",
                                     fontSize:
                                         MediaQuery.of(context).size.height *
-                                            0.016),
+                                            0.022),
                               ),
                             ],
                           ),
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.022),
                       Row(
                         children: [
                           Text(
                             "Setor*",
                             style: TextStyle(
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.016,
+                                    MediaQuery.of(context).size.height * 0.022,
                                 fontFamily: "FredokaOne",
-                                color: AppColors.blue,
+                                color: AppColors.gradientDarkBlue,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -474,21 +485,22 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.022),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.022),
                             child: Text(
                               "Email",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.022,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -503,21 +515,22 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.022),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.022),
                             child: Text(
                               "Nome de Usuário",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.022,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -532,21 +545,22 @@ class EmployeeManagement extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.016),
+                          height: MediaQuery.of(context).size.height * 0.022),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.02),
+                                top:
+                                    MediaQuery.of(context).size.height * 0.022),
                             child: Text(
                               "Senha",
                               style: TextStyle(
                                   fontFamily: "FredokaOne",
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.016,
+                                      0.022,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.blue),
+                                  color: AppColors.gradientDarkBlue),
                             ),
                           ),
                           SizedBox(
@@ -563,7 +577,7 @@ class EmployeeManagement extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.024),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.0224),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -575,7 +589,7 @@ class EmployeeManagement extends StatelessWidget {
                       end: Alignment.centerRight,
                     ),
                     borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.022),
+                        MediaQuery.of(context).size.height * 0.0222),
                   ),
                   child: ElevatedButton(
                     onPressed: () {
@@ -608,14 +622,14 @@ class EmployeeManagement extends StatelessWidget {
                       shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            MediaQuery.of(context).size.height * 0.022),
+                            MediaQuery.of(context).size.height * 0.0222),
                       ),
                     ),
                     child: Text(
                       "Concluir",
                       style: TextStyle(
                         fontFamily: "FredokaOne",
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                         color: Colors.white,
                       ),
                     ),

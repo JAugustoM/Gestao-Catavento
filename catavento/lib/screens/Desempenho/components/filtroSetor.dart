@@ -1,5 +1,7 @@
+import 'package:catavento/bloc/usuario/usuario_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:catavento/shared/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Filtrosetor extends StatefulWidget {
   final TextEditingController controller;
@@ -24,39 +26,50 @@ class FiltrosetorState extends State<Filtrosetor> {
         width: screenWidth * 0.13,
         padding: EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: AppColors.lightGray,
-          borderRadius: BorderRadius.circular(10)),
+            color: AppColors.lightGray,
+            borderRadius: BorderRadius.circular(10)),
         child: DropdownButton(
-          isExpanded: true,
-          icon: Icon(
-            Icons.arrow_drop_down,
-            size: screenWidth * 0.014,
-            color: AppColors.blue,
-          ),
-          hint: Text(
-            'Filtro por setor',
-            style: TextStyle(color: AppColors.blue.withOpacity(0.5), fontSize: screenHeight * 0.012, fontFamily: "FredokaOne"),
-          ),
-          underline: SizedBox(),
-          style: TextStyle(color: AppColors.blue, fontSize: screenHeight * 0.013, fontFamily: "FredokaOne"),
-          value: selectedOption,
-          items: <String>['Cobertura', 'Aplique', 'Montagem', 'Todos']
-              .map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(
-                value,
-                style: TextStyle(color: AppColors.blue, fontFamily: "FredokaOne",fontSize: screenHeight * 0.013),
-              ),
-            ); 
-          }).toList(),
-          onChanged: (newValue) {
-            widget.controller.text = newValue!;
-            setState(() {
-              selectedOption = newValue;
-            });
-          }
-        )
-      );
+            isExpanded: true,
+            icon: Icon(
+              Icons.arrow_drop_down,
+              size: screenWidth * 0.018,
+              color: AppColors.gradientDarkBlue,
+            ),
+            hint: Text(
+              'Filtro por setor',
+              style: TextStyle(
+                  color: AppColors.gradientDarkBlue,
+                  fontSize: screenHeight * 0.016,
+                  fontFamily: "Fredoka",
+                  fontWeight: FontWeight.bold),
+            ),
+            underline: SizedBox(),
+            style: TextStyle(
+                color: AppColors.gradientDarkBlue,
+                fontSize: screenHeight * 0.016,
+                fontFamily: "Fredoka",
+                fontWeight: FontWeight.bold),
+            value: selectedOption,
+            items: <String>['Cobertura', 'Aplique', 'Montagem', 'Todos']
+                .map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: TextStyle(
+                      color: AppColors.gradientDarkBlue,
+                      fontSize: screenHeight * 0.016,
+                      fontFamily: "Fredoka",
+                      fontWeight: FontWeight.bold),
+                ),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              widget.controller.text = newValue!;
+              context.read<UsuarioBloc>().add(UsuarioFilter('setor', newValue));
+              setState(() {
+                selectedOption = newValue;
+              });
+            }));
   }
 }

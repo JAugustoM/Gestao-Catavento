@@ -17,15 +17,37 @@ class AtivAndamentoCard extends StatelessWidget {
       color: Colors.white,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
-        title: Text(
-          nomeFuncionario,
-          style: TextStyle(color: AppColors.blue, fontFamily: "FredokaOne", fontSize: MediaQuery.of(context).size.height * 0.014),
-        ),
-        subtitle: Text(
-          'Em andamento: $nomeDemanda',
-          style: TextStyle(color: AppColors.blue, fontFamily: "FredokaOne", fontSize: MediaQuery.of(context).size.height * 0.012),
-        ),
-      ),
+          title: Text(
+            nomeFuncionario,
+            style: TextStyle(
+                color: AppColors.gradientLightBlue,
+                fontFamily: "FredokaOne",
+                fontSize: MediaQuery.of(context).size.height * 0.02),
+          ),
+          subtitle: RichText(
+            text: TextSpan(
+              style: TextStyle(
+                color: AppColors.gradientLightBlue,
+                fontFamily: "Fredoka",
+                fontSize: MediaQuery.of(context).size.height * 0.018,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Em andamento: ',
+                  style: TextStyle(
+                    fontFamily: "FredokaOne",
+                  ),
+                ),
+                TextSpan(
+                  text: nomeDemanda,
+                  style: TextStyle(
+                    fontFamily: "Fredoka",
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }

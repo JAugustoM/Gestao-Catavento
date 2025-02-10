@@ -121,23 +121,27 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
   void _onGet(TrabalhoGet event, Emitter<TrabalhoState> emit) async {
     late final DatabaseResponse response;
-    if (event.setor.toLowerCase() == "montagem") {
+    final setor = event.setor.toLowerCase();
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
+    if (setor == "montagem") {
       response = await _supabase
           .from('demandas')
           .select()
-          .eq('status_${event.setor}', 0)
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
+          .eq('status_$setor', 0)
           .eq('status_aplique', 2)
           .eq('status_cobertura', 2)
-          .order('data_adicao', ascending: true);
+          .order('data_adicao', ascending: true)
+          .order('id', ascending: true);
     } else {
       response = await _supabase
           .from('demandas')
           .select()
-          .eq('status_${event.setor}', 0)
-          .eq('status', "Pendente")
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
+          .eq('status_$setor', 0)
           .order('data_adicao', ascending: true)
-          .order('status_aplique')
-          .order('status_cobertura');
+          .order('id', ascending: true);
     }
 
     if (response.isNotEmpty) {
@@ -188,9 +192,13 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     demanda['status'] = "Em fabricação";
 
     try {
-      await _supabase.from('trabalho').update({
-        'data_inicio': data,
-      }).eq('demanda_id', trabalho['demanda_id']);
+      await _supabase
+          .from('trabalho')
+          .update({
+            'data_inicio': data,
+          })
+          .eq('demanda_id', trabalho['demanda_id'])
+          .eq('usuario_email', event.email);
       await _supabase.from('demandas').update({
         'status_${event.setor}': 1,
         'status': "Em fabricação",
@@ -232,8 +240,11 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
       }
       _demandas.removeAt(0);
 
-      await _supabase.from('trabalho').update(
-          {'data_finalizacao': dataFinal}).eq('demanda_id', demanda['id']);
+      await _supabase
+          .from('trabalho')
+          .update({'data_finalizacao': dataFinal})
+          .eq('demanda_id', demanda['id'])
+          .eq('usuario_email', event.email);
       _currentData.removeAt(0);
 
       final metaData = await _countTrabalho(event.setor, event.email);
@@ -252,22 +263,29 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
   Future<void> _iniciarTrabalho(String email, String setor) async {
     late final DatabaseResponse response;
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
+
     if (setor == "montagem") {
       response = await _supabase
           .from('demandas')
           .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
           .eq('status_$setor', 0)
           .eq('status_aplique', 2)
           .eq('status_cobertura', 2)
-          .order('data_adicao', ascending: true);
+          .order('data_adicao', ascending: true)
+          .order('id', ascending: true);
     } else {
       response = await _supabase
           .from('demandas')
           .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
           .eq('status_$setor', 0)
           .order('data_adicao', ascending: true)
           .order('status_aplique')
-          .order('status_cobertura');
+          .order('status_cobertura')
+          .order('id', ascending: true);
     }
 
     if (response.isNotEmpty) {
@@ -288,16 +306,24 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     var completo = 0;
     var faltam = 0;
 
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
+
     try {
       final trabalho = await _supabase
           .from('trabalho')
           .select()
+          .gte('data_inicio', '${dataFormatada}T00:00:00')
           .eq('usuario_email', email)
           .not('data_finalizacao', 'is', null)
           .count();
       completo = trabalho.count;
 
-      final demandas = await _supabase.from('demandas').select().count();
+      final demandas = await _supabase
+          .from('demandas')
+          .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
+          .count();
 
       total = demandas.count;
       faltam = total;
@@ -313,4 +339,12 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
     return {'total': total, 'completo': completo, 'faltam': faltam};
   }
+
+  DatabaseResponse getTrabalhosFromUser(String email) {
+    final trabalhosFromUser =
+        _currentData.where((test) => test['email'] == email);
+    return trabalhosFromUser.toList();
+  }
+
+  DatabaseResponse get trabalhos => _currentData;
 }

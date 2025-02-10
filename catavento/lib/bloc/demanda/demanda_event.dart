@@ -16,6 +16,7 @@ class DemandaCreate extends DemandaEvent {
   final String codigo;
   final String descricao;
   final String status;
+  final String loja;
   final File? foto;
   final String? data;
   final String? prazo;
@@ -24,6 +25,7 @@ class DemandaCreate extends DemandaEvent {
     required this.nomeDemanda,
     required this.codigo,
     required this.descricao,
+    required this.loja,
     this.status = "0",
     this.foto,
     this.data,
@@ -42,6 +44,7 @@ class DemandaUpdate extends DemandaEvent {
   final String nomeDemanda;
   final String codigo;
   final String descricao;
+  final String loja;
   final String? data;
   final String? prazo;
 
@@ -50,9 +53,16 @@ class DemandaUpdate extends DemandaEvent {
     required this.nomeDemanda,
     required this.codigo,
     required this.descricao,
+    required this.loja,
     required this.data,
     required this.prazo,
   });
 }
 
 class DemandaLoading extends DemandaEvent {}
+
+class DemandaFetch extends DemandaEvent {
+  final String periodo;
+
+  const DemandaFetch({required this.periodo});
+}
