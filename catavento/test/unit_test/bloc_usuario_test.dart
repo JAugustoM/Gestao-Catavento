@@ -109,5 +109,16 @@ void main() {
         UsuarioDeleteState([], {"total": 0})
       ],
     );
+    blocTest<UsuarioBloc, UsuarioState>(
+      'emite um FilterState quando for filtrado',
+      build: () => usuarioBloc,
+      setUp: () async {
+        usuarioBloc.currentData = [usuario, usuario2];
+      },
+      act: (bloc) => bloc.add(UsuarioFilter('setor', 'Setor A')),
+      expect: () => [
+        UsuarioFilterState([usuario, usuario2], [usuario], {"total": 2})
+      ],
+    );
   });
 }
