@@ -2,7 +2,7 @@ name: catavento
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -40,13 +40,18 @@ dependencies:
   injectable: ^2.1.2
   get_it: ^8.0.3
   equatable: ^2.0.5
-  intl: ^0.20.1
+  intl: ^0.19.0
   fl_chart: ^0.70.2
   file_picker: ^8.1.4
   path_provider: ^2.1.5
   image_picker: ^1.1.2
   mask_text_input_formatter: ^2.9.0
   font_awesome_flutter: ^10.8.0
+  flutter_datetime_picker: ^1.5.1
+  flutter_localizations:
+    sdk: flutter
+  syncfusion_flutter_charts: ^28.1.41
+  flutter_native_splash: ^2.4.4
   window_manager: ^0.4.3
   shared_preferences: ^2.5.1
 
@@ -57,7 +62,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-  injectable_generator:  
+  injectable_generator:
   build_runner:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -74,7 +79,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -89,6 +93,7 @@ flutter:
     - assets/images/photo.jpg
     - assets/images/cake.png
     - assets/images/bolo_fake.jpg
+    - assets/images/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -102,14 +107,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Fredoka
-       fonts:
-         - asset: assets/fonts/fredoka.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-     - family: FredokaOne
-       fonts:
-         - asset: assets/fonts/fredokaOne.ttf
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/fredoka.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    - family: FredokaOne
+      fonts:
+        - asset: assets/fonts/fredokaOne.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

@@ -33,18 +33,21 @@ class SearchState extends State<Search> {
           controller: _nomeDemanda,
           cursorHeight: size.height * 0.014,
           style: TextStyle(
-              fontFamily: "FredokaOne", fontSize: size.height * 0.014),
+              fontFamily: "Fredoka",
+              fontWeight: FontWeight.bold,
+              fontSize: size.height * 0.014),
           decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
                 size: size.width * 0.018,
                 color: Color(0xFF015C98),
               ),
-              hintText: "Insira o nome de uma demanda para iniciar uma busca",
+              hintText: "  Insira o nome de uma demanda para iniciar uma busca",
               hintStyle: TextStyle(
-                  fontSize: size.height * 0.014,
+                  fontSize: size.height * 0.017,
                   color: Colors.black.withOpacity(0.5) //Opacidade do texto
                   ),
+              contentPadding: EdgeInsets.symmetric(vertical: 4.0),
               filled: true,
               fillColor: AppColors.lightGray,
               border: OutlineInputBorder(

@@ -34,9 +34,7 @@ class PizzaChart extends StatelessWidget {
                   value: (completasPercent * 100).isNaN
                       ? 0
                       : completasPercent * 100,
-                  title: completas > 0
-                      ? '${(completasPercent * 100).toStringAsFixed(1)}%'
-                      : '',
+                  title: '',
                   color: colors[0],
                   radius: constraints.maxWidth * 0.3,
                 ),
@@ -44,9 +42,7 @@ class PizzaChart extends StatelessWidget {
                   value: (restantesPercent * 100).isNaN
                       ? 0
                       : restantesPercent * 100,
-                  title: restantes > 0
-                      ? '${(restantesPercent * 100).toStringAsFixed(1)}%'
-                      : '',
+                  title: '',
                   color: colors[1],
                   radius: constraints.maxWidth * 0.3,
                 ),

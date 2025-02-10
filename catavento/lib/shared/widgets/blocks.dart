@@ -50,9 +50,10 @@ class BlocksState extends State<Blocks> {
               child: Text(
                 widget.title!,
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.018,
+                    fontSize: MediaQuery.of(context).size.height * 0.022,
                     color: widget.titleColor,
-                    fontFamily: 'FredokaOne'),
+                    fontFamily: 'FredokaOne',
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),

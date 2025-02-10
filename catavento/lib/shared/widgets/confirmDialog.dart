@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:catavento/shared/theme/colors.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String title;
@@ -23,16 +24,18 @@ class ConfirmDialog extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: "FredokaOne",
-          fontSize: screenHeight * 0.016,
+          fontSize: screenHeight * 0.02,
           fontWeight: FontWeight.bold,
+          color: AppColors.gradientDarkBlue,
         ),
       ),
       content: Text(
         contente,
         style: TextStyle(
-          fontFamily: "FredokaOne",
-          fontSize: screenHeight * 0.016,
-          color: Colors.black,
+          fontFamily: "Fredoka",
+          fontWeight: FontWeight.bold,
+          fontSize: screenHeight * 0.02,
+          color: AppColors.gradientDarkBlue,
         ),
       ),
       actions: <Widget>[
@@ -54,7 +57,7 @@ class ConfirmDialog extends StatelessWidget {
                   "Sim",
                   style: TextStyle(
                     fontFamily: "FredokaOne",
-                    fontSize: screenHeight * 0.016,
+                    fontSize: screenHeight * 0.02,
                     color: Colors.white,
                   ),
                 ),
@@ -78,7 +81,7 @@ class ConfirmDialog extends StatelessWidget {
                   "Não",
                   style: TextStyle(
                     fontFamily: "FredokaOne",
-                    fontSize: screenHeight * 0.016,
+                    fontSize: screenHeight * 0.02,
                     color: Colors.white,
                   ),
                 ),

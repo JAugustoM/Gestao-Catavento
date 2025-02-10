@@ -32,11 +32,12 @@ class InputTextField extends StatelessWidget {
       padding: const EdgeInsets.only(right: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             labelText,
             style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height * 0.016,
+              fontSize: screenHeight * 0.018,
               fontFamily: "FredokaOne",
               fontWeight: FontWeight.bold,
               color: AppColors.gradientDarkBlue,
@@ -46,16 +47,25 @@ class InputTextField extends StatelessWidget {
           TextField(
               controller: controller,
               cursorHeight: screenWidth * 0.016,
-              style: TextStyle(fontFamily: "FredokaOne", fontSize: screenHeight * 0.016),
+              style: TextStyle(
+                  fontFamily: "FredokaOne",
+                  color: Color.fromRGBO(0, 0, 0, 90),
+                  fontSize: screenHeight * 0.016),
               keyboardType: keyboardType,
               obscureText: isPassword,
               inputFormatters: inputFormatters,
               maxLines: maxLines,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: screenHeight * 0.01, horizontal: screenWidth * 0.02),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.01,
+                    horizontal: screenWidth * 0.015),
                 isDense: true,
                 hintText: hintText,
-                hintStyle: TextStyle(fontFamily: "FredokaOne", fontSize: screenHeight * 0.016, color: Colors.black.withOpacity(0.5)),
+                hintStyle: TextStyle(
+                    fontFamily: "FredokaOne",
+                    fontWeight: FontWeight.normal,
+                    fontSize: screenHeight * 0.016,
+                    color: Colors.black.withOpacity(0.5)),
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
@@ -63,14 +73,11 @@ class InputTextField extends StatelessWidget {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(screenHeight * 0.02),
-                  borderSide: BorderSide(
-                      color: AppColors.mediumPink,
-                      width: 2), // Cor e espessura da borda
+                  borderSide: BorderSide(color: AppColors.mediumPink, width: 2),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(screenHeight * 0.02),
-                  borderSide: BorderSide(
-                      color: AppColors.pink, width: 2), // Cor da borda ao focar
+                  borderSide: BorderSide(color: AppColors.pink, width: 2),
                 ),
                 focusColor: AppColors.lightGray,
               )),
@@ -93,7 +100,7 @@ Widget inputDate(TextEditingController controller) {
           inputFormatters: [dateInputFormat],
           style: TextStyle(
             fontSize: 15,
-            color: Colors.black,
+            color: Color.fromRGBO(0, 0, 0, 90),
           ),
           textAlignVertical: TextAlignVertical.center,
           maxLines: 1,

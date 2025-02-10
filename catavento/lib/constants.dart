@@ -21,9 +21,15 @@ const boloPadrao =
 // Formatters
 
 const timeFormat = 'yyyy-MM-dd HH:mm:ss';
+const dateFormat = 'yyyy-MM-dd';
+
 final dateInputFormat = MaskTextInputFormatter(
   mask: "##/##/##",
   filter: {
     "#": RegExp(r'\d+|-|/'),
   },
 );
+
+// Outros
+
+const reloadTime = Duration(minutes: 1);

@@ -4,6 +4,13 @@ sealed class UsuarioEvent {
   const UsuarioEvent();
 }
 
+class UsuarioFilter extends UsuarioEvent {
+  final String campo;
+  final String pesquisa;
+
+  UsuarioFilter(this.campo, this.pesquisa);
+}
+
 class UsuarioCreate extends UsuarioEvent {
   final String nome;
   final String usuario;
