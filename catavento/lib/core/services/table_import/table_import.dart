@@ -40,7 +40,14 @@ Future<String> importExcelToSupabase(String filePath) async {
           final codigo = int.tryParse(rowData[1]);
 
           if (codigo != null) {
-            demanda['produto_id'] = codigo;
+            final produto =
+                await supabase.from('produtos').select().eq('id', codigo);
+
+            if (produto.isNotEmpty) {
+              demanda['produto_id'] = codigo;
+              demanda['descricao'] = produto[0]['descricao_padrao'];
+              demanda['nome_demanda'] = produto[0]['nome_produto'];
+            }
           }
 
           if (loja.isNotEmpty) {

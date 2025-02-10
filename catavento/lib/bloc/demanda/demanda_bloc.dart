@@ -76,11 +76,16 @@ class DemandaBloc extends Bloc<DemandaEvent, DemandaState> {
   }
 
   void _onLoading(DemandaLoading event, Emitter<DemandaState> emit) async {
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
+
     final response = await _supabase
         .from('demandas')
         .select()
+        .gte('data_adicao', '${dataFormatada}T00:00:00')
         .order('data_adicao', ascending: true)
         .order('id', ascending: true);
+
     _currentData = response;
 
     final metaData = _countDemandas();

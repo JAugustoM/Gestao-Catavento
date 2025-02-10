@@ -122,10 +122,13 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
   void _onGet(TrabalhoGet event, Emitter<TrabalhoState> emit) async {
     late final DatabaseResponse response;
     final setor = event.setor.toLowerCase();
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
     if (setor == "montagem") {
       response = await _supabase
           .from('demandas')
           .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
           .eq('status_$setor', 0)
           .eq('status_aplique', 2)
           .eq('status_cobertura', 2)
@@ -135,6 +138,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
       response = await _supabase
           .from('demandas')
           .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
           .eq('status_$setor', 0)
           .order('data_adicao', ascending: true)
           .order('id', ascending: true);
@@ -259,10 +263,14 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
 
   Future<void> _iniciarTrabalho(String email, String setor) async {
     late final DatabaseResponse response;
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
+
     if (setor == "montagem") {
       response = await _supabase
           .from('demandas')
           .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
           .eq('status_$setor', 0)
           .eq('status_aplique', 2)
           .eq('status_cobertura', 2)
@@ -272,6 +280,7 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
       response = await _supabase
           .from('demandas')
           .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
           .eq('status_$setor', 0)
           .order('data_adicao', ascending: true)
           .order('status_aplique')
@@ -297,16 +306,24 @@ class TrabalhoBloc extends Bloc<TrabalhoEvent, TrabalhoState> {
     var completo = 0;
     var faltam = 0;
 
+    final hoje = DateTime.now();
+    final dataFormatada = DateFormat(dateFormat).format(hoje);
+
     try {
       final trabalho = await _supabase
           .from('trabalho')
           .select()
+          .gte('data_inicio', '${dataFormatada}T00:00:00')
           .eq('usuario_email', email)
           .not('data_finalizacao', 'is', null)
           .count();
       completo = trabalho.count;
 
-      final demandas = await _supabase.from('demandas').select().count();
+      final demandas = await _supabase
+          .from('demandas')
+          .select()
+          .gte('data_adicao', '${dataFormatada}T00:00:00')
+          .count();
 
       total = demandas.count;
       faltam = total;
