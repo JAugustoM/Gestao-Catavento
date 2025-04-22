@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/jaugusto/Programs/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/jaugusto/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/jaugusto/Dev/Flutter/Gestao-Catavento/catavento/android/app/.cxx/RelWithDebInfo/4u693f2t/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/jaugusto/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/jaugusto/Dev/Flutter/Gestao-Catavento/catavento/android/app/.cxx/RelWithDebInfo/4u693f2t/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

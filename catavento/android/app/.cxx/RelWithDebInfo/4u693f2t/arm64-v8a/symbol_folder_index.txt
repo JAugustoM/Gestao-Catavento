@@ -1,0 +1,1 @@
+/home/jaugusto/Dev/Flutter/Gestao-Catavento/catavento/build/app/intermediates/cxx/RelWithDebInfo/4u693f2t/obj/arm64-v8a
